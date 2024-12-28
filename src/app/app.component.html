@@ -1,3 +1,14 @@
-<div class="card flex justify-center">
-  <p-button label="Check" />
+<div
+  class="relative bg-gradient-to-tr to-[#1a0e25] from-[#211230] h-full min-h-screen"
+>
+  <!-- Background Image Overlay -->
+  <app-overlay-image-for-background></app-overlay-image-for-background>
+
+  <!-- Main Content -->
+  <div class="relative z-10">
+    <app-navbar></app-navbar>
+    <div class="py-16">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

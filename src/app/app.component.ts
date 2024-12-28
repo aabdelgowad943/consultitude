@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { PrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { ButtonModule } from 'primeng/button';
-
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { OverlayImageForBackgroundComponent } from './shared/overlay-image-for-background/overlay-image-for-background.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ButtonModule],
+  imports: [RouterOutlet, NavbarComponent, OverlayImageForBackgroundComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
