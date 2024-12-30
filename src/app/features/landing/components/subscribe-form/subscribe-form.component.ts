@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -9,19 +9,24 @@ import {
 import { SubscribeService } from '../../services/subscribe.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-subscribe-form',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ToastModule],
   templateUrl: './subscribe-form.component.html',
   styleUrl: './subscribe-form.component.scss',
+  providers: [MessageService],
 })
 export class SubscribeFormComponent implements OnInit {
+  loading = false;
   subscribeForm!: FormGroup;
   constructor(
     private fb: FormBuilder,
     private subscribeService: SubscribeService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {}
   ngOnInit(): void {
     this.subscribeForm = this.fb.group({
@@ -30,14 +35,27 @@ export class SubscribeFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     this.subscribeService.subscribe(this.subscribeForm.value).subscribe({
       next: (res: any) => {
-        if (res.success) {
+        this.loading = false;
+        if (res) {
           this.router.navigate(['/successfully_subscribed']);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: `${res.message}`,
+          });
         }
       },
       error: (err: HttpErrorResponse) => {
         console.log(err.error);
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `${err.error}`,
+        });
       },
     });
   }
