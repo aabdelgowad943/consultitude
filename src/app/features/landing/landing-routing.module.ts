@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './landing.component';
 import { SuccessfullySubscribedComponent } from './pages/successfully-subscribed/successfully-subscribed.component';
 import { HomeComponent } from './pages/home/home.component';
+import { TermsAndConditionComponent } from './pages/terms-and-condition/terms-and-condition.component';
+import { PrivacyAndPolicyComponent } from './pages/privacy-and-policy/privacy-and-policy.component';
+import { CookiesPolicyComponent } from './pages/cookies-policy/cookies-policy.component';
+import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 
 const routes: Routes = [
   {
@@ -23,6 +27,22 @@ const routes: Routes = [
   {
     path: 'successfully_subscribed',
     component: SuccessfullySubscribedComponent,
+  },
+  {
+    path: 'terms-and-conditions',
+    component: TermsAndConditionComponent,
+  },
+  {
+    path: 'privacy-and-policy',
+    component: PrivacyAndPolicyComponent,
+  },
+  {
+    path: 'cookie-policy',
+    component: CookiesPolicyComponent,
+  },
+  {
+    path: 'contact-us',
+    component: ContactUsComponent,
   },
 ];
 
