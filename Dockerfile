@@ -21,7 +21,7 @@ FROM nginx:stable-alpine AS production-stage
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy the Angular build artifacts to the Nginx directory
-COPY --from=build-stage /app/dist/consultitude/browser /usr/share/nginx/html
+COPY --from=build-stage /app/dist/consultitude /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
