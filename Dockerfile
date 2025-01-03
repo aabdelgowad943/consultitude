@@ -15,10 +15,11 @@ COPY . .
 RUN npm run build
 
 # Step 2: Set up Nginx to serve the app
-FROM nginx:stable-alpine AS production-stage
+# FROM nginx:stable-alpine AS production-stage
+FROM nginx:alpine
 
 # Copy the Nginx configuration file
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 # COPY default.conf /etc/nginx/conf.d/default.conf
 # Copy the Angular build artifacts to the Nginx directory
 COPY --from=build-stage /app/dist/consultitude/browser /usr/share/nginx/html
