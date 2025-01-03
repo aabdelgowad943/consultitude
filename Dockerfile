@@ -18,8 +18,8 @@ RUN npm run build
 FROM nginx:stable-alpine AS production-stage
 
 # Copy the Nginx configuration file
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+COPY nginx.conf /etc/nginx/nginx.conf
+# COPY default.conf /etc/nginx/conf.d/default.conf
 # Copy the Angular build artifacts to the Nginx directory
 COPY --from=build-stage /app/dist/consultitude/browser /usr/share/nginx/html
 # Expose port 80
