@@ -1,30 +1,23 @@
-# Step 1: Build the Angular app
-FROM node:18-alpine AS build-stage
-
-# Set working directory
+#Stage 1: Build Angular App
+FROM node:18.13.0 as node
 WORKDIR /app
-
-# Copy package files and install dependencies
-COPY package.json package-lock.json ./
-RUN npm install
-
-# Copy the Angular source code to the container
 COPY . .
-
-# Build the Angular app
+RUN npm install --legacy-peer-deps
 RUN npm run build
 
-# Step 2: Set up Nginx to serve the app
-FROM nginx:stable-alpine AS production-stage
+# Stage 2: Set up NGINX with SSL
+FROM nginx:alpine
 
-# Copy the Nginx configuration file
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy NGINX configuration
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy the Angular build artifacts to the Nginx directory
-COPY --from=build-stage /app/dist/consultitude/browser /usr/share/nginx/html
+# Copy built Angular app
+COPY --from=node /app/dist/consultitude/browser /usr/share/nginx/html
 
-# Expose port 80
+# Expose ports
 EXPOSE 80
 
-# Start Nginx server
+RUN nginx -t
+
+# Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
