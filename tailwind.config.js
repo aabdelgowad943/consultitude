@@ -22,7 +22,7 @@ module.exports = {
       },
       fontFamily: {
         body: [
-          "Neue Montreal",
+          "Neue Montreal",
           "ui-sans-serif",
           "system-ui",
           "-apple-system",
@@ -40,7 +40,7 @@ module.exports = {
           "Cairo",
         ],
         sans: [
-          "Inter",
+          "Neue Montreal",
           "ui-sans-serif",
           "system-ui",
           "-apple-system",

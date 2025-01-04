@@ -1,10 +1,24 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
 })
-export class FooterComponent {}
+export class FooterComponent {
+  hidden: boolean = false;
+
+  constructor(private router: Router) {
+    // Listen for route changes
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        // Check if the current route contains the word 'home'
+        this.hidden = event.url.includes('home');
+      });
+  }
+}

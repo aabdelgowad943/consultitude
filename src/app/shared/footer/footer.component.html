@@ -1,4 +1,4 @@
-<footer class="text-white py-8">
+<footer *ngIf="!hidden" class="text-white py-8">
   <div class="container mx-auto px-6">
     <div
       class="text-center w-full space-y-8 mb-10 flex flex-col justify-center items-center"
@@ -139,19 +139,31 @@
       </div>
       <div>
         <h3 class="text-gray-400 mb-2">Follow us</h3>
-        <div class="flex space-x-4">
-          <a href="#" class="text-white hover:text-gray-400 transition-colors"
-            ><i class="fab fa-linkedin">dd</i></a
-          >
-          <a href="#" class="text-white hover:text-gray-400 transition-colors"
-            ><i class="fab fa-facebook">dd</i></a
-          >
-          <a href="#" class="text-white hover:text-gray-400 transition-colors"
-            ><i class="fab fa-instagram">ddd</i></a
-          >
-          <a href="#" class="text-white hover:text-gray-400 transition-colors"
-            ><i class="fab fa-twitter">ddd</i></a
-          >
+        <div class="flex space-x-4 items-center">
+          <a href="#" class="text-white hover:text-gray-400 transition-colors">
+            <img
+              src="/images/linkedin.png"
+              alt="linked in icon"
+              class="w-5 h-5"
+            />
+          </a>
+          <a href="#" class="text-white hover:text-gray-400 transition-colors">
+            <img
+              src="/images/facebook.png"
+              alt="Facebook icon"
+              class="w-6 h-6"
+            />
+          </a>
+          <a href="#" class="text-white hover:text-gray-400 transition-colors">
+            <img
+              src="/images/instagram.png"
+              alt="instagram icon"
+              class="w-6 h-6"
+            />
+          </a>
+          <a href="#" class="text-white hover:text-gray-400 transition-colors">
+            <img src="/images/X.png" alt="X icon" class="w-5 h-5" />
+          </a>
         </div>
       </div>
     </div>
