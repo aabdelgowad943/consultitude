@@ -4,20 +4,21 @@ WORKDIR /app
 COPY . .
 RUN npm install --legacy-peer-deps
 RUN npm run build
+RUN npm run serve:ssr:consultitude
 
-# Stage 2: Set up NGINX with SSL
-FROM nginx:alpine
+# # Stage 2: Set up NGINX with SSL
+# FROM nginx:alpine
 
-# Copy NGINX configuration
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+# # Copy NGINX configuration
+# COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy built Angular app
-COPY --from=node /app/dist/consultitude/browser /usr/share/nginx/html
+# # Copy built Angular app
+# COPY --from=node /app/dist/consultitude/browser /usr/share/nginx/html
 
-# Expose ports
-EXPOSE 80
+# # Expose ports
+# EXPOSE 80
 
-RUN nginx -t
+# RUN nginx -t
 
-# Start NGINX
-CMD ["nginx", "-g", "daemon off;"]
+# # Start NGINX
+# CMD ["nginx", "-g", "daemon off;"]
