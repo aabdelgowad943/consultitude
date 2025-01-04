@@ -36,8 +36,10 @@ export class SubscribeFormComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.subscribeService.subscribe(this.subscribeForm.value).subscribe({
+    this.subscribeService.subscribe(this.subscribeForm.value.email).subscribe({
       next: (res: any) => {
+        // console.log(res);
+
         this.loading = false;
         if (res) {
           this.router.navigate(['/successfully_subscribed']);
@@ -54,7 +56,7 @@ export class SubscribeFormComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: `${err.error}`,
+          detail: `${err.error.message}`,
         });
       },
     });
