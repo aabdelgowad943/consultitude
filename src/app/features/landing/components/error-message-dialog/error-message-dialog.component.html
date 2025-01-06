@@ -1,0 +1,15 @@
+<div class="card flex justify-center">
+  <!-- header="Header" -->
+  <p-dialog
+    [(visible)]="visible"
+    [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [style]="{ width: '39%' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p class="text-center w-full text-red-700 bg-red-100 rounded-md p-4">
+      {{ errorMessage }}
+    </p>
+  </p-dialog>
+</div>

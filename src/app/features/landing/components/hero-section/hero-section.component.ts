@@ -4,6 +4,7 @@ import { SubscribeFormComponent } from '../subscribe-form/subscribe-form.compone
 import { LogoComponent } from '../../../../shared/logo/logo.component';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ErrorMessageDialogComponent } from '../error-message-dialog/error-message-dialog.component';
 
 @Component({
   selector: 'app-hero-section',
@@ -12,9 +13,18 @@ import { MessageService } from 'primeng/api';
     SubscribeFormComponent,
     LogoComponent,
     ToastModule,
+    ErrorMessageDialogComponent,
   ],
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.scss',
   providers: [MessageService],
 })
-export class HeroSectionComponent {}
+export class HeroSectionComponent {
+  visible: boolean = false;
+  errorMessage: string = '';
+
+  showError(message: string) {
+    this.errorMessage = message;
+    this.visible = true;
+  }
+}

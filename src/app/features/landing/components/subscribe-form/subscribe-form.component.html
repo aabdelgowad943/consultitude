@@ -1,4 +1,3 @@
-<p-toast />
 <form [formGroup]="subscribeForm" (ngSubmit)="onSubmit()">
   <div class="flex items-center">
     <input
@@ -42,6 +41,8 @@
       subscribeForm.get('email')?.invalid && subscribeForm.get('email')?.touched
     "
   >
-    <p class="text-red-500 text-sm">Please enter a valid email address</p>
+    <p class="text-red-500 text-sm ps-2 pt-1">
+      Please enter a valid email address
+    </p>
   </div>
 </form>

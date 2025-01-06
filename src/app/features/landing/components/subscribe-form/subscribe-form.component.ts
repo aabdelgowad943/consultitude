@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,26 +7,26 @@ import {
 } from '@angular/forms';
 import { SubscribeService } from '../../services/subscribe.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-subscribe-form',
-  imports: [ReactiveFormsModule, CommonModule, ToastModule],
   templateUrl: './subscribe-form.component.html',
   styleUrl: './subscribe-form.component.scss',
-  providers: [MessageService],
+  imports: [ReactiveFormsModule, CommonModule],
 })
 export class SubscribeFormComponent implements OnInit {
+  @Output() errorOccurred = new EventEmitter<string>(); // Emit errors to parent
   loading = false;
   subscribeForm!: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     private subscribeService: SubscribeService,
-    private router: Router,
-    private messageService: MessageService
+    private router: Router
   ) {}
+
   ngOnInit(): void {
     this.subscribeForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -37,27 +36,13 @@ export class SubscribeFormComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     this.subscribeService.subscribe(this.subscribeForm.value.email).subscribe({
-      next: (res: any) => {
-        // console.log(res);
-
+      next: () => {
         this.loading = false;
-        if (res) {
-          this.router.navigate(['/successfully_subscribed']);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: `${res.message}`,
-          });
-        }
+        this.router.navigate(['/successfully_subscribed']);
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err.error);
         this.loading = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: `${err.error.message}`,
-        });
+        this.errorOccurred.emit(err.error.message); // Emit error
       },
     });
   }
