@@ -1,0 +1,175 @@
+<div class="md:px-20 px-5">
+  <div
+    class="w-full mt-24 bg-gradient-to-tr from-[#6c4794] to-[#380D5E] rounded-xl"
+  >
+    <!-- grid container -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-center p-5 md:p-10">
+      <!--  left side -->
+      <div>
+        <h2 class="text-2xl md:text-4xl text-white w-full font-semibold">
+          Can't find a document? <br />
+          Tell us what to build next..
+        </h2>
+        <p class="text-sm mt-5 md:w-[350px] text-white">
+          We’re constantly adding new, comprehensive consulting templates and
+          would love your input on where to focus next.
+        </p>
+      </div>
+
+      <!--  right side -->
+      <div
+        class="bg-gradient-to-tr to-[#261536]/100 from-[#54148C]/100 md:p-8 p-3 rounded-lg shadow-lg"
+      >
+        <form>
+          <!-- Email -->
+          <div class="my-4">
+            <label for="email" class="block text-sm font-medium text-white"
+              >E-mail</label
+            >
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter your e-mail"
+              class="w-full mt-2 p-3 rounded-2xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+
+          <!-- First and Last Name -->
+          <div class="flex-1 mb-4">
+            <label
+              for="document-name"
+              class="block text-sm font-medium text-white"
+              >Document name</label
+            >
+            <input
+              type="text"
+              id="document-name"
+              placeholder="Write a name"
+              class="w-full mt-2 p-3 border border-[#FFFFFF2E] rounded-2xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+
+          <!-- Document type -->
+          <div class="flex-1 mb-4">
+            <label
+              for="document-type"
+              class="block text-sm font-medium text-white"
+              >Document Type</label
+            >
+
+            <select
+              id="document-area"
+              class="w-full mt-2 p-3 border border-[#FFFFFF2E] rounded-2xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option class="bg-[#221139e1]" disabled selected>
+                Choose a type
+              </option>
+              <option class="bg-[#221139e1]" value="US">Type 1</option>
+              <option class="bg-[#221139e1]" value="CA">Type 2</option>
+              <option class="bg-[#221139e1]" value="FR">Type 3</option>
+              <option class="bg-[#221139e1]" value="DE">Type 4</option>
+            </select>
+          </div>
+
+          <!-- Document type -->
+          <div class="mb-4 flex-1">
+            <label
+              for="document-area"
+              class="block text-sm font-medium text-white"
+              >Document Area of focus</label
+            >
+            <select
+              id="document-area"
+              class="w-full mt-2 p-3 border border-[#FFFFFF2E] rounded-2xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option class="bg-[#221139e1]" disabled selected>
+                Choose a type
+              </option>
+              <option class="bg-[#221139e1]" value="US">Type 1</option>
+              <option class="bg-[#221139e1]" value="CA">Type 2</option>
+              <option class="bg-[#221139e1]" value="FR">Type 3</option>
+              <option class="bg-[#221139e1]" value="DE">Type 4</option>
+            </select>
+          </div>
+
+          <!-- Message -->
+          <div class="mb-4">
+            <label for="message" class="block text-sm font-medium text-white"
+              >Describe the document content</label
+            >
+            <textarea
+              id="message"
+              placeholder="Describe the document content..."
+              rows="4"
+              class="w-full mt-2 p-3 rounded-2xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            ></textarea>
+          </div>
+
+          <div class="mb-4">
+            <label
+              for="language"
+              class="block text-sm mb-2 font-medium text-white"
+              >Describe language</label
+            >
+            <div class="flex items-center gap-5">
+              <div class="flex items-center">
+                <input
+                  id="default-radio-1"
+                  type="radio"
+                  value=""
+                  name="default-radio"
+                  class="w-4 h-4 text-[#924FE8] checked:bg-[#924FE8] bg-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
+                />
+                <label
+                  for="default-radio-1"
+                  class="ms-2 text-sm font-medium text-white dark:text-gray-300"
+                  >Arabic</label
+                >
+              </div>
+              <div class="flex items-center">
+                <input
+                  checked
+                  id="default-radio-2"
+                  type="radio"
+                  value=""
+                  name="default-radio"
+                  class="w-4 h-4 text-[#924FE8] checked:bg-[#924FE8] bg-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
+                />
+                <label
+                  for="default-radio-2"
+                  class="ms-2 text-sm font-medium text-white dark:text-gray-300"
+                  >English</label
+                >
+              </div>
+              <div class="flex items-center">
+                <input
+                  checked
+                  id="default-radio-3"
+                  type="radio"
+                  value=""
+                  name="default-radio"
+                  class="w-4 h-4 text-[#924FE8] checked:bg-[#924FE8] bg-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
+                />
+                <label
+                  for="default-radio-3"
+                  class="ms-2 text-sm font-medium text-white dark:text-gray-300"
+                  >Other</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div>
+            <button
+              type="submit"
+              class="w-full py-3 bg-[#9241DC] border border-[#FFFFFF2E] text-white transition-colors font-medium rounded-lg hover:bg-[#9241DC]/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              Send message
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

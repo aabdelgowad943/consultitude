@@ -16,4 +16,12 @@ export class ErrorMessageDialogComponent {
   hideDialog() {
     this.close.emit();
   }
+
+  get splitErrorMessage() {
+    const parts = this.errorMessage.split(',');
+    return {
+      firstLine: parts[0] + ',',
+      secondLine: parts.slice(1).join(','),
+    };
+  }
 }

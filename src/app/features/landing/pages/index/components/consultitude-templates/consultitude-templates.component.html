@@ -1,0 +1,64 @@
+<div class="w-full">
+  <!-- title and subtitle -->
+  <div class="text-3xl font-bold mb-4 md:w-full text-center text-white">
+    <div class="w-full text-center flex justify-center items-center">
+      <h1
+        class="mb-4 text-3xl w-[400px] md:w-full font-semibold md:text-5xl leading-tight"
+      >
+        Consultitude <br class="block md:hidden" />
+        Templates for <br />
+        Every Consulting Need
+      </h1>
+    </div>
+    <p
+      class="mb-8 text-sm px-2 mt-[24px] font-normal text-[#E9D8FC] sm:px-16 xl:px-48 leading-relaxed"
+    >
+      Explore pre-built templates and playbooks designed to save you <br />
+      time and streamline your workflow.
+    </p>
+  </div>
+
+  <div
+    class="px-5 md:px-20 grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-10 items-center"
+  >
+    <div
+      *ngFor="let card of cards"
+      class="relative overflow-hidden w-full p-[40px] border md:h-[480px] h-[400px] text-white border-[#A25DDF66]/40 rounded-lg shadow bg-gradient-to-tr from-[#54148C] to-[#261536]"
+    >
+      <a href="#">
+        <h5 class="mb-2 text-xl font-semibold tracking-tight">
+          {{ card.title }}
+        </h5>
+      </a>
+      <p class="mb-3 font-normal md:w-full w-[250px] text-[#E9D8FC]">
+        {{ card.description }}
+      </p>
+      <a
+        href="{{ card.href }}"
+        class="inline-flex items-center px-1 py-2 text-sm font-medium text-center text-white rounded-lg"
+      >
+        Register now
+        <svg
+          class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M1 5h12m0 0L9 1m4 4L9 9"
+          />
+        </svg>
+      </a>
+
+      <img
+        src="{{ card.backgroundImage }}"
+        class="absolute w-full md:h-72 md:-bottom-20 -bottom-10 -right-20 md:-right-10"
+      />
+    </div>
+  </div>
+</div>

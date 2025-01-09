@@ -36,13 +36,19 @@ export class SubscribeFormComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     this.subscribeService.subscribe(this.subscribeForm.value.email).subscribe({
-      next: () => {
+      next: (res: any) => {
         this.loading = false;
         this.router.navigate(['/successfully_subscribed']);
       },
       error: (err: HttpErrorResponse) => {
+        if (
+          err.error.message ===
+          'You are already part of the consultitude family, stay tuned! big things are coming your way!'
+        ) {
+          this.router.navigate(['/subscribed']);
+        }
         this.loading = false;
-        this.errorOccurred.emit(err.error.message); // Emit error
+        // this.errorOccurred.emit(err.error.message); // Emit error
       },
     });
   }

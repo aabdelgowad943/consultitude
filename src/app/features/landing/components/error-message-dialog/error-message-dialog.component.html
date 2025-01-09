@@ -3,13 +3,34 @@
   <p-dialog
     [(visible)]="visible"
     [modal]="true"
+    styleClass="relative  bg-gradient-to-tr from-[#3f265a] to-[#54148C] border-none rounded-lg   overflow-hidden"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-    [style]="{ width: '39%' }"
+    [style]="{
+      width: '39%',
+      'background-image': 'url(/images/Group 1000010921.png)',
+      'background-size': 'cover',
+      opacity: '',
+      inset: '0'
+    }"
     [draggable]="false"
     [resizable]="false"
   >
-    <p class="text-center w-full text-red-700 bg-red-100 rounded-md p-4">
-      {{ errorMessage }}
-    </p>
+    <div
+      class="absolute inset-0 -z-10 bg-cover bg-center opacity-20"
+      style="background-image: url('/images/Group 1000010921.png')"
+    ></div>
+    <div class="flex flex-col items-center">
+      <i class="text-6xl">🤝</i>
+
+      <div class="text-center w-full text-white rounded-md p-4">
+        <span class="font-normal text-xl">{{
+          splitErrorMessage.firstLine
+        }}</span
+        ><br />
+        <span class="text-lg text-gray-300">{{
+          splitErrorMessage.secondLine
+        }}</span>
+      </div>
+    </div>
   </p-dialog>
 </div>

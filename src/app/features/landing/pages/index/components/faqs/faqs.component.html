@@ -1,0 +1,83 @@
+<section class="mt-20">
+  <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+    <div class="text-center flex justify-center mb-4 items-center w-full">
+      <p
+        class="text-white flex items-center gap-2 text-center justify-center bg-[#873de6]/30 text-sm border-[#FFFFFF24]/20 py-1 px-2 w-20 rounded-full"
+      >
+        <img src="/images/checkmark.png" class="w-3 h-3" />
+        FAQs
+      </p>
+    </div>
+    <h2
+      class="mb-6 lg:mb-8 text-3xl lg:text-4xl font-normal text-center text-white dark:text-white tracking-relaxed"
+    >
+      Frequently Asked Questions
+    </h2>
+
+    <h2
+      class="mb-6 lg:mb-8 tracking-tight px-10 font-normal text-center text-[#D0D5DD]"
+    >
+      Find answers to your questions about Consultitide’s templates, <br />
+      features, pricing, and support.
+    </h2>
+
+    <div class="mx-auto max-w-screen-md">
+      <div
+        *ngFor="let faq of faqData; let i = index"
+        class="border py-1 px-3 rounded-md mb-2 bg-[#0B0C0E] border-[#FFFFFF24]"
+      >
+        <h2 [id]="'accordion-flush-heading-' + i">
+          <button
+            type="button"
+            class="flex justify-between items-center py-1 w-full font-medium text-left text-white dark:text-white"
+            (click)="toggleAccordion(i)"
+          >
+            <span>{{ faq.question }}</span>
+            <span class="text-4xl font-bold">{{ isOpen(i) ? "-" : "+" }}</span>
+          </button>
+        </h2>
+        <div [hidden]="!isOpen(i)">
+          <div class="py-2">
+            <p
+              [innerHTML]="faq.answer"
+              class="text-[#FFFFFF99]/60 dark:text-gray-400"
+            ></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col my-8 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+    >
+      <a
+        href="#"
+        class="inline-flex justify-center bg-[#161B26] hover:bg-[#212939] transition-colors text-white items-center py-3 px-5 text-base font-medium text-center rounded-lg"
+      >
+        See All FAQs
+        <svg
+          class="ml-2 -mr-1 w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="w-full text-center text-white">
+      <p>
+        Need additional help? Contact us at
+        <a href="hello@consultitude.com" class="underline" target="_blank"
+          >hello&#64;consultitude.com</a
+        >
+        anytime.
+      </p>
+    </div>
+  </div>
+</section>

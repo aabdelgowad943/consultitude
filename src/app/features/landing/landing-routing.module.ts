@@ -7,6 +7,8 @@ import { TermsAndConditionComponent } from './pages/terms-and-condition/terms-an
 import { PrivacyAndPolicyComponent } from './pages/privacy-and-policy/privacy-and-policy.component';
 import { CookiesPolicyComponent } from './pages/cookies-policy/cookies-policy.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
+import { IndexComponent } from './pages/index/index.component';
+import { AlreadySubscribedComponent } from './pages/already-subscribed/already-subscribed.component';
 
 const routes: Routes = [
   {
@@ -43,6 +45,14 @@ const routes: Routes = [
   {
     path: 'contact-us',
     component: ContactUsComponent,
+  },
+  {
+    path: 'index',
+    component: IndexComponent,
+  },
+  {
+    path: 'subscribed',
+    component: AlreadySubscribedComponent,
   },
 ];
 
