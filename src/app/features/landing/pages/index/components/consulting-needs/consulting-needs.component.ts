@@ -14,7 +14,7 @@ export class ConsultingNeedsComponent {
       title: 'Consulting Toolkit',
       description:
         'A comprehensive library of slide layouts, templates, and typical consulting tools and frameworks. ',
-      backgroundImage: '/images/Footer Icons.svg',
+      backgroundImage: '/images/card5icon.svg',
       href: '/',
     },
     {
@@ -22,7 +22,7 @@ export class ConsultingNeedsComponent {
       title: 'Business Strategy',
       description:
         'Easily create personalized reports. Customize metrics and visuals to meet your business needs and impress stakeholders.',
-      backgroundImage: '/images/Footer Icons.svg',
+      backgroundImage: '/images/card6icon.svg',
       href: '/',
     },
     {
@@ -30,7 +30,7 @@ export class ConsultingNeedsComponent {
       title: 'Business Case',
       description:
         'Easily create personalized reports. Customize metrics and visuals to meet your business needs and impress stakeholders.',
-      backgroundImage: '/images/Footer Icons.svg',
+      backgroundImage: '/images/card7icon.svg',
       href: '/',
     },
     {
@@ -38,7 +38,7 @@ export class ConsultingNeedsComponent {
       title: 'Consulting Proposal',
       description:
         'A comprehensive library of slide layouts, templates, and typical consulting tools and frameworks..',
-      backgroundImage: '/images/Footer Icons.svg',
+      backgroundImage: '/images/card8icon.svg',
       href: '/',
     },
     {
@@ -46,7 +46,7 @@ export class ConsultingNeedsComponent {
       title: 'Marketing Analysis',
       description:
         'Easily create personalized reports. Customize metrics and visuals to meet your business needs and impress stakeholders.',
-      backgroundImage: '/images/Footer Icons.svg',
+      backgroundImage: '/images/card9icon.svg',
       href: '/',
     },
     {
@@ -54,7 +54,7 @@ export class ConsultingNeedsComponent {
       title: 'Market Entry Analysis',
       description:
         'Easily create personalized reports. Customize metrics and visuals to meet your business needs and impress stakeholders.',
-      backgroundImage: '/images/Footer Icons.svg',
+      backgroundImage: '/images/card10icon.svg',
       href: '/',
     },
   ];

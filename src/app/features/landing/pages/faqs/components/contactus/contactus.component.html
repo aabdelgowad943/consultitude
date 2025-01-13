@@ -1,0 +1,131 @@
+<div class="px-5">
+  <div class="w-full relative mt-24 overflow-hidden rounded-xl">
+    <!-- grid container -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-center p-5 md:p-10">
+      <!--  left side -->
+      <div>
+        <h2 class="text-2xl md:text-4xl text-black w-full font-semibold">
+          Can't find a document? <br />
+          Tell us what to build next..
+        </h2>
+        <p class="text-sm mt-5 md:w-[350px] text-black">
+          We’re constantly adding new, comprehensive consulting templates and
+          would love your input on where to focus next.
+        </p>
+      </div>
+
+      <!--  right side -->
+      <div class="md:p-8 p-3 rounded-lg border border-[#DEE0E3]">
+        <form>
+          <!-- Document Name -->
+          <div class="flex-1 mb-4">
+            <label for="document-name" class="block font-medium text-black"
+              >Document name</label
+            >
+            <input
+              type="text"
+              id="document-name"
+              placeholder="Write a name"
+              class="w-full mt-2 p-3 rounded-2xl border border-[#DEE0E3] bg-[#F9FAFB] text-black placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+
+          <!-- Document type -->
+          <div class="flex-1 mb-4">
+            <label for="document-type" class="block text-black"
+              >Document Type</label
+            >
+
+            <select
+              id="document-area"
+              class="w-full mt-2 p-3 rounded-2xl border border-[#DEE0E3] text-black"
+            >
+              <option disabled selected>Choose a type</option>
+              <option value="US">Type 1</option>
+              <option value="CA">Type 2</option>
+              <option value="FR">Type 3</option>
+              <option value="DE">Type 4</option>
+            </select>
+          </div>
+
+          <!-- Document type -->
+          <div class="mb-4 flex-1">
+            <label for="document-area" class="block text-black"
+              >Document Area of focus</label
+            >
+            <select
+              id="document-area"
+              class="w-full mt-2 p-3 rounded-2xl border border-[#DEE0E3] bg-[#F9FAFB] text-black placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option disabled selected>Choose a type</option>
+              <option value="US">Type 1</option>
+              <option value="CA">Type 2</option>
+              <option value="FR">Type 3</option>
+              <option value="DE">Type 4</option>
+            </select>
+          </div>
+
+          <!-- Message -->
+          <div class="mb-4">
+            <label for="message" class="block text-black"
+              >Describe the document content</label
+            >
+            <textarea
+              id="message"
+              placeholder="Describe the document content..."
+              rows="4"
+              class="w-full mt-2 p-3 rounded-2xl border border-[#DEE0E3] bg-[#F9FAFB] text-black placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
+            ></textarea>
+          </div>
+
+          <div class="mb-4">
+            <label for="language" class="block mb-2 text-black"
+              >Describe language</label
+            >
+            <div class="flex items-center gap-5">
+              <div class="flex items-center">
+                <input
+                  id="default-radio-1"
+                  type="radio"
+                  value=""
+                  name="default-radio"
+                  class="w-4 h-4 text-[#924FE8] checked:bg-[#924FE8] bg-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
+                />
+                <label
+                  for="default-radio-1"
+                  class="ms-2 text-sm font-medium text-black dark:text-gray-300"
+                  >Arabic</label
+                >
+              </div>
+              <div class="flex items-center">
+                <input
+                  checked
+                  id="default-radio-2"
+                  type="radio"
+                  value=""
+                  name="default-radio"
+                  class="w-4 h-4 text-[#924FE8] checked:bg-[#924FE8] bg-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
+                />
+                <label
+                  for="default-radio-2"
+                  class="ms-2 text-sm font-medium text-black dark:text-gray-300"
+                  >English</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div>
+            <button
+              type="submit"
+              class="w-full py-3 bg-[#9241DC] border border-[#FFFFFF2E] text-white transition-colors font-medium rounded-lg hover:bg-[#9241DC]/80 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

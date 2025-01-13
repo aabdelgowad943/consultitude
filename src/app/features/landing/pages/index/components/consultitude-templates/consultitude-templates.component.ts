@@ -14,7 +14,7 @@ export class ConsultitudeTemplatesComponent {
       title: 'Consulting Companies',
       description:
         'Save time & effort developing proposals & devliverables to your clients ',
-      backgroundImage: '/images/Footer Icons.svg',
+      backgroundImage: '/images/card4icon.svg',
       href: '/',
     },
     {
@@ -22,7 +22,7 @@ export class ConsultitudeTemplatesComponent {
       title: 'Management Consultant',
       description:
         'Boost your productivity & leverage top consulting companies approach & methodologies to win clients! ',
-      backgroundImage: '/images/Footer Icons.svg',
+      backgroundImage: '/images/card2-icon.svg',
       href: '/',
     },
     {
@@ -30,7 +30,7 @@ export class ConsultitudeTemplatesComponent {
       title: 'Clients Seeking Consulting',
       description:
         'Relay less on consulting companies in each and every step you want & save your money!',
-      backgroundImage: '/images/Footer Icons.svg',
+      backgroundImage: '/images/card3icon.svg',
       href: '/',
     },
   ];

@@ -3,9 +3,10 @@ import { HeroSectionComponent } from '../index/components/hero-section/hero-sect
 import { ConsultitudeTemplatesComponent } from './components/consultitude-templates/consultitude-templates.component';
 import { FooterComponent } from '../../../../shared/footer/footer.component';
 import { FaqsComponent } from './components/faqs/faqs.component';
-import { gsap } from 'gsap';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { ConsultingNeedsComponent } from './components/consulting-needs/consulting-needs.component';
+import { AnimationCardsComponent } from './components/animation-cards/animation-cards.component';
+import { PartnersComponent } from './components/partners/partners.component';
 @Component({
   selector: 'app-index',
   imports: [
@@ -15,16 +16,10 @@ import { ConsultingNeedsComponent } from './components/consulting-needs/consulti
     FaqsComponent,
     ContactUsComponent,
     ConsultingNeedsComponent,
+    AnimationCardsComponent,
+    PartnersComponent,
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss',
 })
-export class IndexComponent {
-  constructor() {
-    gsap.to('.box', {
-      duration: 3,
-      rotation: 360,
-      scale: 2,
-    });
-  }
-}
+export class IndexComponent {}

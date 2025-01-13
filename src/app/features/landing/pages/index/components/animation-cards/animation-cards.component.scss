@@ -1,0 +1,66 @@
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  animation: scroll 20s linear infinite;
+  width: 300%; /* Adjust width to ensure seamless loop */
+}
+
+.animate-scroll > * {
+  flex: 10 20 auto;
+  width: 16rem; /* 64px */
+  height: 16rem; /* 64px */
+}
+
+@media (max-width: 640px) {
+  .animate-scroll {
+    display: flex;
+    animation: scroll 20s linear infinite;
+    width: 600%; /* Adjust width to ensure seamless loop */
+  }
+  .animate-scroll > * {
+    width: 12rem; /* 48px */
+    height: 10rem; /* 48px */
+  }
+}
+
+// -------------------------------to right
+@keyframes scroll2 {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-scroll2 {
+  display: flex;
+  animation: scroll2 20s linear infinite;
+  width: 300%; /* Adjust width to ensure seamless loop */
+}
+
+.animate-scroll2 > * {
+  flex: 10 20 auto;
+  width: 16rem; /* 64px */
+  height: 16rem; /* 64px */
+}
+
+@media (max-width: 640px) {
+  .animate-scroll2 {
+    display: flex;
+    animation: scroll2 20s linear infinite;
+    width: 600%; /* Adjust width to ensure seamless loop */
+  }
+  .animate-scroll2 > * {
+    width: 12rem; /* 48px */
+    height: 10rem; /* 48px */
+  }
+}

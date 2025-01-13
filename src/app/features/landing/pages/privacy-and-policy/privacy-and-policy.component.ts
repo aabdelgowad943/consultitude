@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FooterComponent } from '../../../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-privacy-and-policy',
-  imports: [CommonModule],
+  imports: [CommonModule, FooterComponent],
   templateUrl: './privacy-and-policy.component.html',
   styleUrl: './privacy-and-policy.component.scss',
 })

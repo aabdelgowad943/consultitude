@@ -1,0 +1,37 @@
+<!-- animation to left -->
+<div class="overflow-hidden relative">
+  <div class="flex animate-scroll">
+    <div
+      *ngFor="let card of toLeftCard"
+      class="card shadow-lg rounded-lg w-64 h-64 sm:w-48 sm:h-48"
+    >
+      <img [src]="card.image" alt="Card {{ card.id }}" class="w-full h-full" />
+    </div>
+    <!-- Repeat the cards to ensure continuous scrolling -->
+    <div
+      *ngFor="let card of toLeftCard"
+      class="card shadow-lg rounded-lg w-64 h-64 sm:w-48 sm:h-48"
+    >
+      <img [src]="card.image" alt="Card {{ card.id }}" class="w-full h-full" />
+    </div>
+  </div>
+</div>
+
+<!-- animation to right -->
+<div class="overflow-hidden relative mt-5">
+  <div class="flex animate-scroll2">
+    <div
+      *ngFor="let card of toRightCard"
+      class="card shadow-lg rounded-lg w-64 h-64 sm:w-48 sm:h-48"
+    >
+      <img [src]="card.image" alt="Card {{ card.id }}" class="w-full h-full" />
+    </div>
+    <!-- Repeat the cards to ensure continuous scrolling -->
+    <div
+      *ngFor="let card of toRightCard"
+      class="card shadow-lg rounded-lg w-64 h-64 sm:w-48 sm:h-48"
+    >
+      <img [src]="card.image" alt="Card {{ card.id }}" class="w-full h-full" />
+    </div>
+  </div>
+</div>

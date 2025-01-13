@@ -9,6 +9,7 @@ import { CookiesPolicyComponent } from './pages/cookies-policy/cookies-policy.co
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { IndexComponent } from './pages/index/index.component';
 import { AlreadySubscribedComponent } from './pages/already-subscribed/already-subscribed.component';
+import { FaqsComponent } from './pages/faqs/faqs.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
   {
     path: 'contact-us',
     component: ContactUsComponent,
+  },
+  {
+    path: 'faqs',
+    component: FaqsComponent,
   },
   {
     path: 'index',

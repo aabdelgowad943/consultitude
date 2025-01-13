@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FooterComponent } from '../../../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-terms-and-condition',
-  imports: [CommonModule],
+  imports: [CommonModule, FooterComponent],
   templateUrl: './terms-and-condition.component.html',
   styleUrl: './terms-and-condition.component.scss',
 })
