@@ -1,11 +1,17 @@
 <section class="mt-20 relative z-10">
   <div>
     <img
-      src="/images/Group 25.png"
-      class="absolute w-full h-full md:px-20 rounded-2xl md:-top-4 -z-10 hidden md:block"
+      src="/images/FAQs BG.svg"
+      class="absolute w-full h-full rounded-2xl md:-top-4 -z-10 hidden md:block"
     />
   </div>
-  <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+  <div>
+    <img
+      src="/images/FAQs BG mobile1.svg"
+      class="md:hidden absolute w-full h-full -z-10 block"
+    />
+  </div>
+  <div class="py-8 px-20 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
     <div class="text-center flex justify-center mb-4 items-center w-full">
       <p
         class="text-white flex items-center gap-2 text-center justify-center bg-[#873de6]/30 text-sm border-[#FFFFFF24]/20 py-1 px-2 w-20 rounded-full"
@@ -21,16 +27,18 @@
     </h2>
 
     <h2
-      class="mb-6 lg:mb-8 tracking-tight px-10 font-normal text-center text-[#D0D5DD]"
+      class="mb-6 lg:mb-8 px-1 text-sm md:px-10 w-full font-normal text-center text-[#D0D5DD]"
     >
-      Find answers to your questions about Consultitide’s templates, <br />
-      features, pricing, and support.
+      Find answers to your questions about Consultitide’s
+      <br class="block md:hidden" />
+      templates, features, <br class="hidden md:block" />
+      pricing, and support.
     </h2>
 
     <div class="mx-auto max-w-screen-md">
       <div
         *ngFor="let faq of faqData; let i = index"
-        class="border py-1 px-3 rounded-md mb-2 bg-[#0B0C0E] border-[#FFFFFF24]"
+        class="border py-1 px-3 rounded-lg mb-2 bg-[#0B0C0E] border-[#FFFFFF24]"
       >
         <h2 [id]="'accordion-flush-heading-' + i">
           <button
@@ -39,7 +47,9 @@
             (click)="toggleAccordion(i)"
           >
             <span>{{ faq.question }}</span>
-            <span class="text-4xl font-bold">{{ isOpen(i) ? "-" : "+" }}</span>
+            <span class="text-xl text-[#FFFFFF99] font-[100]">{{
+              isOpen(i) ? "-" : "+"
+            }}</span>
           </button>
         </h2>
         <div [hidden]="!isOpen(i)">
@@ -54,29 +64,22 @@
     </div>
 
     <div
-      class="flex flex-col my-8 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+      class="flex flex-col my-8 space-y-4 sm:flex-row items-center w-full justify-center sm:space-y-0 sm:space-x-4"
     >
       <a
-        href="#"
-        class="inline-flex justify-center bg-[#161B26] hover:bg-[#212939] transition-colors text-white items-center py-3 px-5 text-base font-medium text-center rounded-lg"
+        href="/faqs"
+        class="inline-flex w-40 justify-center bg-[#161B26] hover:bg-[#212939] border border-[#333741] transition-colors text-white items-center py-1 px-4 text-base font-medium text-center rounded-lg"
       >
         See All FAQs
-        <svg
-          class="ml-2 -mr-1 w-5 h-5"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
+        <img
+          src="/images/arrow-right-line.svg"
+          class="ps-2 w-7 h-7"
+          alt="arrow_right"
+        />
       </a>
     </div>
 
-    <div class="w-full text-center text-white">
+    <div class="w-full md:text-center text-left text-white">
       <p>
         Need additional help? Contact us at
         <a href="hello@consultitude.com" class="underline" target="_blank"

@@ -1,28 +1,43 @@
 <!-- hero section -->
 <app-hero-section></app-hero-section>
 
+<div class="relative">
+  <div
+    class="w-full h-full absolute blur-3xl opacity-80 -z-10"
+    style="background-image: url('/images/partner_background.svg')"
+  ></div>
+  <div>
+    <app-animation-cards></app-animation-cards>
+  </div>
+
+  <!-- partners -->
+  <div>
+    <app-partners></app-partners>
+  </div>
+</div>
+
 <!-- consultitude templates cards -->
-<app-consultitude-templates></app-consultitude-templates>
+<div class="mt-20">
+  <app-consultitude-templates></app-consultitude-templates>
+</div>
+
+<!-- Effortless -->
+<div class="mt-20">
+  <app-effortless></app-effortless>
+</div>
 
 <!-- consultitude needs -->
 <div class="mt-20">
   <app-consulting-needs></app-consulting-needs>
 </div>
 
-<div class="mt-20">
-  <app-animation-cards></app-animation-cards>
-</div>
-
-<!-- partners -->
-<div class="mb-20">
-  <app-partners></app-partners>
-</div>
-
 <!-- contact us -->
 <app-contact-us></app-contact-us>
 
 <!-- FAQs -->
-<app-faqs></app-faqs>
+<div class="mt-20">
+  <app-faqs></app-faqs>
+</div>
 
 <!-- footer -->
 <div class="mt-20">

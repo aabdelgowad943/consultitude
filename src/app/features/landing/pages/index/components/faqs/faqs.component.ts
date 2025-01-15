@@ -10,15 +10,15 @@ import { Component } from '@angular/core';
 export class FaqsComponent {
   faqData = [
     {
-      question: 'Why should I use Consultitide templates?',
+      question: 'Why should I use consultitude templates?',
       answer: `You can purchase them directly through our website on the Templates & Playbooks page.`,
     },
     {
-      question: 'Where can I purchase Consultitide templates and playbooks?',
+      question: 'Where can I purchase consultitude templates and playbooks?',
       answer: `You can purchase them directly through our website on the Templates & Playbooks page.`,
     },
     {
-      question: 'What updates are included with Consultitide templates?',
+      question: 'What updates are included with consultitude templates?',
       answer: `The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
     },
     {
@@ -26,7 +26,7 @@ export class FaqsComponent {
       answer: `The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
     },
     {
-      question: 'Can I use Consultitide templates for commercial projects?',
+      question: 'Can I use consultitude templates for commercial projects?',
       answer: `The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
     },
     {
