@@ -1,6 +1,6 @@
 <div class="md:px-20 px-5">
   <div
-    class="w-full relative mt-24 bg-gradient-to-tr overflow-hidden from-[#6c4794] to-[#380D5E] rounded-xl"
+    class="w-full relative mt-24 bg-gradient-to-l overflow-hidden from-[#6c4794] to-[#380D5E] rounded-xl"
   >
     <img
       src="/images/contactusicon.svg"
@@ -12,15 +12,19 @@
     />
 
     <!-- grid container -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-center p-5 md:p-10">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 md:gap-20 gap-10 items-center md:p-10 p-[16px]"
+    >
       <!--  left side -->
       <div>
-        <h2 class="text-2xl md:text-4xl text-white w-full font-semibold">
+        <h2
+          class="text-[28px] md:text-[52px] md:leading-[62px] leading-[38px] text-white w-full font-semibold"
+        >
           Can't find a document? <br />
           Tell us what to build <br class="block md:hidden" />
           next..
         </h2>
-        <p class="text-sm mt-5 md:w-[350px] text-white">
+        <p class="text-sm mt-5 md:w-[350px] font-sans text-[#E9D8FC]">
           We’re constantly adding new, comprehensive consulting templates and
           would love your input <br class="block md:hidden" />
           on where to focus next.
@@ -29,11 +33,11 @@
 
       <!--  right side -->
       <div
-        class="bg-gradient-to-tr to-[#261536]/100 from-[#54148C]/100 md:p-8 p-3 rounded-lg shadow-lg"
+        class="bg-gradient-to-tr to-[#261536]/100 from-[#54148C]/100 md:p-8 p-4 rounded-[20px] shadow-lg"
       >
         <form>
           <!-- Email -->
-          <div class="my-4">
+          <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-white"
               >E-mail</label
             >
@@ -41,7 +45,7 @@
               type="email"
               id="email"
               placeholder="Enter your e-mail"
-              class="w-full mt-2 p-3 rounded-2xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
@@ -50,13 +54,13 @@
             <label
               for="document-name"
               class="block text-sm font-medium text-white"
-              >Document name</label
+              >Document Name</label
             >
             <input
               type="text"
               id="document-name"
               placeholder="Write a name"
-              class="w-full mt-2 p-3 border border-[#FFFFFF2E] rounded-2xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 border text-[14px] font-sans border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
@@ -70,7 +74,7 @@
 
             <select
               id="document-area"
-              class="w-full mt-2 p-3 border border-[#FFFFFF2E] rounded-2xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option class="bg-[#221139e1]" disabled selected>
                 Choose a type
@@ -91,7 +95,7 @@
             >
             <select
               id="document-area"
-              class="w-full mt-2 p-3 border border-[#FFFFFF2E] rounded-2xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option class="bg-[#221139e1]" disabled selected>
                 Choose a type
@@ -112,7 +116,7 @@
               id="message"
               placeholder="Describe the document content..."
               rows="4"
-              class="w-full mt-2 p-3 rounded-2xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             ></textarea>
           </div>
 
@@ -120,7 +124,7 @@
             <label
               for="language"
               class="block text-sm mb-2 font-medium text-white"
-              >Describe language</label
+              >Describe Language</label
             >
             <div class="flex items-center gap-5">
               <div class="flex items-center">
@@ -176,7 +180,7 @@
               type="submit"
               class="w-full py-3 bg-[#9241DC] border border-[#FFFFFF2E] text-white transition-colors font-medium rounded-lg hover:bg-[#9241DC]/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              Send message
+              Submit
             </button>
           </div>
         </form>

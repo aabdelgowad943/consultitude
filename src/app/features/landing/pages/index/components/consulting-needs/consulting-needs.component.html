@@ -2,13 +2,13 @@
   <img
     src="/images/footer-shadow.svg"
     alt="footer shadow"
-    class="absolute bottom-[400px] blur-md right-0"
+    class="absolute bottom-[550px] blur-md right-0"
   />
   <!-- title and subtitle -->
-  <div class="text-3xl font-bold mb-4 md:w-full text-center text-white">
+  <div class="text-3xl mb-4 md:w-full text-center text-white">
     <div class="w-full text-center flex justify-center items-center">
       <h1
-        class="mb-4 text-3xl w-[400px] md:w-full font-semibold md:text-5xl leading-tight"
+        class="mb-4 text-3xl w-[400px] md:w-full font-semibold md:text-[52px] md:leading-[62.4px]"
       >
         Consultitude <br class="block md:hidden" />
         Templates for <br class="hidden md:block" />
@@ -17,7 +17,7 @@
       </h1>
     </div>
     <p
-      class="mb-8 text-sm px-2 mt-[24px] font-normal text-[#E9D8FC] sm:px-16 xl:px-48 leading-relaxed"
+      class="mb-8 text-[16px] px-1 mt-[24px] leading-6 font-sans text-[#E9D8FC] sm:px-16 xl:px-48"
     >
       Explore pre-built templates and playbooks designed
       <br class="md:hidden block" />
@@ -33,24 +33,26 @@
   >
     <div
       *ngFor="let card of cards"
-      class="relative overflow-hidden w-full p-[40px] border md:h-[320px] h-[240px] text-white border-[#A25DDF66]/40 rounded-lg shadow bg-gradient-to-tr from-[#54148C] to-[#261536]"
+      class="relative overflow-hidden w-full p-[32px] border md:h-[320px] h-[280px] text-white border-[#A25DDF66]/40 rounded-xl shadow bg-gradient-to-tr from-[#54148C] to-[#261536]"
     >
       <div class="flex flex-col h-full justify-between">
         <div>
           <a href="#">
-            <h5 class="mb-2 text-xl font-semibold tracking-tight">
+            <h5
+              class="mb-2 text-[28px] leading-[33px] font-semibold tracking-tight"
+            >
               {{ card.title }}
             </h5>
           </a>
           <p
-            class="mb-3 font-normal text-[10px] md:w-full w-[250px] text-[#E9D8FC]"
+            class="mb-3 font-sans text-[14px] md:w-full leading-6 text-[#E9D8FC]"
           >
             {{ card.description }}
           </p>
         </div>
         <a
           href="{{ card.href }}"
-          class="inline-flex items-center px-1 py-2 text-sm font-medium text-center text-white rounded-lg"
+          class="inline-flex items-center px-1 py-2 text-sm font-medium text-center text-white"
         >
           Explore
           <svg
@@ -73,34 +75,33 @@
 
       <img
         src="{{ card.backgroundImage }}"
-        class="absolute md:h-32 h-28 bottom-2 md:bottom-5 z-0 right-0 md:right-0"
+        class="absolute md:h-[150px] h-28 bottom-0 md:bottom-0 z-0 -right-9 md:right-0"
       />
     </div>
   </div>
 
   <!-- button to explore all -->
-  <div class="w-full flex justify-center items-center">
-    <div
-      class="flex flex-col my-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+
+  <div
+    class="flex flex-col my-8 lg:mb-16 space-y-4 w-full items-center sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+  >
+    <a
+      href="/"
+      class="flex w-fit justify-center bg-[#9241DC] hover:bg-[#9241DC]/50 transition-colors text-white items-center py-3 px-5 text-base font-sans text-center rounded-xl focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
     >
-      <a
-        href="#"
-        class="inline-flex justify-center bg-[#9241DC] hover:bg-[#9241DC]/50 transition-colors text-white items-center py-3 px-5 text-base font-medium text-center rounded-lg"
+      Explore all templates
+      <svg
+        class="ml-2 -mr-1 w-5 h-5"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        Explore all templates
-        <svg
-          class="ml-2 -mr-1 w-5 h-5"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
-      </a>
-    </div>
+        <path
+          fill-rule="evenodd"
+          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+          clip-rule="evenodd"
+        ></path>
+      </svg>
+    </a>
   </div>
 </div>

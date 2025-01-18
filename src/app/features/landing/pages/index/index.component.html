@@ -1,10 +1,16 @@
 <!-- hero section -->
-<app-hero-section></app-hero-section>
+<div class="bg-[#11061A]">
+  <app-hero-section></app-hero-section>
+</div>
 
-<div class="relative">
+<div class="relative bg-[#11061A] overflow-hidden">
   <div
-    class="w-full h-full absolute blur-3xl opacity-80 -z-10"
+    class="w-full h-full md:block hidden bg-[#11061A] absolute left-40 blur-3xl opacity-90 z-0"
     style="background-image: url('/images/partner_background.svg')"
+  ></div>
+  <div
+    class="w-full h-full block md:hidden bg-[#11061A] absolute left-0 -bottom-32 blur-3xl opacity-90 z-0"
+    style="background-image: url('/images/mobile gradient.svg')"
   ></div>
   <div>
     <app-animation-cards></app-animation-cards>
@@ -17,12 +23,16 @@
 </div>
 
 <!-- consultitude templates cards -->
-<div class="mt-20">
+<div class="pt-20 relative">
+  <div
+    class="absolute inset-0 bg-cover hidden md:block bg-center opacity-50 bottom-[520px] -z-10"
+    style="background-image: url('/images/backgroundiconstar.svg')"
+  ></div>
   <app-consultitude-templates></app-consultitude-templates>
 </div>
 
 <!-- Effortless -->
-<div class="mt-20">
+<div class="md:mt-[200px] mt-[128px]">
   <app-effortless></app-effortless>
 </div>
 
@@ -35,7 +45,7 @@
 <app-contact-us></app-contact-us>
 
 <!-- FAQs -->
-<div class="mt-20">
+<div class="mt-20 md:px-20 px-4">
   <app-faqs></app-faqs>
 </div>
 

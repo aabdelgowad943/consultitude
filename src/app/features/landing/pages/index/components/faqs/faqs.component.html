@@ -1,17 +1,19 @@
 <section class="mt-20 relative z-10">
   <div>
     <img
-      src="/images/FAQs BG.svg"
+      src="/images/faq_Background.png"
       class="absolute w-full h-full rounded-2xl md:-top-4 -z-10 hidden md:block"
     />
   </div>
   <div>
     <img
-      src="/images/FAQs BG mobile1.svg"
+      src="/images/faqsmall.png"
       class="md:hidden absolute w-full h-full -z-10 block"
     />
   </div>
-  <div class="py-8 px-20 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+  <div
+    class="py-8 px-[16px] md:px-20 mx-auto max-w-screen-2xl sm:py-16 lg:px-6"
+  >
     <div class="text-center flex justify-center mb-4 items-center w-full">
       <p
         class="text-white flex items-center gap-2 text-center justify-center bg-[#873de6]/30 text-sm border-[#FFFFFF24]/20 py-1 px-2 w-20 rounded-full"
@@ -21,24 +23,24 @@
       </p>
     </div>
     <h2
-      class="mb-6 lg:mb-8 text-3xl lg:text-4xl font-normal text-center text-white dark:text-white tracking-relaxed"
+      class="mb-6 lg:mb-8 text-[40px] md:text-[44px] leading-[52px] text-center text-white dark:text-white tracking-relaxed"
     >
       Frequently Asked Questions
     </h2>
 
     <h2
-      class="mb-6 lg:mb-8 px-1 text-sm md:px-10 w-full font-normal text-center text-[#D0D5DD]"
+      class="mb-6 lg:mb-8 text-[16px] w-full font-sans text-center text-[#D0D5DD]"
     >
-      Find answers to your questions about Consultitide’s
-      <br class="block md:hidden" />
-      templates, features, <br class="hidden md:block" />
-      pricing, and support.
+      Find answers to your questions about <br class="block md:hidden" />
+      Consultitide’s templates, <br class="hidden md:block" />
+      features, pricing, and <br class="block md:hidden" />
+      support.
     </h2>
 
-    <div class="mx-auto max-w-screen-md">
+    <div class="md:px-20 max-w-2xl mx-auto">
       <div
         *ngFor="let faq of faqData; let i = index"
-        class="border py-1 px-3 rounded-lg mb-2 bg-[#0B0C0E] border-[#FFFFFF24]"
+        class="border py-[16px] px-3 rounded-lg mb-2 bg-[#0B0C0E] border-[#FFFFFF24]"
       >
         <h2 [id]="'accordion-flush-heading-' + i">
           <button
@@ -47,7 +49,7 @@
             (click)="toggleAccordion(i)"
           >
             <span>{{ faq.question }}</span>
-            <span class="text-xl text-[#FFFFFF99] font-[100]">{{
+            <span class="text-xl text-[#FFFFFF99] font-sans font-[100]">{{
               isOpen(i) ? "-" : "+"
             }}</span>
           </button>
@@ -56,7 +58,7 @@
           <div class="py-2">
             <p
               [innerHTML]="faq.answer"
-              class="text-[#FFFFFF99]/60 dark:text-gray-400"
+              class="text-[#FFFFFF99]/60 font-sans dark:text-gray-400"
             ></p>
           </div>
         </div>
@@ -79,7 +81,7 @@
       </a>
     </div>
 
-    <div class="w-full md:text-center text-left text-white">
+    <div class="w-full md:text-center text-left text-[#D0D5DD]">
       <p>
         Need additional help? Contact us at
         <a href="hello@consultitude.com" class="underline" target="_blank"

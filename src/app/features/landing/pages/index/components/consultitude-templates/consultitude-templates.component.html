@@ -1,13 +1,9 @@
-<div class="w-full relative">
-  <div
-    class="absolute inset-0 bg-cover bg-center opacity-50 bottom-[500px] -z-10"
-    style="background-image: url('/images/backgroundiconstar.svg')"
-  ></div>
+<div class="w-full">
   <!-- title and subtitle -->
-  <div class="text-3xl font-bold mb-4 md:w-full text-center text-white">
+  <div class="text-3xl mb-4 md:w-full text-center text-white">
     <div class="w-full text-center flex justify-center items-center">
       <h1
-        class="mb-4 text-3xl w-[400px] md:w-full font-semibold md:text-5xl leading-tight"
+        class="mb-4 text-[40px] md:w-full font-semibold md:text-[52px] leading-tight"
       >
         Consultitude <br class="block md:hidden" />
         Templates for <br />
@@ -15,7 +11,7 @@
       </h1>
     </div>
     <p
-      class="mb-8 text-sm px-2 mt-[24px] font-normal text-[#E9D8FC] sm:px-16 xl:px-48 leading-relaxed"
+      class="mb-8 text-[16px] leading-6 font-sans px-2 mt-[24px] text-[#E9D8FC] sm:px-16 xl:px-48"
     >
       Explore pre-built templates and playbooks designed
       <br class="md:hidden block" />
@@ -29,21 +25,21 @@
   >
     <div
       *ngFor="let card of cards"
-      class="relative overflow-hidden w-full p-[40px] border md:h-[480px] h-[400px] text-white border-[#A25DDF66]/40 rounded-lg shadow bg-gradient-to-tr from-[#54148C] to-[#261536]"
+      class="relative overflow-hidden w-full p-[40px] border md:h-[480px] h-[400px] text-white border-[#A25DDF66]/40 rounded-xl shadow bg-gradient-to-tr from-[#54148C] to-[#261536]"
     >
       <a href="#">
-        <h5 class="mb-2 text-xl font-semibold tracking-tight">
+        <h5 class="mb-2 text-[28px] tracking-tight">
           {{ card.title }}
         </h5>
       </a>
-      <p class="mb-3 font-normal md:w-full w-[250px] text-[#E9D8FC]">
+      <p class="mb-3 font-sans md:w-full text-[18px] w-[250px] text-[#E9D8FC]">
         {{ card.description }}
       </p>
       <a
         href="{{ card.href }}"
-        class="inline-flex items-center px-1 py-2 text-sm font-medium text-center text-white rounded-lg"
+        class="inline-flex items-center px-1 py-2 text-sm font-sans text-center text-white rounded-lg"
       >
-        Register now
+        Register Now
         <svg
           class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
           aria-hidden="true"
@@ -61,10 +57,7 @@
         </svg>
       </a>
 
-      <img
-        src="{{ card.backgroundImage }}"
-        class="absolute w-72 md:h-52 md:-bottom-4 -bottom-0 right-0 md:-right-0"
-      />
+      <img src="{{ card.backgroundImage }}" class="{{ card.class }}" />
     </div>
   </div>
 </div>
