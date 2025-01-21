@@ -41,10 +41,7 @@ export class SubscribeFormComponent implements OnInit {
         this.router.navigate(['/successfully_subscribed']);
       },
       error: (err: HttpErrorResponse) => {
-        if (
-          err.error.message ===
-          'You are already part of the consultitude family, stay tuned! big things are coming your way!'
-        ) {
+        if (err.error) {
           this.router.navigate(['/subscribed']);
         }
         this.loading = false;

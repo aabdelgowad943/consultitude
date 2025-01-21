@@ -1,17 +1,21 @@
-<div class="w-full text-center mb-10 bg-white px-5 md:px-0">
+<div class="w-full text-center font-sans pt-32 mb-10 bg-white px-5 md:px-0">
   <!-- data from TS -->
   <div
-    class="max-w-2xl mx-auto p-6 text-center flex flex-col justify-center items-center text-gray-800"
+    class="max-w-3xl mx-auto p-6 text-center flex flex-col justify-center items-center text-gray-800"
   >
     <p
-      class="text-lg black text-center bg-[#ECDFFB] py-1 px-2 rounded-3xl text-[#5314A3] font-semibold w-fit"
+      class="text-sm black text-center bg-[#ECDFFB] py-1 px-2 rounded-3xl text-[#5314A3] font-semibold w-fit"
     >
       Current as of {{ lastUpdated }}
     </p>
-    <h1 class="text-3xl font-bold text-center mt-4 mb-6">Terms & Conditions</h1>
+    <h1
+      class="md:text-[52px] leading-[52px] text-[44px] font-semibold text-center mt-4 mb-6"
+    >
+      Terms & Conditions
+    </h1>
     <p class="text-center text-gray-600 mb-8">{{ introText }}</p>
 
-    <p class="text-left text-gray-600 mb-8">
+    <p class="text-left text-gray-600 mt-10 mb-8">
       Mi tincidunt elit, id quisque ligula ac diam, amet. Vel etiam suspendisse
       morbi eleifend faucibus eget vestibulum felis. Dictum quis montes, sit
       sit. Tellus aliquam enim urna, etiam. Mauris posuere vulputate arcu amet,
@@ -34,16 +38,18 @@
 
   <!-- card -->
   <div
-    class="max-w-6xl relative overflow-hidden flex justify-center items-center bg-gradient-to-r from-[#261536]/90 to-[#54148C]/100 rounded-md h-72 mx-auto pb-5"
+    class="max-w-6xl relative overflow-hidden flex justify-center items-center bg-gradient-to-r from-[#261536]/90 to-[#54148C]/100 rounded-md h-96 md:h-72 mx-auto pb-5"
   >
-    <div class="flex flex-col space-y-4">
-      <h1 class="text-2xl text-white font-semibold">Need additional help?</h1>
-      <p class="text-white">
-        Contact us at 
+    <div class="flex flex-col space-y-6">
+      <h1 class="text-[36px] text-white font-semibold">
+        Need additional help?
+      </h1>
+      <p class="text-[#E9D7FE] font-sans">
+        Contact us <br />
         <a
           class="underline cursor-pointer hover:text-gray-400 transition-colors"
         >
-          support&#64;consultitide.com</a
+          at support&#64;consultitide.com</a
         >
         anytime.
       </p>
@@ -60,8 +66,8 @@
         </button>
       </div>
     </div>
-    <div class="absolute top-0 right-0">
-      <img class="" src="/images/Group.svg" alt="card icon" />
+    <div class="absolute md:top-0 md:right-0 -right-20">
+      <img class="h-[300px]" src="/images/Group.svg" alt="card icon" />
     </div>
   </div>
   <div class="max-w-4xl bg-white h-32 mx-auto pb-5"></div>

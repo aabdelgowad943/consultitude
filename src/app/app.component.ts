@@ -11,7 +11,7 @@ import { OverlayImageForBackgroundComponent } from './shared/overlay-image-for-b
   imports: [
     RouterOutlet,
     NavbarComponent,
-    OverlayImageForBackgroundComponent,
+    // OverlayImageForBackgroundComponent,
     // FooterComponent,
   ],
   templateUrl: './app.component.html',

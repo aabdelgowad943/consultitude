@@ -1,84 +1,91 @@
-<section
-  class="text-center text-white flex flex-col md:flex-row md:pt-10 items-center justify-center h-auto md:h-full px-4 md:px-0 md:ps-[80px]"
->
-  <div
-    class="flex flex-col md:flex-row items-start justify-between gap-10 w-full"
+<div class="h-full w-full pt-5 md:pt-5">
+  <section
+    class="text-center text-white flex flex-col md:flex-row items-center justify-center h-auto 2xl:h-full md:h-screen px-4 md:px-0 md:ps-[80px]"
   >
-    <!-- left side -->
-    <div class="md:w-[670px] md:mt-0 text-left">
-      <p
-        class="text-white bg-[#873de6]/30 text-sm border-[#873DE64D] border w-fit py-1 px-3 rounded-full"
-      >
-        Join & download top consulting tool kit!
-      </p>
-      <div>
-        <h1
-          class="text-4xl w-[200px] md:w-full md:text-6xl mt-10 font-bold mb-4"
+    <div
+      class="flex flex-col md:flex-row items-start justify-between gap-10 w-full"
+    >
+      <!-- left side -->
+      <div class="md:w-[670px] md:mt-0 text-left">
+        <p
+          class="text-white font-sans bg-[#873de6]/30 text-sm border-[#873DE64D] border w-fit py-1 px-3 rounded-full"
         >
-          The World’s <br />
-          Consulting Marketplace
-        </h1>
-        <p class="text-sm md:text-lg md:w-[380px] mb-8">
-          Premier Management Consulting Resources at your fingertips
+          Join & download top consulting tool kit!
         </p>
+        <div>
+          <h1
+            class="text-4xl w-[200px] md:w-full md:text-6xl mt-10 font-bold mb-4"
+          >
+            The World’s <br />
+            Consulting Marketplace
+          </h1>
+          <p class="text-sm md:text-lg font-sans md:w-[380px] mb-8">
+            Premier Management Consulting Resources at your fingertips
+          </p>
+        </div>
+
+        <!-- form for subscribe -->
+        <app-subscribe-form
+          (errorOccurred)="showError($event)"
+        ></app-subscribe-form>
+
+        <p class="hidden md:block md:text-[16px] font-sans w-full mt-8">
+          Consulting templates created by former top-tier consultants
+        </p>
+        <!-- Flex Logo -->
+        <div class="md:block hidden">
+          <app-flex-logo></app-flex-logo>
+        </div>
       </div>
 
-      <!-- form for subscribe -->
-      <app-subscribe-form
-        (errorOccurred)="showError($event)"
-      ></app-subscribe-form>
+      <!-- right side -->
+      <div
+        class="relative bg-gradient-to-tr from-[#3f265a] to-[#54148C] p-8 md:mt-20 md:rounded-l-lg md:rounded-r-none rounded-md shadow-lg h-[413px] flex items-start md:items-start justify-center overflow-hidden"
+      >
+        <!-- Overlay with Image -->
+        <div
+          class="absolute inset-0 bg-cover bg-center opacity-20"
+          style="background-image: url('/images/Group 1000010921.png')"
+        ></div>
 
-      <p class="hidden md:block md:text-[16px] w-full mt-8">
+        <!-- Card Content -->
+        <div class="relative text-left z-10">
+          <h2
+            class="md:text-[58px] text-[35px] md:leading-[58px] leading-[35px] font-semibold mb-4 w-[200px] md:w-[200px]"
+          >
+            Top Consulting Tool Kit
+          </h2>
+          <p class="mb-6 text-[16px] w-full font-sans">
+            Leverage templates used by top consulting companies developing their
+            slides and customize them the way you want.
+          </p>
+          <p class="mb-6 text-[9.5px] font-sans">
+            Used by former top-tier consultant
+          </p>
+        </div>
+
+        <!-- Footer Section -->
+        <div
+          class="absolute border-t w-full p-0 flex items-center bottom-3 left-0 text-left z-10"
+        >
+          <div class="font-bold ps-5 mt-4">
+            <app-logo></app-logo>
+          </div>
+        </div>
+      </div>
+
+      <p
+        class="block text-left md:hidden font-sans md:text-[16px] -mt-4 w-full"
+      >
         Consulting templates created by former top-tier consultants
       </p>
-      <!-- Flex Logo -->
-      <div class="md:block hidden">
+
+      <div class="block md:hidden -mt-10">
         <app-flex-logo></app-flex-logo>
       </div>
     </div>
-
-    <!-- right side -->
-    <div
-      class="relative bg-gradient-to-tr from-[#3f265a] to-[#54148C] p-8 md:mt-20 md:rounded-l-lg md:rounded-r-none rounded-md shadow-lg h-[413px] flex items-start md:items-start justify-center overflow-hidden"
-    >
-      <!-- Overlay with Image -->
-      <div
-        class="absolute inset-0 bg-cover bg-center opacity-20"
-        style="background-image: url('/images/Group 1000010921.png')"
-      ></div>
-
-      <!-- Card Content -->
-      <div class="relative text-left z-10">
-        <h2 class="text-4xl font-semibold mb-4 w-[200px] md:w-[200px]">
-          Top Consulting Tool Kit
-        </h2>
-        <p class="mb-6 text-sm w-full">
-          Leverage templates used by top consulting companies developing their
-          slides and customize them the way you want.
-        </p>
-        <p class="mb-6">Used by former top-tier consultant</p>
-      </div>
-
-      <!-- Footer Section -->
-      <div
-        class="absolute border-t w-full p-0 flex items-center bottom-3 left-0 text-left z-10"
-      >
-        <div class="font-bold ps-5 mt-4">
-          <app-logo></app-logo>
-        </div>
-      </div>
-    </div>
-
-    <p class="block text-left md:hidden md:text-[16px] w-full mt-2">
-      Consulting templates created by former top-tier consultants
-    </p>
-
-    <div class="block md:hidden">
-      <app-flex-logo></app-flex-logo>
-    </div>
-  </div>
-</section>
-
+  </section>
+</div>
 <app-error-message-dialog
   [visible]="visible"
   [errorMessage]="errorMessage"
