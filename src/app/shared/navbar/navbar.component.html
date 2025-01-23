@@ -22,10 +22,7 @@
         </a>
       </div>
 
-      <a
-        [class.disabled]="isHomePath"
-        [routerLink]="isHomePath ? null : '/knowledge-lounge'"
-        class="font-sans"
+      <a [class.disabled]="isHomePath" routerLink="/Knowledge" class="font-sans"
         >Knowledge Lounge</a
       >
       <a

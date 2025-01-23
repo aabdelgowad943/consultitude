@@ -10,28 +10,28 @@ import { Component } from '@angular/core';
 export class FaqsComponent {
   faqData = [
     {
-      question: 'Why should I use consultitude templates?',
+      question: 'Why should I use Consultitude templates?',
       answer: `You can purchase them directly through our website on the Templates & Playbooks page.`,
     },
     {
-      question: 'Where can I purchase consultitude templates and playbooks?',
+      question: 'Where can I purchase Consultitude templates and playbooks?',
       answer: `You can purchase them directly through our website on the Templates & Playbooks page.`,
     },
     {
-      question: 'What updates are included with consultitude templates?',
-      answer: `The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
+      question: 'What updates are included with Consultitude templates?',
+      answer: `The main difference is that the core components from Consultitude are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Consultitude relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
     },
     {
       question: 'How do I customize the templates for my brand?',
-      answer: `The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
+      answer: `The main difference is that the core components from Consultitude are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Consultitude relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
     },
     {
-      question: 'Can I use consultitude templates for commercial projects?',
-      answer: `The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
+      question: 'Can I use Consultitude templates for commercial projects?',
+      answer: `The main difference is that the core components from Consultitude are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Consultitude relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
     },
     {
       question: 'How often are your templates updated?',
-      answer: `Flowbite supports modern browsers including Chrome, Firefox, Safari, and Edge. For older versions of Internet Explorer, limited support may apply depending on the components used.`,
+      answer: `Consultitude supports modern browsers including Chrome, Firefox, Safari, and Edge. For older versions of Internet Explorer, limited support may apply depending on the components used.`,
     },
   ];
 
