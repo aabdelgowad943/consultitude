@@ -1,0 +1,31 @@
+<div
+  class="rounded-lg shadow-md p-4 text-black bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+>
+  <div
+    class="text-sm bg-purple-100 text-purple-700 rounded-full px-3 py-1 inline-block"
+    *ngIf="template.featured"
+  >
+    Featured
+  </div>
+  <h3 class="font-bold text-lg mt-2">
+    {{ template.products[0].items[0].name }}
+  </h3>
+  <p class="text-sm text-gray-500 mb-2">{{ template.category }}</p>
+  <p class="font-medium text-xl text-gray-900">
+    {{ template.price === 0 ? "Free" : "$" + template.price }}
+  </p>
+  <p class="text-sm text-gray-400">{{ template.downloads }} Downloads</p>
+  <div class="flex flex-wrap gap-2 mt-2">
+    <span
+      *ngFor="let tag of template.tags"
+      class="text-xs bg-gray-200 rounded-full px-2 py-1"
+    >
+      {{ tag }}
+    </span>
+  </div>
+  <button
+    class="mt-4 w-full py-2 text-white bg-purple-600 rounded hover:bg-purple-700 transition"
+  >
+    {{ template.buttonText }}
+  </button>
+</div>

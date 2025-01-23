@@ -1,0 +1,35 @@
+{
+  "products": [
+    {
+      "title": "Business & Consulting Toolkit",
+      "items": [
+        {
+          "name": "Business Strategy Template",
+          "originalPrice": 35,
+          "discountedPrice": 0,
+          "isFree": true
+        },
+        {
+          "name": "Business Strategy Template",
+          "originalPrice": 135,
+          "discountedPrice": 135
+        }
+      ]
+    },
+    {
+      "title": "Business & Consulting Toolkit",
+      "items": [
+        {
+          "name": "BusinessStrategy Template",
+          "originalPrice": 135,
+          "discountedPrice": 135
+        },
+        {
+          "name": "Businessstategy Tempate",
+          "originalPrice": 135,
+          "discountedPrice": 135
+        }
+      ]
+    }
+  ]
+}
