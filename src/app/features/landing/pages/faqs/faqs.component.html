@@ -1,5 +1,5 @@
-<section class="bg-gray-100 text-black relative px-5 z-10">
-  <div class="py-2 px-4 mx-auto max-w-screen-xl pt-10 sm:py-16 lg:px-6">
+<section class="w-full text-left pt-16 pb-10 bg-gray-100 px-5 md:px-0">
+  <div class="py-2 px-0 mx-auto max-w-screen-xl pt-10 sm:py-16 lg:px-6">
     <div class="text-center flex justify-center mb-4 items-center w-full">
       <p
         class="text-[#5314A3] flex items-center gap-2 text-center justify-center bg-[#ECDFFB]/30 text-sm border-[#0A0F2914]/10 border py-1 px-2 rounded-full"
@@ -8,17 +8,18 @@
       </p>
     </div>
     <h2
-      class="mb-6 lg:mb-8 text-3xl lg:text-4xl font-normal text-center text-[#101828] tracking-relaxed"
+      class="mb-6 lg:mb-8 text-3xl lg:text-[52px] font-semibold text-center text-[#101828] tracking-relaxed"
     >
       Frequently Asked Questions
     </h2>
 
-    <h2 class="mb-6 lg:mb-8 px-10 font-normal text-center text-[#344054e7]">
-      Find answers to your questions about Consultitide’s templates, <br />
-      features, pricing, and support.
+    <h2 class="mb-6 lg:mb-8 font-sans text-[17px] text-center text-[#344054e7]">
+      Find answers to your questions about Consultitide’s templates, features,
+      pricing, and <br />
+      support.
     </h2>
 
-    <div class="mx-auto max-w-screen-md">
+    <div class="mx-auto max-w-screen-sm">
       <div
         *ngFor="let faq of faqData; let i = index"
         class="border py-1 px-3 rounded-md mb-2 bg-white border-[#0A0F2914]/10"
@@ -59,22 +60,25 @@
 
   <!-- card -->
   <div
-    class="max-w-2xl md:max-w-6xl mt-10 md:mt-0 relative overflow-hidden text-center flex justify-center items-center bg-gradient-to-r from-[#261536]/90 to-[#54148C]/100 rounded-md h-72 mx-auto pb-5"
+    class="max-w-6xl relative overflow-hidden flex justify-center items-center bg-gradient-to-l from-[#261536]/100 to-[#54148C]/100 rounded-md h-96 md:h-72 mx-auto pb-5"
   >
-    <div class="flex flex-col space-y-4">
-      <h1 class="text-2xl text-white font-semibold">Need additional help?</h1>
-      <p class="text-white">
-        Contact us at 
-        <a
-          class="underline cursor-pointer hover:text-gray-400 transition-colors"
-        >
-          support&#64;consultitide.com</a
-        >
+    <div class="flex flex-col space-y-6">
+      <h1 class="text-[36px] text-center w-full text-white font-semibold">
+        Need <br class="md:hidden" />
+        additional <br class="md:hidden" />
+        help?
+      </h1>
+      <p class="text-[#E9D7FE] w-full text-center my-7 font-sans">
+        Contact us <br class="md:hidden" />
+        <a class="cursor-pointer hover:text-gray-400 transition-colors">
+          at <span class="underline"> support&#64;consultitide.com</span>
+          <br class="md:hidden" />
+        </a>
         anytime.
       </p>
       <div class="flex items-center justify-center gap-4">
         <button
-          class="rounded-md py-2 px-5 text-black text-center bg-white hover:bg-gray-200 transition-colors"
+          class="rounded-md py-2 px-5 text-[#414651] text-center bg-white hover:bg-gray-200 transition-colors"
         >
           Learn more
         </button>
@@ -85,8 +89,8 @@
         </button>
       </div>
     </div>
-    <div class="absolute top-0 right-0">
-      <img class="" src="/images/Group.svg" alt="card icon" />
+    <div class="absolute md:top-0 md:right-0 -right-20">
+      <img class="h-[300px]" src="/images/Group.svg" alt="card icon" />
     </div>
   </div>
 

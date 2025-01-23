@@ -22,6 +22,7 @@ export class NavbarComponent {
     const currentUrl = this.router.url;
     const targetPaths = [
       'privacy-and-policy',
+      'faqs',
       'about-us',
       'terms-and-conditions',
       'cookie-policy',
