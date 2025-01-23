@@ -1,75 +1,77 @@
-<div
-  class="w-full relative md:my-20 my-5 px-4 md:px-0 border-b pb-10 overflow-hidden"
->
+<div class="w-full relative md:py-32 py-32 px-4 md:px-0 pb-10 overflow-hidden">
   <!-- background images -->
-  <div class="absolute right-0 hidden md:block top-1">
+  <div
+    class="absolute inset-0 bg-cover 2xl:h-screen bg-center bg-black -z-10"
+    style="background-image: url('/images/Group 25.png')"
+  ></div>
+
+  <div class="absolute md:block right-0 hidden z-0 top-40">
     <img src="/images/Group 37.svg" alt="background icon" />
   </div>
-  <!-- <div class="absolute left-0 top-1">
-    <img src="/images/Group 36.svg" alt="background icon" />
-  </div> -->
 
   <!-- title and subtitle -->
 
   <div class="text-center w-full flex flex-col items-center mb-5">
-    <h2 class="text-3xl font-bold max-w-[500px] text-white">
-      Let’s Shape the Future of Your Business Together!
+    <h2
+      class="md:text-[52px] text-[40px] leading-[48px] md:leading-[62px] font-bold text-white"
+    >
+      Let’s Shape the Future of Your <br />
+      Business Together!
     </h2>
-    <p class="text-white mt-2 font-normal md:max-w-[700px]">
+    <p class="text-[#E9D8FC] mt-6 font-sans text-[18px]">
       Our consulting services prioritize adaptive strategies, ensuring your
-      solutions resonate with your audience from the start.
+      solutions resonate <br />
+      with your audience from the start.
     </p>
   </div>
 
   <!-- form -->
   <div
-    class="max-w-xl mx-auto bg-gradient-to-tr from-[#552482] to-[#873DE64D]/20 p-8 rounded-lg shadow-lg"
+    class="max-w-xl md:mt-20 mx-auto relative z-50 border border-[#A25DDF66] bg-gradient-to-br from-[#552482] to-[#873DE64D]/20 p-8 rounded-xl shadow-lg"
   >
     <form>
       <!-- First and Last Name -->
       <div class="flex space-x-4 mb-4">
         <div class="flex-1">
-          <label
-            for="first-name"
-            class="block text-sm font-medium text-gray-300"
+          <label for="first-name" class="block text-sm font-sans text-gray-300"
             >First name</label
           >
           <input
             type="text"
             id="first-name"
             placeholder="Write your first name"
-            class="w-full mt-2 p-3 rounded-lg bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
           />
         </div>
         <div class="flex-1">
-          <label for="last-name" class="block text-sm font-medium text-gray-300"
+          <label for="last-name" class="block text-sm font-sans text-gray-300"
             >Last name</label
           >
           <input
             type="text"
             id="last-name"
             placeholder="Write your last name"
-            class="w-full mt-2 p-3 rounded-lg bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
           />
         </div>
       </div>
 
       <!-- Email -->
       <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-300"
+        <label for="email" class="block text-sm font-sans text-gray-300"
           >E-mail</label
         >
         <input
           type="email"
           id="email"
           placeholder="Enter your e-mail"
-          class="w-full mt-2 p-3 rounded-lg bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
         />
       </div>
 
       <!-- Phone Number -->
       <div class="mb-4">
-        <label for="phone" class="block text-sm font-medium text-gray-300"
+        <label for="phone" class="block text-sm font-sans text-gray-300"
           >Phone number</label
         >
         <div class="relative">
@@ -77,21 +79,21 @@
             type="tel"
             id="phone"
             placeholder="+966 749302040"
-            class="w-full mt-2 p-3 rounded-lg bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
           />
         </div>
       </div>
 
       <!-- Message -->
       <div class="mb-4">
-        <label for="message" class="block text-sm font-medium text-gray-300"
+        <label for="message" class="block text-sm font-sans text-gray-300"
           >Your message</label
         >
         <textarea
           id="message"
           placeholder="Let us know how Consultitude can empower your success."
           rows="4"
-          class="w-full mt-2 p-3 rounded-lg bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
         ></textarea>
       </div>
 
@@ -118,7 +120,7 @@
       <div>
         <button
           type="submit"
-          class="w-full py-3 bg-[#9241DC] text-white transition-colors font-medium rounded-lg hover:bg-[#9241DC]/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          class="w-full py-3 bg-[#9241DC] text-white transition-colors font-sans rounded-xl hover:bg-[#9241DC]/50 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
         >
           Send message
         </button>

@@ -1,5 +1,7 @@
 <header
-  class="flex justify-between absolute w-full top-0 right-0 items-center bg-transparent md:px-[80px] md:py-[16px] py-5 md:mb-0 px-5 text-white"
+  class="flex justify-between absolute w-full top-0 right-0 items-center md:px-[80px] md:py-[16px] py-5 md:mb-0 px-5 text-white"
+  [class.bg-transparent]="!shouldApplyRedBg"
+  [class.bg-[#0C111D]]="shouldApplyRedBg"
 >
   <div class="flex items-center w-full justify-between gap-10">
     <div class="md:hidden block">
@@ -20,13 +22,40 @@
         </a>
       </div>
 
-      <a class="disabled font-sans">Knowledge Lounge</a>
-      <a class="disabled font-sans">About us</a>
-      <a class="disabled font-sans">FAQs</a>
-      <a class="disabled font-sans">Contact us</a>
-      <a class="disabled font-sans">Become An Expert</a>
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/knowledge-lounge'"
+        class="font-sans"
+        >Knowledge Lounge</a
+      >
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/about-us'"
+        class="font-sans"
+        >About us</a
+      >
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/faqs'"
+        class="font-sans"
+        >FAQs</a
+      >
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/contact-us'"
+        class="font-sans"
+        >Contact us</a
+      >
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/become-expert'"
+        class="font-sans"
+        >Become An Expert</a
+      >
     </nav>
+    <!-- Login Button -->
     <button
+      [disabled]="isHomePath"
       class="px-4 py-3 bg-gray-600 font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
     >
       <span class="material-icons">Login</span>
@@ -62,13 +91,38 @@
       </button>
     </div>
 
-    <a class="disabled">Knowledge Lounge</a>
-    <a class="disabled">Solutions</a>
-    <a class="disabled">How it works</a>
-    <a class="disabled">Pricing</a>
-    <a routerLink="/contact-us" class="disabled">Contact us</a>
-    <a class="disabled">Become an expert</a>
+    <a
+      [class.disabled]="isHomePath"
+      [routerLink]="isHomePath ? null : '/knowledge-lounge'"
+      >Knowledge Lounge</a
+    >
+    <a
+      [class.disabled]="isHomePath"
+      [routerLink]="isHomePath ? null : '/solutions'"
+      >Solutions</a
+    >
+    <a
+      [class.disabled]="isHomePath"
+      [routerLink]="isHomePath ? null : '/how-it-works'"
+      >How it works</a
+    >
+    <a
+      [class.disabled]="isHomePath"
+      [routerLink]="isHomePath ? null : '/pricing'"
+      >Pricing</a
+    >
+    <a
+      [class.disabled]="isHomePath"
+      [routerLink]="isHomePath ? null : '/contact-us'"
+      >Contact us</a
+    >
+    <a
+      [class.disabled]="isHomePath"
+      [routerLink]="isHomePath ? null : '/become-expert'"
+      >Become an expert</a
+    >
     <button
+      [disabled]="isHomePath"
       class="px-4 py-2 w-full bg-gray-600 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
     >
       Login

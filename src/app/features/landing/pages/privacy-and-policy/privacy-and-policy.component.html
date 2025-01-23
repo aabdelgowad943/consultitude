@@ -1,4 +1,4 @@
-<div class="w-full text-center font-sans pt-32 mb-10 bg-white px-5 md:px-0">
+<div class="w-full text-center pt-32 mb-10 bg-white px-5 md:px-0">
   <!-- data from TS -->
   <div
     class="max-w-3xl mx-auto p-6 text-center flex flex-col justify-center items-center text-gray-800"
@@ -8,9 +8,7 @@
     >
       {{ title }}
     </p>
-    <h1
-      class="md:text-[52px] leading-[52px] text-[44px] font-semibold text-center mt-4 mb-6"
-    >
+    <h1 class="md:text-[52px] text-[44px] font-semibold text-center mt-4 mb-6">
       We cara about your privacy
     </h1>
     <p class="text-center text-gray-600 mb-8">
@@ -31,10 +29,13 @@
     </p>
 
     <div *ngFor="let section of sections" class="mb-8">
-      <h2 class="text-2xl text-left font-semibold text-gray-800 mb-3">
+      <h2 class="text-[28px] text-left font-semibold text-[#181D27] mb-3">
         {{ section.title }}
       </h2>
-      <div *ngFor="let paragraph of section.content" class="text-left">
+      <div
+        *ngFor="let paragraph of section.content"
+        class="text-left text-[#535862]"
+      >
         <p>{{ paragraph }}</p>
       </div>
     </div>
@@ -48,8 +49,8 @@
       <h1 class="text-[36px] text-white font-semibold">
         Need additional help?
       </h1>
-      <p class="text-[#E9D7FE] font-sans">
-        Contact us <br />
+      <p class="text-[#E9D7FE] my-7 font-sans">
+        Contact us
         <a
           class="underline cursor-pointer hover:text-gray-400 transition-colors"
         >

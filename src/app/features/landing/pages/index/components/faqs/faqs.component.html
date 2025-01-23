@@ -40,7 +40,7 @@
     <div class="md:px-20 max-w-3xl mx-auto">
       <div
         *ngFor="let faq of faqData; let i = index"
-        class="border py-[16px] md:px-6 px-4 rounded-lg mb-2 bg-[#0B0C0E] border-[#FFFFFF24]"
+        class="border py-[10px] md:px-6 px-4 rounded-lg mb-2 bg-[#0B0C0E] border-[#FFFFFF24]"
       >
         <h2 [id]="'accordion-flush-heading-' + i">
           <button
@@ -48,7 +48,7 @@
             class="flex justify-between items-center py-1 w-full font-medium text-left"
             (click)="toggleAccordion(i)"
           >
-            <span class="text-xl font-sans text-[#FFFFFF]">{{
+            <span class="text-lg font-sans font-[100px] text-[#FFFFFF]">{{
               faq.question
             }}</span>
             <span class="text-xl text-[#FFFFFF99] font-sans font-[100]">{{

@@ -1,7 +1,7 @@
-<div class="w-full text-center font-sans pt-32 mb-10 bg-white px-5 md:px-0">
+<div class="w-full text-center pt-32 mb-10 bg-gray-100 px-5 md:px-0">
   <!-- data from TS -->
   <div
-    class="max-w-2xl mx-auto p-6 text-center flex flex-col justify-center items-center text-gray-800"
+    class="max-w-2xl mx-auto p-4 text-center flex flex-col justify-center items-center text-gray-800"
   >
     <p
       class="text-sm black text-center bg-[#ECDFFB] py-1 px-2 rounded-3xl text-[#5314A3] font-semibold w-fit"
@@ -25,10 +25,13 @@
     </p>
 
     <div *ngFor="let section of sections" class="mb-8">
-      <h2 class="text-2xl text-left font-semibold text-gray-800 mb-3">
+      <h2 class="text-[28px] text-left font-semibold text-[#181D27] mb-3">
         {{ section.title }}
       </h2>
-      <div *ngFor="let paragraph of section.content" class="text-left">
+      <div
+        *ngFor="let paragraph of section.content"
+        class="text-left text-[#535862]"
+      >
         <p>{{ paragraph }}</p>
       </div>
     </div>
@@ -38,12 +41,12 @@
   <div
     class="max-w-6xl relative overflow-hidden flex justify-center items-center bg-gradient-to-r from-[#261536]/90 to-[#54148C]/100 rounded-md h-96 md:h-72 mx-auto pb-5"
   >
-    <div class="flex flex-col space-y-6">
-      <h1 class="text-[36px] text-white font-semibold">
+    <div class="flex flex-col">
+      <h1 class="text-[30px] text-white font-semibold">
         Need additional help?
       </h1>
-      <p class="text-[#E9D7FE] font-sans">
-        Contact us   <br />
+      <p class="text-[#E9D7FE] my-7 font-sans">
+        Contact us
         <a
           class="underline cursor-pointer hover:text-gray-400 transition-colors"
         >

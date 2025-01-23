@@ -1,25 +1,19 @@
 <!-- animation to left -->
 <div class="overflow-hidden relative">
-  <div class="flex gap-5 animate-scroll">
-    <div
-      *ngFor="let card of toLeftCard"
-      class="card shadow-lg rounded-lg p-1 w-72 h-64 sm:w-full sm:h-96"
-    >
+  <div class="flex animate-scroll">
+    <div *ngFor="let card of toLeftCard" class="card">
       <img
         [src]="card.image"
         alt="Card {{ card.id }}"
-        class="w-full h-full object-cover"
+        class="full-size-image"
       />
     </div>
-    <!-- Repeat the cards to ensure continuous scrolling -->
-    <div
-      *ngFor="let card of toLeftCard"
-      class="card shadow-lg rounded-lg p-1 w-72 h-64 sm:w-full sm:h-96"
-    >
+    <!-- Repeat the cards -->
+    <div *ngFor="let card of toLeftCard" class="card">
       <img
         [src]="card.image"
         alt="Card {{ card.id }}"
-        class="w-full h-full object-cover"
+        class="full-size-image"
       />
     </div>
   </div>
@@ -27,26 +21,20 @@
 
 <!-- animation to right -->
 <div class="overflow-hidden relative mt-10">
-  <div class="flex gap-5 animate-scroll2">
-    <div
-      *ngFor="let card of toRightCard"
-      class="card shadow-lg rounded-lg p-1 w-72 h-64 sm:w-full sm:h-96"
-    >
+  <div class="flex animate-scroll2">
+    <div *ngFor="let card of toRightCard" class="card">
       <img
         [src]="card.image"
         alt="Card {{ card.id }}"
-        class="w-full h-full object-cover"
+        class="full-size-image"
       />
     </div>
-    <!-- Repeat the cards to ensure continuous scrolling -->
-    <div
-      *ngFor="let card of toRightCard"
-      class="card shadow-lg rounded-lg p-1 w-72 h-64 sm:w-full sm:h-96"
-    >
+    <!-- Repeat the cards -->
+    <div *ngFor="let card of toRightCard" class="card">
       <img
         [src]="card.image"
         alt="Card {{ card.id }}"
-        class="w-full h-full object-cover"
+        class="full-size-image"
       />
     </div>
   </div>
