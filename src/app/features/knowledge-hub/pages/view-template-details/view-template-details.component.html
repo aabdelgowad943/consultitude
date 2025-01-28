@@ -1,0 +1,164 @@
+<div
+  *ngIf="template; else noTemplate"
+  class="bg-[#E9EAEC] mx-auto py-[64px] px-4 md:px-10 lg:px-20"
+>
+  <div class="max-w-[1600px] mx-auto">
+    <!-- Header Section -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-12 md:gap-10 items-start justify-between"
+    >
+      <!-- Left side -->
+      <div class="col-span-12 md:col-span-4 w-full">
+        <div class="bg-[#E9EAEC] border-r px-2">
+          <a
+            routerLink="/knowledge"
+            class="flex items-center gap-2 text-[#0F132499] text-[14px] font-semibold mb-[32px]"
+          >
+            <i class="pi pi-arrow-left"></i> {{ backButtonText }}
+          </a>
+          <div class="grid md:grid-cols-1 gap-8">
+            <div>
+              <div
+                class="flex flex-col md:flex-row border-b pb-4 justify-between items-center gap-6"
+              >
+                <div class="flex-1">
+                  <h1
+                    class="text-2xl md:text-4xl w-full md:w-[70%] font-bold mb-4"
+                  >
+                    {{ template.name }}
+                  </h1>
+                  <p class="text-base md:text-lg text-[#344054] text-[16px]">
+                    {{ template.description }}
+                  </p>
+                </div>
+              </div>
+              <ul class="space-y-3 mt-4 md:mt-[33px]">
+                <li
+                  *ngFor="let feature of features"
+                  class="flex items-center gap-3"
+                >
+                  <i class="pi pi-check text-[#667085] text-lg"></i>
+                  <span class="text-[#101828] text-base">{{ feature }}</span>
+                </li>
+              </ul>
+              <!-- Download Section -->
+              <div class="pt-8 w-full">
+                <div class="flex w-full items-center justify-center gap-4">
+                  <button
+                    *ngFor="let btn of buttons"
+                    [class]="btn.classes"
+                    (click)="downloadTemplate()"
+                  >
+                    {{ btn.label }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pricing & Details -->
+            <div class="border-t rounded-xl">
+              <div class="pt-8">
+                <div
+                  *ngFor="let detail of details"
+                  class="flex justify-between border-b p-2 items-center"
+                >
+                  <span class="text-gray-600">{{ detail.label }}:</span>
+                  <span class="font-medium text-gray-800">{{
+                    template[detail.property]
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side -->
+      <div class="col-span-12 md:col-span-8 mt-10 md:mt-0">
+        <div
+          class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white h-[200px] md:h-[400px] py-8 px-5"
+          [style.background-image]="'url(' + template.image + ')'"
+        >
+          <div class="absolute inset-0 bg-[#0D1F40]/60 rounded-lg"></div>
+          <div
+            class="flex absolute left-0 z-50 top-5 px-4 justify-between items-center w-full"
+          >
+            <img class="w-16 md:w-20" [src]="logoUrl" />
+          </div>
+
+          <div
+            class="absolute z-10 flex flex-col bottom-10 justify-end items-start h-24 md:h-48"
+          >
+            <h1 class="text-2xl md:text-4xl font-bold mb-2 w-full md:w-[40%]">
+              {{ template.name }}
+            </h1>
+            <p class="text-base md:text-lg text-gray-300">
+              {{ template.description }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Carousel Section -->
+        <div class="mt-6">
+          <p-carousel
+            [value]="template.images"
+            [numVisible]="2"
+            [numScroll]="1"
+            [circular]="true"
+            [autoplayInterval]="3000"
+            [responsiveOptions]="responsiveOptions"
+            [showIndicators]="true"
+            [showNavigators]="false"
+            [indicatorStyle]="indicatorStyle"
+            [indicatorStyleClass]="indicatorStyleClass"
+          >
+            <ng-template let-image pTemplate="item">
+              <div
+                class="border my-2 rounded-md overflow-hidden mx-1 h-[97px] border-[#0000001A]/10"
+              >
+                <img
+                  [src]="image"
+                  alt="Template preview"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </ng-template>
+          </p-carousel>
+        </div>
+
+        <div class="pt-10">
+          <h2 class="text-xl md:text-2xl font-semibold mb-4">
+            {{ overviewTitle }}
+          </h2>
+          <p class="text-base md:text-lg text-[#344054] text-[16px]">
+            {{ overviewText }}
+          </p>
+
+          <!-- Tags Section -->
+          <div class="mt-6">
+            <div *ngFor="let tagGroup of tags" class="mb-4">
+              <h4 class="font-sans text-[14px] md:text-[16px] text-black">
+                {{ tagGroup.title }}
+              </h4>
+              <div class="flex flex-wrap gap-2 mt-2">
+                <span
+                  *ngFor="let tag of tagGroup.tags"
+                  class="px-3 py-1 bg-white text-[#0F132499]/60 rounded-full text-sm"
+                >
+                  {{ tag }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noTemplate>
+  <div class="text-center p-12 text-gray-600">
+    <div class="animate-pulse">
+      <p>Loading template...</p>
+    </div>
+  </div>
+</ng-template>

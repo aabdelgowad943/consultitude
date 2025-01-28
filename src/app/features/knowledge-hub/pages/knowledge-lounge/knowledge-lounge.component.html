@@ -1,25 +1,263 @@
-<div class="bg-white w-full h-screen">
-  <div class="flex">
-    <!-- Sidebar -->
-    <aside class="w-1/4 p-4">
-      <h3 class="font-bold text-lg mb-4">Filter Template</h3>
-      <div class="mb-4">
-        <label class="block mb-1">Search</label>
-        <input
-          type="text"
-          class="w-full p-2 border border-gray-300 rounded"
-          [(ngModel)]="searchText"
-          placeholder="Search templates..."
-        />
-      </div>
-      <!-- Add more filters as needed -->
-    </aside>
-
-    <!-- Template Cards -->
-    <section
-      class="flex-1 p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+<div class="bg-[#E9EAEC] w-full">
+  <div class="max-w-[1600px] mx-auto">
+    <div
+      class="w-full flex flex-col items-center space-y-6 justify-center py-16 px-4 sm:px-6 md:px-10 lg:px-20"
     >
-      <app-product-card [template]="filteredTemplates"></app-product-card>
-    </section>
+      <p
+        class="text-sm black text-center bg-[#ECDFFB] py-1 px-2 rounded-3xl text-[#5314A3] font-semibold"
+      >
+        Find your template
+      </p>
+      <h1
+        class="md:text-[52px] text-[36px] font-semibold text-center mt-4 mb-6 leading-snug"
+      >
+        Knowledge Lounge
+      </h1>
+      <p
+        class="text-center font-sans text-[16px] sm:text-[18px] text-[#344054] mb-8"
+      >
+        Jump start your development process with pre-built solutions for your
+        business
+      </p>
+    </div>
+
+    <div
+      class="grid grid-cols-1 gap-6 lg:gap-10 md:grid-cols-12 py-10 px-4 sm:px-6 md:px-10 lg:px-20"
+    >
+      <!-- Sidebar -->
+      <!-- Burger button for mobile -->
+
+      <button
+        (click)="isFilterOpen = !isFilterOpen"
+        class="md:hidden flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+        type="button"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          class="w-4 h-4 mr-2 text-gray-400"
+          viewbox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Filter
+        <svg
+          class="-mr-1 ml-1.5 w-5 h-5"
+          fill="currentColor"
+          viewbox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            clip-rule="evenodd"
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+          />
+        </svg>
+      </button>
+
+      <!-- Sidebar for larger screens -->
+      <aside
+        class="hidden md:block col-span-12 md:col-span-3 p-4 md:sticky md:top-16 h-auto md:h-screen overflow-y-auto border-t md:border-none"
+      >
+        <div class="mb-4">
+          <label class="block mb-3 font-bold text-sm">Filter Template</label>
+          <input
+            type="text"
+            class="w-full p-2 text-sm border border-gray-300 bg-white rounded-xl"
+            [(ngModel)]="searchText"
+            (ngModelChange)="onFilterChange()"
+            placeholder="Search..."
+          />
+        </div>
+
+        <div class="sidebar">
+          <div
+            *ngFor="let section of sections"
+            class="border-b border-[#bdbfc2] py-2"
+          >
+            <div
+              class="flex items-center justify-between cursor-pointer p-2 hover:bg-gray-100"
+              (click)="toggleSection(section)"
+            >
+              <h3 class="font-bold text-gray-700 text-sm md:text-base">
+                {{ section.name }}
+              </h3>
+              <span
+                class="transform transition-transform"
+                [class.rotate-180]="!section.isOpen"
+              >
+                <img
+                  src="/images/arrow-down-sign-to-navigate.png"
+                  class="w-3 h-3"
+                  alt="arrow"
+                />
+              </span>
+            </div>
+
+            <div *ngIf="section.isOpen" class="ml-4">
+              <div *ngFor="let item of filters[section.key]" class="mt-2">
+                <label class="flex items-center">
+                  <input
+                    class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
+                    type="checkbox"
+                    [(ngModel)]="item.checked"
+                    (ngModelChange)="onFilterChange()"
+                  />
+                  <span
+                    class="ml-2 text-[#171717] font-sans text-[13px] md:text-[14px]"
+                  >
+                    {{ item.name }}
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Filter Modal for Mobile -->
+      <div
+        *ngIf="isFilterOpen"
+        class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center"
+      >
+        <div
+          class="bg-white w-[90%] max-h-[90%] rounded-lg p-6 overflow-y-auto"
+        >
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold">Filter Templates</h3>
+            <button
+              class="text-gray-500 hover:text-gray-700"
+              (click)="isFilterOpen = false"
+            >
+              ×
+            </button>
+          </div>
+
+          <div class="mb-4">
+            <label class="block mb-3 font-bold text-sm">Search Templates</label>
+            <input
+              type="text"
+              class="w-full p-2 text-sm border border-gray-300 bg-white rounded-xl"
+              [(ngModel)]="searchText"
+              (ngModelChange)="onFilterChange()"
+              placeholder="Search..."
+            />
+          </div>
+
+          <div class="sidebar">
+            <div
+              *ngFor="let section of sections"
+              class="border-b border-[#bdbfc2] py-2"
+            >
+              <div
+                class="flex items-center justify-between cursor-pointer p-2 hover:bg-gray-100"
+                (click)="toggleSection(section)"
+              >
+                <h3 class="font-bold text-gray-700 text-sm">
+                  {{ section.name }}
+                </h3>
+              </div>
+
+              <div *ngIf="section.isOpen" class="ml-4">
+                <div *ngFor="let item of filters[section.key]" class="mt-2">
+                  <label class="flex items-center">
+                    <input
+                      class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
+                      type="checkbox"
+                      [(ngModel)]="item.checked"
+                      (ngModelChange)="onFilterChange()"
+                    />
+                    <span class="ml-2 text-[#171717] font-sans text-[13px]">
+                      {{ item.name }}
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Close Button -->
+          <button
+            class="mt-6 w-full px-4 py-2 bg-[#7F56D9] text-white rounded-lg font-semibold"
+            (click)="isFilterOpen = false"
+          >
+            Apply Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div
+        class="col-span-12 md:col-span-9 flex flex-col h-screen overflow-auto"
+      >
+        <!-- Selected Filters -->
+        <div *ngIf="selectedFilters.length > 0" class="mb-4 p-2 border-b">
+          <div class="flex flex-wrap gap-2 items-center">
+            <div
+              *ngFor="let filter of selectedFilters"
+              class="flex items-center bg-white rounded-full text-[#0F132499] border border-[#D0D5DD] px-2 py-1 text-sm"
+            >
+              {{ filter.name }}
+              <button
+                class="ml-1 text-gray-500 hover:text-gray-700"
+                (click)="removeFilter(filter)"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filtered Templates -->
+        <section
+          *ngIf="filteredTemplates.length > 0"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
+          <app-product-card
+            *ngFor="let template of filteredTemplates"
+            [template]="template"
+          >
+          </app-product-card>
+        </section>
+
+        <!-- No Products Found -->
+        <div
+          *ngIf="dataLoaded && filteredTemplates.length === 0"
+          class="flex flex-col items-center justify-center min-h-[400px] bg-white rounded-2xl border border-[#EAECF0] text-center py-12 px-4"
+        >
+          <div class="max-w-md mx-auto space-y-6">
+            <img src="/images/no items.svg" class="mx-auto" alt="" />
+
+            <div class="space-y-2">
+              <h3 class="text-2xl font-semibold text-[#111827]">
+                We couldn't find documents <br />
+                matching your search.
+              </h3>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                (click)="clearFilters()"
+                class="px-4 py-2 text-[16px] font-sans bg-[#7F56D9] hover:bg-[#a24af5] text-white rounded-lg font-semibold transition-colors"
+              >
+                Refine your search
+              </button>
+              <button
+                (click)="requestDocument()"
+                class="px-4 py-2 text-[16px] flex items-center gap-2 font-sans border border-[#D0D5DD] text-[#0D1F40] hover:bg-gray-50 rounded-lg font-medium transition-colors"
+              >
+                Request document
+                <i class="pi pi-arrow-right"> </i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

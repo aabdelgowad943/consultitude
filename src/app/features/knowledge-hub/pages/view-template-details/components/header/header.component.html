@@ -1,0 +1,17 @@
+<div
+  class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white h-[400px] py-8 px-5"
+  [style.background-image]="'url(' + template.image + ')'"
+>
+  <div class="absolute inset-0 bg-[#0D1F40]/60 rounded-lg"></div>
+  <div
+    class="flex absolute left-0 z-50 top-5 px-4 justify-between items-center w-full"
+  >
+    <img class="w-20" src="/images/Logo.svg" />
+  </div>
+  <div
+    class="absolute z-10 flex flex-col bottom-10 justify-end items-start h-48"
+  >
+    <h1 class="text-4xl font-bold mb-2 w-[40%]">{{ template.name }}</h1>
+    <p class="text-lg text-gray-300">{{ template.description }}</p>
+  </div>
+</div>

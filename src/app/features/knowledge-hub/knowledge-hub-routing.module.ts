@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { KnowledgeHubComponent } from './knowledge-hub.component';
 import { KnowledgeLoungeComponent } from './pages/knowledge-lounge/knowledge-lounge.component';
-import path from 'path';
+import { ViewTemplateDetailsComponent } from './pages/view-template-details/view-template-details.component';
 
 const routes: Routes = [
   {
@@ -13,6 +13,11 @@ const routes: Routes = [
         path: 'lounge',
         component: KnowledgeLoungeComponent,
       },
+      {
+        path: 'view-template-details',
+        component: ViewTemplateDetailsComponent,
+      },
+
       {
         path: '',
         redirectTo: 'lounge',

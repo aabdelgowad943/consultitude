@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: 'knowledge',
     loadChildren: () =>
-      import(`./features/knowledge-hub/knowledge-hub.module`).then(
+      import('./features/knowledge-hub/knowledge-hub.module').then(
         (m) => m.KnowledgeHubModule
       ),
   },

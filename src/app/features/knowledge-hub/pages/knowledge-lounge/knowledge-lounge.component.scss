@@ -1,0 +1,20 @@
+.rotate-180 {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease-in-out;
+}
+.fixed-aside {
+  position: fixed;
+  top: 100px;
+  z-index: 50;
+  /* Dynamic values will be set by JavaScript */
+  left: 0;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  /* Tailwind's md breakpoint */
+  .fixed-aside {
+    left: auto;
+    width: auto;
+  }
+}
