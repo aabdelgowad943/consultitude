@@ -117,4 +117,48 @@ export class ViewTemplateDetailsComponent {
   downloadTemplate() {
     console.log('Downloading template:', this.template.name);
   }
+
+  relatedArticles = [
+    {
+      image:
+        'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-1.png',
+      title: 'Business Strategy ',
+      description:
+        'How we built our first office space for optimal collaboration',
+      readTime: '2 minutes',
+      views: '1.5k',
+      tags: ['Office', 'Culture', 'Design'],
+      link: '#',
+    },
+    {
+      image:
+        'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-2.png',
+      title: 'Enterprise design ',
+      description: 'Best practices for enterprise UX design systems',
+      readTime: '12 minutes',
+      views: '2.1k',
+      tags: ['Design', 'Enterprise'],
+      link: '#',
+    },
+    {
+      image:
+        'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-3.png',
+      title: 'Google partnership',
+      description: 'Announcing our strategic partnership with Google Cloud',
+      readTime: '8 minutes',
+      views: '890',
+      tags: ['Partnership', 'Cloud'],
+      link: '#',
+    },
+    {
+      image:
+        'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-4.png',
+      title: 'React project',
+      description: 'Lessons learned from our first large React project',
+      readTime: '4 minutes',
+      views: '2.8k',
+      tags: ['React', 'Development'],
+      link: '#',
+    },
+  ];
 }

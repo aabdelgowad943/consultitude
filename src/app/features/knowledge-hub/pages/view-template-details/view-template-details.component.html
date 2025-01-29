@@ -1,6 +1,6 @@
 <div
   *ngIf="template; else noTemplate"
-  class="bg-[#E9EAEC] mx-auto py-[64px] px-4 md:px-10 lg:px-20"
+  class="bg-[#f2f2f3] mx-auto py-[64px] px-4 md:ps-10 lg:ps-20"
 >
   <div class="max-w-[1600px] mx-auto">
     <!-- Header Section -->
@@ -9,7 +9,7 @@
     >
       <!-- Left side -->
       <div class="col-span-12 md:col-span-4 w-full">
-        <div class="bg-[#E9EAEC] border-r px-2">
+        <div class="border-r border-[#e0e2e6] px-2">
           <a
             routerLink="/knowledge"
             class="flex items-center gap-2 text-[#0F132499] text-[14px] font-semibold mb-[32px]"
@@ -154,6 +154,89 @@
       </div>
     </div>
   </div>
+
+  <!-- Related Templates -->
+  <aside aria-label="Related articles" class="py-8 lg:py-[140px] antialiased">
+    <div class="px-4 mx-auto max-w-screen-xl">
+      <div
+        class="full mb-10 flex justify-between items-center flex-col md:flex-row"
+      >
+        <h2 class="text-[44px] font-bold text-[#101828]">Similar Documents</h2>
+        <button
+          type="button"
+          routerLink="/knowledge"
+          class="flex items-center justify-center gap-2 w-[132px] flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-200"
+        >
+          View all <i class="pi pi-arrow-right"></i>
+        </button>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          *ngFor="let article of relatedArticles | slice : 0 : 3"
+          class="relative border border-[#d1d0d0] rounded-xl shadow-md bg-white hover:shadow-lg transition-shadow"
+        >
+          <!-- Image Section -->
+          <div class="relative rounded-2xl">
+            <img
+              [src]="
+                article.image ||
+                'https://via.placeholder.com/300x150.png?text=No+Image'
+              "
+              [alt]="article.title"
+              class="w-full h-48 object-cover rounded-t-2xl"
+            />
+            <div
+              class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-70 text-white rounded-t-2xl"
+            >
+              <h3 class="text-2xl mb-2 w-[50%] font-semibold">
+                {{ article.title }}
+              </h3>
+              <p class="text-xs opacity-70 w-[60%] font-sans">
+                {{ article.description }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="p-4">
+            <!-- Meta Info -->
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[#101828] text-[24px] font-semibold">
+                {{ article.title }}
+              </span>
+              <h1 class="text-[#171717] flex text-[32px] gap-1 items-center">
+                12$
+              </h1>
+            </div>
+
+            <div class="flex justify-between items-center w-full mb-4">
+              <div class="flex gap-1 items-center w-full">
+                <h1
+                  *ngFor="let tag of template.tags"
+                  class="bg-[#E9EAEC] text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+                >
+                  {{ tag }}
+                </h1>
+              </div>
+              <!-- Downloads -->
+              <div class="text-[#667085] flex text-sm gap-1 items-center">
+                {{ template.downloads || "432" }} <span> Downloads </span>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <button
+              class="w-full flex text-[14px] items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-white font-medium rounded-xl border border-[#6E2FA5] transition-colors"
+            >
+              <!-- (click)="viewTemplateDetails()" -->
+              <i class="pi pi-eye"></i>
+              View
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
 </div>
 <ng-template #noTemplate>
   <div class="text-center p-12 text-gray-600">

@@ -8,12 +8,7 @@ import { OverlayImageForBackgroundComponent } from './shared/overlay-image-for-b
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    NavbarComponent,
-    // OverlayImageForBackgroundComponent,
-    // FooterComponent,
-  ],
+  imports: [RouterOutlet, NavbarComponent, OverlayImageForBackgroundComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

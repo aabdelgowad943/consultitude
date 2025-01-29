@@ -1,4 +1,4 @@
-<div class="bg-[#E9EAEC] w-full">
+<div class="bg-[#f2f2f3] w-full">
   <div class="max-w-[1600px] mx-auto">
     <div
       class="w-full flex flex-col items-center space-y-6 justify-center py-16 px-4 sm:px-6 md:px-10 lg:px-20"
@@ -21,6 +21,29 @@
       </p>
     </div>
 
+    <!-- <div class="w-full flex justify-center">
+      <button
+        id="filterDropdownButton"
+        data-dropdown-toggle="filterDropdown"
+        type="button"
+        class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          class="w-4 h-4 mr-2 text-gray-400"
+          viewbox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+          />
+        </svg>
+        Sort
+      </button>
+    </div> -->
     <div
       class="grid grid-cols-1 gap-6 lg:gap-10 md:grid-cols-12 py-10 px-4 sm:px-6 md:px-10 lg:px-20"
     >
@@ -67,13 +90,38 @@
       >
         <div class="mb-4">
           <label class="block mb-3 font-bold text-sm">Filter Template</label>
-          <input
-            type="text"
-            class="w-full p-2 text-sm border border-gray-300 bg-white rounded-xl"
-            [(ngModel)]="searchText"
-            (ngModelChange)="onFilterChange()"
-            placeholder="Search..."
-          />
+
+          <div class="flex items-center">
+            <label for="simple-search" class="sr-only">Search</label>
+            <div class="relative w-full">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                  fill="currentColor"
+                  viewbox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <input
+                type="text"
+                [(ngModel)]="searchText"
+                (ngModelChange)="onFilterChange()"
+                id="simple-search"
+                class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Search"
+                required=""
+              />
+            </div>
+          </div>
         </div>
 
         <div class="sidebar">
@@ -216,7 +264,7 @@
         <!-- Filtered Templates -->
         <section
           *ngIf="filteredTemplates.length > 0"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          class="grid grid-cols-1 sm:grid-cols-2 gap-4"
         >
           <app-product-card
             *ngFor="let template of filteredTemplates"

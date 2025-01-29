@@ -1,41 +1,29 @@
 <!-- animation to left -->
 <div class="overflow-hidden relative">
   <div class="flex animate-scroll">
-    <div *ngFor="let card of toLeftCard" class="card">
-      <img
-        [src]="card.image"
-        alt="Card {{ card.id }}"
-        class="full-size-image"
-      />
-    </div>
-    <!-- Repeat the cards -->
-    <div *ngFor="let card of toLeftCard" class="card">
-      <img
-        [src]="card.image"
-        alt="Card {{ card.id }}"
-        class="full-size-image"
-      />
-    </div>
+    <ng-container *ngFor="let i of [0, 1]">
+      <div *ngFor="let card of toLeftCard" class="card">
+        <img
+          [src]="card.image"
+          alt="Card {{ card.id }}"
+          class="full-size-image"
+        />
+      </div>
+    </ng-container>
   </div>
 </div>
 
 <!-- animation to right -->
 <div class="overflow-hidden relative mt-10">
   <div class="flex animate-scroll2">
-    <div *ngFor="let card of toRightCard" class="card">
-      <img
-        [src]="card.image"
-        alt="Card {{ card.id }}"
-        class="full-size-image"
-      />
-    </div>
-    <!-- Repeat the cards -->
-    <div *ngFor="let card of toRightCard" class="card">
-      <img
-        [src]="card.image"
-        alt="Card {{ card.id }}"
-        class="full-size-image"
-      />
-    </div>
+    <ng-container *ngFor="let i of [0, 1]">
+      <div *ngFor="let card of toRightCard" class="card">
+        <img
+          [src]="card.image"
+          alt="Card {{ card.id }}"
+          class="full-size-image"
+        />
+      </div>
+    </ng-container>
   </div>
 </div>
