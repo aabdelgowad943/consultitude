@@ -7,6 +7,7 @@ export interface ProductItem {
   originalPrice?: number;
   discountedPrice: number;
   isFree?: boolean;
+  id: string; // Add ID property
 }
 
 export interface Product {
@@ -37,8 +38,9 @@ export class ProductCardComponent {
   }
 
   viewTemplateDetails() {
-    this.router.navigate(['/knowledge/view-template-details'], {
-      state: { template: this.template },
-    });
+    this.router.navigate([
+      '/knowledge/view-template-details',
+      this.template.id,
+    ]);
   }
 }

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-view-template-details',
@@ -46,12 +47,12 @@ export class ViewTemplateDetailsComponent {
     {
       label: 'Buy Now $129',
       classes:
-        'bg-[#9241DC] hover:bg-[#a24af5] w-full md:w-[220px] justify-center px-2 text-center text-white py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2',
+        'bg-[#9241DC] hover:bg-[#a24af5] w-full md:w-[220px] justify-center px-2 text-center text-white py-3 rounded-lg font-semibold transition-all flex items-center gap-2',
     },
     {
       label: 'Download Sample',
       classes:
-        'bg-white border text-black w-full md:w-[220px] justify-center py-3 px-2 text-center rounded-lg font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2',
+        'bg-white border text-black w-full md:w-[220px] justify-center py-3 px-2 text-center rounded-lg font-semibold transition-all  flex items-center gap-2',
     },
   ];
 
@@ -97,21 +98,54 @@ export class ViewTemplateDetailsComponent {
     },
   ];
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private http: HttpClient
+  ) {
     const navigation = this.router.getCurrentNavigation();
     this.template = navigation?.extras.state?.['template'];
-    this.initializeTemplateImages();
+    if (!this.template) {
+      const templateId = this.route.snapshot.paramMap.get('id');
+      this.fetchTemplateById(templateId);
+    } else {
+      this.initializeTemplateImages();
+    }
+  }
+
+  private fetchTemplateById(id: string | null) {
+    console.log('Fetching template by ID:', id);
+    this.http.get('/data/product.json').subscribe((data: any) => {
+      const products = data.products[0].items;
+      this.template = products.find((item: any) => item.id === id);
+      this.initializeTemplateImages();
+    });
   }
 
   private initializeTemplateImages() {
-    this.template.images = [
-      '/images/animation-card1.svg',
-      '/images/animation-card2.svg',
-      '/images/animation-card3.svg',
-      '/images/animation-card4.svg',
-      '/images/animation-card4.svg',
-      '/images/animation-card4.svg',
-    ];
+    if (this.template) {
+      this.template.images = [
+        '/images/animation-card1.svg',
+        '/images/animation-card2.svg',
+        '/images/animation-card3.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+        '/images/animation-card4.svg',
+      ];
+    }
   }
 
   downloadTemplate() {

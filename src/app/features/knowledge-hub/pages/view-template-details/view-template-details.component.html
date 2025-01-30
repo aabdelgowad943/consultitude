@@ -56,7 +56,7 @@
             </div>
 
             <!-- Pricing & Details -->
-            <div class="border-t rounded-xl">
+            <div class="border-t">
               <div class="pt-8">
                 <div
                   *ngFor="let detail of details"
@@ -102,8 +102,8 @@
         <div class="mt-6">
           <p-carousel
             [value]="template.images"
-            [numVisible]="2"
-            [numScroll]="1"
+            [numVisible]="5"
+            [numScroll]="5"
             [circular]="true"
             [autoplayInterval]="3000"
             [responsiveOptions]="responsiveOptions"
@@ -117,7 +117,7 @@
                 class="border my-2 rounded-md overflow-hidden mx-1 h-[97px] border-[#0000001A]/10"
               >
                 <img
-                  [src]="image"
+                  [src]="image!"
                   alt="Template preview"
                   class="w-full h-full object-cover"
                 />
@@ -159,9 +159,16 @@
   <aside aria-label="Related articles" class="py-8 lg:py-[140px] antialiased">
     <div class="px-4 mx-auto max-w-screen-xl">
       <div
-        class="full mb-10 flex justify-between items-center flex-col md:flex-row"
+        class="full mb-10 flex justify-between items-end flex-col md:flex-row"
       >
-        <h2 class="text-[44px] font-bold text-[#101828]">Similar Documents</h2>
+        <div class="flex flex-col">
+          <p class="text-[16px] font-sans text-[#344054] mb-4">
+            Done by Expert Consultants
+          </p>
+          <h2 class="text-[44px] font-bold text-[#101828]">
+            Similar Documents
+          </h2>
+        </div>
         <button
           type="button"
           routerLink="/knowledge"
@@ -171,6 +178,7 @@
         </button>
       </div>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- i want this section to be at the end ot the right -->
         <div
           *ngFor="let article of relatedArticles | slice : 0 : 3"
           class="relative border border-[#d1d0d0] rounded-xl shadow-md bg-white hover:shadow-lg transition-shadow"
@@ -179,7 +187,7 @@
           <div class="relative rounded-2xl">
             <img
               [src]="
-                article.image ||
+                article.image! ||
                 'https://via.placeholder.com/300x150.png?text=No+Image'
               "
               [alt]="article.title"
@@ -227,8 +235,8 @@
             <!-- Action Button -->
             <button
               class="w-full flex text-[14px] items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-white font-medium rounded-xl border border-[#6E2FA5] transition-colors"
+              [routerLink]="['/knowledge/view-template-details', template.id]"
             >
-              <!-- (click)="viewTemplateDetails()" -->
               <i class="pi pi-eye"></i>
               View
             </button>

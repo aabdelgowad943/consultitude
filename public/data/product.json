@@ -4,6 +4,7 @@
       "title": "Business & Consulting Toolkit",
       "items": [
         {
+          "id": "1",
           "name": "Business & Consulting Toolkit",
           "originalPrice": 35,
           "discountedPrice": 0,
@@ -22,6 +23,7 @@
           "image": "https://images.pexels.com/photos/159768/journal-desk-wood-notebook-159768.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "2",
           "name": "Consulting proposal template",
           "originalPrice": 135,
           "discountedPrice": 135,
@@ -39,6 +41,7 @@
           "image": "https://images.pexels.com/photos/159768/journal-desk-wood-notebook-159768.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "3",
           "name": "Marketing Strategy Plan",
           "originalPrice": 50,
           "discountedPrice": 25,
@@ -56,6 +59,7 @@
           "image": "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "4",
           "name": "Financial Analysis Report",
           "originalPrice": 75,
           "discountedPrice": 50,
@@ -73,6 +77,7 @@
           "image": "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "5",
           "name": "Project Management Guide",
           "originalPrice": 100,
           "discountedPrice": 80,
@@ -90,6 +95,7 @@
           "image": "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "6",
           "name": "HR Policy Handbook",
           "originalPrice": 60,
           "discountedPrice": 45,
@@ -107,6 +113,7 @@
           "image": "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "7",
           "name": "Sales Pitch Deck",
           "originalPrice": 40,
           "discountedPrice": 20,
@@ -124,6 +131,7 @@
           "image": "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "8",
           "name": "Customer Service Training",
           "originalPrice": 55,
           "discountedPrice": 40,
@@ -141,6 +149,7 @@
           "image": "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "9",
           "name": "IT Security Policy",
           "originalPrice": 70,
           "discountedPrice": 55,
@@ -158,6 +167,7 @@
           "image": "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "10",
           "name": "Market Research Report",
           "originalPrice": 85,
           "discountedPrice": 65,
@@ -175,6 +185,7 @@
           "image": "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         },
         {
+          "id": "11",
           "name": "Digital Marketing Strategy",
           "originalPrice": 95,
           "discountedPrice": 75,

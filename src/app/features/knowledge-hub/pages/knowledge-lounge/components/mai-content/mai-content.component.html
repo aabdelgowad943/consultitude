@@ -1,0 +1,71 @@
+<div class="flex flex-col h-screen overflow-auto">
+  <div
+    class="sticky top-0 bg-[#f2f2f3] z-50 px-4 py-2 flex justify-between items-center"
+  >
+    <!-- Desktop: Selected Filters -->
+    <div class="hidden sm:flex flex-wrap gap-2">
+      <div
+        *ngFor="let filter of selectedFilters"
+        class="flex items-center bg-white rounded-full text-[#0F132499] border border-[#D0D5DD] px-2 py-1 text-sm"
+      >
+        {{ filter.name }}
+        <button
+          class="ml-1 text-gray-500 hover:text-gray-700"
+          (click)="removeFilter.emit(filter)"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+
+    <!-- Sort Button  -->
+    <button
+      (click)="toggleSort()"
+      class="flex items-center px-4 py-2 text-gray-700 border border-gray-300 rounded-xl shadow-sm hover:bg-gray-100 transition"
+    >
+      <i class="pi pi-sort-alt"></i>
+      <span class="mx-2">Sort by</span>
+      <i class="pi pi-chevron-down"></i>
+    </button>
+  </div>
+
+  <!-- Templates Grid -->
+  <section
+    *ngIf="filteredTemplates.length > 0"
+    class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 px-4"
+  >
+    <app-product-card
+      *ngFor="let template of filteredTemplates"
+      [template]="template"
+    ></app-product-card>
+  </section>
+
+  <!-- No Results Section -->
+  <div
+    *ngIf="dataLoaded && filteredTemplates.length === 0"
+    class="flex flex-col items-center justify-center min-h-[400px] bg-white rounded-2xl border border-[#EAECF0] text-center py-12 px-4"
+  >
+    <div class="max-w-md mx-auto space-y-6">
+      <img src="/images/no items.svg" class="mx-auto" alt="" />
+      <div class="space-y-2">
+        <h3 class="text-2xl font-semibold text-[#111827]">
+          We couldn't find documents <br />matching your search.
+        </h3>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button
+          (click)="clearFilters.emit()"
+          class="px-4 py-2 text-[16px] font-sans bg-[#7F56D9] hover:bg-[#a24af5] text-white rounded-lg font-semibold transition-colors"
+        >
+          Refine your search
+        </button>
+        <button
+          (click)="requestDocument.emit()"
+          class="px-4 py-2 text-[16px] flex items-center gap-2 font-sans border border-[#D0D5DD] text-[#0D1F40] hover:bg-gray-50 rounded-lg font-medium transition-colors"
+        >
+          Request document <i class="pi pi-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

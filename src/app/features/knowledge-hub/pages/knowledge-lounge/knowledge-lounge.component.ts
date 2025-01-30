@@ -1,40 +1,43 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { ProductListComponent } from '../../components/product-list/product-list.component';
-import { ProductCardComponent } from '../../components/product-card/product-card.component';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from '../../services/product-service.service';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from '../../../../shared/footer/footer.component';
+import { FormsModule } from '@angular/forms';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { MaiContentComponent } from './components/mai-content/mai-content.component';
+import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-lounge-secion.component';
 
 @Component({
   selector: 'app-knowledge-lounge',
-  imports: [ProductCardComponent, FormsModule, CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SidebarComponent,
+    MaiContentComponent,
+    HeroLoungeSecionComponent,
+  ],
   templateUrl: './knowledge-lounge.component.html',
-  styleUrl: './knowledge-lounge.component.scss',
+  styleUrls: ['./knowledge-lounge.component.scss'],
 })
 export class KnowledgeLoungeComponent implements OnInit {
   isFilterOpen: boolean = false;
+  isSidebarOpen: boolean = false;
   templates: any[] = [];
   filteredTemplates: any[] = [];
   searchText: string = '';
-  dataLoaded: boolean = false; // Add this flag
+  dataLoaded: boolean = false;
 
   constructor(private templateService: ProductServiceService) {}
+  onSearchChange(searchText: string) {
+    this.searchText = searchText;
+    this.filterTemplates();
+  }
 
   filterTemplates(): void {
     this.filteredTemplates = this.templates.filter((item) => {
-      // Search filter
       const matchesSearch = item.name
         .toLowerCase()
         .includes(this.searchText.toLowerCase());
 
-      // Filter mappings
       const filterMappings = {
         domains: 'domain',
         areasOfFocus: 'areaOfFocus',
@@ -44,7 +47,6 @@ export class KnowledgeLoungeComponent implements OnInit {
         formats: 'format',
       };
 
-      // Check all active filters
       let matchesFilters = true;
       for (const [filterKey, itemKey] of Object.entries(filterMappings)) {
         const activeFilters = this.filters[filterKey].filter(
@@ -62,14 +64,12 @@ export class KnowledgeLoungeComponent implements OnInit {
     });
   }
 
-  // Update both the search and filters when anything changes
   onFilterChange() {
     this.filterTemplates();
   }
 
   ngOnInit(): void {
     this.templateService.getTemplates().subscribe((data: any) => {
-      // Flatten the products into individual items
       this.templates = data.products.flatMap(
         (product: { items: any }) => product.items
       );
@@ -184,6 +184,7 @@ export class KnowledgeLoungeComponent implements OnInit {
 
   removeFilter(filter: any) {
     filter.item.checked = false;
+    this.onFilterChange();
   }
 
   clearAllFilters() {
@@ -193,8 +194,27 @@ export class KnowledgeLoungeComponent implements OnInit {
         (item: { checked: boolean }) => (item.checked = false)
       );
     }
+    this.onFilterChange();
   }
 
   requestDocument() {}
-  clearFilters() {}
+  clearFilters() {
+    this.clearAllFilters();
+  }
+
+  openFilterModal() {
+    this.isFilterOpen = true;
+  }
+
+  closeFilterModal() {
+    this.isFilterOpen = false;
+  }
+
+  openSidebar() {
+    this.isSidebarOpen = true;
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen = false;
+  }
 }

@@ -1,18 +1,16 @@
-<div
-  class="relative border border-[#d1d0d0] rounded-2xl shadow-md bg-white hover:shadow-lg transition-shadow"
->
+<div class="relative border border-[#d1d0d0] rounded-2xl bg-white">
   <!-- Image Section -->
-  <div class="relative rounded-2xl">
+  <div class="relative rounded-2xl 2xl:h-[204px]">
     <img
       [src]="
         template.image ||
         'https://via.placeholder.com/300x150.png?text=No+Image'
       "
       alt="{{ template.name }}"
-      class="w-full h-48 object-cover rounded-t-2xl"
+      class="w-full h-full object-cover rounded-t-2xl"
     />
     <div
-      class="flex absolute z-10 top-5 px-4 justify-between items-center w-full"
+      class="flex absolute z-10 top-4 px-4 justify-between items-start w-full"
     >
       <img class="w-20" src="/images/Logo.svg" />
       <h1
@@ -26,18 +24,18 @@
     <div
       class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-70 text-white rounded-t-2xl"
     >
-      <h3 class="text-2xl mb-2 w-[90%] font-semibold">{{ template.name }}</h3>
-      <p class="text-xs">
+      <h3 class="text-xl mb-1 w-[50%] font-semibold">{{ template.name }}</h3>
+      <p class="text-sm font-sans">
         {{
           template.description ||
-            "PowerPoint Template With Library Of Best-Practice Slide Layouts, Graph Examples, Frameworks And More"
+            "PowerPoinsst Template With Library Of Best-Practice Slide Layouts, Graph Examples, Frameworks And More"
         }}
       </p>
     </div>
   </div>
 
   <!-- Card Body -->
-  <div class="p-4">
+  <div class="p-4 2xl:h-[161px]">
     <!-- Price -->
     <div class="flex items-center justify-between mb-4">
       <!-- Title -->
@@ -67,7 +65,7 @@
 
     <!-- View Button -->
     <button
-      class="w-full flex text-[14px] items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-white font-medium rounded-xl border border-[#6E2FA5] transition-colors"
+      class="w-full flex text-[14px] font-sans items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-white font-medium rounded-xl border border-[#6E2FA5] transition-colors"
       (click)="viewTemplateDetails()"
     >
       <i class="pi pi-eye"></i>

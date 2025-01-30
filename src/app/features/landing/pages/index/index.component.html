@@ -3,22 +3,24 @@
   <app-hero-section></app-hero-section>
 </div>
 
-<div class="relative bg-[#0C111D] overflow-hidden">
-  <div
-    class="w-full h-full md:block hidden bg-[#0C111D] absolute left-[180px] blur-3xl opacity-100 z-0"
-    style="background-image: url('/images/Hero Gradient.png')"
-  ></div>
-  <div
-    class="w-full h-full block md:hidden bg-[#0C111D] absolute left-0 -bottom-32 blur-3xl opacity-90 z-0"
-    style="background-image: url('/images/mobile gradient.svg')"
-  ></div>
-  <div class="max-w-[1600px] mx-auto relative">
-    <app-animation-cards></app-animation-cards>
-  </div>
+<div class="bg-[#0C111D]">
+  <div class="relative max-w-[1600px] overflow-hidden mx-auto">
+    <div
+      class="w-full h-full md:block hidden bg-[#0C111D] absolute left-[180px] blur-3xl opacity-100 z-0"
+      style="background-image: url('/images/Hero Gradient.png')"
+    ></div>
+    <div
+      class="w-full h-full block md:hidden bg-[#0C111D] absolute left-0 -bottom-32 blur-3xl opacity-90 z-0"
+      style="background-image: url('/images/mobile gradient.svg')"
+    ></div>
+    <div class="max-w-[1600px] mx-auto relative">
+      <app-animation-cards></app-animation-cards>
+    </div>
 
-  <!-- partners -->
-  <div class="max-w-[1600px] mx-auto relative">
-    <app-partners></app-partners>
+    <!-- partners -->
+    <div class="max-w-[1600px] mx-auto relative">
+      <app-partners></app-partners>
+    </div>
   </div>
 </div>
 

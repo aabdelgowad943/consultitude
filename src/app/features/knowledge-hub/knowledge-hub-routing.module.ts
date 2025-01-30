@@ -14,7 +14,7 @@ const routes: Routes = [
         component: KnowledgeLoungeComponent,
       },
       {
-        path: 'view-template-details',
+        path: 'view-template-details/:id',
         component: ViewTemplateDetailsComponent,
       },
 

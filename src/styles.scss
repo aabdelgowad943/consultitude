@@ -23,6 +23,24 @@
   font-display: swap;
 }
 
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c2c2;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aeaeae;
+}
+
 body {
   font-family: "Neue Montreal", sans-serif;
 }
