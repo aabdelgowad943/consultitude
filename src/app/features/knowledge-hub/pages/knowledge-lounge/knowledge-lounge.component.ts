@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MaiContentComponent } from './components/mai-content/mai-content.component';
 import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-lounge-secion.component';
+import { Product, ProductStatus } from '../../models/products';
 
 @Component({
   selector: 'app-knowledge-lounge',
@@ -27,101 +28,146 @@ export class KnowledgeLoungeComponent implements OnInit {
   dataLoaded: boolean = false;
 
   constructor(private templateService: ProductServiceService) {}
+  ngOnInit(): void {
+    this.loadProducts();
+  }
   onSearchChange(searchText: string) {
     this.searchText = searchText;
     this.filterTemplates();
-  }
-
-  filterTemplates(): void {
-    this.filteredTemplates = this.templates.filter((item) => {
-      const matchesSearch = item.name
-        .toLowerCase()
-        .includes(this.searchText.toLowerCase());
-
-      const filterMappings = {
-        domains: 'domain',
-        areasOfFocus: 'areaOfFocus',
-        languages: 'language',
-        documentTypes: 'documentType',
-        prices: 'price',
-        formats: 'format',
-      };
-
-      let matchesFilters = true;
-      for (const [filterKey, itemKey] of Object.entries(filterMappings)) {
-        const activeFilters = this.filters[filterKey].filter(
-          (f: any) => f.checked
-        );
-        if (activeFilters.length > 0) {
-          matchesFilters = activeFilters.some(
-            (f: any) => f.name === item[itemKey]
-          );
-          if (!matchesFilters) break;
-        }
-      }
-
-      return matchesSearch && matchesFilters;
-    });
   }
 
   onFilterChange() {
     this.filterTemplates();
   }
 
-  ngOnInit(): void {
-    this.templateService.getTemplates().subscribe((data: any) => {
-      this.templates = data.products.flatMap(
-        (product: { items: any }) => product.items
-      );
-      this.filteredTemplates = [...this.templates];
-      this.dataLoaded = true;
+  private loadProducts() {
+    this.templateService
+      .getAllProducts(1, 10, [ProductStatus.ACTIVE], 'EN')
+      .subscribe({
+        next: (products: Product[]) => {
+          this.templates = products;
+          this.filteredTemplates = [...this.templates];
+          this.initializeFilters();
+          this.dataLoaded = true;
+        },
+        error: (err) => {
+          console.error('Error fetching products:', err);
+          this.dataLoaded = true;
+        },
+      });
+  }
+
+  private initializeFilters() {
+    // Initialize filters based on API response data
+    this.filters = {
+      domains: this.getUniqueValues('domains', 'name'),
+      areasOfFocus: this.getUniqueValues('areaOfFocus', 'name'),
+      languages: this.getUniqueDocumentValues('language'),
+      documentTypes: this.getUniqueDocumentValues('documentFormat'),
+      prices: [
+        { name: 'Free', checked: false, value: 0 },
+        { name: 'Paid', checked: false, value: 1 },
+      ],
+      formats: this.getUniqueValues('features', 'name'),
+    };
+  }
+
+  private getUniqueValues(arrayName: string, property: string): any[] {
+    const uniqueItems = new Set<string>();
+    this.templates.forEach((product) => {
+      product[arrayName]?.forEach((item: any) => {
+        uniqueItems.add(item[property]);
+      });
     });
+    return Array.from(uniqueItems).map((name) => ({ name, checked: false }));
+  }
+
+  private getUniqueDocumentValues(property: string): any[] {
+    const uniqueItems = new Set<string>();
+    this.templates.forEach((product) => {
+      product.documents?.forEach((doc: any) => {
+        uniqueItems.add(doc[property]);
+      });
+    });
+    return Array.from(uniqueItems).map((name) => ({ name, checked: false }));
+  }
+
+  filterTemplates(): void {
+    this.filteredTemplates = this.templates.filter((product) => {
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(this.searchText.toLowerCase());
+
+      const filterConditions = {
+        domains: (product: Product) =>
+          this.checkArrayFilter(product.domains, 'name', 'domains'),
+        areasOfFocus: (product: Product) =>
+          this.checkArrayFilter(product.areaOfFocus, 'name', 'areasOfFocus'),
+        languages: (product: Product) =>
+          this.checkDocumentFilter(product.documents, 'language', 'languages'),
+        documentTypes: (product: Product) =>
+          this.checkDocumentFilter(
+            product.documents,
+            'documentFormat',
+            'documentTypes'
+          ),
+        prices: (product: Product) => this.checkPriceFilter(product.price),
+        formats: (product: Product) =>
+          this.checkArrayFilter(product.features, 'name', 'formats'),
+      };
+
+      const matchesFilters = Object.values(filterConditions).every(
+        (condition) => condition(product)
+      );
+
+      return matchesSearch && matchesFilters;
+    });
+  }
+
+  private checkArrayFilter(
+    items: any[],
+    itemProperty: string,
+    filterKey: string
+  ): boolean {
+    const activeFilters = this.filters[filterKey].filter((f: any) => f.checked);
+    if (activeFilters.length === 0) return true;
+
+    return items.some((item) =>
+      activeFilters.some(
+        (filter: { name: any }) => filter.name === item[itemProperty]
+      )
+    );
+  }
+
+  private checkDocumentFilter(
+    documents: any[],
+    docProperty: string,
+    filterKey: string
+  ): boolean {
+    const activeFilters = this.filters[filterKey].filter((f: any) => f.checked);
+    if (activeFilters.length === 0) return true;
+
+    return documents.some((doc) =>
+      activeFilters.some(
+        (filter: { name: any }) => filter.name === doc[docProperty]
+      )
+    );
+  }
+
+  private checkPriceFilter(price: number): boolean {
+    const activeFilters = this.filters.prices.filter((f: any) => f.checked);
+    if (activeFilters.length === 0) return true;
+
+    return activeFilters.some((filter: { name: string }) =>
+      filter.name === 'Free' ? price === 0 : price > 0
+    );
   }
 
   ngOnChanges(): void {
     this.filterTemplates();
   }
 
-  filters: any = {
-    domains: [
-      {
-        name: 'Strategy',
-        checked: false,
-      },
-      {
-        name: 'Delivery',
-        checked: false,
-      },
-      {
-        name: 'Digital',
-        checked: false,
-      },
-    ],
-    areasOfFocus: [
-      { name: 'Technology', checked: false },
-      { name: 'Healthcare', checked: false },
-      { name: 'Finance', checked: false },
-    ],
-    languages: [
-      { name: 'English', checked: false },
-      { name: 'Spanish', checked: false },
-      { name: 'Mandarin', checked: false },
-    ],
-    documentTypes: [
-      { name: 'PDF', checked: false },
-      { name: 'Word', checked: false },
-      { name: 'Excel', checked: false },
-    ],
-    prices: [
-      { name: 'Free', checked: false },
-      { name: 'Paid', checked: false },
-    ],
-    formats: [
-      { name: 'Template', checked: false },
-      { name: 'Guide', checked: false },
-      { name: 'Case Study', checked: false },
-    ],
-  };
+  filters: any = {};
 
   sections = [
     {

@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 export interface ProductItem {
@@ -20,22 +26,11 @@ export interface Product {
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnChanges {
   @Input() template: any;
 
   constructor(private router: Router) {}
-
-  get documentType() {
-    return this.template.documentType || 'PDF';
-  }
-
-  get language() {
-    return this.template.language || 'English';
-  }
-
-  get format() {
-    return this.template.format || 'Template';
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   viewTemplateDetails() {
     this.router.navigate([

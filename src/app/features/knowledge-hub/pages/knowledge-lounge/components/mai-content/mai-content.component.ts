@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ProductCardComponent } from '../../../../components/product-card/product-card.component';
 import { FormsModule } from '@angular/forms';
+import { ProductServiceService } from '../../../../services/product-service.service';
+import {
+  LanguageCode,
+  Product,
+  ProductStatus,
+} from '../../../../models/products';
 
 @Component({
   standalone: true,
@@ -10,7 +16,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './mai-content.component.html',
   styleUrl: './mai-content.component.scss',
 })
-export class MaiContentComponent {
+export class MaiContentComponent implements OnInit {
   @Input() filteredTemplates!: any[];
   @Input() dataLoaded!: boolean;
   @Input() selectedFilters!: any[];
@@ -37,6 +43,24 @@ export class MaiContentComponent {
       { name: '$10 - $50', checked: false },
     ],
   };
+
+  constructor(private productService: ProductServiceService) {}
+  ngOnInit(): void {
+    this.getAllProducts();
+  }
+
+  getAllProducts() {
+    this.productService
+      .getAllProducts(1, 10, [ProductStatus.ACTIVE], 'EN')
+      .subscribe({
+        next: (res: Product[]) => {
+          console.log('Products:', res);
+        },
+        error: (err) => {
+          console.error('Error fetching products:', err);
+        },
+      });
+  }
 
   toggleSort() {
     this.sortBy = this.sortBy === 'asc' ? 'desc' : 'asc';

@@ -3,8 +3,8 @@
   <div class="relative rounded-2xl 2xl:h-[204px]">
     <img
       [src]="
-        template.image ||
-        'https://via.placeholder.com/300x150.png?text=No+Image'
+        template.images[0].url ||
+        'https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=600'
       "
       alt="{{ template.name }}"
       class="w-full h-full object-cover rounded-t-2xl"
@@ -26,10 +26,7 @@
     >
       <h3 class="text-xl mb-1 w-[50%] font-semibold">{{ template.name }}</h3>
       <p class="text-sm font-sans">
-        {{
-          template.description ||
-            "PowerPoinsst Template With Library Of Best-Practice Slide Layouts, Graph Examples, Frameworks And More"
-        }}
+        {{ template.description }}
       </p>
     </div>
   </div>
@@ -39,12 +36,14 @@
     <!-- Price -->
     <div class="flex items-center justify-between mb-4">
       <!-- Title -->
-      <h3 class="text-[#171717] text-[24px] font-semibold">
+      <h3 class="text-[#171717] flex flex-col text-[24px] font-semibold">
         {{ template.name }}
+        <!-- <span class="text-sm">{{ template.description }}</span> -->
       </h3>
       <span class="text-[#101828] text-2xl font-bold">
-        {{ template.isFree ? "Free" : "$" + template.discountedPrice }}
+        {{ template.price }}$
       </span>
+      <!-- {{ template.price ? "Free" : "$" + template.discountedPrice }} -->
     </div>
 
     <!-- Tags -->
@@ -54,12 +53,12 @@
           *ngFor="let tag of template.tags"
           class="bg-[#E9EAEC] text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
         >
-          {{ tag }}
+          tags {{ tag }}
         </h1>
       </div>
       <!-- Downloads -->
       <div class="text-[#667085] flex text-sm gap-1 items-center">
-        {{ template.downloads || "432" }} <span> Downloads </span>
+        {{ template.downloads }} <span> Downloads </span>
       </div>
     </div>
 

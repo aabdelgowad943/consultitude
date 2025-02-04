@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
 import { HttpClient } from '@angular/common/http';
+import { ProductServiceService } from '../../services/product-service.service';
 
 @Component({
   selector: 'app-view-template-details',
@@ -12,6 +13,18 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ViewTemplateDetailsComponent {
   template: any;
+
+  defaultImageUrl = 'https://via.placeholder.com/300x150.png?text=No+Image';
+
+  relatedArticles: {
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    price: number;
+    downloads: number;
+  }[] = [];
+
   logoUrl = '/images/Logo.svg';
   backButtonText = 'Back to Knowledge Lounge';
   overviewTitle = 'Document Overview';
@@ -33,166 +46,150 @@ export class ViewTemplateDetailsComponent {
     { breakpoint: '575px', numVisible: 2, numScroll: 2 },
   ];
 
-  // Content Data
-  features = [
-    '200 PowerPoint slides',
-    'Proven frameworks from ex-McKinsey/BCC consultants',
-    'End-to-end strategy presentation templates',
-    'Best practice library of slides',
-    'Pick-and-choose modular system',
-    'Fully editable and customizable',
-  ];
+  details = [{ label: '', property: '' }];
 
-  buttons = [
-    {
-      label: 'Buy Now $129',
-      classes:
-        'bg-[#9241DC] hover:bg-[#a24af5] w-full md:w-[220px] justify-center px-2 text-center text-white py-3 rounded-lg font-semibold transition-all flex items-center gap-2',
-    },
-    {
-      label: 'Download Sample',
-      classes:
-        'bg-white border text-black w-full md:w-[220px] justify-center py-3 px-2 text-center rounded-lg font-semibold transition-all  flex items-center gap-2',
-    },
-  ];
-
-  details = [
-    { label: 'Format', property: 'format' },
-    { label: 'Use Case', property: 'documentType' },
-    { label: 'Document Focus', property: 'downloads' },
-    { label: 'Pages', property: 'downloads' },
-  ];
-
-  tags = [
-    {
-      title: 'Related Domains',
-      tags: ['Strategy', 'Delivery', 'Digital'],
-    },
-    {
-      title: 'Relevant Locations',
-      tags: ['KSA', 'GCC'],
-    },
-    {
-      title: 'Area of focus',
-      tags: ['Cultural Transformation', 'GCC'],
-    },
-    {
-      title: 'Document Tags',
-      tags: [
-        'Clean',
-        'Creative',
-        'Pitchdeck',
-        'Company',
-        'Modern',
-        'Portfolio',
-        'Agency',
-        'Startup',
-        'Infographic',
-        'Business',
-        'Corporate',
-        'Professional',
-        'Proposal',
-        'Teamwork',
-        'Office',
-      ],
-    },
-  ];
+  tags: any = [];
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private productService: ProductServiceService
   ) {
-    const navigation = this.router.getCurrentNavigation();
-    this.template = navigation?.extras.state?.['template'];
-    if (!this.template) {
-      const templateId = this.route.snapshot.paramMap.get('id');
+    const templateId = this.route.snapshot.paramMap.get('id');
+    if (templateId) {
       this.fetchTemplateById(templateId);
-    } else {
-      this.initializeTemplateImages();
     }
   }
 
-  private fetchTemplateById(id: string | null) {
-    console.log('Fetching template by ID:', id);
-    this.http.get('/data/product.json').subscribe((data: any) => {
-      const products = data.products[0].items;
-      this.template = products.find((item: any) => item.id === id);
-      this.initializeTemplateImages();
+  private loadRelatedProducts(currentProductId: string) {
+    this.productService.getAllProducts().subscribe({
+      next: (products) => {
+        this.relatedArticles = products
+          .filter((p) => p.id !== currentProductId)
+          .slice(0, 3)
+          .map((p) => ({
+            id: p.id,
+            title: p.name,
+            description: p.description,
+            image: p.images[0]?.url || this.defaultImageUrl,
+            price: p.price,
+            downloads: p.downloads,
+          }));
+      },
+      error: (err) => console.error('Error loading related products:', err),
     });
   }
 
-  private initializeTemplateImages() {
-    if (this.template) {
-      this.template.images = [
-        '/images/animation-card1.svg',
-        '/images/animation-card2.svg',
-        '/images/animation-card3.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-        '/images/animation-card4.svg',
-      ];
+  private fetchTemplateById(id: string) {
+    this.productService.getProductById(id).subscribe({
+      next: (response: any) => {
+        console.log('res is', response.data);
+
+        this.template = this.mapApiResponseToTemplate(response.data);
+        this.initializeTemplateData();
+        this.loadRelatedProducts(id); // Add this line
+      },
+      error: (err) => console.error('Error fetching template:', err),
+    });
+  }
+
+  private mapApiResponseToTemplate(apiData: any): any {
+    return {
+      images: apiData.images.map((img: any) => img.url || this.defaultImageUrl),
+
+      id: apiData.id,
+      name: apiData.translations[0]?.name || 'No name',
+      description: apiData.translations[0]?.description || 'No description',
+      price: apiData.price,
+      downloads: apiData.downloads,
+      // images: apiData.images.map((img: any) => img.url),
+      features: apiData.features.map(
+        (feature: any) =>
+          feature.translations[0]?.description || 'No feature description'
+      ),
+      domains: apiData.domains.map(
+        (domain: any) => domain.domain.translations[0]?.name || 'Unknown domain'
+      ),
+      areaOfFocus: apiData.areaOfFocus.map(
+        (focus: any) =>
+          focus.AreaOfFocus.translations[0]?.name || 'Unknown focus area'
+      ),
+      documents: apiData.documents.map((doc: any) => ({
+        format: doc.documentFormat.name,
+        language: doc.language,
+        size: doc.size,
+        url: doc.url,
+      })),
+    };
+  }
+
+  private initializeTemplateData() {
+    this.details = [
+      { label: 'Format', property: 'documents.0.format' },
+      { label: 'Language', property: 'documents.0.language' },
+      { label: 'File Size', property: 'documents.0.size' },
+      { label: 'Pages', property: 'document.0.pages' },
+    ];
+    this.tags = [
+      {
+        title: 'Related Domains',
+        tags: [...new Set(this.template.domains)],
+      },
+      {
+        title: 'Focus Areas',
+        tags: [...new Set(this.template.areaOfFocus)],
+      },
+      {
+        title: 'Available Formats',
+        tags: [...new Set(this.template.documents.map((d: any) => d.format))],
+      },
+      {
+        title: 'Supported Languages',
+        tags: [...new Set(this.template.documents.map((d: any) => d.language))],
+      },
+    ];
+  }
+
+  // Update the download function
+  downloadTemplate(documentUrl?: string) {
+    const url = documentUrl || this.template.documents[0]?.url;
+    if (url) {
+      window.open(url, '_blank');
     }
   }
 
-  downloadTemplate() {
-    console.log('Downloading template:', this.template.name);
+  getNestedProperty(obj: any, path: string) {
+    // Convert array indexes to dot notation
+    const parsedPath = path.replace(/\[(\d+)\]/g, '.$1');
+    return parsedPath.split('.').reduce((o, p) => o && o[p], obj);
   }
 
-  relatedArticles = [
-    {
-      image:
-        'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-1.png',
-      title: 'Business Strategy ',
-      description:
-        'How we built our first office space for optimal collaboration',
-      readTime: '2 minutes',
-      views: '1.5k',
-      tags: ['Office', 'Culture', 'Design'],
-      link: '#',
-    },
-    {
-      image:
-        'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-2.png',
-      title: 'Enterprise design ',
-      description: 'Best practices for enterprise UX design systems',
-      readTime: '12 minutes',
-      views: '2.1k',
-      tags: ['Design', 'Enterprise'],
-      link: '#',
-    },
-    {
-      image:
-        'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-3.png',
-      title: 'Google partnership',
-      description: 'Announcing our strategic partnership with Google Cloud',
-      readTime: '8 minutes',
-      views: '890',
-      tags: ['Partnership', 'Cloud'],
-      link: '#',
-    },
-    {
-      image:
-        'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-4.png',
-      title: 'React project',
-      description: 'Lessons learned from our first large React project',
-      readTime: '4 minutes',
-      views: '2.8k',
-      tags: ['React', 'Development'],
-      link: '#',
-    },
-  ];
+  get buttons() {
+    return [
+      {
+        label: `Buy Now $${this.template?.price || 0}`,
+        classes:
+          'bg-[#7F56D9] hover:bg-[#a24af5] w-full md:w-[220px] text-white py-3 px-[18px] rounded-md',
+        action: () => this.handlePurchase(),
+      },
+      {
+        label: 'Download Sample',
+        classes:
+          'bg-white border text-black w-full md:w-[220px]  py-3 px-[18px] rounded-md',
+        action: () =>
+          this.downloadTemplate(this.template?.documents[0]?.sampleUrl),
+      },
+    ];
+  }
+
+  private handlePurchase() {
+    // console.log('Initiating purchase for:', this.template);
+    // Example implementation:
+    if (this.template?.documents?.[0]?.url) {
+      // Add actual payment processing logic
+      window.open(this.template.documents[0].url, '_blank');
+    } else {
+      console.error('No document available for purchase');
+      // You could show an error message to the user
+    }
+  }
 }

@@ -34,39 +34,35 @@
               </div>
               <ul class="space-y-3 mt-4 md:mt-[33px]">
                 <li
-                  *ngFor="let feature of features"
+                  *ngFor="let feature of template.features"
                   class="flex items-center gap-3"
                 >
                   <i class="pi pi-check text-[#667085] text-lg"></i>
                   <span class="text-[#101828] text-base">{{ feature }}</span>
                 </li>
               </ul>
-              <!-- Download Section -->
-              <div class="pt-8 w-full">
-                <div class="flex w-full items-center justify-center gap-4">
-                  <button
-                    *ngFor="let btn of buttons"
-                    [class]="btn.classes"
-                    (click)="downloadTemplate()"
-                  >
-                    {{ btn.label }}
-                  </button>
-                </div>
+              <!-- Buttons Section -->
+              <div class="flex w-full items-center mt-5 justify-center gap-4">
+                <button
+                  *ngFor="let btn of buttons"
+                  [class]="btn.classes"
+                  (click)="btn.action()"
+                >
+                  {{ btn.label }}
+                </button>
               </div>
             </div>
 
             <!-- Pricing & Details -->
-            <div class="border-t">
-              <div class="pt-8">
-                <div
-                  *ngFor="let detail of details"
-                  class="flex justify-between border-b p-2 items-center"
-                >
-                  <span class="text-gray-600">{{ detail.label }}:</span>
-                  <span class="font-medium text-gray-800">{{
-                    template[detail.property]
-                  }}</span>
-                </div>
+            <div *ngIf="template?.documents?.length">
+              <div
+                *ngFor="let detail of details"
+                class="flex justify-between border-b p-2 items-center"
+              >
+                <span class="text-gray-600">{{ detail.label }}:</span>
+                <span class="font-medium text-gray-800">
+                  {{ getNestedProperty(template, detail.property) || "N/A" }}
+                </span>
               </div>
             </div>
           </div>
@@ -77,8 +73,9 @@
       <div class="col-span-12 md:col-span-8 mt-10 md:mt-0">
         <div
           class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white h-[200px] md:h-[400px] py-8 px-5"
-          [style.background-image]="'url(' + template.image + ')'"
+          [style.background-image]="'url(' + (template.images[0] || '') + ')'"
         >
+          >
           <div class="absolute inset-0 bg-[#0D1F40]/60 rounded-lg"></div>
           <div
             class="flex absolute left-0 z-50 top-5 px-4 justify-between items-center w-full"
@@ -177,70 +174,25 @@
           View all <i class="pi pi-arrow-right"></i>
         </button>
       </div>
+      <!-- Update related articles section -->
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <!-- i want this section to be at the end ot the right -->
         <div
-          *ngFor="let article of relatedArticles | slice : 0 : 3"
+          *ngFor="let product of relatedArticles"
           class="relative border border-[#d1d0d0] rounded-xl shadow-md bg-white hover:shadow-lg transition-shadow"
         >
-          <!-- Image Section -->
-          <div class="relative rounded-2xl">
-            <img
-              [src]="
-                article.image! ||
-                'https://via.placeholder.com/300x150.png?text=No+Image'
-              "
-              [alt]="article.title"
-              class="w-full h-48 object-cover rounded-t-2xl"
-            />
-            <div
-              class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-70 text-white rounded-t-2xl"
-            >
-              <h3 class="text-2xl mb-2 w-[50%] font-semibold">
-                {{ article.title }}
-              </h3>
-              <p class="text-xs opacity-70 w-[60%] font-sans">
-                {{ article.description }}
-              </p>
-            </div>
-          </div>
-
-          <!-- Card Body -->
-          <div class="p-4">
-            <!-- Meta Info -->
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[#101828] text-[24px] font-semibold">
-                {{ article.title }}
-              </span>
-              <h1 class="text-[#171717] flex text-[32px] gap-1 items-center">
-                12$
-              </h1>
-            </div>
-
-            <div class="flex justify-between items-center w-full mb-4">
-              <div class="flex gap-1 items-center w-full">
-                <h1
-                  *ngFor="let tag of template.tags"
-                  class="bg-[#E9EAEC] text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
-                >
-                  {{ tag }}
-                </h1>
-              </div>
-              <!-- Downloads -->
-              <div class="text-[#667085] flex text-sm gap-1 items-center">
-                {{ template.downloads || "432" }} <span> Downloads </span>
-              </div>
-            </div>
-
-            <!-- Action Button -->
-            <button
-              class="w-full flex text-[14px] items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-white font-medium rounded-xl border border-[#6E2FA5] transition-colors"
-              [routerLink]="['/knowledge/view-template-details', template.id]"
-            >
-              <i class="pi pi-eye"></i>
-              View
-            </button>
-          </div>
+          <!-- Update all instances of 'article' to 'product' -->
+          <img [src]="product.image || defaultImageUrl" ... />
+          <h3>{{ product.title }}</h3>
+          <p>{{ product.description }}</p>
+          <span>${{ product.price }}</span>
+          <span>{{ product.downloads }} Downloads</span>
+          <!-- Update routerLink -->
+          <button
+            [routerLink]="['/knowledge/view-template-details', product.id]"
+            ...
+          >
+            View
+          </button>
         </div>
       </div>
     </div>
