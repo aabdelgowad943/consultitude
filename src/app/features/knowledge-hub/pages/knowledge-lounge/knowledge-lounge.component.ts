@@ -6,6 +6,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MaiContentComponent } from './components/mai-content/mai-content.component';
 import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-lounge-secion.component';
 import { Product, ProductStatus } from '../../models/products';
+import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-knowledge-lounge',

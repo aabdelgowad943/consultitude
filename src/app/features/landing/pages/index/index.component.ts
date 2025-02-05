@@ -8,6 +8,7 @@ import { ConsultingNeedsComponent } from './components/consulting-needs/consulti
 import { AnimationCardsComponent } from './components/animation-cards/animation-cards.component';
 import { PartnersComponent } from './components/partners/partners.component';
 import { EffortlessComponent } from './components/effortless/effortless.component';
+import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 @Component({
   selector: 'app-index',
   imports: [
@@ -20,6 +21,7 @@ import { EffortlessComponent } from './components/effortless/effortless.componen
     AnimationCardsComponent,
     PartnersComponent,
     EffortlessComponent,
+    NavbarComponent,
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss',

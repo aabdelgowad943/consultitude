@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FooterComponent } from '../../../../shared/footer/footer.component';
 import { ContactusComponent } from './components/contactus/contactus.component';
+import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-faqs',
-  imports: [CommonModule, FooterComponent, ContactusComponent],
+  imports: [CommonModule, FooterComponent, ContactusComponent, NavbarComponent],
   templateUrl: './faqs.component.html',
   styleUrl: './faqs.component.scss',
 })

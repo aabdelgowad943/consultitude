@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FooterComponent } from '../../../../shared/footer/footer.component';
+import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-cookies-policy',
-  imports: [CommonModule, FooterComponent],
+  imports: [CommonModule, FooterComponent, NavbarComponent],
   templateUrl: './cookies-policy.component.html',
   styleUrl: './cookies-policy.component.scss',
 })
