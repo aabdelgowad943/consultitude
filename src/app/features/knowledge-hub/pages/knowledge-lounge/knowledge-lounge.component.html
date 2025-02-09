@@ -1,17 +1,11 @@
-<div class="bg-[#f2f2f3] w-full">
+<div class="bg-[#F9FAFB] w-full">
   <div class="max-w-[1600px] mx-auto">
     <app-hero-lounge-secion></app-hero-lounge-secion>
     <div
       class="grid grid-cols-1 gap-6 lg:gap-10 md:grid-cols-12 py-10 px-4 sm:px-6 md:px-10 lg:px-20"
     >
+      <!-- Sidebar -->
       <div class="md:col-span-3 col-span-12">
-        <button
-          class="sm:hidden flex items-center px-4 py-2 text-gray-600 bg-white border rounded-lg shadow-sm"
-          (click)="openSidebar()"
-        >
-          <i class="pi pi-filter"></i>
-          <span class="ml-2">Filters</span>
-        </button>
         <app-sidebar
           [filters]="filters"
           [sections]="sections"
@@ -20,17 +14,43 @@
           (toggleSection)="toggleSection($event)"
           (searchTextChange)="onSearchChange($event)"
           (toggleDomainChildren)="toggleDomainChildren($event)"
-        ></app-sidebar>
+        >
+        </app-sidebar>
       </div>
+
+      <!-- Main Content -->
       <div class="col-span-12 md:col-span-9 md:w-full 2xl:w-[959px]">
         <app-mai-content
           [filteredTemplates]="filteredTemplates"
           [dataLoaded]="dataLoaded"
           [selectedFilters]="selectedFilters"
           (clearFilters)="clearFilters()"
-          (requestDocument)="requestDocument()"
           (removeFilter)="removeFilter($event)"
-        ></app-mai-content>
+          (sortChange)="onSortChange($event)"
+          (openSidebar)="openSidebar()"
+        >
+        </app-mai-content>
+
+        <!-- Pagination Controls -->
+        <div class="flex justify-center items-center mt-6">
+          <button
+            class="px-4 py-2 bg-gray-200 rounded-l"
+            (click)="previousPage()"
+            [disabled]="currentPage === 1"
+          >
+            Previous
+          </button>
+          <span class="px-4 py-2 bg-white border-t border-b">
+            Page {{ currentPage }} of {{ totalPages }}
+          </span>
+          <button
+            class="px-4 py-2 bg-gray-200 rounded-r"
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -74,11 +94,8 @@
           class="flex items-center justify-between cursor-pointer p-2 hover:bg-gray-100"
           (click)="toggleSection(section)"
         >
-          <h3 class="font-bold text-gray-700 text-sm">
-            {{ section.name }}
-          </h3>
+          <h3 class="font-bold text-gray-700 text-sm">{{ section.name }}</h3>
         </div>
-
         <div *ngIf="section.isOpen" class="ml-4">
           <div *ngFor="let item of filters[section.key]" class="mt-2">
             <label class="flex items-center">
@@ -88,9 +105,9 @@
                 [(ngModel)]="item.checked"
                 (ngModelChange)="onFilterChange()"
               />
-              <span class="ml-2 text-[#171717] font-sans text-[13px]">
-                {{ item.name }}
-              </span>
+              <span class="ml-2 text-[#171717] font-sans text-[13px]">{{
+                item.name
+              }}</span>
             </label>
           </div>
         </div>

@@ -16,73 +16,35 @@ import {
   templateUrl: './mai-content.component.html',
   styleUrl: './mai-content.component.scss',
 })
-export class MaiContentComponent implements OnInit {
+export class MaiContentComponent {
   @Input() filteredTemplates!: any[];
   @Input() dataLoaded!: boolean;
   @Input() selectedFilters!: any[];
   @Output() clearFilters = new EventEmitter<void>();
   @Output() requestDocument = new EventEmitter<void>();
   @Output() removeFilter = new EventEmitter<any>();
+  @Output() sortChange = new EventEmitter<string>();
+  @Output() openSidebar = new EventEmitter<void>();
 
-  sortBy: 'asc' | 'desc' = 'asc';
-  isFilterOpen = false;
-  searchText = '';
+  isSortMenuOpen = false;
 
-  sections = [
-    { name: 'Category', key: 'category', isOpen: false },
-    { name: 'Price Range', key: 'price', isOpen: false },
+  sortOptions: { label: string; value: string }[] = [
+    { label: 'Price: Low to High', value: 'priceAsc' },
+    { label: 'Price: High to Low', value: 'priceDesc' },
+    { label: 'Downloads: High to Low', value: 'downloadDesc' },
+    { label: 'Featured', value: 'featured' },
   ];
 
-  filters: any = {
-    category: [
-      { name: 'Category A', checked: false },
-      { name: 'Category B', checked: false },
-    ],
-    price: [
-      { name: 'Under $10', checked: false },
-      { name: '$10 - $50', checked: false },
-    ],
-  };
-
-  constructor(private productService: ProductServiceService) {}
-  ngOnInit(): void {
-    this.getAllProducts();
+  toggleSortMenu() {
+    this.isSortMenuOpen = !this.isSortMenuOpen;
   }
 
-  getAllProducts() {
-    this.productService
-      .getAllProducts(1, 10, [ProductStatus.ACTIVE], 'EN')
-      .subscribe({
-        next: (res: Product[]) => {
-          console.log('Products:', res);
-        },
-        error: (err) => {
-          console.error('Error fetching products:', err);
-        },
-      });
+  selectSortOption(option: string) {
+    this.isSortMenuOpen = false;
+    this.sortChange.emit(option);
   }
 
-  toggleSort() {
-    this.sortBy = this.sortBy === 'asc' ? 'desc' : 'asc';
-    this.sortTemplates();
-  }
-
-  sortTemplates() {
-    this.filteredTemplates.sort((a, b) => {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
-
-      return this.sortBy === 'asc'
-        ? nameA.localeCompare(nameB)
-        : nameB.localeCompare(nameA);
-    });
-  }
-
-  toggleSection(section: any) {
-    section.isOpen = !section.isOpen;
-  }
-
-  onFilterChange() {
-    console.log('Filters updated:', this.filters);
+  openSidebare() {
+    this.openSidebar.emit();
   }
 }

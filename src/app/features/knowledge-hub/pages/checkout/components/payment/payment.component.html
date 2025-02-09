@@ -1,0 +1,137 @@
+<div class="py-10 px-4 md:px-[120px] md:py-[64px] h-full bg-gray-100">
+  <div class="w-full">
+    <button
+      class="flex text-[24px] gap-3 leading-[28px] font-[500] items-center text-[#101828] hover:text-gray-800"
+      (click)="goBack()"
+    >
+      <i class="pi pi-arrow-left"></i>
+      Checkout
+    </button>
+
+    <!-- Stepper -->
+    <div class="mt-6">
+      <!-- Step 1: Contact Information -->
+      <div class="py-4 border-b">
+        <div class="flex items-center md:mb-4">
+          <span
+            class="w-9 h-9 flex items-center justify-center bg-[#F2F4F7] text-[#667085] border border-[#EAECF0] rounded-full mr-3"
+            >1</span
+          >
+          <div class="w-full">
+            <p
+              class="text-[24px] gap-3 leading-[28px] font-[500] text-[#101828]"
+            >
+              Contact Information
+            </p>
+            <div
+              *ngIf="emailExists"
+              class="flex items-center justify-between w-full"
+            >
+              <p class="text-sm text-[#14151A] font-[500]">{{ email }}</p>
+              <button
+                class="bg-[#FFFFFF] text-black py-2.5 px-3 flex items-center justify-center rounded-xl"
+                (click)="editEmail()"
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email Input -->
+        <div *ngIf="!emailExists">
+          <p class="text-sm text-[#14151A] font-[500]">Enter your work email</p>
+          <div class="flex mt-2 space-x-2">
+            <input
+              type="email"
+              name="email"
+              placeholder="John@yahoo.com"
+              [(ngModel)]="email"
+              class="w-full border border-[#DEE0E3] rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            <button
+              class="bg-[#9241DC] text-white w-[93px] h-[40px] py-2.5 px-3 flex items-center justify-center rounded-xl hover:bg-purple-700"
+              (click)="checkEmail()"
+            >
+              Continue
+            </button>
+          </div>
+          <p *ngIf="showError" class="text-red-500 text-sm mt-2">
+            Email does not exist
+          </p>
+        </div>
+
+        <!-- Login Link -->
+        <p
+          [hidden]="emailExists"
+          class="text-sm text-[#14151A] mt-4 font-[500]"
+        >
+          Already have an account?
+          <a href="#" class="text-[#9241DC] font-medium hover:underline"
+            >Login now</a
+          >
+        </p>
+      </div>
+
+      <!-- Step 2: Payment -->
+      <div class="flex items-center py-4">
+        <span
+          class="w-9 h-9 flex items-center justify-center bg-[#F2F4F7] text-[#667085] border border-[#EAECF0] rounded-full mr-3"
+          >2</span
+        >
+        <p class="text-[24px] gap-3 leading-[28px] font-[500] text-[#101828]">
+          Payment
+        </p>
+      </div>
+      <div *ngIf="emailExists" class="mt-4">
+        <form id="payment-form" (submit)="handlePayment($event)">
+          <div id="card-element">
+            <!-- Stripe Element will be inserted here -->
+          </div>
+          <div class="mt-4">
+            <input
+              type="text"
+              name="promoCode"
+              placeholder="Promo code"
+              [(ngModel)]="promoCode"
+              class="w-full border border-[#DEE0E3] rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            <button
+              type="button"
+              class="bg-white text-black border border-gray-300 w-full h-[40px] py-2.5 px-3 flex items-center justify-center rounded-xl mt-2"
+              (click)="applyPromoCode()"
+            >
+              Apply
+            </button>
+          </div>
+          <div class="mt-4">
+            <div class="flex justify-between">
+              <span>Subtotal:</span>
+              <span>{{ subtotal | currency }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Discount:</span>
+              <span>{{ discount | currency }}</span>
+            </div>
+            <div class="flex justify-between font-bold">
+              <span>Total:</span>
+              <span>{{ total | currency }}</span>
+            </div>
+          </div>
+          <button
+            id="submit"
+            class="bg-[#9241DC] text-white w-full h-[40px] py-2.5 px-3 flex items-center justify-center rounded-xl hover:bg-purple-700 mt-4"
+          >
+            Pay
+          </button>
+          <p id="card-error" role="alert"></p>
+          <p class="result-message hidden">
+            Payment succeeded, see the result in your
+            <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to
+            pay again.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

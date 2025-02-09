@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { KnowledgeHubComponent } from './knowledge-hub.component';
 import { KnowledgeLoungeComponent } from './pages/knowledge-lounge/knowledge-lounge.component';
 import { ViewTemplateDetailsComponent } from './pages/view-template-details/view-template-details.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 const routes: Routes = [
   {
@@ -17,7 +18,10 @@ const routes: Routes = [
         path: 'view-template-details/:id',
         component: ViewTemplateDetailsComponent,
       },
-
+      {
+        path: 'checkout/:id',
+        component: CheckoutComponent,
+      },
       {
         path: '',
         redirectTo: 'lounge',

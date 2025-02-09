@@ -17,8 +17,9 @@ export class FooterComponent {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        // Check if the current route contains the word 'home'
-        this.hidden = event.url.includes('home');
+        // Check if the current route contains the word 'home' or '/checkout'
+        this.hidden =
+          event.url.includes('home') || event.url.includes('/checkout');
       });
   }
 }

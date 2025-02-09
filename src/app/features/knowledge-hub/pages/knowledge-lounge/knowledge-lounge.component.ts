@@ -6,8 +6,6 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MaiContentComponent } from './components/mai-content/mai-content.component';
 import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-lounge-secion.component';
 import { Product, ProductStatus } from '../../models/products';
-import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
-
 @Component({
   selector: 'app-knowledge-lounge',
   imports: [
@@ -21,217 +19,211 @@ import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
   styleUrls: ['./knowledge-lounge.component.scss'],
 })
 export class KnowledgeLoungeComponent implements OnInit {
+  // UI state
   isFilterOpen: boolean = false;
   isSidebarOpen: boolean = false;
-  templates: any[] = [];
-  filteredTemplates: any[] = [];
-  searchText: string = '';
   dataLoaded: boolean = false;
 
+  // Product arrays
+  templates: any[] = [];
+  filteredTemplates: any[] = [];
+
+  // Search, sort and filter
+  searchText: string = '';
+  sortBy: string = 'priceAsc'; // Default sort option
+
+  // Filter lists (populated from API)
+  areaOfFocusList: any[] = [];
+  domainsList: any[] = [];
+  documentsList: any[] = [];
+
+  // Filters grouped by section – set once after lists load
+  filters: any = {};
+  sections = [
+    { name: 'Domain', key: 'domains', isOpen: false },
+    { name: 'Area of Focus', key: 'areasOfFocus', isOpen: false },
+    { name: 'Document Format', key: 'documentTypes', isOpen: true },
+  ];
+
+  // Pagination variables
+  currentPage: number = 1;
+  pageSize: number = 6;
+  totalPages: number = 1;
+
   constructor(private templateService: ProductServiceService) {}
+
   ngOnInit(): void {
+    // Load filter lists only once
+    this.loadAreaOfFocus();
+    this.loadDomains();
+    this.loadDocuments();
+    // Load initial products
     this.loadProducts();
   }
+
   onSearchChange(searchText: string) {
     this.searchText = searchText;
-    this.filterTemplates();
+    this.currentPage = 1; // Reset pagination on new search
+    this.loadProducts();
   }
 
   onFilterChange() {
-    this.filterTemplates();
+    this.currentPage = 1;
+    this.loadProducts();
   }
 
+  onSortChange(sortOption: string) {
+    this.sortBy = sortOption;
+    this.currentPage = 1;
+    this.loadProducts();
+  }
+
+  selectedFilters: { label: string; value: string; type: string }[] = [];
+
   private loadProducts() {
+    // Gather selected filters
+    const selectedAreaOfFocus = this.areaOfFocusList
+      .filter((item) => item.checked && item.id)
+      .map((item) => ({
+        label: item.name,
+        value: item.id,
+        type: 'areaOfFocus',
+      }));
+
+    const selectedDomains = this.domainsList
+      .filter((item) => item.checked && item.id)
+      .map((item) => ({ label: item.name, value: item.id, type: 'domains' }));
+
+    const selectedDocumentTypes = this.documentsList
+      .filter((item) => item.checked && item.id)
+      .map((item) => ({
+        label: item.name,
+        value: item.id,
+        type: 'documentTypes',
+      }));
+
+    // Store selected filters for display
+    this.selectedFilters = [
+      ...selectedAreaOfFocus,
+      ...selectedDomains,
+      ...selectedDocumentTypes,
+    ];
+
+    // console.log('Selected Filters:', this.selectedFilters);
+
+    this.dataLoaded = false;
+
     this.templateService
-      .getAllProducts(1, 10, [ProductStatus.ACTIVE], 'EN')
+      .getAllProducts(
+        this.currentPage,
+        this.pageSize,
+        [ProductStatus.ACTIVE],
+        'EN',
+        this.searchText,
+        this.sortBy,
+        selectedAreaOfFocus.map((f) => f.value),
+        selectedDomains.map((f) => f.value),
+        selectedDocumentTypes.map((f) => f.value)
+      )
       .subscribe({
-        next: (products: Product[]) => {
-          this.templates = products;
+        next: (response) => {
+          this.templates = response.products;
           this.filteredTemplates = [...this.templates];
-          this.initializeFilters();
+          this.totalPages = response.totalPages;
+          console.log('Total Pages:', this.totalPages);
           this.dataLoaded = true;
         },
         error: (err) => {
-          console.error('Error fetching products:', err);
+          console.error('Error fetching products', err);
           this.dataLoaded = true;
         },
       });
   }
 
+  private loadAreaOfFocus() {
+    this.templateService.getAllAreaFocus().subscribe({
+      next: (data) => {
+        this.areaOfFocusList = data;
+        this.initializeFilters();
+      },
+    });
+  }
+
+  private loadDomains() {
+    this.templateService.getAllDomains().subscribe({
+      next: (data) => {
+        this.domainsList = data;
+        this.initializeFilters();
+      },
+    });
+  }
+
+  private loadDocuments() {
+    this.templateService.getAllDocumentTypes().subscribe({
+      next: (data: any) => {
+        this.documentsList = data;
+        this.initializeFilters();
+      },
+    });
+  }
+
+  // Initialize filters only once after the lists load.
   private initializeFilters() {
-    // Initialize filters based on API response data
     this.filters = {
-      domains: this.getUniqueValues('domains', 'name'),
-      areasOfFocus: this.getUniqueValues('areaOfFocus', 'name'),
-      languages: this.getUniqueDocumentValues('language'),
-      documentTypes: this.getUniqueDocumentValues('documentFormat'),
-      prices: [
-        { name: 'Free', checked: false, value: 0 },
-        { name: 'Paid', checked: false, value: 1 },
-      ],
-      formats: this.getUniqueValues('features', 'name'),
+      domains: this.domainsList,
+      areasOfFocus: this.areaOfFocusList,
+      documentTypes: this.documentsList,
     };
   }
-
-  private getUniqueValues(arrayName: string, property: string): any[] {
-    const uniqueItems = new Set<string>();
-    this.templates.forEach((product) => {
-      product[arrayName]?.forEach((item: any) => {
-        uniqueItems.add(item[property]);
-      });
-    });
-    return Array.from(uniqueItems).map((name) => ({ name, checked: false }));
-  }
-
-  private getUniqueDocumentValues(property: string): any[] {
-    const uniqueItems = new Set<string>();
-    this.templates.forEach((product) => {
-      product.documents?.forEach((doc: any) => {
-        uniqueItems.add(doc[property]);
-      });
-    });
-    return Array.from(uniqueItems).map((name) => ({ name, checked: false }));
-  }
-
-  filterTemplates(): void {
-    this.filteredTemplates = this.templates.filter((product) => {
-      const matchesSearch = product.name
-        .toLowerCase()
-        .includes(this.searchText.toLowerCase());
-
-      const filterConditions = {
-        domains: (product: Product) =>
-          this.checkArrayFilter(product.domains, 'name', 'domains'),
-        areasOfFocus: (product: Product) =>
-          this.checkArrayFilter(product.areaOfFocus, 'name', 'areasOfFocus'),
-        languages: (product: Product) =>
-          this.checkDocumentFilter(product.documents, 'language', 'languages'),
-        documentTypes: (product: Product) =>
-          this.checkDocumentFilter(
-            product.documents,
-            'documentFormat',
-            'documentTypes'
-          ),
-        prices: (product: Product) => this.checkPriceFilter(product.price),
-        formats: (product: Product) =>
-          this.checkArrayFilter(product.features, 'name', 'formats'),
-      };
-
-      const matchesFilters = Object.values(filterConditions).every(
-        (condition) => condition(product)
-      );
-
-      return matchesSearch && matchesFilters;
-    });
-  }
-
-  private checkArrayFilter(
-    items: any[],
-    itemProperty: string,
-    filterKey: string
-  ): boolean {
-    const activeFilters = this.filters[filterKey].filter((f: any) => f.checked);
-    if (activeFilters.length === 0) return true;
-
-    return items.some((item) =>
-      activeFilters.some(
-        (filter: { name: any }) => filter.name === item[itemProperty]
-      )
-    );
-  }
-
-  private checkDocumentFilter(
-    documents: any[],
-    docProperty: string,
-    filterKey: string
-  ): boolean {
-    const activeFilters = this.filters[filterKey].filter((f: any) => f.checked);
-    if (activeFilters.length === 0) return true;
-
-    return documents.some((doc) =>
-      activeFilters.some(
-        (filter: { name: any }) => filter.name === doc[docProperty]
-      )
-    );
-  }
-
-  private checkPriceFilter(price: number): boolean {
-    const activeFilters = this.filters.prices.filter((f: any) => f.checked);
-    if (activeFilters.length === 0) return true;
-
-    return activeFilters.some((filter: { name: string }) =>
-      filter.name === 'Free' ? price === 0 : price > 0
-    );
-  }
-
-  ngOnChanges(): void {
-    this.filterTemplates();
-  }
-
-  filters: any = {};
-
-  sections = [
-    {
-      name: 'Domain',
-      key: 'domains',
-      isOpen: true,
-    },
-    {
-      name: 'Area of Focus',
-      key: 'areasOfFocus',
-      isOpen: false,
-    },
-    {
-      name: 'Language',
-      key: 'languages',
-      isOpen: false,
-    },
-    {
-      name: 'Document Type',
-      key: 'documentTypes',
-      isOpen: false,
-    },
-    {
-      name: 'Price',
-      key: 'prices',
-      isOpen: false,
-    },
-    {
-      name: 'Document Format',
-      key: 'formats',
-      isOpen: false,
-    },
-  ];
 
   toggleSection(section: any) {
     section.isOpen = !section.isOpen;
   }
 
   toggleDomainChildren(domain: any) {
-    domain.children.forEach((child: any) => (child.checked = domain.checked));
-  }
-
-  get selectedFilters() {
-    const filters = [];
-    for (const section of this.sections) {
-      const sectionItems = this.filters[section.key];
-      for (const item of sectionItems) {
-        if (item.checked) {
-          filters.push({
-            section: section.name,
-            name: item.name,
-            key: section.key,
-            item: item,
-          });
-        }
-      }
+    if (domain.children) {
+      domain.children.forEach((child: any) => (child.checked = domain.checked));
     }
-    return filters;
   }
 
-  removeFilter(filter: any) {
-    filter.item.checked = false;
-    this.onFilterChange();
+  // Pagination controls
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadProducts();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadProducts();
+    }
+  }
+
+  removeFilter(filterToRemove: { label: string; value: string; type: string }) {
+    // Remove filter from UI
+    this.selectedFilters = this.selectedFilters.filter(
+      (f) => f.value !== filterToRemove.value
+    );
+
+    // Uncheck the filter in the original list
+    if (filterToRemove.type === 'areaOfFocus') {
+      this.areaOfFocusList = this.areaOfFocusList.map((item) =>
+        item.id === filterToRemove.value ? { ...item, checked: false } : item
+      );
+    } else if (filterToRemove.type === 'domains') {
+      this.domainsList = this.domainsList.map((item) =>
+        item.id === filterToRemove.value ? { ...item, checked: false } : item
+      );
+    } else if (filterToRemove.type === 'documentTypes') {
+      this.documentsList = this.documentsList.map((item) =>
+        item.id === filterToRemove.value ? { ...item, checked: false } : item
+      );
+    }
+
+    // Reload products with updated filters
+    this.loadProducts();
   }
 
   clearAllFilters() {
@@ -244,7 +236,6 @@ export class KnowledgeLoungeComponent implements OnInit {
     this.onFilterChange();
   }
 
-  requestDocument() {}
   clearFilters() {
     this.clearAllFilters();
   }

@@ -1,8 +1,10 @@
+<!--  -->
+
 <aside
-  class="hidden w-full md:block p-4 md:sticky md:top-16 h-auto md:h-screen overflow-y-auto border-t md:border-none"
+  class="hidden w-full md:block md:sticky md:top-16 h-auto md:h-screen border-t md:border-none"
 >
   <div class="mb-4">
-    <label class="block mb-3 font-bold text-[20px] text-[#000000]"
+    <label class="block mb-3 font-extrabold text-[20px] text-[#000000]"
       >Filter Template</label
     >
     <div class="flex items-center">
@@ -11,33 +13,21 @@
         <div
           class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
         >
-          <svg
-            aria-hidden="true"
-            class="w-5 h-5 text-gray-500 dark:text-gray-400"
-            fill="currentColor"
-            viewbox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <img src="/images/search.png" class="w-3 h-3" alt="search icon" />
         </div>
         <input
           type="text"
           [ngModel]="searchText"
           (ngModelChange)="searchTextChange.emit($event)"
           id="simple-search"
-          class="block w-full p-2 pl-10 font-sans text-sm text-gray-900 border border-gray-300 rounded-xl bg-gray-50 focus:ring-primary-500 focus:border-primary-500"
+          class="block w-full p-2 pl-8 font-sans text-sm text-black placeholder:text-[#0D112666] border border-gray-300 rounded-xl bg-gray-50 focus:ring-primary-500 focus:border-primary-500"
           placeholder="Search..."
           required=""
         />
       </div>
     </div>
   </div>
-  <div class="sidebar">
+  <div class="sidebar mt-10">
     <div
       *ngFor="let section of sections"
       class="border-t border-[#EAECF0] py-2"
@@ -46,18 +36,16 @@
         class="flex items-center justify-between cursor-pointer p-2 hover:bg-gray-100"
         (click)="toggleSection.emit(section)"
       >
-        <h3 class="font-bold text-black text-lg md:text-base">
+        <h3
+          class="font-[500] text-black text-[18px] leading-[21.6px] md:text-base"
+        >
           {{ section.name }}
         </h3>
         <span
           class="transform transition-transform"
           [class.rotate-180]="!section.isOpen"
         >
-          <img
-            src="/images/arrow-down-sign-to-navigate.png"
-            class="w-3 h-3"
-            alt="arrow"
-          />
+          <i class="pi pi-angle-up"></i>
         </span>
       </div>
       <div *ngIf="section.isOpen" class="ml-4">
@@ -67,12 +55,11 @@
               class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
               type="checkbox"
               [(ngModel)]="item.checked"
-              (ngModelChange)="filterChange.emit()"
+              (ngModelChange)="onFilterChange()"
             />
-            <span
-              class="ml-2 text-[#171717] font-sans text-[13px] md:text-[14px]"
-              >{{ item.name }}</span
-            >
+            <span class="ml-2 text-[#171717] text-[13px] md:text-[14px]">{{
+              item.name
+            }}</span>
           </label>
         </div>
         <a class="text-[#792EBA] -ms-2 text-[16px] mt-5 font-bold">See more</a>

@@ -52,7 +52,8 @@ export class ViewTemplateDetailsComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductServiceService
+    private productService: ProductServiceService,
+    private router: Router // Add Router
   ) {
     const templateId = this.route.snapshot.paramMap.get('id');
     if (templateId) {
@@ -60,33 +61,13 @@ export class ViewTemplateDetailsComponent {
     }
   }
 
-  private loadRelatedProducts(currentProductId: string) {
-    this.productService.getAllProducts().subscribe({
-      next: (products) => {
-        this.relatedArticles = products
-          .filter((p) => p.id !== currentProductId)
-          .slice(0, 3)
-          .map((p) => ({
-            id: p.id,
-            title: p.name,
-            description: p.description,
-            image: p.images[0]?.url || this.defaultImageUrl,
-            price: p.price,
-            downloads: p.downloads,
-          }));
-      },
-      error: (err) => console.error('Error loading related products:', err),
-    });
-  }
-
   private fetchTemplateById(id: string) {
     this.productService.getProductById(id).subscribe({
       next: (response: any) => {
-        console.log('res is', response.data);
+        // console.log('res is', response.data);
 
         this.template = this.mapApiResponseToTemplate(response.data);
         this.initializeTemplateData();
-        this.loadRelatedProducts(id); // Add this line
       },
       error: (err) => console.error('Error fetching template:', err),
     });
@@ -135,7 +116,7 @@ export class ViewTemplateDetailsComponent {
         tags: [...new Set(this.template.domains)],
       },
       {
-        title: 'Focus Areas',
+        title: 'Area of Focus',
         tags: [...new Set(this.template.areaOfFocus)],
       },
       {
@@ -168,13 +149,13 @@ export class ViewTemplateDetailsComponent {
       {
         label: `Buy Now $${this.template?.price || 0}`,
         classes:
-          'bg-[#7F56D9] hover:bg-[#a24af5] w-full md:w-[220px] text-white py-3 px-[18px] rounded-md',
+          'bg-[#7F56D9] hover:bg-[#a24af5] w-[172.5px] md:w-[220px] text-[#FFFFFF] py-3 px-[18px] rounded-md',
         action: () => this.handlePurchase(),
       },
       {
         label: 'Download Sample',
         classes:
-          'bg-white border text-black w-full md:w-[220px]  py-3 px-[18px] rounded-md',
+          'bg-white border text-[#344054] w-[172.5px] md:w-[220px]  py-3 px-[18px] rounded-md',
         action: () =>
           this.downloadTemplate(this.template?.documents[0]?.sampleUrl),
       },
@@ -182,14 +163,10 @@ export class ViewTemplateDetailsComponent {
   }
 
   private handlePurchase() {
-    // console.log('Initiating purchase for:', this.template);
-    // Example implementation:
-    if (this.template?.documents?.[0]?.url) {
-      // Add actual payment processing logic
-      window.open(this.template.documents[0].url, '_blank');
+    if (this.template?.id) {
+      this.router.navigate(['/knowledge/checkout', this.template.id]);
     } else {
-      console.error('No document available for purchase');
-      // You could show an error message to the user
+      console.error('No template available for purchase');
     }
   }
 }

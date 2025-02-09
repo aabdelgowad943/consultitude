@@ -1,13 +1,13 @@
 <div class="relative border border-[#d1d0d0] rounded-2xl bg-white">
   <!-- Image Section -->
-  <div class="relative rounded-2xl 2xl:h-[204px]">
+  <div class="relative rounded-2xl 2xl:h-[240px]">
     <img
       [src]="
         template.images[0].url ||
         'https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=600'
       "
       alt="{{ template.name }}"
-      class="w-full h-full object-cover rounded-t-2xl"
+      class="w-full h-[240px] object-cover rounded-t-2xl"
     />
     <div
       class="flex absolute z-10 top-4 px-4 justify-between items-start w-full"
@@ -15,7 +15,7 @@
       <img class="w-20" src="/images/Logo.svg" />
       <h1
         *ngIf="template.featured"
-        class="font-semibold text-[#AE590A] bg-[#FDEAD8] rounded-lg py-2 px-4"
+        class="font-semibold flex items-center justify-center w-[74px] h-[28px] text-[#AE590A] bg-[#FDEAD8] rounded-lg py-1 px-1.5"
       >
         Featured
       </h1>
@@ -24,7 +24,10 @@
     <div
       class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-70 text-white rounded-t-2xl"
     >
-      <h3 class="text-xl mb-1 w-[50%] font-semibold">{{ template.name }}</h3>
+      <h3 class="text-2xl mb-1 w-[50%] font-semibold">
+        <h3 class="text-xl mb-1 w-[50%] font-semibold">{{ template.name }}</h3>
+        <!-- Business & Consulting toolkit -->
+      </h3>
       <p class="text-sm font-sans">
         {{ template.description }}
       </p>
@@ -36,12 +39,12 @@
     <!-- Price -->
     <div class="flex items-center justify-between mb-4">
       <!-- Title -->
-      <h3 class="text-[#171717] flex flex-col text-[24px] font-semibold">
+      <h3 class="text-[#171717] flex flex-col text-[24px] font-bold">
         {{ template.name }}
         <!-- <span class="text-sm">{{ template.description }}</span> -->
       </h3>
       <span class="text-[#101828] text-2xl font-bold">
-        {{ template.price }}$
+        ${{ template.price }}
       </span>
       <!-- {{ template.price ? "Free" : "$" + template.discountedPrice }} -->
     </div>
@@ -64,7 +67,7 @@
 
     <!-- View Button -->
     <button
-      class="w-full flex text-[14px] font-sans items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-white font-medium rounded-xl border border-[#6E2FA5] transition-colors"
+      class="w-full flex text-[14px] font-sans items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-[#FFFFFF] font-medium rounded-xl border border-[#6E2FA5] transition-colors"
       (click)="viewTemplateDetails()"
     >
       <i class="pi pi-eye"></i>

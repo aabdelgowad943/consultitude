@@ -1,6 +1,6 @@
 <div
   *ngIf="template; else noTemplate"
-  class="bg-[#f2f2f3] mx-auto py-[64px] px-4 md:ps-10 lg:ps-20"
+  class="bg-[#F9FAFB] mx-auto py-[64px] px-4 md:ps-10 lg:ps-20"
 >
   <div class="max-w-[1600px] mx-auto">
     <!-- Header Section -->
@@ -8,18 +8,20 @@
       class="grid grid-cols-1 md:grid-cols-12 md:gap-10 items-start justify-between"
     >
       <!-- Left side -->
-      <div class="col-span-12 md:col-span-4 w-full">
-        <div class="border-r border-[#e0e2e6] px-2">
+      <div
+        class="col-span-12 md:pr-2 2xl:pr-6 border-r border-[#e0e2e6] md:col-span-4 w-full"
+      >
+        <div class="">
           <a
             routerLink="/knowledge"
-            class="flex items-center gap-2 text-[#0F132499] text-[14px] font-semibold mb-[32px]"
+            class="flex items-center gap-2 text-[#0F132499] text-[14px] font-bold mb-[32px]"
           >
             <i class="pi pi-arrow-left"></i> {{ backButtonText }}
           </a>
           <div class="grid md:grid-cols-1 gap-8">
             <div>
               <div
-                class="flex flex-col md:flex-row border-b pb-4 justify-between items-center gap-6"
+                class="flex flex-col md:flex-row border-b pb-4 justify-between items-start md:items-center gap-6"
               >
                 <div class="flex-1">
                   <h1
@@ -59,9 +61,11 @@
                 *ngFor="let detail of details"
                 class="flex justify-between border-b p-2 items-center"
               >
-                <span class="text-gray-600">{{ detail.label }}:</span>
-                <span class="font-medium text-gray-800">
-                  {{ getNestedProperty(template, detail.property) || "N/A" }}
+                <span class="text-[#475467] text-[16px] font-[400]">{{
+                  detail.label
+                }}</span>
+                <span class="text-[#101828]">
+                  {{ getNestedProperty(template, detail.property) || "" }}
                 </span>
               </div>
             </div>
@@ -75,7 +79,6 @@
           class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white h-[200px] md:h-[400px] py-8 px-5"
           [style.background-image]="'url(' + (template.images[0] || '') + ')'"
         >
-          >
           <div class="absolute inset-0 bg-[#0D1F40]/60 rounded-lg"></div>
           <div
             class="flex absolute left-0 z-50 top-5 px-4 justify-between items-center w-full"
@@ -124,17 +127,25 @@
         </div>
 
         <div class="pt-10">
-          <h2 class="text-xl md:text-2xl font-semibold mb-4">
+          <h2 class="text-xl md:text-2xl font-[500] mb-4">
             {{ overviewTitle }}
           </h2>
-          <p class="text-base md:text-lg text-[#344054] text-[16px]">
+          <p
+            class="text-base md:text-[16] font-[400] mb-5 leading-[24px] text-[#344054] text-[16px]"
+          >
             {{ overviewText }}
           </p>
 
           <!-- Tags Section -->
+
+          <h1
+            class="text-[24px] font-[500] leading-[28.8px] text-[#101828] mb-6"
+          >
+            Tags
+          </h1>
           <div class="mt-6">
             <div *ngFor="let tagGroup of tags" class="mb-4">
-              <h4 class="font-sans text-[14px] md:text-[16px] text-black">
+              <h4 class="font-[500] text-[14px] md:text-[16px] text-black">
                 {{ tagGroup.title }}
               </h4>
               <div class="flex flex-wrap gap-2 mt-2">
@@ -158,18 +169,20 @@
       <div
         class="full mb-10 flex justify-between items-end flex-col md:flex-row"
       >
-        <div class="flex flex-col">
-          <p class="text-[16px] font-sans text-[#344054] mb-4">
+        <div class="flex items-start justify-start w-full flex-col">
+          <p class="text-[16px] font-[400] text-[#344054] mb-4">
             Done by Expert Consultants
           </p>
-          <h2 class="text-[44px] font-bold text-[#101828]">
-            Similar Documents
+          <h2
+            class="md:text-[44px] text-[36px] w-full font-bold text-[#101828]"
+          >
+            Similar Document
           </h2>
         </div>
         <button
           type="button"
           routerLink="/knowledge"
-          class="flex items-center justify-center gap-2 w-[132px] flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-200"
+          class="flex items-center text-[16px] font-[600] leading-[24px] justify-center gap-2 w-[132px] flex-shrink-0 px-3 py-2 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-200"
         >
           View all <i class="pi pi-arrow-right"></i>
         </button>
