@@ -19,7 +19,9 @@ export class ProductServiceService {
     sortBy: string = '',
     areaOfFocus: string[] = [],
     domains: string[] = [],
-    documentTypes: string[] = []
+    documentTypes: string[] = [],
+    minPrice: number = 0,
+    maxPrice: number = 10000
   ): Observable<{ products: Product[]; totalPages: number }> {
     let params = new HttpParams()
       .set('page', page.toString())
@@ -43,6 +45,8 @@ export class ProductServiceService {
     if (documentTypes.length) {
       params = params.set('documentTypes', documentTypes.join(','));
     }
+    params = params.set('minPrice', minPrice.toString());
+    params = params.set('maxPrice', maxPrice.toString());
 
     const headers = new HttpHeaders().set('Accept-Language', language);
 
@@ -69,7 +73,6 @@ export class ProductServiceService {
       .pipe(
         map((response) =>
           response.data.map((item: any) => ({
-            // Prefer domainId; if not available, try item.id. If still not present, assign null.
             id: item.domainId || item.id || null,
             name:
               item.translations && item.translations.length

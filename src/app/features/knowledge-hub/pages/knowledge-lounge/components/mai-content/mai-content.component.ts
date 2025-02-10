@@ -1,13 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProductCardComponent } from '../../../../components/product-card/product-card.component';
 import { FormsModule } from '@angular/forms';
-import { ProductServiceService } from '../../../../services/product-service.service';
-import {
-  LanguageCode,
-  Product,
-  ProductStatus,
-} from '../../../../models/products';
 
 @Component({
   standalone: true,

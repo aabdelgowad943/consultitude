@@ -1,7 +1,7 @@
 <!--  -->
 
 <aside
-  class="hidden w-full md:block md:sticky md:top-16 h-auto md:h-screen border-t md:border-none"
+  class="hidden w-full md:block md:sticky md:top-16 h-auto md:h-filter border-t md:border-none"
 >
   <div class="mb-4">
     <label class="block mb-3 font-extrabold text-[20px] text-[#000000]"
@@ -49,21 +49,47 @@
         </span>
       </div>
       <div *ngIf="section.isOpen" class="ml-4">
-        <div *ngFor="let item of filters[section.key]" class="mt-2 mb-5">
-          <label class="flex items-center">
-            <input
-              class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
-              type="checkbox"
-              [(ngModel)]="item.checked"
-              (ngModelChange)="onFilterChange()"
-            />
-            <span class="ml-2 text-[#171717] text-[13px] md:text-[14px]">{{
-              item.name
-            }}</span>
-          </label>
+        <ng-container *ngIf="section.key !== 'price'">
+          <div *ngFor="let item of filters[section.key]" class="mt-2 mb-5">
+            <label class="flex items-center">
+              <input
+                class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
+                type="checkbox"
+                [(ngModel)]="item.checked"
+                (ngModelChange)="onFilterChange()"
+              />
+              <span class="ml-2 text-[#171717] text-[13px] md:text-[14px]">{{
+                item.name
+              }}</span>
+            </label>
+          </div>
+        </ng-container>
+        <div *ngIf="section.key === 'price'" class="ml-2">
+          <!-- <label class="block mb-3 font-bold text-sm">Price Range</label> -->
+          <input
+            type="range"
+            min="0"
+            max="10000"
+            [(ngModel)]="filters.price[0]"
+            (ngModelChange)="onFilterChange()"
+          />
+          <div class="flex justify-between text-sm">
+            <span>{{ filters.price[0] }}</span>
+          </div>
         </div>
         <a class="text-[#792EBA] -ms-2 text-[16px] mt-5 font-bold">See more</a>
       </div>
     </div>
+    <!-- <div class="mt-4">
+      <label class="block mb-3 font-bold text-sm">Language</label>
+      <select
+        [(ngModel)]="filters.language"
+        (ngModelChange)="onFilterChange()"
+        class="w-full p-2 border border-gray-300 rounded-xl"
+      >
+        <option value="EN">EN</option>
+        <option value="AR">AR</option>
+      </select>
+    </div> -->
   </div>
 </aside>

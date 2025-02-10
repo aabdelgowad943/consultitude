@@ -84,11 +84,11 @@
         </p>
       </div>
       <div *ngIf="emailExists" class="mt-4">
-        <form id="payment-form" (submit)="handlePayment($event)">
+        <form id="payment-form" (submit)="checkout()">
           <div id="card-element">
             <!-- Stripe Element will be inserted here -->
           </div>
-          <div class="mt-4">
+          <!-- <div class="mt-4">
             <input
               type="text"
               name="promoCode"
@@ -103,7 +103,7 @@
             >
               Apply
             </button>
-          </div>
+          </div> -->
           <div class="mt-4">
             <div class="flex justify-between">
               <span>Subtotal:</span>
