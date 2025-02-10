@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 export interface ProductItem {
@@ -29,8 +23,20 @@ export interface Product {
 export class ProductCardComponent implements OnChanges {
   @Input() template: any;
 
+  tags: string[] = []; // Array to hold combined tags
+
   constructor(private router: Router) {}
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.template) {
+      // Extract names from areaOfFocus, features, and domains
+      const areaTags = this.template.areaOfFocus?.map((a: any) => a.name) || [];
+      const featureTags = this.template.features?.map((f: any) => f.name) || [];
+      const domainTags = this.template.domains?.map((d: any) => d.name) || [];
+
+      // Combine all tags into one array
+      this.tags = [...areaTags, ...featureTags, ...domainTags];
+    }
+  }
 
   viewTemplateDetails() {
     this.router.navigate([

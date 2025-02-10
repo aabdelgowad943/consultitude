@@ -6,6 +6,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MaiContentComponent } from './components/mai-content/mai-content.component';
 import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-lounge-secion.component';
 import { Product, ProductStatus } from '../../models/products';
+
 @Component({
   selector: 'app-knowledge-lounge',
   imports: [
@@ -36,13 +37,16 @@ export class KnowledgeLoungeComponent implements OnInit {
   areaOfFocusList: any[] = [];
   domainsList: any[] = [];
   documentsList: any[] = [];
+  price: any[] = [];
 
   // Filters grouped by section – set once after lists load
   filters: any = {};
   sections = [
     { name: 'Domain', key: 'domains', isOpen: false },
     { name: 'Area of Focus', key: 'areasOfFocus', isOpen: false },
-    { name: 'Document Format', key: 'documentTypes', isOpen: true },
+    { name: 'Document Format', key: 'documentTypes', isOpen: false },
+    { name: 'Price', key: 'price', isOpen: false },
+    { name: 'Language', key: 'language', isOpen: false },
   ];
 
   // Pagination variables
@@ -63,7 +67,7 @@ export class KnowledgeLoungeComponent implements OnInit {
 
   onSearchChange(searchText: string) {
     this.searchText = searchText;
-    this.currentPage = 1; // Reset pagination on new search
+    this.currentPage = 1;
     this.loadProducts();
   }
 
@@ -102,6 +106,9 @@ export class KnowledgeLoungeComponent implements OnInit {
         type: 'documentTypes',
       }));
 
+    // Add price range filter
+    const [minPrice, maxPrice] = this.filters.price || [0, 10000];
+
     // Store selected filters for display
     this.selectedFilters = [
       ...selectedAreaOfFocus,
@@ -112,7 +119,6 @@ export class KnowledgeLoungeComponent implements OnInit {
     // console.log('Selected Filters:', this.selectedFilters);
 
     this.dataLoaded = false;
-
     this.templateService
       .getAllProducts(
         this.currentPage,
@@ -123,14 +129,16 @@ export class KnowledgeLoungeComponent implements OnInit {
         this.sortBy,
         selectedAreaOfFocus.map((f) => f.value),
         selectedDomains.map((f) => f.value),
-        selectedDocumentTypes.map((f) => f.value)
+        selectedDocumentTypes.map((f) => f.value),
+        minPrice,
+        maxPrice // Pass price range to the API call
       )
       .subscribe({
         next: (response) => {
           this.templates = response.products;
           this.filteredTemplates = [...this.templates];
           this.totalPages = response.totalPages;
-          console.log('Total Pages:', this.totalPages);
+          // console.log('Total Pages:', this.totalPages);
           this.dataLoaded = true;
         },
         error: (err) => {
@@ -173,6 +181,8 @@ export class KnowledgeLoungeComponent implements OnInit {
       domains: this.domainsList,
       areasOfFocus: this.areaOfFocusList,
       documentTypes: this.documentsList,
+      price: [0, 10000], // Initialize price range
+      language: 'EN', // Initialize language
     };
   }
 

@@ -5,14 +5,12 @@ import { LogoComponent } from '../../../../shared/logo/logo.component';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ErrorMessageDialogComponent } from '../error-message-dialog/error-message-dialog.component';
-import { OverlayImageForBackgroundComponent } from '../../../../shared/overlay-image-for-background/overlay-image-for-background.component';
 
 @Component({
   selector: 'app-hero-section',
   imports: [
     FlexLogoComponent,
     SubscribeFormComponent,
-    LogoComponent,
     ToastModule,
     ErrorMessageDialogComponent,
     // OverlayImageForBackgroundComponent,

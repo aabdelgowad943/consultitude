@@ -29,6 +29,7 @@ export class PaymentComponent implements AfterViewInit, OnChanges {
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
   card: any;
+  stripePublishableKey: string = 'pk_test_G5bt1644CG8jzK2PPr9mHQYj00hm5lHkLu';
 
   constructor(private location: Location) {}
 
@@ -87,6 +88,53 @@ export class PaymentComponent implements AfterViewInit, OnChanges {
       if (resultMessageElement) {
         resultMessageElement.classList.remove('hidden');
       }
+    }
+  }
+  amount: number = 10.0;
+  description: string = 'Custom payment';
+  loading = false;
+  error = '';
+
+  isValidAmount(): boolean {
+    return this.amount >= 0.5 && this.amount <= 999999.99;
+  }
+
+  async checkout() {
+    if (!this.isValidAmount()) {
+      this.error = 'Please enter a valid amount between $0.50 and $999,999.99';
+      return;
+    }
+
+    this.loading = true;
+    this.error = '';
+
+    try {
+      const stripe = await loadStripe(this.stripePublishableKey);
+
+      if (!stripe) {
+        throw new Error('Stripe failed to load');
+      }
+
+      const { error } = await this.stripe!.confirmCardPayment(
+        this.stripePublishableKey,
+        {
+          payment_method: {
+            card: this.card,
+            billing_details: {
+              email: this.email,
+            },
+          },
+        }
+      );
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      this.error = 'An error occurred. Please try again.';
+    } finally {
+      this.loading = false;
     }
   }
 
