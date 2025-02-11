@@ -29,6 +29,7 @@ export class PaymentComponent implements AfterViewInit, OnChanges {
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
   card: any;
+  clientSecret: string = '';
   stripePublishableKey: string = 'pk_test_G5bt1644CG8jzK2PPr9mHQYj00hm5lHkLu';
 
   constructor(private location: Location) {}
@@ -55,9 +56,19 @@ export class PaymentComponent implements AfterViewInit, OnChanges {
       'pk_test_G5bt1644CG8jzK2PPr9mHQYj00hm5lHkLu'
     );
     if (this.stripe) {
-      this.elements = this.stripe.elements();
-      this.card = this.elements.create('card');
-      this.card.mount('#card-element');
+      this.clientSecret =
+        'pi_3Qr55UBA1qtFyZ9r09RHAMJC_secret_12s4dXtWfg0cODXZCEt3WLj6U';
+      this.elements = this.stripe!.elements({
+        clientSecret: this.clientSecret,
+      });
+
+      // Create and mount the payment element
+      const options = { layout: 'tabs' /* options */ };
+      const paymentElement = this.elements.create('payment', {
+        paymentMethodOrder: ['card'],
+        fields: { billingDetails: { address: { country: 'never' } } },
+      });
+      paymentElement.mount('#payment-element');
     }
   }
 

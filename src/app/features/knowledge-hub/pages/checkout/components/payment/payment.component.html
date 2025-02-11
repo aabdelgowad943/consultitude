@@ -1,4 +1,4 @@
-<div class="py-10 px-4 md:px-[120px] md:py-[64px] h-full bg-gray-100">
+<div class="py-10 px-4 md:px-[120px] md:py-[64px] h-screen mb-20 bg-gray-100">
   <div class="w-full">
     <button
       class="flex text-[24px] gap-3 leading-[28px] font-[500] items-center text-[#101828] hover:text-gray-800"
@@ -12,14 +12,14 @@
     <div class="mt-6">
       <!-- Step 1: Contact Information -->
       <div class="py-4 border-b">
-        <div class="flex items-center md:mb-4">
+        <div class="flex items-start md:mb-4">
           <span
             class="w-9 h-9 flex items-center justify-center bg-[#F2F4F7] text-[#667085] border border-[#EAECF0] rounded-full mr-3"
             >1</span
           >
           <div class="w-full">
             <p
-              class="text-[24px] gap-3 leading-[28px] font-[500] text-[#101828]"
+              class="text-[24px] gap-3 mt-1 leading-[28px] font-[500] text-[#101828]"
             >
               Contact Information
             </p>
@@ -29,7 +29,7 @@
             >
               <p class="text-sm text-[#14151A] font-[500]">{{ email }}</p>
               <button
-                class="bg-[#FFFFFF] text-black py-2.5 px-3 flex items-center justify-center rounded-xl"
+                class="bg-[#FFFFFF] text-black w-[58px] h-[40px] md:-mt-8 border border-[#DEE0E3] py-2.5 px-3 flex items-center justify-center rounded-xl"
                 (click)="editEmail()"
               >
                 Edit
@@ -85,10 +85,10 @@
       </div>
       <div *ngIf="emailExists" class="mt-4">
         <form id="payment-form" (submit)="checkout()">
-          <div id="card-element">
-            <!-- Stripe Element will be inserted here -->
+          <div id="payment-element">
+            <!-- i want to change the style of the form to make the mm and yy to be in expire data, and cvv to be inputs  -->
           </div>
-          <!-- <div class="mt-4">
+          <div class="mt-4 flex flex-col md:flex-row items-center gap-2">
             <input
               type="text"
               name="promoCode"
@@ -98,12 +98,12 @@
             />
             <button
               type="button"
-              class="bg-white text-black border border-gray-300 w-full h-[40px] py-2.5 px-3 flex items-center justify-center rounded-xl mt-2"
+              class="bg-white text-black border border-gray-300 md:w-52 w-full h-[40px] py-2.5 px-3 flex items-center justify-center rounded-xl"
               (click)="applyPromoCode()"
             >
               Apply
             </button>
-          </div> -->
+          </div>
           <div class="mt-4">
             <div class="flex justify-between">
               <span>Subtotal:</span>
@@ -124,7 +124,7 @@
           >
             Pay
           </button>
-          <p id="card-error" role="alert"></p>
+          <p id="payment-error" role="alert"></p>
           <p class="result-message hidden">
             Payment succeeded, see the result in your
             <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to

@@ -6,6 +6,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MaiContentComponent } from './components/mai-content/mai-content.component';
 import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-lounge-secion.component';
 import { Product, ProductStatus } from '../../models/products';
+import { Language } from '../../models/language.enum';
 
 @Component({
   selector: 'app-knowledge-lounge',
@@ -38,6 +39,7 @@ export class KnowledgeLoungeComponent implements OnInit {
   domainsList: any[] = [];
   documentsList: any[] = [];
   price: any[] = [];
+  featuresList: any[] = [];
 
   // Filters grouped by section – set once after lists load
   filters: any = {};
@@ -45,6 +47,7 @@ export class KnowledgeLoungeComponent implements OnInit {
     { name: 'Domain', key: 'domains', isOpen: false },
     { name: 'Area of Focus', key: 'areasOfFocus', isOpen: false },
     { name: 'Document Format', key: 'documentTypes', isOpen: false },
+    { name: 'Features', key: 'features', isOpen: false },
     { name: 'Price', key: 'price', isOpen: false },
     { name: 'Language', key: 'language', isOpen: false },
   ];
@@ -54,6 +57,12 @@ export class KnowledgeLoungeComponent implements OnInit {
   pageSize: number = 6;
   totalPages: number = 1;
 
+  // Language options
+  languages = [
+    { label: 'English', value: Language.EN },
+    { label: 'Arabic', value: Language.AR },
+  ];
+
   constructor(private templateService: ProductServiceService) {}
 
   ngOnInit(): void {
@@ -61,6 +70,7 @@ export class KnowledgeLoungeComponent implements OnInit {
     this.loadAreaOfFocus();
     this.loadDomains();
     this.loadDocuments();
+    this.loadFeatures();
     // Load initial products
     this.loadProducts();
   }
@@ -106,14 +116,22 @@ export class KnowledgeLoungeComponent implements OnInit {
         type: 'documentTypes',
       }));
 
+    const selectedFeatures = this.featuresList
+      .filter((item) => item.checked && item.id)
+      .map((item) => ({ label: item.name, value: item.id, type: 'features' }));
+
     // Add price range filter
-    const [minPrice, maxPrice] = this.filters.price || [0, 10000];
+    const [minPrice, maxPrice] = this.filters.price || [0, 1000];
+
+    // Add language filter
+    const selectedLanguage = this.filters.language || Language.EN;
 
     // Store selected filters for display
     this.selectedFilters = [
       ...selectedAreaOfFocus,
       ...selectedDomains,
       ...selectedDocumentTypes,
+      ...selectedFeatures,
     ];
 
     // console.log('Selected Filters:', this.selectedFilters);
@@ -124,12 +142,13 @@ export class KnowledgeLoungeComponent implements OnInit {
         this.currentPage,
         this.pageSize,
         [ProductStatus.ACTIVE],
-        'EN',
+        selectedLanguage,
         this.searchText,
         this.sortBy,
         selectedAreaOfFocus.map((f) => f.value),
         selectedDomains.map((f) => f.value),
         selectedDocumentTypes.map((f) => f.value),
+        selectedFeatures.map((f) => f.value),
         minPrice,
         maxPrice // Pass price range to the API call
       )
@@ -175,14 +194,24 @@ export class KnowledgeLoungeComponent implements OnInit {
     });
   }
 
+  private loadFeatures() {
+    this.templateService.getAllFeatures().subscribe({
+      next: (data) => {
+        this.featuresList = data;
+        this.initializeFilters();
+      },
+    });
+  }
+
   // Initialize filters only once after the lists load.
   private initializeFilters() {
     this.filters = {
       domains: this.domainsList,
       areasOfFocus: this.areaOfFocusList,
       documentTypes: this.documentsList,
-      price: [0, 10000], // Initialize price range
-      language: 'EN', // Initialize language
+      price: [0, 1000], // Initialize price range
+      language: Language.EN, // Initialize language
+      features: this.featuresList,
     };
   }
 
@@ -217,19 +246,27 @@ export class KnowledgeLoungeComponent implements OnInit {
       (f) => f.value !== filterToRemove.value
     );
 
-    // Uncheck the filter in the original list
+    // Uncheck the filter in the original list by mutating the item
     if (filterToRemove.type === 'areaOfFocus') {
-      this.areaOfFocusList = this.areaOfFocusList.map((item) =>
-        item.id === filterToRemove.value ? { ...item, checked: false } : item
+      const item = this.areaOfFocusList.find(
+        (item) => item.id === filterToRemove.value
       );
+      if (item) item.checked = false;
     } else if (filterToRemove.type === 'domains') {
-      this.domainsList = this.domainsList.map((item) =>
-        item.id === filterToRemove.value ? { ...item, checked: false } : item
+      const item = this.domainsList.find(
+        (item) => item.id === filterToRemove.value
       );
+      if (item) item.checked = false;
     } else if (filterToRemove.type === 'documentTypes') {
-      this.documentsList = this.documentsList.map((item) =>
-        item.id === filterToRemove.value ? { ...item, checked: false } : item
+      const item = this.documentsList.find(
+        (item) => item.id === filterToRemove.value
       );
+      if (item) item.checked = false;
+    } else if (filterToRemove.type === 'features') {
+      const item = this.featuresList.find(
+        (item) => item.id === filterToRemove.value
+      );
+      if (item) item.checked = false;
     }
 
     // Reload products with updated filters

@@ -21,11 +21,22 @@ export interface Product {
   styleUrl: './product-card.component.scss',
 })
 export class ProductCardComponent implements OnChanges {
+  images = [
+    '/images/Pic1.svg',
+    '/images/Pic2.svg',
+    '/images/Pic3.svg',
+    '/images/Pic4.svg',
+  ];
+
   @Input() template: any;
 
   tags: string[] = []; // Array to hold combined tags
+  selectedImage: string; // Variable to hold the selected image
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.selectedImage = this.getRandomImage();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (this.template) {
       // Extract names from areaOfFocus, features, and domains
@@ -36,6 +47,11 @@ export class ProductCardComponent implements OnChanges {
       // Combine all tags into one array
       this.tags = [...areaTags, ...featureTags, ...domainTags];
     }
+  }
+
+  getRandomImage(): string {
+    const randomIndex = Math.floor(Math.random() * this.images.length);
+    return this.images[randomIndex];
   }
 
   viewTemplateDetails() {
