@@ -13,4 +13,9 @@ export const routes: Routes = [
         (m) => m.KnowledgeHubModule
       ),
   },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./features/auth/auth.module').then((m) => m.AuthModule),
+  },
 ];
