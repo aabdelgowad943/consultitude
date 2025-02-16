@@ -51,9 +51,10 @@
       <div class="flex gap-1 items-center w-full">
         <h1
           *ngFor="let tag of tags"
-          class="bg-[#E9EAEC] text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+          class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+          (click)="onTagClick(tag)"
         >
-          {{ tag }}
+          {{ tag.name }}
         </h1>
       </div>
       <!-- Downloads -->

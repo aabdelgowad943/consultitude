@@ -30,7 +30,7 @@ export class ProductDetailsComponent implements OnInit {
       next: (response: any) => {
         this.product = response.data;
         this.priceChange.emit(this.product.price);
-        console.log('res is', response.data);
+        // console.log('res is', response.data);
       },
       error: (err) => console.error('Error fetching product:', err),
     });

@@ -117,6 +117,7 @@
     <app-product-card
       *ngFor="let template of filteredTemplates"
       [template]="template"
+      (tagClick)="tagClick.emit($event)"
     >
     </app-product-card>
   </section>

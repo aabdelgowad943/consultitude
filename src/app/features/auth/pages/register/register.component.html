@@ -15,32 +15,30 @@
               alt="logo"
             />
           </div>
-          <!-- Subtitle -->
-          <h2
-            class="md:text-[32px] text-[28px] text-black md:mb-3 font-[500] text-center"
-          >
-            Create your free account
-          </h2>
 
           <!-- Step 1: Email Entry -->
           <div *ngIf="currentStep === registrationStep.EmailEntry">
+            <h2
+              class="md:text-[32px] text-[28px] text-black md:mb-3 font-[500] text-center"
+            >
+              Create your free account
+            </h2>
             <p
               class="text-[#475467] text-[16px] md:w-[480px] font-[400] text-center md:mb-10"
             >
               Revolutionize consulting with AI. Empower your team to lead,
               innovate, and shape the future.
             </p>
-            <!-- LinkedIn Button -->
+
             <div class="w-full flex justify-center mt-10 md:mt-0">
               <button
                 class="w-[329px] flex text-[16px] gap-2 md:w-[480px] h-[48px] font-[500] items-center justify-center py-2.5 px-5 text-sm text-white bg-[#0077B5] rounded-xl hover:bg-[#0076b5c7]"
               >
-                <!-- LinkedIn SVG Icon -->
                 <img src="/images/linkedin.svg" alt="" />
                 Continue with LinkedIn
               </button>
             </div>
-            <!-- Divider -->
+
             <div class="w-full flex justify-center">
               <div class="flex md:w-[480px] w-[329px] items-center my-4">
                 <div class="flex-grow h-px bg-gray-300"></div>
@@ -90,36 +88,61 @@
             </div>
           </div>
 
-          <!-- Step 2: Code Verification -->
-          <div *ngIf="currentStep === registrationStep.CodeVerification">
+          <!-- Step 2: User Profile -->
+          <div *ngIf="currentStep === registrationStep.UserProfile">
+            <h2
+              class="md:text-[32px] text-[28px] text-black md:mb-3 font-[500] text-center"
+            >
+              Tell us about yourself
+            </h2>
             <p
-              class="text-[#475467] text-[16px] md:w-[480px] font-[400] text-center md:mb-10"
+              class="text-[#475467] text-[16px] w-full font-[400] text-center md:mb-10"
             >
-              We’ve sent a temporary login code to your registered email. <br />
-              Please check and enter it to proceed.
+              We are honored to have you in our family and would love to get to
+              know you! 👋
             </p>
+
             <div
-              class="w-full flex flex-col md:w-[480px] mt-10 md:mt-0 justify-center text-left items-center"
+              class="w-full flex flex-col justify-center mt-10 md:mt-0 text-left items-center"
             >
-              <label
-                for="verificationCode"
-                class="block text-sm md:w-full w-[329px] text-left mb-2 font-medium text-[#14151A]"
-              >
-                Enter login code
-              </label>
-              <input
-                type="password"
-                id="verificationCode"
-                [(ngModel)]="verificationCode"
-                placeholder="******"
-                class="w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
-              />
-              <div
-                *ngIf="verificationCodeError"
-                class="text-red-500 text-sm mt-1"
-              >
-                {{ verificationCodeError }}
+              <div class="w-full space-y-4">
+                <div>
+                  <label
+                    for="name"
+                    class="block text-sm mb-2 font-medium text-[#14151A]"
+                    >Enter your name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    [(ngModel)]="name"
+                    placeholder="Your name"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                  />
+                  <div *ngIf="nameError" class="text-red-500 text-sm mt-1">
+                    {{ nameError }}
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    for="currentRole"
+                    class="block text-sm mt-4 mb-2 font-medium text-[#14151A]"
+                    >Current role</label
+                  >
+                  <input
+                    type="text"
+                    id="currentRole"
+                    [(ngModel)]="currentRole"
+                    placeholder="Your current role"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                  />
+                  <div *ngIf="roleError" class="text-red-500 text-sm mt-1">
+                    {{ roleError }}
+                  </div>
+                </div>
               </div>
+
               <div
                 class="flex justify-between md:w-[480px] gap-5 items-center mt-5"
               >
@@ -132,10 +155,173 @@
                 </button>
                 <button
                   type="button"
-                  (click)="verifyCode()"
+                  (click)="validateProfile()"
                   class="bg-[#9241DC] md:w-full w-[235px] h-[48px] text-white px-4 py-2 rounded-xl"
                 >
                   Continue
+                </button>
+              </div>
+              <div class="w-full text-center mt-4">
+                <span class="text-xs font-[400] text-[#475467]">
+                  By continuing, you agree to Consultitude’s
+                  <a class="underline" routerLink="/terms-and-condition"
+                    >Terms of Service</a
+                  >
+                  and
+                  <a class="underline" routerLink="/privacy-and-policy"
+                    >Privacy Policy.</a
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Password Setup -->
+          <div *ngIf="currentStep === registrationStep.PasswordSetup">
+            <h2
+              class="md:text-[32px] text-[28px] text-black md:mb-3 font-[500] text-center"
+            >
+              Secure your account
+            </h2>
+            <p
+              class="text-[#475467] text-[16px] md:w-[480px] font-[400] text-center md:mb-10"
+            >
+              Please set your password.
+            </p>
+
+            <div
+              class="w-full flex flex-col justify-center text-left items-center"
+            >
+              <div class="w-full space-y-4">
+                <div>
+                  <label
+                    for="password"
+                    class="block text-sm mb-2 font-medium text-[#14151A]"
+                    >Enter password</label
+                  >
+                  <input
+                    type="password"
+                    id="password"
+                    [(ngModel)]="password"
+                    placeholder="••••••••"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                  />
+                  <div *ngIf="passwordError" class="text-red-500 text-sm mt-1">
+                    {{ passwordError }}
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    for="confirmPassword"
+                    class="block text-sm mb-2 font-medium text-[#14151A]"
+                    >Confirm password</label
+                  >
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    [(ngModel)]="confirmPassword"
+                    placeholder="••••••••"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                  />
+                  <div
+                    *ngIf="confirmPasswordError"
+                    class="text-red-500 text-sm mt-1"
+                  >
+                    {{ confirmPasswordError }}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flex justify-between md:w-[480px] gap-5 items-center mt-5"
+              >
+                <button
+                  type="button"
+                  (click)="goBack()"
+                  class="bg-white border h-[48px] flex items-center justify-center border-[#DEE0E3] text-black px-4 py-2 rounded-xl"
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  (click)="validatePassword()"
+                  class="bg-[#9241DC] md:w-full w-[235px] h-[48px] text-white px-4 py-2 rounded-xl"
+                >
+                  Continue
+                </button>
+              </div>
+              <div class="w-full text-center mt-4">
+                <span class="text-xs font-[400] text-[#475467]">
+                  By continuing, you agree to Consultitude’s
+                  <a class="underline" routerLink="/terms-and-condition"
+                    >Terms of Service</a
+                  >
+                  and
+                  <a class="underline" routerLink="/privacy-and-policy"
+                    >Privacy Policy.</a
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Code Verification -->
+          <div *ngIf="currentStep === registrationStep.CodeVerification">
+            <h2
+              class="md:text-[32px] text-[28px] text-black md:mb-3 font-[500] text-center"
+            >
+              Verify your email
+            </h2>
+            <p
+              class="text-[#475467] text-[16px] md:w-[480px] font-[400] text-center md:mb-10"
+            >
+              We’ve sent a temporary login code to your registered email.<br />
+              Please check and enter it to proceed.
+            </p>
+
+            <div
+              class="w-full flex flex-col md:w-[480px] mt-10 md:mt-0 justify-center text-left items-center"
+            >
+              <div class="w-full space-y-4">
+                <div>
+                  <label
+                    for="verificationCode"
+                    class="block text-sm mb-2 font-medium text-[#14151A]"
+                    >Enter login code</label
+                  >
+                  <input
+                    type="password"
+                    id="verificationCode"
+                    [(ngModel)]="verificationCode"
+                    placeholder="••••••"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                  />
+                  <div
+                    *ngIf="verificationCodeError"
+                    class="text-red-500 text-sm mt-1"
+                  >
+                    {{ verificationCodeError }}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flex justify-between md:w-[480px] gap-5 items-center mt-5"
+              >
+                <button
+                  type="button"
+                  (click)="goBack()"
+                  class="bg-white border h-[48px] flex items-center justify-center border-[#DEE0E3] text-black px-4 py-2 rounded-xl"
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  (click)="verifyAndSubmit()"
+                  class="bg-[#9241DC] md:w-full w-[235px] h-[48px] text-white px-4 py-2 rounded-xl"
+                >
+                  Complete Registration
                 </button>
               </div>
               <div class="w-full text-center mt-4">
@@ -162,154 +348,6 @@
             </div>
           </div>
 
-          <!-- Step 3: Password Setup -->
-          <div *ngIf="currentStep === registrationStep.PasswordSetup">
-            <p
-              class="text-[#475467] text-[16px] md:w-[480px] font-[400] text-center md:mb-10"
-            >
-              Please set your password.
-            </p>
-            <div
-              class="w-full flex flex-col mt-10 md:mt-0 justify-center text-left items-center"
-            >
-              <label
-                for="password"
-                class="block md:w-full w-[329px] text-left text-sm mb-2 font-medium text-[#14151A]"
-              >
-                Enter password
-              </label>
-              <input
-                type="password"
-                id="password"
-                [(ngModel)]="password"
-                placeholder="*****"
-                class="w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
-              />
-              <div *ngIf="passwordError" class="text-red-500 text-sm mt-1">
-                {{ passwordError }}
-              </div>
-              <label
-                for="confirmPassword"
-                class="block text-sm md:w-full w-[329px] text-left mt-4 mb-2 font-medium text-[#14151A]"
-              >
-                Re-enter password
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                [(ngModel)]="confirmPassword"
-                placeholder="*****"
-                class="w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
-              />
-              <div
-                *ngIf="confirmPasswordError"
-                class="text-red-500 text-sm mt-1"
-              >
-                {{ confirmPasswordError }}
-              </div>
-              <div
-                class="flex justify-between md:w-[480px] gap-5 items-center mt-5"
-              >
-                <button
-                  type="button"
-                  (click)="goBack()"
-                  class="bg-white border h-[48px] flex items-center justify-center border-[#DEE0E3] text-black px-4 py-2 rounded-xl"
-                >
-                  Back
-                </button>
-                <button
-                  type="button"
-                  (click)="setupPassword()"
-                  class="bg-[#9241DC] md:w-full w-[235px] h-[48px] text-white px-4 py-2 rounded-xl"
-                >
-                  Create an account
-                </button>
-              </div>
-              <div class="w-full text-center mt-4">
-                <span class="text-xs font-[400] text-[#475467]">
-                  By continuing, you agree to Consultitude’s
-                  <a class="underline" routerLink="/terms-and-condition"
-                    >Terms of Service</a
-                  >
-                  and
-                  <a class="underline" routerLink="/privacy-and-policy"
-                    >Privacy Policy.</a
-                  >
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 4: User Profile -->
-          <div *ngIf="currentStep === registrationStep.UserProfile">
-            <p
-              class="text-[#475467] text-[16px] w-full font-[400] text-center md:mb-10"
-            >
-              We are honored to have you in our family and would love to get to
-              know you! 👋
-            </p>
-            <div
-              class="w-full flex flex-col justify-center mt-10 md:mt-0 text-left items-center"
-            >
-              <label
-                for="name"
-                class="block md:w-full w-[329px] text-left text-sm mb-2 font-medium text-[#14151A]"
-              >
-                Enter your name
-              </label>
-              <input
-                type="text"
-                id="name"
-                [(ngModel)]="name"
-                placeholder="Your name"
-                class="w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
-              />
-              <label
-                for="currentRole"
-                class="block md:w-full w-[329px] text-left text-sm mt-4 mb-2 font-medium text-[#14151A]"
-              >
-                Current role
-              </label>
-              <input
-                type="text"
-                id="currentRole"
-                [(ngModel)]="currentRole"
-                placeholder="Your current role"
-                class="w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
-              />
-              <div
-                class="flex justify-between md:w-[480px] gap-5 items-center mt-5"
-              >
-                <button
-                  type="button"
-                  (click)="goBack()"
-                  class="bg-white border h-[48px] flex items-center justify-center border-[#DEE0E3] text-black px-4 py-2 rounded-xl"
-                >
-                  Back
-                </button>
-                <button
-                  type="button"
-                  (click)="completeRegistration()"
-                  class="bg-[#9241DC] md:w-full w-[235px] h-[48px] text-white px-4 py-2 rounded-xl"
-                >
-                  Continue
-                </button>
-              </div>
-              <div class="w-full text-center mt-4">
-                <span class="text-xs font-[400] text-[#475467]">
-                  By continuing, you agree to Consultitude’s
-                  <a class="underline" routerLink="/terms-and-condition"
-                    >Terms of Service</a
-                  >
-                  and
-                  <a class="underline" routerLink="/privacy-and-policy"
-                    >Privacy Policy.</a
-                  >
-                </span>
-              </div>
-            </div>
-          </div>
-
           <!-- Step 5: Completion -->
           <div
             *ngIf="currentStep === registrationStep.Completion"
@@ -323,7 +361,7 @@
             </p>
           </div>
 
-          <!-- Footer: Already have an account? -->
+          <!-- Footer: Login link -->
           <div
             class="w-full text-center mt-10"
             *ngIf="currentStep !== registrationStep.Completion"

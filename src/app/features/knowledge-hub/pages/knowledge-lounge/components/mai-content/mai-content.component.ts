@@ -19,6 +19,7 @@ export class MaiContentComponent {
   @Output() removeFilter = new EventEmitter<any>();
   @Output() sortChange = new EventEmitter<string>();
   @Output() openSidebar = new EventEmitter<void>();
+  @Output() tagClick = new EventEmitter<string>();
 
   isSortMenuOpen = false;
 

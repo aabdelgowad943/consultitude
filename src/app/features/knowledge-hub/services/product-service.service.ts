@@ -19,9 +19,9 @@ export class ProductServiceService {
     search: string = '',
     sortBy: string = '',
     areaOfFocus: string[] = [],
-    features: string[] = [],
     domains: string[] = [],
     documentTypes: string[] = [],
+    features: string[] = [],
     minPrice: number = 0,
     maxPrice: number = 1000
   ): Observable<{ products: Product[]; totalPages: number }> {

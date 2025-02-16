@@ -1,5 +1,5 @@
 <!-- animation to left -->
-<div class="overflow-hidden relative">
+<!-- <div class="overflow-hidden relative">
   <div class="flex animate-scroll">
     <ng-container *ngFor="let i of [0, 1]">
       <div *ngFor="let card of toLeftCard" class="card">
@@ -11,10 +11,10 @@
       </div>
     </ng-container>
   </div>
-</div>
+</div> -->
 
 <!-- animation to right -->
-<div class="overflow-hidden relative mt-10">
+<!-- <div class="overflow-hidden relative mt-10">
   <div class="flex animate-scroll2">
     <ng-container *ngFor="let i of [0, 1]">
       <div *ngFor="let card of toRightCard" class="card">
@@ -26,4 +26,23 @@
       </div>
     </ng-container>
   </div>
+</div> -->
+
+<div class="scroller w-full mx-auto" data-direction="right" data-speed="fast">
+  <ul class="tag-list scroller__inner">
+    <img src="/images/animation-card1.svg" class="full-size-image" />
+    <img src="/images/animation-card2.svg" class="full-size-image" />
+    <img src="/images/animation-card3.svg" class="full-size-image" />
+    <img src="/images/animation-card4.svg" class="full-size-image" />
+    <img src="/images/animation-card5.svg" class="full-size-image" />
+  </ul>
+</div>
+<div class="scroller w-full mx-auto" data-direction="left" data-speed="fast">
+  <ul class="tag-list scroller__inner">
+    <img src="/images/animation-card1.svg" class="full-size-image" />
+    <img src="/images/animation-card2.svg" class="full-size-image" />
+    <img src="/images/animation-card3.svg" class="full-size-image" />
+    <img src="/images/animation-card4.svg" class="full-size-image" />
+    <img src="/images/animation-card5.svg" class="full-size-image" />
+  </ul>
 </div>

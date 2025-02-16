@@ -59,13 +59,13 @@
       <button
         routerLink="/auth/login"
         [disabled]="isHomePath"
-        class="px-4 py-3 bg-gray-600 font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
+        class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
       >
         <span class="material-icons">Login</span>
       </button>
     </div>
     <button
-      class="px-4 py-2 bg-gray-600 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors md:hidden"
+      class="px-4 py-2 bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors md:hidden"
       (click)="toggleMenu()"
     >
       <span class="material-icons"><i class="pi pi-align-justify"></i></span>
@@ -124,12 +124,12 @@
         [routerLink]="isHomePath ? null : '/become-expert'"
         >Become an expert</a
       >
-      <!-- <button
+      <button
         [disabled]="isHomePath"
-        class="px-4 py-2 w-full bg-gray-600 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
+        class="px-4 py-2 w-full bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
       >
         Login
-      </button> -->
+      </button>
     </nav>
   </header>
 </div>

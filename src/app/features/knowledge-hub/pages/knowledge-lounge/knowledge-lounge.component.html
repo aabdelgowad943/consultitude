@@ -28,6 +28,7 @@
           (removeFilter)="removeFilter($event)"
           (sortChange)="onSortChange($event)"
           (openSidebar)="openSidebar()"
+          (tagClick)="onTagClick($event)"
         >
         </app-mai-content>
 
@@ -109,26 +110,6 @@
                 item.name
               }}</span>
             </label>
-          </div>
-          <!-- In sidebar.component.html -->
-          <div *ngIf="section.key === 'language'" class="ml-2 space-y-2">
-            <div *ngFor="let lang of languages" class="flex items-center">
-              <input
-                type="radio"
-                id="lang-{{ lang.value }}"
-                name="language"
-                [value]="lang.value"
-                [(ngModel)]="filters.language"
-                (ngModelChange)="onFilterChange()"
-                class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-              />
-              <label
-                for="lang-{{ lang.value }}"
-                class="ml-2 block text-sm text-gray-700"
-              >
-                {{ lang.label }}
-              </label>
-            </div>
           </div>
         </div>
       </div>

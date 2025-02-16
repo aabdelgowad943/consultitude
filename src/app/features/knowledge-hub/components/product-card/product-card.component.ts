@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 export interface ProductItem {
@@ -29,8 +36,9 @@ export class ProductCardComponent implements OnChanges {
   ];
 
   @Input() template: any;
+  @Output() tagClick = new EventEmitter<string>();
 
-  tags: string[] = []; // Array to hold combined tags
+  tags: any[] = []; // Array to hold combined tags
   selectedImage: string; // Variable to hold the selected image
 
   constructor(private router: Router) {
@@ -39,13 +47,22 @@ export class ProductCardComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.template) {
-      // Extract names from areaOfFocus, features, and domains
-      const areaTags = this.template.areaOfFocus?.map((a: any) => a.name) || [];
-      const featureTags = this.template.features?.map((f: any) => f.name) || [];
-      const domainTags = this.template.domains?.map((d: any) => d.name) || [];
+      // Extract names and ids from areaOfFocus, features, and domains
+      const areaTags =
+        this.template.areaOfFocus?.map((a: any) => ({
+          id: a.id,
+          name: a.name,
+        })) || [];
+      const featureTags =
+        this.template.features?.map((f: any) => ({ id: f.id, name: f.name })) ||
+        [];
+      const domainTags =
+        this.template.domains?.map((d: any) => ({ id: d.id, name: d.name })) ||
+        [];
 
       // Combine all tags into one array
       this.tags = [...areaTags, ...featureTags, ...domainTags];
+      // console.log('domains tage', featureTags);
     }
   }
 
@@ -59,5 +76,9 @@ export class ProductCardComponent implements OnChanges {
       '/knowledge/view-template-details',
       this.template.id,
     ]);
+  }
+
+  onTagClick(tag: { id: string; name: string }) {
+    this.tagClick.emit(tag.id);
   }
 }

@@ -49,7 +49,7 @@ export class KnowledgeLoungeComponent implements OnInit {
     { name: 'Document Format', key: 'documentTypes', isOpen: false },
     { name: 'Features', key: 'features', isOpen: false },
     { name: 'Price', key: 'price', isOpen: false },
-    { name: 'Language', key: 'language', isOpen: false },
+    // { name: 'Language', key: 'language', isOpen: false },
   ];
 
   // Pagination variables
@@ -58,10 +58,10 @@ export class KnowledgeLoungeComponent implements OnInit {
   totalPages: number = 1;
 
   // Language options
-  languages = [
-    { label: 'English', value: Language.EN },
-    { label: 'Arabic', value: Language.AR },
-  ];
+  // languages = [
+  //   { label: 'English', value: Language.EN },
+  //   { label: 'Arabic', value: Language.AR },
+  // ];
 
   constructor(private templateService: ProductServiceService) {}
 
@@ -301,5 +301,35 @@ export class KnowledgeLoungeComponent implements OnInit {
 
   closeSidebar() {
     this.isSidebarOpen = false;
+  }
+
+  onTagClick(tagId: string) {
+    // Find the tag in the areaOfFocusList, domainsList, documentsList, or featuresList
+    const tag =
+      this.areaOfFocusList.find((item) => item.id === tagId) ||
+      this.domainsList.find((item) => item.id === tagId) ||
+      this.documentsList.find((item) => item.id === tagId) ||
+      this.featuresList.find((item) => item.id === tagId);
+
+    if (tag) {
+      tag.checked = true;
+      this.selectedFilters.push({
+        label: tag.name,
+        value: tag.id,
+        type: this.getTagType(tagId),
+      });
+      this.currentPage = 1;
+      this.loadProducts();
+    }
+  }
+
+  private getTagType(tagId: string): string {
+    if (this.areaOfFocusList.some((item) => item.id === tagId))
+      return 'areaOfFocus';
+    if (this.domainsList.some((item) => item.id === tagId)) return 'domains';
+    if (this.documentsList.some((item) => item.id === tagId))
+      return 'documentTypes';
+    if (this.featuresList.some((item) => item.id === tagId)) return 'features';
+    return '';
   }
 }
