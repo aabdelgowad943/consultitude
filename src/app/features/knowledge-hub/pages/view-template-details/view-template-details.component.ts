@@ -85,7 +85,7 @@ export class ViewTemplateDetailsComponent {
       // images: apiData.images.map((img: any) => img.url),
       features: apiData.features.map(
         (feature: any) =>
-          feature.translations[0]?.description || 'No feature description'
+          feature.translations[0]?.name || 'No feature description'
       ),
       domains: apiData.domains.map(
         (domain: any) => domain.domain.translations[0]?.name || 'Unknown domain'
