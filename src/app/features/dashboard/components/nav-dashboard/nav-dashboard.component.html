@@ -1,0 +1,137 @@
+<!-- <div class="w-full max-w-[1600px] relative mx-auto"> -->
+<div
+  class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50"
+>
+  <header
+    class="flex justify-between absolute w-full top-0 right-0 items-center md:px-[80px] md:py-[16px] py-5 md:mb-0 px-5 text-black"
+    [class.bg-transparent]="!shouldApplyRedBg"
+    [class.bg-[#0C111D]]="shouldApplyRedBg"
+  >
+    <div class="flex items-center w-full justify-between gap-10">
+      <div class="md:hidden block">
+        <div class="flex lg:flex-1">
+          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+            <span class="sr-only">Logo</span>
+
+            <img src="/images/new_logo.svg" alt="Logo" />
+          </a>
+        </div>
+      </div>
+      <nav class="space-x-4 hidden md:flex items-center gap-2">
+        <div class="flex lg:flex-1">
+          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+            <span class="sr-only">Logo</span>
+
+            <img src="/images/new_logo.svg" alt="Logo" />
+          </a>
+        </div>
+
+        <a
+          [class.disabled]="isHomePath"
+          routerLink="/knowledge"
+          class="font-sans"
+          >Knowledge Lounge</a
+        >
+        <a
+          [class.disabled]="isHomePath"
+          [routerLink]="isHomePath ? null : '/about-us'"
+          class="font-sans"
+          >About us</a
+        >
+        <a
+          [class.disabled]="isHomePath"
+          [routerLink]="isHomePath ? null : '/faqs'"
+          class="font-sans"
+          >FAQs</a
+        >
+        <a
+          [class.disabled]="isHomePath"
+          [routerLink]="isHomePath ? null : '/contact-us'"
+          class="font-sans"
+          >Contact us</a
+        >
+        <a
+          [class.disabled]="isHomePath"
+          [routerLink]="isHomePath ? null : '/become-expert'"
+          class="font-sans"
+          >Become An Expert</a
+        >
+      </nav>
+      <!-- Login Button -->
+      <button
+        routerLink="/auth/login"
+        [disabled]="isHomePath"
+        class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
+      >
+        <span class="material-icons">Login</span>
+      </button>
+    </div>
+    <button
+      class="px-4 py-2 bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors md:hidden"
+      (click)="toggleMenu()"
+    >
+      <span class="material-icons"><i class="pi pi-align-justify"></i></span>
+    </button>
+    <nav
+      class="fixed top-0 py-10 px-5 left-0 w-full z-50 h-fit bg-black flex flex-col items-start justify-start space-y-4 md:hidden transition-transform duration-300"
+      [ngClass]="{
+        'transform -translate-y-full': !menuVisible,
+        'transform translate-y-0': menuVisible
+      }"
+    >
+      <div class="mb-5 flex w-full justify-between items-center">
+        <div class="flex lg:flex-1">
+          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+            <span class="sr-only">Logo</span>
+
+            <img src="/images/white_logo_for_nav.svg" alt="Logo" />
+          </a>
+        </div>
+
+        <button
+          class="px-4 py-2 bg-gray-600 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
+          (click)="toggleMenu()"
+        >
+          X
+        </button>
+      </div>
+
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/knowledge'"
+        >Knowledge Lounge</a
+      >
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/solutions'"
+        >Solutions</a
+      >
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/how-it-works'"
+        >How it works</a
+      >
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/pricing'"
+        >Pricing</a
+      >
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/contact-us'"
+        >Contact us</a
+      >
+      <a
+        [class.disabled]="isHomePath"
+        [routerLink]="isHomePath ? null : '/become-expert'"
+        >Become an expert</a
+      >
+      <button
+        [disabled]="isHomePath"
+        class="px-4 py-2 w-full bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
+      >
+        Login
+      </button>
+    </nav>
+  </header>
+</div>

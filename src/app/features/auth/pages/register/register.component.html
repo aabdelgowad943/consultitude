@@ -63,7 +63,10 @@
                 placeholder="email@mail.com"
                 class="mt-1 block w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border border-[#DEE0E3] placeholder:text-[#0D112666]/60 rounded-xl"
               />
-              <div *ngIf="emailError" class="text-red-500 text-sm mt-1">
+              <div
+                *ngIf="emailError"
+                class="text-red-500 w-full text-left text-sm mt-1"
+              >
                 {{ emailError }}
               </div>
               <button

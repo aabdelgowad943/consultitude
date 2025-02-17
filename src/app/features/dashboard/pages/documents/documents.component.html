@@ -1,0 +1,86 @@
+<div class="w-full max-w-[1600px] h-fit mx-auto">
+  <div class="w-full my-6 flex px-2 md:px-6 justify-between items-center">
+    <h1
+      class="md:text-[32px] text-[24px] font-[500] leading-[38.5px] text-[#14151A]"
+    >
+      My Documents
+    </h1>
+    <button
+      class="w-[128px] h-10 flex items-center justify-center rounded-[12px] px-3 py-2.5 text-[14px] bg-[#9241DC] text-white"
+    >
+      Knowledge Hub
+    </button>
+  </div>
+
+  <!-- Documents Grid -->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 md:px-6 2xl:px-6 px-0 gap-6"
+  >
+    <div
+      *ngFor="let doc of documents"
+      class="relative border border-[#d1d0d0] rounded-2xl bg-white w-full mx-auto"
+    >
+      <!-- Image Section -->
+      <div class="relative rounded-2xl 2xl:h-[240px] w-full mx-auto">
+        <img
+          [src]="selectedImage"
+          [alt]="doc.documentFormat"
+          class="w-full h-[240px] object-cover rounded-t-2xl"
+        />
+
+        <div
+          class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-10 text-white rounded-t-2xl"
+        >
+          <h3 class="text-3xl mb-1 w-[50%] font-[700]">
+            {{ doc.productName }}
+          </h3>
+        </div>
+      </div>
+
+      <!-- Card Body -->
+      <div class="p-4 2xl:h-[161px]">
+        <!-- Price -->
+        <div class="flex items-center justify-between mb-4">
+          <!-- Title -->
+          <h3 class="text-[#171717] flex flex-col text-[24px] font-bold">
+            {{ doc.productName }}
+          </h3>
+          <!-- <h3 class="text-[#171717] flex flex-col text-[24px] font-bold">
+            {{ doc.price }}
+          </h3> -->
+        </div>
+
+        <h3 class="text-gray-500 flex flex-col text-sm mb-4 font-bold">
+          {{ doc.documentFormat }}
+        </h3>
+
+        <!-- View Button -->
+        <button
+          class="w-full flex text-[14px] font-sans items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-[#FFFFFF] font-medium rounded-xl border border-[#6E2FA5] transition-colors"
+        >
+          <i class="pi pi-eye"></i>
+          View Document
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="flex justify-center items-center my-4 pb-5">
+    <button
+      (click)="prevPage()"
+      [disabled]="currentPage === 1"
+      class="px-4 py-2 mr-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+    >
+      Previous
+    </button>
+    <span class="mx-2">Page {{ currentPage }}</span>
+    <button
+      (click)="nextPage()"
+      [disabled]="documents.length < pageSize"
+      class="px-4 py-2 ml-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+    >
+      Next
+    </button>
+  </div>
+</div>

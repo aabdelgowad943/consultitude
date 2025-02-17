@@ -1,0 +1,328 @@
+<div class="antialiased bg-gray-50">
+  <!-- navbar form big screen -->
+  <nav
+    class="bg-white border-b border-gray-200 px-6 py-5 mb-10 hidden md:block fixed left-0 right-0 top-0 z-50"
+  >
+    <div class="flex flex-wrap justify-between items-center">
+      <div class="flex justify-start gap-6 items-center">
+        <button
+          data-drawer-target="drawer-navigation"
+          data-drawer-toggle="drawer-navigation"
+          aria-controls="drawer-navigation"
+          class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-6 h-6"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <svg
+            aria-hidden="true"
+            class="hidden w-6 h-6"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="sr-only">Toggle sidebar</span>
+        </button>
+        <a routerLink="/index" class="flex items-center justify-between mr-4">
+          <img
+            src="/images/pink-logo.png"
+            class="w-[177px] h-[24px]"
+            alt="Flowbite Logo"
+          />
+        </a>
+
+        <a
+          routerLink="/knowledge"
+          class="text-[14px] font-[500] leading-[16.8px] text-[#475467]"
+          >Knowledge Lounge</a
+        >
+        <a
+          routerLink="/about-us"
+          class="text-[14px] font-[500] leading-[16.8px] text-[#475467]"
+          >About us</a
+        >
+        <a
+          routerLink="/faqs"
+          class="text-[14px] font-[500] leading-[16.8px] text-[#475467]"
+          >FAQs</a
+        >
+        <a
+          routerLink="/contact-us"
+          class="text-[14px] font-[500] leading-[16.8px] text-[#475467]"
+          >Contact us</a
+        >
+      </div>
+      <div class="flex items-center lg:order-2">
+        <!-- Dropdown menu -->
+        <button
+          type="button"
+          class="flex mx-3 text-sm items-center gap-3 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
+          id="user-menu-button"
+          aria-expanded="false"
+          data-dropdown-toggle="dropdown"
+        >
+          <span class="sr-only">Open user menu</span>
+          <img
+            class="w-10 h-10 rounded-full"
+            src="/images/profile.png"
+            alt="user photo"
+          />
+          <img
+            src="/images/arrow-down-sign-to-navigate (1).png "
+            class="w-4 h-4"
+            alt=""
+          />
+        </button>
+        <!-- Dropdown menu -->
+        <div
+          class="hidden z-50 my-4 w-64 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl"
+          id="dropdown"
+        >
+          <div class="py-3 px-4 flex justify-between items-center space-x-3">
+            <div class="flex items-center gap-2">
+              <img
+                class="w-10 h-10 rounded-full"
+                src="/images/profile.png"
+                alt="User avatar"
+              />
+              <div>
+                <span class="block text-sm font-semibold text-gray-900"
+                  >Ahmed Mamdouh</span
+                >
+                <span class="block text-sm text-gray-500 truncate"
+                  >amamdouh&#64;mail.com</span
+                >
+              </div>
+            </div>
+            <img src="/images/next.png" class="w-5 h-5" alt="" />
+            <!-- <span class="ml-auto text-gray-400">&rarr;</span> -->
+          </div>
+          <ul class="py-2">
+            <li>
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
+                >My Documents</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
+                >Saved Cards</a
+              >
+            </li>
+            <li
+              class="flex items-center px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
+            >
+              <span>Settings</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- nav for mobile screen -->
+  <nav
+    class="fixed top-0 py-5 px-4 left-0 w-full text-white z-50 h-full bg-black flex flex-col items-start justify-start md:hidden transition-transform duration-300"
+    [ngClass]="{
+      'transform -translate-y-full': !menuVisible,
+      'transform translate-y-0': menuVisible
+    }"
+  >
+    <div class="mb-5 flex w-full justify-between items-center">
+      <div class="flex lg:flex-1">
+        <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <span class="sr-only">Logo</span>
+
+          <img src="/images/white_logo_for_nav.svg" alt="Logo" />
+        </a>
+      </div>
+
+      <button
+        class="px-4 py-2 bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
+        (click)="toggleMenu()"
+      >
+        X
+      </button>
+    </div>
+
+    <!-- profile card -->
+    <div
+      class="flex items-center gap-3 p-3 text-base bg-white border border-[#EAECF0] w-[354px] h-[58px] font-medium rounded-[10px]"
+    >
+      <div class="w-full flex items-center">
+        <img src="/images/profile.png" class="w-[32px] h-[32px]" alt="" />
+        <div class="flex flex-col">
+          <span class="ml-2 text-[14px] font-[500] text-[#14151A]"
+            >Ahmed Mamdouh</span
+          >
+          <span class="ml-2 text-[12px] font-[500] text-[#667085]"
+            >Ahmed Mamdouh</span
+          >
+        </div>
+      </div>
+      <img src="/images/next.png" class="w-5 h-5" alt="" />
+    </div>
+
+    <div class="flex flex-col w-full gap-4 mb-10 pl-5">
+      <a (click)="toggleMenu()" class="text-[14px] mt-6" routerLink="documents"
+        >My Documents</a
+      >
+      <a routerLink="/">Saved Cards</a>
+      <a (click)="toggleMenu()" routerLink="settings" class="mb-5">Settings</a>
+    </div>
+    <div class="border-t flex flex-col w-full gap-4 border-white">
+      <a class="mt-10 text-[14px]" routerLink="/knowledge">Knowledge Lounge</a>
+      <a routerLink="/solutions">Solutions</a>
+      <a routerLink="/how-it-works">How it works</a>
+      <a routerLink="/pricing">Pricing</a>
+      <a routerLink="/contact-us">Contact us</a>
+      <a routerLink="/become-expert">Become an expert</a>
+    </div>
+
+    <div class="mt-4">
+      <div
+        class="bg-[#F2F4F7] w-[361px] h-[163px] p-5 border border-[#D0D5DD] rounded-xl"
+      >
+        <h1 class="text-[16px] text-[#57247F]">
+          Can’t find document you want us to build next!
+        </h1>
+        <h1 class="mt-3 mb-6 text-[#667085] text-[12px] leading-[18px]">
+          A comprehensive library of slide layouts, templates, and typical
+          consulting tools and frameworks.
+        </h1>
+        <button
+          class="text-[#14151A] bg-white py-[6px] px-2.5 text-[14px] rounded-[10px] flex justify-center items-center gap-2"
+        >
+          Request document
+          <img src="/images/next.png" class="w-4 h-4" alt="" />
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Burger button and logo for mobile screens -->
+  <div
+    class="flex w-full justify-center md:hidden fixed z-50 bg-black h-[64px] items-center"
+  >
+    <button class="md:hidden fixed left-4 z-10 rounded" (click)="toggleMenu()">
+      <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+        <span class="sr-only">Logo</span>
+
+        <img src="/images/white_logo_for_nav.svg" alt="Logo" />
+      </a>
+    </button>
+
+    <button
+      class="px-4 py-2 bg-[#FFFFFF40]/25 fixed right-4 z-10 text-white rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors md:hidden"
+      (click)="toggleMenu()"
+    >
+      <span class="material-icons"><i class="pi pi-align-justify"></i></span>
+    </button>
+  </div>
+
+  <!-- Sidebar -->
+  <aside
+    class="fixed top-5 left-0 z-40 w-[280px] h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0"
+    aria-label="Sidenav"
+    id="drawer-navigation"
+  >
+    <div class="overflow-y-auto flex flex-col justify-between py-5 px-3 h-full">
+      <ul class="space-y-2">
+        <!-- profile card -->
+        <div
+          class="flex items-center gap-3 mb-6 p-3 text-base bg-white border border-[#EAECF0] w-[248px] h-[58px] font-medium rounded-[10px]"
+        >
+          <div class="w-full flex items-center">
+            <img src="/images/profile.png" class="w-[32px] h-[32px]" alt="" />
+            <div class="flex flex-col">
+              <span class="ml-2 text-[14px] font-[500] text-[#14151A]"
+                >Ahmed Mamdouh</span
+              >
+              <span class="ml-2 text-[12px] font-[500] text-[#667085]"
+                >Ahmed Mamdouh</span
+              >
+            </div>
+          </div>
+          <img src="/images/next.png" class="w-5 h-5" alt="" />
+        </div>
+
+        <li>
+          <a
+            routerLink="documents"
+            routerLinkActive="bg-[#0A0F290A]"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-[10px] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+          >
+            <img src="/images/download.png" class="w-5 h-5" alt="" />
+            <span class="ml-2 text-[14px] font-[500] text-[#14151A]"
+              >My Documents</span
+            >
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+          >
+            <img src="/images/credit-card.png" class="w-5 h-5" alt="" />
+            <span class="ml-2 text-[14px] font-[500] text-[#14151A]"
+              >Saved Cards</span
+            >
+          </a>
+        </li>
+        <li>
+          <a
+            routerLink="settings"
+            routerLinkActive="bg-[#0A0F290A]"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+          >
+            <img src="/images/setting.png" class="w-5 h-5" alt="" />
+            <span class="ml-2 text-[14px] font-[500] text-[#14151A]"
+              >Settings</span
+            >
+          </a>
+        </li>
+      </ul>
+      <div class="w-full flex justify-center mb-6 items-center">
+        <div
+          class="w-[264px] h-[206px] bg-[#F2F4F7] p-5 border border-[#D0D5DD] rounded-xl"
+        >
+          <h1 class="text-[18px] text-[#57247F]">
+            Can’t find document you want us to build next!
+          </h1>
+          <h1 class="mt-3 mb-6 text-[#667085] text-[12px] leading-[18px]">
+            A comprehensive library of slide layouts, templates, and typical
+            consulting tools and frameworks.
+          </h1>
+          <button
+            class="text-[#14151A] bg-white py-[6px] px-2.5 text-[14px] rounded-[10px] flex justify-center items-center gap-2"
+          >
+            Request document
+            <img src="/images/next.png" class="w-4 h-4" alt="" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="p-4 md:pl-72 h-screen bg-white text-black pt-20 md:pt-24">
+    <router-outlet></router-outlet>
+  </main>
+</div>
