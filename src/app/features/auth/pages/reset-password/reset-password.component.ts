@@ -66,8 +66,8 @@ export class ResetPasswordComponent {
 
   closePopup() {
     this.showPopup = false;
-    this.router.navigate(['/auth/reset-password'], {
-      queryParams: { otp: 123, email: this.email },
-    });
+    // this.router.navigate(['/auth/reset-password'], {
+    //   queryParams: { otp: 123, email: this.email },
+    // });
   }
 }

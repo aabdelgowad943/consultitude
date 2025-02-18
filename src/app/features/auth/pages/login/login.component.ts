@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Login } from '../../models/login';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginComponent {
   passwordFieldType: string = 'password';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   login() {
     const loginData: Login = {
@@ -32,14 +32,17 @@ export class LoginComponent {
     this.authService.login(loginData).subscribe({
       next: (res: any) => {
         console.log(res);
-        this.errorMessage = res.data.message; // Clear error message on successful login
-        // const token = res.data.token;
+        this.errorMessage = res.data.message;
+        localStorage.setItem('token', res.data.token);
+        const userId = this.authService.getTokenData();
+        localStorage.setItem('userId', userId);
+        this.router.navigate(['/index']);
 
-        // localStorage.setItem('token', res.data.token);
+        // console.log('user id is', userId);
       },
       error: (err: HttpErrorResponse) => {
         console.log(err.error);
-        this.errorMessage = err.error.errors[0].message; // Set error message
+        this.errorMessage = err.error.errors[0].message;
       },
     });
   }
@@ -54,5 +57,9 @@ export class LoginComponent {
   togglePasswordVisibility() {
     this.passwordFieldType =
       this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
+
+  loginWithLinkedIn() {
+    window.location.href = 'http://13.51.183.148:3000/auth/linkedin';
   }
 }

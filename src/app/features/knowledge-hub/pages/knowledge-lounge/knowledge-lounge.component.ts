@@ -7,6 +7,7 @@ import { MaiContentComponent } from './components/mai-content/mai-content.compon
 import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-lounge-secion.component';
 import { Product, ProductStatus } from '../../models/products';
 import { Language } from '../../models/language.enum';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-knowledge-lounge',
@@ -16,6 +17,7 @@ import { Language } from '../../models/language.enum';
     SidebarComponent,
     MaiContentComponent,
     HeroLoungeSecionComponent,
+    PaginatorModule,
   ],
   templateUrl: './knowledge-lounge.component.html',
   styleUrls: ['./knowledge-lounge.component.scss'],
@@ -47,7 +49,7 @@ export class KnowledgeLoungeComponent implements OnInit {
     { name: 'Domain', key: 'domains', isOpen: false },
     { name: 'Area of Focus', key: 'areasOfFocus', isOpen: false },
     { name: 'Document Format', key: 'documentTypes', isOpen: false },
-    { name: 'Features', key: 'features', isOpen: false },
+    // { name: 'Features', key: 'features', isOpen: false },
     { name: 'Price', key: 'price', isOpen: false },
     // { name: 'Language', key: 'language', isOpen: false },
   ];
@@ -57,11 +59,11 @@ export class KnowledgeLoungeComponent implements OnInit {
   pageSize: number = 6;
   totalPages: number = 1;
 
-  // Language options
-  // languages = [
-  //   { label: 'English', value: Language.EN },
-  //   { label: 'Arabic', value: Language.AR },
-  // ];
+  first: number = 0; // Index of the first record
+  rows: number = 6; // Number of rows per page
+  totalRecords: number = 120; // Total number of records (update as needed)
+
+  // Optional: if you want to keep track of a 1-indexed current page
 
   constructor(private templateService: ProductServiceService) {}
 
@@ -70,7 +72,7 @@ export class KnowledgeLoungeComponent implements OnInit {
     this.loadAreaOfFocus();
     this.loadDomains();
     this.loadDocuments();
-    this.loadFeatures();
+    // this.loadFeatures();
     // Load initial products
     this.loadProducts();
   }
@@ -194,14 +196,14 @@ export class KnowledgeLoungeComponent implements OnInit {
     });
   }
 
-  private loadFeatures() {
-    this.templateService.getAllFeatures().subscribe({
-      next: (data) => {
-        this.featuresList = data;
-        this.initializeFilters();
-      },
-    });
-  }
+  // private loadFeatures() {
+  //   this.templateService.getAllFeatures().subscribe({
+  //     next: (data) => {
+  //       this.featuresList = data;
+  //       this.initializeFilters();
+  //     },
+  //   });
+  // }
 
   // Initialize filters only once after the lists load.
   private initializeFilters() {
@@ -222,21 +224,6 @@ export class KnowledgeLoungeComponent implements OnInit {
   toggleDomainChildren(domain: any) {
     if (domain.children) {
       domain.children.forEach((child: any) => (child.checked = domain.checked));
-    }
-  }
-
-  // Pagination controls
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.loadProducts();
-    }
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.loadProducts();
     }
   }
 
@@ -331,5 +318,15 @@ export class KnowledgeLoungeComponent implements OnInit {
       return 'documentTypes';
     if (this.featuresList.some((item) => item.id === tagId)) return 'features';
     return '';
+  }
+
+  onPageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+    // event.page is zero-based, so add 1 if you need a 1-indexed page number
+    this.currentPage = event.page + 1;
+
+    // Fetch new products based on the current page and rows per page
+    this.loadProducts();
   }
 }

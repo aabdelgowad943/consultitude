@@ -14,6 +14,34 @@ import { ProductServiceService } from '../../services/product-service.service';
 export class ViewTemplateDetailsComponent {
   template: any;
 
+  // create array if images
+  images: any = [
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+  ];
+
   defaultImageUrl = 'https://via.placeholder.com/300x150.png?text=No+Image';
 
   relatedArticles: {

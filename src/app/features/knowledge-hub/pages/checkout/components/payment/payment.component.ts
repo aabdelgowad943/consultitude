@@ -8,6 +8,7 @@ import {
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { loadStripe, Stripe, StripeElements } from '@stripe/stripe-js';
+import { AuthService } from '../../../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-payment',
@@ -32,7 +33,7 @@ export class PaymentComponent implements AfterViewInit, OnChanges {
   clientSecret: string = '';
   stripePublishableKey: string = 'pk_test_G5bt1644CG8jzK2PPr9mHQYj00hm5lHkLu';
 
-  constructor(private location: Location) {}
+  constructor(private location: Location, private authService: AuthService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['productPrice']) {
