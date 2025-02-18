@@ -19,7 +19,7 @@ const routes: Routes = [
     component: ResetPasswordComponent,
   },
   {
-    path: 'verify-otp',
+    path: 'reset-password',
     component: VerifyOtpComponent,
   },
 ];

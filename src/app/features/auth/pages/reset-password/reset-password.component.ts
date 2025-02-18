@@ -13,27 +13,61 @@ import { Router } from '@angular/router';
 })
 export class ResetPasswordComponent {
   email: string = '';
-  emailExists: boolean = false;
-  showPopup: boolean = false;
   errorMessage: string = '';
+  showPopup: boolean = false;
+  isSubmitting: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  checkEmail() {
-    // Simulate an API call to check if the email exists
-    if (this.email === 'ahmed@mail.com') {
-      this.emailExists = true;
-      this.showPopup = true; // Show the popup
-      this.errorMessage = ''; // Clear any previous error message
-    } else {
-      this.errorMessage = 'Email does not exist';
+  handleSubmit() {
+    this.errorMessage = '';
+
+    // Client-side validation
+    if (!this.email) {
+      this.errorMessage = 'Email is required';
+      return;
     }
+
+    if (!this.validateEmail(this.email)) {
+      this.errorMessage = 'Please enter a valid email address';
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    this.authService.isEmailExist(this.email).subscribe({
+      next: (res: any) => {
+        this.sendResetEmail();
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        this.errorMessage = 'Email does not exist in our system';
+      },
+    });
+  }
+
+  private sendResetEmail() {
+    this.authService.resetPassword({ email: this.email }).subscribe({
+      next: () => {
+        this.showPopup = true;
+        this.isSubmitting = false;
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        this.errorMessage = 'Failed to send reset email. Please try again.';
+      },
+    });
+  }
+
+  private validateEmail(email: string): boolean {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
 
   closePopup() {
     this.showPopup = false;
-    this.router.navigate(['/auth/verify-otp'], {
-      queryParams: { email: this.email },
+    this.router.navigate(['/auth/reset-password'], {
+      queryParams: { otp: 123, email: this.email },
     });
   }
 }
