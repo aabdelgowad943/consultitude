@@ -3,10 +3,11 @@ import { DocumentsService } from '../../services/documents.service';
 import { DocumentsResponse, Order } from '../../models/documents';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-documents',
-  imports: [CommonModule],
+  imports: [CommonModule, PaginatorModule],
   templateUrl: './documents.component.html',
   styleUrl: './documents.component.scss',
 })
@@ -27,6 +28,10 @@ export class DocumentsComponent implements OnInit {
   // Pagination properties
   currentPage: number = 1;
   pageSize: number = 6;
+
+  first: number = 0; // Index of the first record
+  rows: number = 6; // Number of rows per page
+  totalRecords: number = 120; // Total number of records (update as needed)
 
   constructor(
     private documentService: DocumentsService,
@@ -84,6 +89,16 @@ export class DocumentsComponent implements OnInit {
       this.currentPage--;
       this.loadDocuments();
     }
+  }
+
+  onPageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+    // event.page is zero-based, so add 1 if you need a 1-indexed page number
+    this.currentPage = event.page + 1;
+
+    // Fetch new products based on the current page and rows per page
+    this.loadDocuments();
   }
 
   viewTemplateDetails() {

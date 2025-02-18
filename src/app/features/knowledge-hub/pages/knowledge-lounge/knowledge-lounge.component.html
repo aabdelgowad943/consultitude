@@ -32,26 +32,15 @@
         >
         </app-mai-content>
 
-        <!-- Pagination Controls -->
-        <div class="flex justify-center items-center mt-6">
-          <button
-            class="px-4 py-2 bg-gray-200 rounded-l"
-            (click)="previousPage()"
-            [disabled]="currentPage === 1"
-          >
-            Previous
-          </button>
-          <span class="px-4 py-2 bg-white border-t border-b">
-            Page {{ currentPage }} of {{ totalPages }}
-          </span>
-          <button
-            class="px-4 py-2 bg-gray-200 rounded-r"
-            (click)="nextPage()"
-            [disabled]="currentPage === totalPages"
-          >
-            Next
-          </button>
+        <div class="card flex justify-center mt-6">
+          <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [first]="first"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
+          ></p-paginator>
         </div>
+        <!-- [rowsPerPageOptions]="[10, 20, 30]" -->
       </div>
     </div>
   </div>

@@ -28,6 +28,7 @@
           <!-- LinkedIn Button -->
           <div class="w-full flex justify-center">
             <button
+              (click)="loginWithLinkedIn()"
               class="w-[329px] flex text-[16px] gap-2 md:w-[480px] h-[48px] font-[500] items-center justify-center py-2.5 px-5 text-sm text-white bg-[#0077B5] rounded-xl hover:bg-[#0076b5c7]"
             >
               <!-- LinkedIn SVG Icon -->
@@ -98,7 +99,7 @@
               </div>
 
               <a
-                routerLink="/auth/reset-password"
+                routerLink="/auth/rest-password"
                 class="text-sm underline text-[#667085]"
                 >Forgot your password?</a
               >

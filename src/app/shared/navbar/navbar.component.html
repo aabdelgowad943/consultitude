@@ -24,44 +24,32 @@
           </a>
         </div>
 
-        <a
-          [class.disabled]="isHomePath"
-          routerLink="/knowledge"
-          class="font-sans"
-          >Knowledge Lounge</a
-        >
-        <a
-          [class.disabled]="isHomePath"
-          [routerLink]="isHomePath ? null : '/about-us'"
-          class="font-sans"
-          >About us</a
-        >
-        <a
-          [class.disabled]="isHomePath"
-          [routerLink]="isHomePath ? null : '/faqs'"
-          class="font-sans"
-          >FAQs</a
-        >
-        <a
-          [class.disabled]="isHomePath"
-          [routerLink]="isHomePath ? null : '/contact-us'"
-          class="font-sans"
-          >Contact us</a
-        >
-        <a
-          [class.disabled]="isHomePath"
-          [routerLink]="isHomePath ? null : '/become-expert'"
-          class="font-sans"
+        <a routerLink="/knowledge" class="font-sans">Knowledge Lounge</a>
+        <a [routerLink]="'/about-us'" class="font-sans">About us</a>
+        <a [routerLink]="'/faqs'" class="font-sans">FAQs</a>
+        <a [routerLink]="'/contact-us'" class="font-sans">Contact us</a>
+        <a [routerLink]="'/become-expert'" class="font-sans"
           >Become An Expert</a
         >
       </nav>
       <!-- Login Button -->
       <button
+        *ngIf="!isLoggedIn"
         routerLink="/auth/login"
         [disabled]="isHomePath"
         class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
       >
         <span class="material-icons">Login</span>
+      </button>
+
+      <!-- Show Logout button if logged in -->
+      <button
+        *ngIf="isLoggedIn"
+        (click)="logout()"
+        [disabled]="isHomePath"
+        class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
+      >
+        <span class="material-icons">Logout</span>
       </button>
     </div>
     <button
@@ -94,41 +82,27 @@
         </button>
       </div>
 
-      <a
-        [class.disabled]="isHomePath"
-        [routerLink]="isHomePath ? null : '/knowledge'"
-        >Knowledge Lounge</a
-      >
-      <a
-        [class.disabled]="isHomePath"
-        [routerLink]="isHomePath ? null : '/solutions'"
-        >Solutions</a
-      >
-      <a
-        [class.disabled]="isHomePath"
-        [routerLink]="isHomePath ? null : '/how-it-works'"
-        >How it works</a
-      >
-      <a
-        [class.disabled]="isHomePath"
-        [routerLink]="isHomePath ? null : '/pricing'"
-        >Pricing</a
-      >
-      <a
-        [class.disabled]="isHomePath"
-        [routerLink]="isHomePath ? null : '/contact-us'"
-        >Contact us</a
-      >
-      <a
-        [class.disabled]="isHomePath"
-        [routerLink]="isHomePath ? null : '/become-expert'"
-        >Become an expert</a
-      >
+      <a [routerLink]="'/knowledge'">Knowledge Lounge</a>
+      <a [routerLink]="'/solutions'">Solutions</a>
+      <a [routerLink]="'/how-it-works'">How it works</a>
+      <a [routerLink]="'/pricing'">Pricing</a>
+      <a [routerLink]="'/contact-us'">Contact us</a>
+      <a [routerLink]="'/become-expert'">Become an expert</a>
       <button
+        *ngIf="!isLoggedIn"
         [disabled]="isHomePath"
+        routerLink="/auth/login"
         class="px-4 py-2 w-full bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
       >
         Login
+      </button>
+      <button
+        *ngIf="isLoggedIn"
+        [disabled]="isHomePath"
+        (click)="logout()"
+        class="px-4 py-2 w-full bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
+      >
+        Logout
       </button>
     </nav>
   </header>

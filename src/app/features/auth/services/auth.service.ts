@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../../../shared/services/api.service';
 import { Login } from '../models/login';
-import { Register, ResetPassword, VerifyEmail } from '../models/register';
+import {
+  ChangePassword,
+  Register,
+  ResetPassword,
+  VerifyEmail,
+} from '../models/register';
 import { Observable } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +32,37 @@ export class AuthService {
     return this.apiService.post('/auth/rest-password', resetPassword);
   }
 
+  confirmResetPassword(
+    changePassword: ChangePassword
+  ): Observable<ChangePassword> {
+    return this.apiService.post('/auth/confirm-reset-password', changePassword);
+  }
+
   isEmailExist(email: string) {
     return this.apiService.post('/auth/is-email-exists', {
       email: email,
     });
+  }
+
+  getTokenData(): string {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return '';
+    }
+    const decoded = this.decodeToken(token);
+    return decoded?.id || '';
+  }
+
+  decodeToken(token: string): any {
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  getUserDataByUserId(userId: string): Observable<any> {
+    return this.apiService.get<any>(`/profile/${userId}`);
   }
 }

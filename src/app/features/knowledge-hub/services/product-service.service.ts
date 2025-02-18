@@ -124,20 +124,20 @@ export class ProductServiceService {
       );
   }
 
-  getAllFeatures(page: number = 1, limit: number = 100): Observable<any[]> {
-    return this.apiService
-      .get<any>(`/features?page=${page}&limit=${limit}`)
-      .pipe(
-        map((response) =>
-          response.data.map((item: any) => ({
-            id: item.featureId || item.id || null,
-            name:
-              item.translations && item.translations.length
-                ? item.translations[0].name
-                : '',
-            checked: false,
-          }))
-        )
-      );
+  getAllFeatures(page: number = 1, limit: number = 100) {
+    // return this.apiService
+    //   .get<any>(`/features?page=${page}&limit=${limit}`)
+    //   .pipe(
+    //     map((response) =>
+    //       response.data.map((item: any) => ({
+    //         id: item.featureId || item.id || null,
+    //         name:
+    //           item.translations && item.translations.length
+    //             ? item.translations[0].name
+    //             : '',
+    //         checked: false,
+    //       }))
+    //     )
+    //   );
   }
 }

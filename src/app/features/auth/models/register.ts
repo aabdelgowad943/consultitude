@@ -18,3 +18,9 @@ export interface VerifyEmail {
 export interface ResetPassword {
   email: string;
 }
+
+export interface ChangePassword {
+  email: string;
+  otp: string;
+  newPassword: string;
+}
