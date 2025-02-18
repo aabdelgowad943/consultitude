@@ -35,6 +35,7 @@ export class RegisterComponent {
   registrationStep = RegistrationStep;
 
   // Error messages
+  registrationError: string = '';
   emailError: string = '';
   nameError: string = '';
   roleError: string = '';
@@ -54,8 +55,16 @@ export class RegisterComponent {
       this.emailError = 'Please enter a valid email';
       return;
     }
-    this.emailError = '';
-    this.currentStep = RegistrationStep.UserProfile;
+
+    this.authService.isEmailExist(this.email).subscribe({
+      next: (res: any) => {
+        this.emailError = 'Email already exists';
+      },
+      error: () => {
+        this.emailError = '';
+        this.currentStep = RegistrationStep.UserProfile;
+      },
+    });
   }
 
   // Step 2: Profile validation
@@ -74,49 +83,80 @@ export class RegisterComponent {
   }
 
   // Step 3: Password validation
-  validatePassword() {
-    if (!this.password) {
-      this.passwordError = 'Password is required';
-      return;
-    }
-    if (this.password.length < 8) {
-      this.passwordError = 'Password must be at least 8 characters';
-      return;
-    }
-    if (this.password !== this.confirmPassword) {
-      this.confirmPasswordError = 'Passwords do not match';
-      return;
-    }
+  validatePassword(): boolean {
+    let isValid = true;
+
+    // Reset previous errors
     this.passwordError = '';
     this.confirmPasswordError = '';
-    this.currentStep = RegistrationStep.CodeVerification;
+
+    if (!this.password) {
+      this.passwordError = 'Password is required';
+      isValid = false;
+    } else if (this.password.length < 8) {
+      this.passwordError = 'Password must be at least 8 characters';
+      isValid = false;
+    }
+
+    if (!this.confirmPassword) {
+      this.confirmPasswordError = 'Please confirm your password';
+      isValid = false;
+    } else if (this.password !== this.confirmPassword) {
+      this.confirmPasswordError = 'Passwords do not match';
+      isValid = false;
+    }
+
+    return isValid;
   }
 
   // Step 4: Final submission
   verifyAndSubmit() {
-    if (!this.verificationCode) {
-      this.verificationCodeError = 'Verification code is required';
-      return;
+    if (this.currentStep === RegistrationStep.CodeVerification) {
+      this.authService
+        .verifyEmail({
+          email: this.email,
+          otp: this.verificationCode,
+        })
+        .subscribe({
+          next: (res) => {
+            this.currentStep = RegistrationStep.Completion;
+          },
+          error: (err) => {
+            this.verificationCodeError = 'Invalid verification code';
+          },
+        });
+    } else {
+      // Validate password fields before proceeding
+      const isPasswordValid = this.validatePassword();
+      if (!isPasswordValid) {
+        return; // Stop if validation fails
+      }
+      this.registrationError = '';
+      const registerData = {
+        firstName: this.name,
+        lastName: '',
+        profileUrl: 'placeholder.com',
+        title: this.currentRole,
+        email: this.email,
+        password: this.password,
+      };
+      this.authService.register(registerData).subscribe({
+        next: (res) => {
+          this.currentStep = RegistrationStep.CodeVerification;
+        },
+        error: (err: HttpErrorResponse) => {
+          this.registrationError =
+            err.error.message ||
+            'Registration failed. Please check your details.';
+        },
+      });
     }
-    if (this.verificationCode.length !== 6) {
-      this.verificationCodeError = 'Code must be 6 digits';
-      return;
-    }
+  }
 
-    const registerData = {
-      email: this.email,
-      password: this.password,
-      name: this.name,
-      currentRole: this.currentRole,
-      verificationCode: this.verificationCode,
-    };
-
-    this.authService.register(registerData).subscribe({
-      next: (res) => {
-        this.currentStep = RegistrationStep.Completion;
-      },
-      error: (err) => {
-        this.verificationCodeError = 'Invalid verification code';
+  isEmailExist() {
+    this.authService.isEmailExist(this.email).subscribe({
+      next: (res: any) => {
+        console.log(res.message);
       },
     });
   }
@@ -124,6 +164,10 @@ export class RegisterComponent {
   goBack() {
     if (this.currentStep > RegistrationStep.EmailEntry) {
       this.currentStep--;
+      // Reset relevant errors
+      this.registrationError = '';
+      this.passwordError = '';
+      this.confirmPasswordError = '';
     }
   }
 }

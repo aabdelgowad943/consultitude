@@ -19,18 +19,9 @@ export class LoginComponent {
   emailExists: boolean = false;
   showPasswordInput: boolean = false;
   passwordFieldType: string = 'password';
+  errorMessage: string = '';
 
   constructor(private authService: AuthService) {}
-
-  checkEmail() {
-    // Simulate an API call to check if the email exists
-    if (this.email === 'ahmed@mail.com') {
-      this.emailExists = true;
-      this.showPasswordInput = true;
-    } else {
-      alert('Email does not exist');
-    }
-  }
 
   login() {
     const loginData: Login = {
@@ -41,9 +32,14 @@ export class LoginComponent {
     this.authService.login(loginData).subscribe({
       next: (res: any) => {
         console.log(res);
+        this.errorMessage = res.data.message; // Clear error message on successful login
+        // const token = res.data.token;
+
+        // localStorage.setItem('token', res.data.token);
       },
       error: (err: HttpErrorResponse) => {
         console.log(err.error);
+        this.errorMessage = err.error.errors[0].message; // Set error message
       },
     });
   }

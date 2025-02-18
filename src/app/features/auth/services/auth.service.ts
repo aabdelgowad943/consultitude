@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../../../shared/services/api.service';
 import { Login } from '../models/login';
-import { Register } from '../models/register';
+import { Register, ResetPassword, VerifyEmail } from '../models/register';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -16,5 +16,19 @@ export class AuthService {
 
   register(register: Register): Observable<Register> {
     return this.apiService.post('/auth/register', register);
+  }
+
+  verifyEmail(verifyEmail: VerifyEmail): Observable<VerifyEmail> {
+    return this.apiService.post('/auth/verify-email', verifyEmail);
+  }
+
+  resetPassword(resetPassword: ResetPassword): Observable<ResetPassword> {
+    return this.apiService.post('/auth/rest-password', resetPassword);
+  }
+
+  isEmailExist(email: string) {
+    return this.apiService.post('/auth/is-email-exists', {
+      email: email,
+    });
   }
 }
