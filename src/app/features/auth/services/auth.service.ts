@@ -35,7 +35,7 @@ export class AuthService {
   confirmResetPassword(
     changePassword: ChangePassword
   ): Observable<ChangePassword> {
-    return this.apiService.post('/auth/confirm-reset-password', changePassword);
+    return this.apiService.post('/auth/verify-update-password', changePassword);
   }
 
   isEmailExist(email: string) {
