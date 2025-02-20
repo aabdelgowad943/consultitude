@@ -27,12 +27,12 @@
 
         <div class="absolute right-5 top-5">
           <div
+            (click)="openEditDialog()"
             class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
           >
             <i class="pi pi-pencil"></i>
           </div>
         </div>
-        <!-- <img src="/images/Pic3.svg" class="absolute right-0 h-full" alt="" /> -->
       </div>
       <div class="p-6 mt-10 text-center">
         <h2 class="text-[24px] font-[500] text-gray-900">{{ name }}</h2>
@@ -62,6 +62,7 @@
           <div class="flex justify-between items-center">
             <h2 class="text-[24px] font-[500] text-[#14151A]">About</h2>
             <div
+              (click)="openEditAbout()"
               class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
             >
               <i class="pi pi-pencil"></i>
@@ -77,6 +78,7 @@
           <div class="flex justify-between items-center">
             <h2 class="text-[24px] font-[500] text-[#14151A]">Skills</h2>
             <div
+              (click)="openEditSkills()"
               class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
             >
               <i class="pi pi-pencil"></i>
@@ -194,3 +196,25 @@
     </div>
   </div>
 </div>
+
+<app-edit-identification
+  [(display)]="displayEditDialog"
+  [profileData]="profileData"
+  (saveChangesEvent)="onSaveProfileChanges($event)"
+>
+  ></app-edit-identification
+>
+
+<app-edit-about
+  [display]="displayEditAbout"
+  [about]="aboutText"
+  (displayChange)="displayEditAbout = $event"
+  (saveChangesEvent)="updateAbout($event)"
+>
+</app-edit-about>
+
+<app-edit-skills
+  [(display)]="displayEditSkills"
+  [skillsData]="skillsData"
+  (saveChangesEvent)="onSaveSkills($event)"
+></app-edit-skills>

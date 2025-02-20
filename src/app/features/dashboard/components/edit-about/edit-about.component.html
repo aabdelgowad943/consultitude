@@ -1,0 +1,41 @@
+<p-dialog
+  [visible]="display"
+  (onHide)="closeDialog()"
+  [modal]="true"
+  styleClass="md:w-[480px] w-[380px]"
+  [closable]="false"
+  header="Edit the about"
+>
+  <!-- [style]="{ width: '480px' }" -->
+  <div class="relative">
+    <label class="block text-[14px] font-[500] mb-2 text-[#14151A]">
+      A brief about your consulting experience
+    </label>
+    <textarea
+      [(ngModel)]="about"
+      placeholder="Enter a brief about your experience..."
+      maxlength="300"
+      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1 h-[200px]"
+    ></textarea>
+    <div
+      class="text-right text-sm text-[#0D112666]/60 absolute bottom-4 left-4"
+    >
+      {{ about.length }}/300
+    </div>
+  </div>
+
+  <div class="flex justify-end space-x-2 mt-6">
+    <button
+      pButton
+      label="Cancel"
+      class="border border-[#D0D5DD] bg-transparent rounded-[8px] py-2.5 px-[24px] text-[#344054] font-[600] text-[16px]"
+      (click)="closeDialog()"
+    ></button>
+    <button
+      pButton
+      label="Save"
+      class="bg-[#9241DC] border border-[#7F56D9] rounded-[8px] py-2.5 px-[24px] text-white font-[600] text-[16px]"
+      (click)="saveChanges()"
+    ></button>
+  </div>
+</p-dialog>

@@ -1,19 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth.service';
+import { EditIdentificationComponent } from '../../components/edit-identification/edit-identification.component';
+import { EditAboutComponent } from '../../components/edit-about/edit-about.component';
+import { EditSkillsComponent } from '../../components/edit-skills/edit-skills.component';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    EditIdentificationComponent,
+    EditAboutComponent,
+    EditSkillsComponent,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit {
   userId: string = localStorage.getItem('userId')!;
-  email: string = '';
-  name: string = '';
-  title: string = '';
-  about: string = '';
   ngOnInit(): void {
     this.getProfileDataByUserId();
   }
@@ -34,4 +38,97 @@ export class ProfileComponent implements OnInit {
       },
     });
   }
+
+  // ===============================================edit identify======================================================
+  displayEditDialog: boolean = false;
+  email: string = '';
+  name: string = '';
+  title: string = '';
+  about: string = '';
+
+  profileData = {
+    firstName: '',
+    lastName: '',
+    jobTitle: '',
+    companyName: '',
+    nationality: '',
+    selectedSkills: [] as string[],
+  };
+
+  firstName: string = '';
+  lastName: string = '';
+  jobTitle: string = '';
+  companyName: string = '';
+  nationality: string = '';
+  selectedSkills: string[] = [];
+  openEditDialog() {
+    this.profileData = {
+      firstName: this.name,
+      lastName: this.lastName,
+      jobTitle: this.title,
+      companyName: this.companyName,
+      nationality: this.nationality,
+      selectedSkills: this.selectedSkills, // أو استخدم this.selectedSkills
+    };
+    this.displayEditDialog = true;
+  }
+
+  onSaveProfileChanges(updatedData: {
+    firstName: string;
+    lastName: string;
+    jobTitle: string;
+    companyName: string;
+    nationality: string;
+    selectedSkills: string[];
+  }) {
+    // تخزين القيم الجديدة في حقول المكوّن الأب
+    this.firstName = updatedData.firstName;
+    this.lastName = updatedData.lastName;
+    this.jobTitle = updatedData.jobTitle;
+    this.companyName = updatedData.companyName;
+    this.nationality = updatedData.nationality;
+    this.selectedSkills = updatedData.selectedSkills;
+
+    console.log('update data is', updatedData);
+  }
+
+  // ===============================================edit identify======================================================
+
+  // ===============================================edit about======================================================
+  displayEditAbout: boolean = false;
+  aboutText: string = 'Your current about text...';
+
+  openEditAbout() {
+    this.aboutText = this.about;
+    this.displayEditAbout = true;
+  }
+
+  updateAbout(updatedText: string) {
+    this.aboutText = updatedText;
+    this.displayEditAbout = false;
+  }
+  // ===============================================edit about======================================================
+
+  // ===============================================edit skills======================================================
+  displayEditSkills: boolean = false;
+  // Example initial skills object
+  skillsData = {
+    industryFocus: [{ areaOfFocusId: '637da527-c900-4aa9-8560-90a8f0fb672c' }],
+    domainFocus: [{ domainId: 'bb9e69be-e999-4698-80fb-5b799f158382' }],
+    regionalFocus: [{ regionId: '76b98ba8-7fc9-425f-978b-3c01e8b83a57' }],
+    consultingSkills: [
+      { consultingId: '76b98ba8-7fc9-425f-978b-3c01e8b83a57s' },
+    ],
+  };
+
+  openEditSkills() {
+    this.displayEditSkills = true;
+  }
+
+  onSaveSkills(updatedSkills: any) {
+    // Update the skillsData with the new object
+    this.skillsData = updatedSkills;
+    console.log('Updated skills:', this.skillsData);
+  }
+  // ===============================================edit skills======================================================
 }
