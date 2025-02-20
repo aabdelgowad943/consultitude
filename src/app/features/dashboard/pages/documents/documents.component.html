@@ -1,4 +1,4 @@
-<div class="w-full max-w-[1600px] h-fit mx-auto">
+<div class="w-full max-w-[1600px] h-full mx-auto">
   <div class="w-full my-6 flex px-2 md:px-6 justify-between items-center">
     <h1
       class="md:text-[32px] text-[24px] font-[500] leading-[38.5px] text-[#14151A]"
@@ -66,12 +66,14 @@
   </div>
 
   <!-- Pagination Controls -->
-  <div class="card flex justify-center mt-6">
+  <div class="flex justify-center py-2">
     <p-paginator
       (onPageChange)="onPageChange($event)"
       [first]="first"
       [rows]="rows"
       [totalRecords]="totalRecords"
+      class="w-full"
+      styleClass=" w-full"
     ></p-paginator>
   </div>
   <!-- [rowsPerPageOptions]="[10, 20, 30]" -->

@@ -23,7 +23,8 @@ export class DocumentsComponent implements OnInit {
 
   language: string = 'EN';
   documents: any[] = [];
-  userId: string = '95b3acc4-e1f9-4f77-bfb8-cdb04e159f60';
+  // userId: string = '95b3acc4-e1f9-4f77-bfb8-cdb04e159f60';
+  userId: string = localStorage.getItem('userId')!;
 
   // Pagination properties
   currentPage: number = 1;

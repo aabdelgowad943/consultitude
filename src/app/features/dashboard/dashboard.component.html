@@ -1,7 +1,7 @@
-<div class="antialiased bg-gray-50">
+<div class="antialiased bg-[#F2F4F7]">
   <!-- navbar form big screen -->
   <nav
-    class="bg-white border-b border-gray-200 px-6 py-5 mb-10 hidden md:block fixed left-0 right-0 top-0 z-50"
+    class="bg-[#F2F4F7] px-6 py-4 mb-10 hidden md:block fixed h-20 left-0 right-0 top-0 z-50"
   >
     <div class="flex flex-wrap justify-between items-center">
       <div class="flex justify-start gap-6 items-center">
@@ -94,7 +94,10 @@
           class="hidden z-50 my-4 w-64 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl"
           id="dropdown"
         >
-          <div class="py-3 px-4 flex justify-between items-center space-x-3">
+          <div
+            routerLink="profile"
+            class="py-3 px-4 flex justify-between cursor-pointer items-center space-x-3"
+          >
             <div class="flex items-center gap-2">
               <img
                 class="w-10 h-10 rounded-full"
@@ -167,7 +170,9 @@
 
     <!-- profile card -->
     <div
-      class="flex items-center gap-3 p-3 text-base bg-white border border-[#EAECF0] w-[354px] h-[58px] font-medium rounded-[10px]"
+      (click)="toggleMenu()"
+      routerLink="profile"
+      class="flex items-center cursor-pointer gap-3 p-3 text-base bg-white border border-[#EAECF0] w-[354px] h-[58px] font-medium rounded-[10px]"
     >
       <div class="w-full flex items-center">
         <img src="/images/profile.png" class="w-[32px] h-[32px]" alt="" />
@@ -201,7 +206,7 @@
 
     <div class="mt-4">
       <div
-        class="bg-[#F2F4F7] w-[361px] h-[163px] p-5 border border-[#D0D5DD] rounded-xl"
+        class="bg-[#F2F4F7] w-[361px] h-[163px] p-5 border border-[#D0D5DD] rounded-xl relative"
       >
         <h1 class="text-[16px] text-[#57247F]">
           Can’t find document you want us to build next!
@@ -216,6 +221,11 @@
           Request document
           <img src="/images/next.png" class="w-4 h-4" alt="" />
         </button>
+        <img
+          src="/images/card_pattern_dashboard.svg"
+          class="absolute right-20 -bottom-5"
+          alt="pattern image"
+        />
       </div>
     </div>
   </nav>
@@ -242,7 +252,7 @@
 
   <!-- Sidebar -->
   <aside
-    class="fixed top-5 left-0 z-40 w-[280px] h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0"
+    class="fixed top-5 left-0 z-40 w-[280px] h-screen pt-14 transition-transform -translate-x-full bg-[#F2F4F7] md:translate-x-0"
     aria-label="Sidenav"
     id="drawer-navigation"
   >
@@ -250,7 +260,9 @@
       <ul class="space-y-2">
         <!-- profile card -->
         <div
-          class="flex items-center gap-3 mb-6 p-3 text-base bg-white border border-[#EAECF0] w-[248px] h-[58px] font-medium rounded-[10px]"
+          routerLink="profile"
+          routerLinkActive="border border-[#D8BAF8] bg-[#FAF6FE] "
+          class="flex items-center cursor-pointer gap-3 mb-6 p-3 text-base bg-white border border-[#EAECF0] w-[248px] h-[58px] font-medium rounded-[10px]"
         >
           <div class="w-full flex items-center">
             <img src="/images/profile.png" class="w-[32px] h-[32px]" alt="" />
@@ -270,7 +282,7 @@
           <a
             routerLink="documents"
             routerLinkActive="bg-[#0A0F290A]"
-            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-[10px] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-[10px] dark:text-white hover:bg-[#0A0F290A] dark:hover:bg-gray-700 group"
           >
             <img src="/images/download.png" class="w-5 h-5" alt="" />
             <span class="ml-2 text-[14px] font-[500] text-[#14151A]"
@@ -278,21 +290,11 @@
             >
           </a>
         </li>
-        <!-- <li>
-          <a
-            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-          >
-            <img src="/images/credit-card.png" class="w-5 h-5" alt="" />
-            <span class="ml-2 text-[14px] font-[500] text-[#14151A]"
-              >Saved Cards</span
-            >
-          </a>
-        </li> -->
         <li>
           <a
             routerLink="settings"
             routerLinkActive="bg-[#0A0F290A]"
-            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-[#0A0F290A] dark:hover:bg-gray-700 group"
           >
             <img src="/images/setting.png" class="w-5 h-5" alt="" />
             <span class="ml-2 text-[14px] font-[500] text-[#14151A]"
@@ -301,7 +303,9 @@
           </a>
         </li>
       </ul>
-      <div class="w-full flex justify-center mb-6 items-center">
+      <div
+        class="w-full flex justify-center relative overflow-hidden mb-6 items-center"
+      >
         <div
           class="w-[264px] h-[206px] bg-[#F2F4F7] p-5 border border-[#D0D5DD] rounded-xl"
         >
@@ -313,17 +317,26 @@
             consulting tools and frameworks.
           </h1>
           <button
-            class="text-[#14151A] bg-white py-[6px] px-2.5 text-[14px] rounded-[10px] flex justify-center items-center gap-2"
+            class="text-[#14151A] w-[160px] h-[32px] bg-white py-[4px] px-2.5 text-[14px] rounded-[10px] flex justify-center items-center gap-1"
           >
             Request document
             <img src="/images/next.png" class="w-4 h-4" alt="" />
           </button>
         </div>
+        <img
+          src="/images/card_pattern_dashboard.svg"
+          class="absolute -right-3 bottom-0"
+          alt="pattern image"
+        />
       </div>
     </div>
   </aside>
 
-  <main class="p-4 md:pl-72 h-screen bg-white text-black pt-20 md:pt-24">
-    <router-outlet></router-outlet>
+  <main
+    class="p-4 bg-white md:bg-[#F2F4F7] md:pl-72 h-full rounded-2xl text-black pt-20 md:pt-20"
+  >
+    <div class="bg-white h-screen rounded-[10px] border border-[#EAECF0] p-1">
+      <router-outlet></router-outlet>
+    </div>
   </main>
 </div>

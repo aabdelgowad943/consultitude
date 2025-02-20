@@ -4,11 +4,15 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  OnInit,
 } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { loadStripe, Stripe, StripeElements } from '@stripe/stripe-js';
 import { AuthService } from '../../../../../auth/services/auth.service';
+import { PaymentService } from '../../services/payment.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-payment',
@@ -17,41 +21,69 @@ import { AuthService } from '../../../../../auth/services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export class PaymentComponent implements AfterViewInit, OnChanges {
+export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
   @Input() productPrice: number = 0;
+
+  userId: string = localStorage.getItem('userId')!;
+  name: string = '';
   email: string = '';
-  emailExists: boolean = false;
+  productId: string = '';
+
   showError: boolean = false;
+  successMessage: string = '';
+  errorMessage: string = '';
+
   promoCode: string = '';
-  subtotal: number = 0;
-  discount: number = 0;
-  total: number = 0;
-  dummyEmails: string[] = ['islam@mail.com', 'ahmed@mail.com'];
+  discountValue: number = 0;
+  totalAmount: number = 0;
+  subTotalAmount: number = 0;
+
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
   card: any;
   clientSecret: string = '';
   stripePublishableKey: string = 'pk_test_G5bt1644CG8jzK2PPr9mHQYj00hm5lHkLu';
 
-  constructor(private location: Location, private authService: AuthService) {}
+  description: string = 'Custom payment';
+  loading = false;
+  error = '';
+
+  constructor(
+    private location: Location,
+    private authService: AuthService,
+    private paymentService: PaymentService,
+    private route: ActivatedRoute
+  ) {}
+  ngOnInit(): void {
+    const templateId = this.route.snapshot.paramMap.get('id');
+    this.productId = templateId!;
+    this.getProfileDataByUserId();
+    this.calculateTotalAmount();
+  }
+
+  getProfileDataByUserId() {
+    this.authService.getUserDataByUserId(this.userId).subscribe({
+      next: (res: any) => {
+        this.name = res.data.firstName;
+        this.email = res.data.user?.email;
+      },
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['productPrice']) {
-      this.subtotal = this.productPrice;
-      this.total = this.subtotal - this.discount;
+      this.subTotalAmount = this.productPrice;
+      this.totalAmount = this.subTotalAmount - this.discountValue;
     }
   }
 
   async ngAfterViewInit() {
-    if (this.emailExists) {
+    if (this.userId) {
       await this.initializeStripe();
     }
   }
 
-  ngOnDestroy() {
-    this.card?.destroy();
-  }
-
+  // --------------------------------stripe------------------------------------------
   async initializeStripe() {
     this.stripe = await loadStripe(
       'pk_test_G5bt1644CG8jzK2PPr9mHQYj00hm5lHkLu'
@@ -102,31 +134,24 @@ export class PaymentComponent implements AfterViewInit, OnChanges {
       }
     }
   }
-  amount: number = 10.0;
-  description: string = 'Custom payment';
-  loading = false;
-  error = '';
+  // amount: number = 10.0;
 
-  isValidAmount(): boolean {
-    return this.amount >= 0.5 && this.amount <= 999999.99;
-  }
+  // isValidAmount(): boolean {
+  //   return this.amount >= 0.5 && this.amount <= 999999.99;
+  // }
 
   async checkout() {
-    if (!this.isValidAmount()) {
-      this.error = 'Please enter a valid amount between $0.50 and $999,999.99';
-      return;
-    }
-
+    // if (!this.isValidAmount()) {
+    //   this.error = 'Please enter a valid amount between $0.50 and $999,999.99';
+    //   return;
+    // }
     this.loading = true;
     this.error = '';
-
     try {
       const stripe = await loadStripe(this.stripePublishableKey);
-
       if (!stripe) {
         throw new Error('Stripe failed to load');
       }
-
       const { error } = await this.stripe!.confirmCardPayment(
         this.stripePublishableKey,
         {
@@ -138,7 +163,6 @@ export class PaymentComponent implements AfterViewInit, OnChanges {
           },
         }
       );
-
       if (error) {
         throw error;
       }
@@ -155,24 +179,96 @@ export class PaymentComponent implements AfterViewInit, OnChanges {
   }
 
   checkEmail() {
-    this.emailExists = this.dummyEmails.includes(this.email);
-    this.showError = !this.emailExists;
-    if (this.emailExists) {
+    if (this.userId) {
       setTimeout(() => this.initializeStripe(), 100);
     }
   }
 
-  editEmail() {
-    this.emailExists = false;
-    this.showError = false;
+  // ------------------------------------promo code and calculate total and subtotal-----------------------
+  calculateTotalAmount() {
+    this.paymentService
+      .calculateTotalAmount({
+        orderDetails: [
+          {
+            productId: this.productId,
+            quantity: 1,
+          },
+        ],
+        // voucherCode: this.promoCode,
+        taxPercentage: 0,
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.totalAmount = res.data.totalAmount;
+          this.subTotalAmount = res.data.subTotalAmount;
+        },
+        complete: () => {},
+      });
   }
 
   applyPromoCode() {
-    if (this.promoCode === 'ahmed10') {
-      this.discount = this.subtotal * 0.1;
-    } else {
-      this.discount = 0;
-    }
-    this.total = this.subtotal - this.discount;
+    this.paymentService
+      .applyVoucher({
+        code: this.promoCode,
+        userId: localStorage.getItem('userId')!,
+        productId: this.productId,
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.discountValue = res.data.discount;
+          this.totalAmount = this.totalAmount - this.discountValue;
+          this.successMessage = res.message;
+          this.errorMessage = '';
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = err.error.errors[0].message;
+          this.successMessage = '';
+        },
+      });
+  }
+
+  // ------------------------------------create payment intent----------------------------------------------
+  paymentIntentId: string = '';
+  errorPayment: string = '';
+  createPaymentIntent() {
+    this.paymentService
+      .createPaymentIntent({
+        currency: 'usd',
+        calculateTotalAmountDto: {
+          orderDetails: [
+            {
+              productId: this.productId,
+              quantity: 1,
+            },
+          ],
+          taxPercentage: 0,
+          voucherCode: this.promoCode || null!,
+        },
+      })
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+
+          this.paymentIntentId = res.data.paymentIntentId;
+        },
+        complete: () => {
+          this.verifyPayment();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errorPayment = err.error.message;
+        },
+      });
+  }
+
+  verifyPayment() {
+    this.paymentService.verifyPayment(this.paymentIntentId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+      },
+    });
+  }
+
+  ngOnDestroy() {
+    this.card?.destroy();
   }
 }

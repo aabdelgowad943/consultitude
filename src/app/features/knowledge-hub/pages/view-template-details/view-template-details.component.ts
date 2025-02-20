@@ -4,6 +4,7 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
 import { HttpClient } from '@angular/common/http';
 import { ProductServiceService } from '../../services/product-service.service';
+import { GlobalStateService } from '../../../../../shared/services/global-state.service';
 
 @Component({
   selector: 'app-view-template-details',
@@ -81,11 +82,13 @@ export class ViewTemplateDetailsComponent {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductServiceService,
-    private router: Router // Add Router
+    private router: Router, // Add Router
+    private globalStateService: GlobalStateService
   ) {
     const templateId = this.route.snapshot.paramMap.get('id');
     if (templateId) {
       this.fetchTemplateById(templateId);
+      console.log('template id', templateId);
     }
   }
 
@@ -175,7 +178,7 @@ export class ViewTemplateDetailsComponent {
   get buttons() {
     return [
       {
-        label: `Buy Now $${this.template?.price || 0}`,
+        label: `Buy Now $${this.template?.price}`,
         classes:
           'bg-[#7F56D9] hover:bg-[#a24af5] w-[172.5px] md:w-[220px] text-[#FFFFFF] py-3 px-[18px] rounded-md',
         action: () => this.handlePurchase(),
@@ -190,11 +193,26 @@ export class ViewTemplateDetailsComponent {
     ];
   }
 
+  // private handlePurchase() {
+  //   const userId = localStorage.getItem('userId');
+  //   if (this.template?.id && userId) {
+  //     this.router.navigate(['/knowledge/checkout', this.template.id]);
+  //   } else {
+  //     alert('you should login first');
+  //     this.router.navigate(['/auth/login']);
+  //   }
+  // }
+
   private handlePurchase() {
-    if (this.template?.id) {
+    const userId = localStorage.getItem('userId');
+    if (this.template?.id && userId) {
+      // User is logged in: proceed to checkout
       this.router.navigate(['/knowledge/checkout', this.template.id]);
     } else {
-      console.error('No template available for purchase');
+      // No user: store pending purchase and navigate to login
+      this.globalStateService.setPendingPurchase(this.template?.id);
+      alert('You should login first');
+      this.router.navigate(['/auth/login']);
     }
   }
 }
