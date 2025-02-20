@@ -4,6 +4,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { EditIdentificationComponent } from '../../components/edit-identification/edit-identification.component';
 import { EditAboutComponent } from '../../components/edit-about/edit-about.component';
 import { EditSkillsComponent } from '../../components/edit-skills/edit-skills.component';
+import { EditProfileImageComponent } from '../../components/edit-profile-image/edit-profile-image.component';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +13,7 @@ import { EditSkillsComponent } from '../../components/edit-skills/edit-skills.co
     EditIdentificationComponent,
     EditAboutComponent,
     EditSkillsComponent,
+    EditProfileImageComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
@@ -131,4 +133,22 @@ export class ProfileComponent implements OnInit {
     console.log('Updated skills:', this.skillsData);
   }
   // ===============================================edit skills======================================================
+
+  // ===============================================edit profile image===============================================
+  currentImage: string | null = null;
+  displayEditImage = false;
+  openEditImage() {
+    // Optionally set currentImage to some existing base64 if you have it
+    this.displayEditImage = true;
+  }
+
+  onSaveImage(newImage: string | null) {
+    // This is where you get the cropped image from the child
+    if (newImage) {
+      this.currentImage = newImage;
+      // Possibly send it to the server or do something else
+    }
+  }
+
+  // ===============================================edit profile image===============================================
 }

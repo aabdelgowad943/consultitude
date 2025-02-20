@@ -20,6 +20,7 @@
         class="relative bg-gradient-to-r h-[198px] from-[#A46EDE] to-[#380D5E]"
       >
         <img
+          (click)="openEditImage()"
           class="absolute left-1/2 z-10 transform -translate-x-1/2 -bottom-14 w-[120px] h-[120px] rounded-full"
           src="https://images.pexels.com/photos/30783684/pexels-photo-30783684/free-photo-of-moody-portrait-of-a-man-by-the-window.png?auto=compress&cs=tinysrgb&w=600"
           alt="Profile Picture"
@@ -218,3 +219,10 @@
   [skillsData]="skillsData"
   (saveChangesEvent)="onSaveSkills($event)"
 ></app-edit-skills>
+
+<app-edit-profile-image
+  [(display)]="displayEditImage"
+  [initialImage]="currentImage"
+  (saveImageEvent)="onSaveImage($event)"
+>
+</app-edit-profile-image>
