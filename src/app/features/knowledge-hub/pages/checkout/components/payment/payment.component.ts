@@ -249,7 +249,8 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
         next: (res: any) => {
           console.log(res);
 
-          this.paymentIntentId = res.data.paymentIntentId;
+          this.paymentIntentId = res.clientSecret;
+          console.log(this.paymentIntentId);
         },
         complete: () => {
           this.verifyPayment();

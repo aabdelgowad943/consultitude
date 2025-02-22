@@ -5,6 +5,7 @@ import { EditIdentificationComponent } from '../../components/edit-identificatio
 import { EditAboutComponent } from '../../components/edit-about/edit-about.component';
 import { EditSkillsComponent } from '../../components/edit-skills/edit-skills.component';
 import { EditProfileImageComponent } from '../../components/edit-profile-image/edit-profile-image.component';
+import { Profile } from '../../models/profile';
 
 @Component({
   selector: 'app-profile',
@@ -48,50 +49,56 @@ export class ProfileComponent implements OnInit {
   title: string = '';
   about: string = '';
 
-  profileData = {
+  profileData: Profile = {
     firstName: '',
+    middleName: '',
     lastName: '',
-    jobTitle: '',
-    companyName: '',
-    nationality: '',
-    selectedSkills: [] as string[],
+    phone: '',
+    about: '',
+    title: '',
+    profileUrl: '',
+    thumbnail: '',
+    skills: {
+      industryFocus: [],
+      domainFocus: [],
+      regionalFocus: [],
+    },
+    email: '',
+    password: '',
   };
 
-  firstName: string = '';
-  lastName: string = '';
-  jobTitle: string = '';
+  // Local state (including company/nationality if needed elsewhere)
   companyName: string = '';
   nationality: string = '';
   selectedSkills: string[] = [];
+
   openEditDialog() {
+    // Map local state to UserProfile structure
     this.profileData = {
-      firstName: this.name,
-      lastName: this.lastName,
-      jobTitle: this.title,
-      companyName: this.companyName,
-      nationality: this.nationality,
-      selectedSkills: this.selectedSkills, // أو استخدم this.selectedSkills
+      ...this.profileData,
+      firstName: this.profileData.firstName,
+      lastName: this.profileData.lastName,
+      title: this.profileData.title,
+      skills: {
+        industryFocus: this.selectedSkills.map((skillId) => ({
+          areaOfFocusId: skillId,
+        })),
+        domainFocus: [],
+        regionalFocus: [],
+      },
     };
     this.displayEditDialog = true;
   }
 
-  onSaveProfileChanges(updatedData: {
-    firstName: string;
-    lastName: string;
-    jobTitle: string;
-    companyName: string;
-    nationality: string;
-    selectedSkills: string[];
-  }) {
-    // تخزين القيم الجديدة في حقول المكوّن الأب
-    this.firstName = updatedData.firstName;
-    this.lastName = updatedData.lastName;
-    this.jobTitle = updatedData.jobTitle;
-    this.companyName = updatedData.companyName;
-    this.nationality = updatedData.nationality;
-    this.selectedSkills = updatedData.selectedSkills;
+  onSaveProfileChanges(updatedProfile: Profile) {
+    // Update local state from UserProfile
+    this.profileData = { ...updatedProfile };
+    this.selectedSkills = updatedProfile.skills!.industryFocus.map(
+      (f) => f.areaOfFocusId
+    );
 
-    console.log('update data is', updatedData);
+    // Preserve company/nationality if needed
+    console.log('Updated profile:', updatedProfile);
   }
 
   // ===============================================edit identify======================================================

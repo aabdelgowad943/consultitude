@@ -27,17 +27,17 @@ export class ProductServiceService {
   ): Observable<{ products: Product[]; totalPages: number }> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('limit', limit.toString())
-      .set('language', language); // Add language as a query parameter
+      .set('limit', limit.toString());
+    // .set('language', language); // Add language as a query parameter
 
     if (statuses?.length) {
-      params = params.set('statuses', statuses.join(','));
+      // params = params.set('statuses', statuses.join(','));
     }
     if (search) {
       params = params.set('search', search);
     }
     if (sortBy) {
-      params = params.set('sortBy', sortBy);
+      // params = params.set('sortBy', sortBy);
     }
     if (areaOfFocus.length) {
       params = params.set('areaOfFocusIds', areaOfFocus.join(','));
@@ -51,8 +51,8 @@ export class ProductServiceService {
     if (features.length) {
       params = params.set('featureIds', documentTypes.join(','));
     }
-    params = params.set('minPrice', minPrice.toString());
-    params = params.set('maxPrice', maxPrice.toString());
+    // params = params.set('minPrice', minPrice.toString());
+    // params = params.set('maxPrice', maxPrice.toString());
 
     const headers = new HttpHeaders().set('Accept-Language', 'EN'); // Set Accept-Language header
 
