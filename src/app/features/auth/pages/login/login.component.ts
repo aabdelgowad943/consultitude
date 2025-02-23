@@ -41,6 +41,7 @@ export class LoginComponent {
         localStorage.setItem('token', res.data.token);
         const userId = this.authService.getTokenData();
         localStorage.setItem('userId', userId);
+        console.log(res.data);
 
         // Use take(1) to only subscribe to the current pending value
         this.globalStateService.pendingPurchase$

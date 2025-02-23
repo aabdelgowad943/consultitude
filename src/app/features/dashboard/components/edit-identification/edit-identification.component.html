@@ -1,0 +1,126 @@
+<p-toast />
+<p-dialog
+  [visible]="display"
+  (onHide)="closeDialog()"
+  [modal]="true"
+  [closable]="false"
+  styleClass="md:w-[480px] w-[380px]"
+  header="Edit the Identification"
+>
+  <div>
+    <!-- First Name -->
+
+    <div class="w-full flex items-center gap-4">
+      <div class="mb-6">
+        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+          First Name
+        </label>
+        <input
+          type="text"
+          [(ngModel)]="firstName"
+          placeholder="Ex: John"
+          class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
+        />
+      </div>
+
+      <!-- Last Name -->
+      <div class="mb-6">
+        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+          Last Name
+        </label>
+        <input
+          type="text"
+          [(ngModel)]="lastName"
+          placeholder="Ex: Doe"
+          class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
+        />
+      </div>
+    </div>
+
+    <!-- Job Title -->
+    <div class="mb-6">
+      <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+        Job Title
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="title"
+        placeholder="Dev"
+        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
+      />
+    </div>
+
+    <!-- Company Name -->
+    <div class="mb-6">
+      <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+        Company Name
+      </label>
+      <input
+        type="text"
+        placeholder="Ex: London"
+        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
+      />
+    </div>
+    <!-- [(ngModel)]="companyName" -->
+
+    <!-- Nationality -->
+    <div class="mb-6">
+      <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+        Nationality
+      </label>
+      <input
+        type="text"
+        placeholder="Ex: Egyptian"
+        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
+      />
+    </div>
+    <!-- [(ngModel)]="nationality" -->
+
+    <!-- Top Skills -->
+    <div class="mb-3">
+      <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+        Skills
+      </label>
+      <p-multiSelect
+        [options]="skills"
+        [(ngModel)]="selectedSkills"
+        appendTo="body"
+        placeholder="Choose Top Skills"
+        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl py-[2px] mt-1"
+      ></p-multiSelect>
+    </div>
+
+    <!-- Render selected skills as chips -->
+    <div
+      *ngIf="selectedSkills.length > 0"
+      class="w-full flex flex-wrap items-center gap-3"
+    >
+      <p-chip
+        *ngFor="let skill of selectedSkills"
+        [label]="skill"
+        [removable]="true"
+        removeIcon="pi pi-times"
+        styleClass="border border-[#EAECF0] bg-white rounded-full font-body
+                  text-[#0F132499]/60 text-[14px] py-[4px] px-2.5
+                  justify-between items-center"
+        (onRemove)="handleRemoveSkill(skill)"
+      ></p-chip>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex justify-end space-x-2 mt-6">
+      <button
+        pButton
+        label="Cancel"
+        class="border border-[#D0D5DD] bg-transparent rounded-[8px] py-2.5 px-[32px] text-[#344054] font-[600] text-[16px]"
+        (click)="closeDialog()"
+      ></button>
+      <button
+        pButton
+        label="Save"
+        class="bg-[#9241DC] border border-[#7F56D9] rounded-[8px] py-2.5 px-[32px] text-white font-[600] text-[16px]"
+        (click)="saveChanges()"
+      ></button>
+    </div>
+  </div>
+</p-dialog>

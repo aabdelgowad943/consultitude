@@ -20,6 +20,7 @@
         class="relative bg-gradient-to-r h-[198px] from-[#A46EDE] to-[#380D5E]"
       >
         <img
+          (click)="openEditImage()"
           class="absolute left-1/2 z-10 transform -translate-x-1/2 -bottom-14 w-[120px] h-[120px] rounded-full"
           src="https://images.pexels.com/photos/30783684/pexels-photo-30783684/free-photo-of-moody-portrait-of-a-man-by-the-window.png?auto=compress&cs=tinysrgb&w=600"
           alt="Profile Picture"
@@ -27,29 +28,42 @@
 
         <div class="absolute right-5 top-5">
           <div
+            (click)="openEditDialog()"
             class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
           >
             <i class="pi pi-pencil"></i>
           </div>
         </div>
-        <!-- <img src="/images/Pic3.svg" class="absolute right-0 h-full" alt="" /> -->
       </div>
       <div class="p-6 mt-10 text-center">
         <h2 class="text-[24px] font-[500] text-gray-900">{{ name }}</h2>
         <p class="text-[#667085] text-sm">{{ title }}</p>
-        <div class="mt-4 space-x-2">
+        <!-- top skills -->
+        <div *ngIf="profile?.skills" class="mt-4 space-x-2">
           <span
+            *ngIf="profile.skills.industryFocus?.length"
             class="bg-[#E9EAEC] text-[#0F132499]/60 text-sm font-medium px-1.5 py-1 rounded-[8px]"
-            >Strategy</span
           >
+            {{
+              profile.skills.industryFocus[0]?.areaOfFocus?.name ?? "Strategy"
+            }}
+          </span>
+
+          <!-- عرض أول مهارة من Domain Focus -->
           <span
+            *ngIf="profile.skills.domainFocus?.length"
             class="bg-[#E9EAEC] text-[#0F132499]/60 text-sm font-medium px-1.5 py-1 rounded-[8px]"
-            >Design</span
           >
+            {{ profile.skills.domainFocus[0]?.domain?.name ?? "Design" }}
+          </span>
+
+          <!-- عرض أول مهارة من Regional Focus -->
           <span
+            *ngIf="profile.skills.regionalFocus?.length"
             class="bg-[#E9EAEC] text-[#0F132499]/60 text-sm font-medium px-1.5 py-1 rounded-[8px]"
-            >Delivery</span
           >
+            {{ profile.skills.regionalFocus[0]?.region?.name ?? "Thinking" }}
+          </span>
         </div>
       </div>
     </div>
@@ -62,6 +76,7 @@
           <div class="flex justify-between items-center">
             <h2 class="text-[24px] font-[500] text-[#14151A]">About</h2>
             <div
+              (click)="openEditAbout()"
               class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
             >
               <i class="pi pi-pencil"></i>
@@ -77,6 +92,7 @@
           <div class="flex justify-between items-center">
             <h2 class="text-[24px] font-[500] text-[#14151A]">Skills</h2>
             <div
+              (click)="openEditSkills()"
               class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
             >
               <i class="pi pi-pencil"></i>
@@ -85,107 +101,78 @@
 
           <!-- Skill Categories -->
           <div class="mt-4 space-y-4">
-            <div>
-              <h3 class="text-[16px] font-medium text-[#101828]">
-                Industry Focus
-              </h3>
-              <div class="mt-2 items-center flex flex-wrap gap-2">
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >+11</span
-                >
+            <!-- Industry Focus -->
+            <div *ngIf="profile?.skills">
+              <div>
+                <h3 class="text-[16px] font-medium text-[#101828]">
+                  Industry Focus
+                </h3>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <ng-container
+                    *ngFor="let skill of profile.skills.industryFocus"
+                  >
+                    <span
+                      class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
+                    >
+                      {{
+                        skill.areaOfFocus.translations[0].name ??
+                          skill.areaOfFocus.id
+                      }}
+                    </span>
+                  </ng-container>
+                </div>
               </div>
             </div>
 
-            <div>
+            <!-- Domain Focus -->
+            <div *ngIf="profile?.skills">
               <h3 class="text-[16px] font-medium text-[#101828]">
                 Domain Focus
               </h3>
               <div class="mt-2 flex flex-wrap gap-2">
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
+                <ng-container *ngFor="let skill of profile.skills.domainFocus!">
+                  <span
+                    class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
+                  >
+                    {{ skill.domain.translations[0].name ?? skill.domain.id }}
+                  </span>
+                </ng-container>
               </div>
             </div>
 
-            <div>
+            <!-- Regional Focus -->
+            <div *ngIf="profile?.skills">
               <h3 class="text-[16px] font-medium text-[#101828]">
                 Regional Focus
               </h3>
               <div class="mt-2 flex flex-wrap gap-2">
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
+                <ng-container
+                  *ngFor="let skill of profile.skills.regionalFocus"
                 >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >+3</span
-                >
+                  <span
+                    class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
+                  >
+                    {{ skill.region.translations[0].name ?? skill.region.id }}
+                  </span>
+                </ng-container>
               </div>
             </div>
 
-            <div>
+            <!-- Consulting Skills -->
+            <div *ngIf="profile?.skills">
               <h3 class="text-[16px] font-medium text-[#101828]">
                 Consulting Skills
               </h3>
               <div class="mt-2 flex flex-wrap gap-2">
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
+                <ng-container
+                  *ngFor="let skill of profile.skills.consultingSkills"
                 >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >Real estate</span
-                >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >+11</span
-                >
+                  <span
+                    class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
+                  >
+                    {{ skill.name ?? "consulting" }}
+                  </span>
+                </ng-container>
               </div>
             </div>
           </div>
@@ -194,3 +181,34 @@
     </div>
   </div>
 </div>
+
+<app-edit-identification
+  [(display)]="displayEditDialog"
+  [profileData]="profileData"
+  (saveChangesEvent)="onSaveProfileChanges($event)"
+  (displayChange)="getProfileDataByUserId()"
+>
+  ></app-edit-identification
+>
+
+<app-edit-about
+  [display]="displayEditAbout"
+  [about]="aboutText"
+  (displayChange)="displayEditAbout = $event"
+  (saveChangesEvent)="updateAbout($event)"
+  (displayChange)="getProfileDataByUserId()"
+>
+</app-edit-about>
+
+<app-edit-skills
+  [(display)]="displayEditSkills"
+  [skillsData]="skillsData"
+  (displayChange)="getProfileDataByUserId()"
+></app-edit-skills>
+
+<app-edit-profile-image
+  [(display)]="displayEditImage"
+  [initialImage]="currentImage"
+  (saveImageEvent)="onSaveImage($event)"
+>
+</app-edit-profile-image>
