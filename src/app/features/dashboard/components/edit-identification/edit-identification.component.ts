@@ -10,6 +10,8 @@ import { SelectModule } from 'primeng/select';
 import { ProfileServiceService } from '../../services/profile-service.service';
 import { Profile } from '../../models/profile';
 import { AuthService } from '../../../auth/services/auth.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-edit-identification',
@@ -22,9 +24,11 @@ import { AuthService } from '../../../auth/services/auth.service';
     CommonModule,
     ChipModule,
     SelectModule,
+    ToastModule,
   ],
   templateUrl: './edit-identification.component.html',
   styleUrl: './edit-identification.component.scss',
+  providers: [MessageService],
 })
 export class EditIdentificationComponent implements OnInit {
   @Input() display: boolean = false;
@@ -50,19 +54,22 @@ export class EditIdentificationComponent implements OnInit {
 
   constructor(
     private profileService: ProfileServiceService,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) {}
   ngOnInit(): void {
     this.getUserDataByUserId();
   }
 
   userData: any;
+  profileId: string = '';
   getUserDataByUserId() {
     this.authService
       .getUserDataByUserId(localStorage.getItem('userId')!)
       .subscribe({
         next: (res: any) => {
           console.log(res.data);
+          this.profileId = res.data.id;
           this.userData = res.data;
           this.firstName = this.userData.firstName;
           this.title = this.userData.title;
@@ -71,6 +78,7 @@ export class EditIdentificationComponent implements OnInit {
             (f: any) => f.areaOfFocusId
           );
         },
+        complete: () => {},
       });
   }
 
@@ -87,36 +95,31 @@ export class EditIdentificationComponent implements OnInit {
 
   saveChanges() {
     const updatedProfile: Profile = {
-      // ...this.profileData, // Preserve existing data
       firstName: this.firstName,
       title: this.title,
       lastName: this.lastName,
       middleName: this.userData.middleName,
       phone: this.userData.phone,
       about: this.userData.about,
-      email: this.userData.user.email,
-      profileUrl: this.userData.profileUrl,
-      thumbnail: this.userData.thumbnail,
-      skills: {
-        industryFocus: this.selectedSkills.map((skillId) => ({
-          areaOfFocusId: skillId,
-        })),
-        domainFocus: [], // Add if you have domain selection
-        regionalFocus: [], // Add if you have region selection
-      },
     };
-
-    // console.log('hh', updatedProfile);
-
     this.profileService
-      .editIdentification(localStorage.getItem('userId')!, updatedProfile)
+      .editIdentification(this.profileId, updatedProfile)
       .subscribe({
         next: (res: any) => {
           this.saveChangesEvent.emit(res);
           this.closeDialog();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Profile updated',
+            detail: 'Your profile has been updated successfully.',
+          });
         },
         error: (err) => {
-          console.error('Update failed:', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update profile',
+          });
         },
       });
   }

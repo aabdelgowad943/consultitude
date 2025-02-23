@@ -21,6 +21,8 @@ import { Profile } from '../../models/profile';
 })
 export class ProfileComponent implements OnInit {
   userId: string = localStorage.getItem('userId')!;
+  profile: any = {};
+
   ngOnInit(): void {
     this.getProfileDataByUserId();
   }
@@ -28,15 +30,12 @@ export class ProfileComponent implements OnInit {
   getProfileDataByUserId() {
     this.authService.getUserDataByUserId(this.userId).subscribe({
       next: (res: any) => {
+        // console.log('user profile data is', res.data);
+        this.profile = res.data;
+        this.skillsData = this.profile.skills;
         this.name = res.data.firstName;
         this.title = res.data.title;
-        this.about =
-          res.data.about ||
-          `My journey from engineering to design has taught me the importance
-            of collaboration, iteration, and empathy in the design process. I
-            believe that great design is not just about making things look
-            pretty, but also about solving real problems and enhancing people's
-            lives.`;
+        this.about = res.data.about;
         this.email = res.data.user?.email;
       },
     });
@@ -98,7 +97,7 @@ export class ProfileComponent implements OnInit {
     );
 
     // Preserve company/nationality if needed
-    console.log('Updated profile:', updatedProfile);
+    // console.log('Updated profile:', updatedProfile);
   }
 
   // ===============================================edit identify======================================================
@@ -120,25 +119,12 @@ export class ProfileComponent implements OnInit {
 
   // ===============================================edit skills======================================================
   displayEditSkills: boolean = false;
-  // Example initial skills object
-  skillsData = {
-    industryFocus: [{ areaOfFocusId: '637da527-c900-4aa9-8560-90a8f0fb672c' }],
-    domainFocus: [{ domainId: 'bb9e69be-e999-4698-80fb-5b799f158382' }],
-    regionalFocus: [{ regionId: '76b98ba8-7fc9-425f-978b-3c01e8b83a57' }],
-    consultingSkills: [
-      { consultingId: '76b98ba8-7fc9-425f-978b-3c01e8b83a57s' },
-    ],
-  };
+  skillsData: any;
 
   openEditSkills() {
     this.displayEditSkills = true;
   }
 
-  onSaveSkills(updatedSkills: any) {
-    // Update the skillsData with the new object
-    this.skillsData = updatedSkills;
-    console.log('Updated skills:', this.skillsData);
-  }
   // ===============================================edit skills======================================================
 
   // ===============================================edit profile image===============================================

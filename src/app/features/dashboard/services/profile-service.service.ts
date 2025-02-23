@@ -10,6 +10,18 @@ export class ProfileServiceService {
   constructor(private apiService: ApiService) {}
 
   editIdentification(id: string, profile: Profile): Observable<Profile> {
-    return this.apiService.put<Profile>(`/profile/${id}`, profile);
+    return this.apiService.patch<Profile>(`/profile/${id}`, profile);
+  }
+
+  getAllAraFocus(page: number, limit: number): Observable<any> {
+    return this.apiService.get<any[]>(
+      `/areas-of-focus?page=${page}&limit=${limit}`
+    );
+  }
+  getAllDomains(page: number, limit: number): Observable<any> {
+    return this.apiService.get<any[]>(`/domains?page=${page}&limit=${limit}`);
+  }
+  getAllRegions(page: number, limit: number): Observable<any> {
+    return this.apiService.get<any[]>(`/regions?page=${page}&limit=${limit}`);
   }
 }

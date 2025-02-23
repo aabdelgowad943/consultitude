@@ -134,17 +134,8 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       }
     }
   }
-  // amount: number = 10.0;
-
-  // isValidAmount(): boolean {
-  //   return this.amount >= 0.5 && this.amount <= 999999.99;
-  // }
 
   async checkout() {
-    // if (!this.isValidAmount()) {
-    //   this.error = 'Please enter a valid amount between $0.50 and $999,999.99';
-    //   return;
-    // }
     this.loading = true;
     this.error = '';
     try {
@@ -247,13 +238,11 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       })
       .subscribe({
         next: (res: any) => {
-          console.log(res);
-
-          this.paymentIntentId = res.clientSecret;
-          console.log(this.paymentIntentId);
+          this.clientSecret = res.clientSecret;
+          // console.log(this.clientSecret);
         },
         complete: () => {
-          this.verifyPayment();
+          this.checkout();
         },
         error: (err: HttpErrorResponse) => {
           this.errorPayment = err.error.message;
@@ -261,15 +250,16 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       });
   }
 
-  verifyPayment() {
-    this.paymentService.verifyPayment(this.paymentIntentId).subscribe({
-      next: (res: any) => {
-        console.log(res);
-      },
-    });
-  }
-
   ngOnDestroy() {
     this.card?.destroy();
   }
+
+  //   this.verifyPayment();
+  // verifyPayment() {
+  //   this.paymentService.verifyPayment(this.paymentIntentId).subscribe({
+  //     next: (res: any) => {
+  //       console.log(res);
+  //     },
+  //   });
+  // }
 }

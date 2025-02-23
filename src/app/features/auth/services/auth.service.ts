@@ -9,6 +9,7 @@ import {
 } from '../models/register';
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +64,10 @@ export class AuthService {
   }
 
   getUserDataByUserId(userId: string): Observable<any> {
-    return this.apiService.get<any>(`/profile/${userId}`);
+    const headers = new HttpHeaders().set('Accept-Language', 'EN'); // Set Accept-Language header
+
+    return this.apiService.get<any>(`/profile/${userId}`, {
+      headers: headers,
+    });
   }
 }
