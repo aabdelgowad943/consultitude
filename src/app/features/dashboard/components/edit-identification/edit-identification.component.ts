@@ -68,7 +68,7 @@ export class EditIdentificationComponent implements OnInit {
       .getUserDataByUserId(localStorage.getItem('userId')!)
       .subscribe({
         next: (res: any) => {
-          console.log(res.data);
+          // console.log(res.data);
           this.profileId = res.data.id;
           this.userData = res.data;
           this.firstName = this.userData.firstName;

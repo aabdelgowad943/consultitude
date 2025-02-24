@@ -5,6 +5,8 @@ import {
   OnChanges,
   SimpleChanges,
   OnInit,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -42,7 +44,8 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
   elements: StripeElements | null = null;
   card: any;
   clientSecret: string = '';
-  stripePublishableKey: string = 'pk_test_G5bt1644CG8jzK2PPr9mHQYj00hm5lHkLu';
+  stripePublishableKey: string =
+    'pk_test_51M2CsDLiXG1Mixu3zo3pn3Br9yVaW7XhScQQEnJHlSyDv9dBSBouSMudRBPyHgYsgdDgxvbGZpgGhZK4pIGfAupH00yNITHpax';
 
   description: string = 'Custom payment';
   loading = false;
@@ -58,6 +61,7 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
     const templateId = this.route.snapshot.paramMap.get('id');
     this.productId = templateId!;
     this.getProfileDataByUserId();
+    this.createPaymentIntent();
     this.calculateTotalAmount();
   }
 
@@ -86,11 +90,12 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
   // --------------------------------stripe------------------------------------------
   async initializeStripe() {
     this.stripe = await loadStripe(
-      'pk_test_G5bt1644CG8jzK2PPr9mHQYj00hm5lHkLu'
+      'pk_test_51M2CsDLiXG1Mixu3zo3pn3Br9yVaW7XhScQQEnJHlSyDv9dBSBouSMudRBPyHgYsgdDgxvbGZpgGhZK4pIGfAupH00yNITHpax'
     );
     if (this.stripe) {
-      this.clientSecret =
-        'pi_3Qr55UBA1qtFyZ9r09RHAMJC_secret_12s4dXtWfg0cODXZCEt3WLj6U';
+      this.clientSecret = this.clientSecret;
+      // console.log('cle', this.clientSecret);
+
       this.elements = this.stripe!.elements({
         clientSecret: this.clientSecret,
       });
@@ -101,37 +106,8 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
         paymentMethodOrder: ['card'],
         fields: { billingDetails: { address: { country: 'never' } } },
       });
+
       paymentElement.mount('#payment-element');
-    }
-  }
-
-  async handlePayment(event: Event) {
-    event.preventDefault();
-    if (!this.stripe || !this.card) return;
-
-    const { error } = await this.stripe.confirmCardPayment(
-      'pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH',
-      {
-        payment_method: {
-          card: this.card,
-          billing_details: {
-            email: this.email,
-          },
-        },
-      }
-    );
-
-    if (error) {
-      console.error('Payment error:', error);
-      const cardErrorElement = document.getElementById('card-error') as any;
-      if (cardErrorElement) {
-        cardErrorElement.textContent = error.message;
-      }
-    } else {
-      const resultMessageElement = document.querySelector('.result-message');
-      if (resultMessageElement) {
-        resultMessageElement.classList.remove('hidden');
-      }
     }
   }
 
@@ -140,11 +116,15 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
     this.error = '';
     try {
       const stripe = await loadStripe(this.stripePublishableKey);
+      // console.log('stripe is', stripe);
+
       if (!stripe) {
+        // console.log('====================================');
+
         throw new Error('Stripe failed to load');
       }
       const { error } = await this.stripe!.confirmCardPayment(
-        this.stripePublishableKey,
+        this.clientSecret,
         {
           payment_method: {
             card: this.card,
@@ -158,7 +138,8 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
         throw error;
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.log('this step logged');
+      console.log('Error:', error);
       this.error = 'An error occurred. Please try again.';
     } finally {
       this.loading = false;
@@ -169,9 +150,30 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
     this.location.back();
   }
 
-  checkEmail() {
-    if (this.userId) {
-      setTimeout(() => this.initializeStripe(), 100);
+  async handlePayment(event: Event) {
+    event.preventDefault();
+    if (!this.stripe || !this.card) return;
+
+    const { error } = await this.stripe.confirmCardPayment(this.clientSecret, {
+      payment_method: {
+        card: this.card,
+        billing_details: {
+          email: this.email,
+        },
+      },
+    });
+
+    if (error) {
+      console.log('Payment error:', error);
+      const cardErrorElement = document.getElementById('card-error') as any;
+      if (cardErrorElement) {
+        cardErrorElement.textContent = error.message;
+      }
+    } else {
+      const resultMessageElement = document.querySelector('.result-message');
+      if (resultMessageElement) {
+        resultMessageElement.classList.remove('hidden');
+      }
     }
   }
 
@@ -185,12 +187,13 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
             quantity: 1,
           },
         ],
-        // voucherCode: this.promoCode,
+        voucherCode: this.promoCode,
         taxPercentage: 0,
       })
       .subscribe({
         next: (res: any) => {
           this.totalAmount = res.data.totalAmount;
+          this.discountValue = res.data.discount;
           this.subTotalAmount = res.data.subTotalAmount;
         },
         complete: () => {},
@@ -206,10 +209,11 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       })
       .subscribe({
         next: (res: any) => {
-          this.discountValue = res.data.discount;
-          this.totalAmount = this.totalAmount - this.discountValue;
           this.successMessage = res.message;
           this.errorMessage = '';
+        },
+        complete: () => {
+          this.calculateTotalAmount();
         },
         error: (err: HttpErrorResponse) => {
           this.errorMessage = err.error.errors[0].message;
@@ -239,9 +243,9 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       .subscribe({
         next: (res: any) => {
           this.clientSecret = res.clientSecret;
-          // console.log(this.clientSecret);
         },
         complete: () => {
+          this.initializeStripe();
           this.checkout();
         },
         error: (err: HttpErrorResponse) => {
