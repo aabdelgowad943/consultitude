@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentsService } from '../../services/documents.service';
 import { DocumentsResponse, Order } from '../../models/documents';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-documents',
-  imports: [CommonModule, PaginatorModule],
+  imports: [CommonModule, PaginatorModule, RouterModule],
   templateUrl: './documents.component.html',
   styleUrl: './documents.component.scss',
 })

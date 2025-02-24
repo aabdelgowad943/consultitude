@@ -88,7 +88,7 @@ export class ViewTemplateDetailsComponent {
     const templateId = this.route.snapshot.paramMap.get('id');
     if (templateId) {
       this.fetchTemplateById(templateId);
-      console.log('template id', templateId);
+      // console.log('template id', templateId);
     }
   }
 

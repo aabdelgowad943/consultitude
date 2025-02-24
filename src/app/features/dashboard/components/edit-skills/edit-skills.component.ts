@@ -86,7 +86,7 @@ export class EditSkillsComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['skillsData'] && changes['skillsData'].currentValue) {
       const data = changes['skillsData'].currentValue;
-      console.log('Current value is', data);
+      // console.log('Current value is', data);
 
       this.industryFocusSelected = data.industryFocus
         ? data.industryFocus.map((item: any) => item.areaOfFocus.id)
@@ -223,14 +223,14 @@ export class EditSkillsComponent implements OnChanges, OnInit {
         });
       },
       error: (err: any) => {
-        console.error('Error fetching domains', err);
+        // console.error('Error fetching domains', err);
       },
     });
   }
   getAllIndustries() {
     this.profileService.getAllAraFocus(1, 100).subscribe({
       next: (res: any) => {
-        console.log('Industries:', res.data);
+        // console.log('Industries:', res.data);
         // Map each item from the industryFocus array
         this.industryFocusOptions = res.data.map((item: any) => {
           const areaOfFocus = item;
@@ -253,7 +253,7 @@ export class EditSkillsComponent implements OnChanges, OnInit {
   getAllRegions() {
     this.profileService.getAllRegions(1, 100).subscribe({
       next: (res: any) => {
-        console.log('reg', res.data);
+        // console.log('reg', res.data);
         this.regionalFocusOptions = res.data.map((regionsFocus: any) => {
           const name =
             regionsFocus.translations && regionsFocus.translations.length
@@ -282,7 +282,7 @@ export class EditSkillsComponent implements OnChanges, OnInit {
       .getUserDataByUserId(localStorage.getItem('userId')!)
       .subscribe({
         next: (res: any) => {
-          console.log(res.data);
+          // console.log(res.data);
           this.profileId = res.data.id;
           this.userData = res.data;
         },

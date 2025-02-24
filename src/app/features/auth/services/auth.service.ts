@@ -10,6 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { HttpHeaders } from '@angular/common/http';
+import { ChangePasswordSettings } from '../models/change-password';
 
 @Injectable({
   providedIn: 'root',
@@ -69,5 +70,11 @@ export class AuthService {
     return this.apiService.get<any>(`/profile/${userId}`, {
       headers: headers,
     });
+  }
+
+  changePassword(
+    changePassword: ChangePasswordSettings
+  ): Observable<ChangePasswordSettings> {
+    return this.apiService.post('/auth/change-password', changePassword);
   }
 }
