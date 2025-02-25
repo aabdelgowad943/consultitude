@@ -17,7 +17,7 @@ export class LinkedinCallbackComponent implements OnInit {
       const email = params['email'];
 
       if (token) {
-        localStorage.setItem('authToken', token);
+        localStorage.setItem('token', token);
         localStorage.setItem('userName', name);
         localStorage.setItem('userEmail', email);
         this.router.navigate(['/dashboard']);

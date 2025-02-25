@@ -3,7 +3,7 @@ import { ApiService } from '../../../../../../shared/services/api.service';
 import { Voucher } from '../models/voucher';
 import { Observable } from 'rxjs';
 import { CalculateAmount } from '../models/calculate-amount';
-import { OrderRequest } from '../models/order';
+import { CreateOrder, OrderRequest } from '../models/order';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +30,9 @@ export class PaymentService {
 
   verifyPayment(paymentIntentId: string): Observable<any> {
     return this.apiService.post('/orders/verify-payment', paymentIntentId);
+  }
+
+  createOrder(createOrder: CreateOrder): Observable<CreateOrder> {
+    return this.apiService.post<CreateOrder>('/orders', createOrder);
   }
 }

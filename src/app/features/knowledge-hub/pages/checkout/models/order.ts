@@ -13,3 +13,15 @@ export interface OrderRequest {
   currency: string;
   calculateTotalAmountDto: CalculateTotalAmountDto;
 }
+
+export interface OrderDetails {
+  productId: string;
+  quantity: number;
+  price: number;
+}
+
+export interface CreateOrder {
+  userId: string;
+  paymentIntentId: string;
+  orderDetails: OrderDetails[];
+}

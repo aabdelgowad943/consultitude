@@ -60,7 +60,7 @@ export class LoginComponent {
           });
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err.error);
+        // console.log(err.error);
         this.errorMessage = err.error.errors[0].message;
       },
     });

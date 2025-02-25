@@ -11,6 +11,8 @@ export interface Profile {
   skills?: UserSkills;
   email?: string;
   password?: string;
+  country?: string;
+  nationality?: string;
 }
 
 export interface UserSkills {
