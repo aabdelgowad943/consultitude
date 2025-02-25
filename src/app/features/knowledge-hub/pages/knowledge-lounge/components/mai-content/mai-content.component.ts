@@ -26,8 +26,8 @@ export class MaiContentComponent {
   sortOptions: { label: string; value: string }[] = [
     { label: 'Price: Low to High', value: 'priceAsc' },
     { label: 'Price: High to Low', value: 'priceDesc' },
-    { label: 'Downloads: High to Low', value: 'downloadDesc' },
-    { label: 'Featured', value: 'featured' },
+    { label: 'Downloads: High to Low', value: 'downloadsDesc' },
+    { label: 'Featured', value: 'featuredFirst' },
   ];
 
   toggleSortMenu() {

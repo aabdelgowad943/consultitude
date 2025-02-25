@@ -34,36 +34,6 @@
         Update your account settings.
       </p>
 
-      <!-- Username -->
-      <div class="mb-6">
-        <label
-          class="mb-2 block text-[14px] font-[500] text-[#14151A]"
-          for="username"
-          >Username</label
-        >
-        <input
-          id="username"
-          type="text"
-          formControlName="username"
-          placeholder="amamdouh14"
-          class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-        <p class="mt-2 text-sm text-[#0D112666]/40">
-          Your Consultitude profile is https://consultitude.com/{{
-            username?.value
-          }}
-        </p>
-        <!-- Username validation error -->
-        <div
-          class="mt-1 text-xs text-red-500"
-          *ngIf="username?.invalid && (username?.dirty || username?.touched)"
-        >
-          <div *ngIf="username?.errors?.['required']">
-            Username is required.
-          </div>
-        </div>
-      </div>
-
       <!-- Email -->
       <div class="mb-6">
         <label
@@ -75,6 +45,7 @@
           id="email"
           type="email"
           formControlName="email"
+          [value]="userEmail"
           placeholder="amamdouh@mail.com"
           class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />

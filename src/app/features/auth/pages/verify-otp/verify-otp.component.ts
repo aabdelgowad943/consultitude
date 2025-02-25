@@ -47,7 +47,7 @@ export class VerifyOtpComponent {
           },
           error: (err: HttpErrorResponse) => {
             this.errorMessage = err.error.message;
-            console.log(err);
+            // console.log(err);
           },
         });
     } else {

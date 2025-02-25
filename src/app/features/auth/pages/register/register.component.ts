@@ -156,7 +156,7 @@ export class RegisterComponent {
   isEmailExist() {
     this.authService.isEmailExist(this.email).subscribe({
       next: (res: any) => {
-        console.log(res.message);
+        // console.log(res.message);
       },
     });
   }

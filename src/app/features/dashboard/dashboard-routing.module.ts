@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DocumentsComponent } from './pages/documents/documents.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ViewDocumentDetailsComponent } from './pages/view-document-details/view-document-details.component';
 
 const routes: Routes = [
   {
@@ -22,12 +23,17 @@ const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
       },
+
       {
         path: '',
         redirectTo: 'profile',
         pathMatch: 'full',
       },
     ],
+  },
+  {
+    path: 'view-document/:id',
+    component: ViewDocumentDetailsComponent,
   },
 ];
 

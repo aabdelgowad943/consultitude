@@ -84,7 +84,7 @@
         </p>
       </div>
       <div *ngIf="userId" class="mt-4">
-        <form id="payment-form" (submit)="createPaymentIntent()">
+        <form id="payment-form" (ngSubmit)="handleSubmit($event)">
           <div id="payment-element"></div>
           <div class="mt-4">
             <div class="flex justify-between">
@@ -103,8 +103,10 @@
           <button
             id="submit"
             class="bg-[#9241DC] text-white w-full h-[40px] py-2.5 px-3 flex items-center justify-center rounded-xl hover:bg-purple-700 mt-4"
+            [disabled]="loading"
           >
-            Pay
+            <span *ngIf="loading">Processing...</span>
+            <span *ngIf="!loading">Pay</span>
           </button>
           <p
             *ngIf="errorPayment"
@@ -113,13 +115,55 @@
             {{ errorPayment }}
           </p>
           <p id="payment-error" role="alert"></p>
-          <p class="result-message hidden">
-            Payment succeeded, see the result in your
-            <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to
-            pay again.
-          </p>
         </form>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Success Popup -->
+
+<div
+  *ngIf="showSuccessPopup"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div class="bg-white rounded-xl p-10 md:w-[480px] mx-4">
+    <!-- Confetti Icon -->
+    <div class="flex items-center justify-center mb-4">
+      🎉
+      <!-- <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#FF9900"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+        ></polygon>
+      </svg> -->
+    </div>
+
+    <!-- Main Message -->
+    <h2 class="text-2xl font-[500] text-center text-[#14151A] mb-5">
+      Your presentation is one tap a way
+    </h2>
+
+    <!-- Subtext -->
+    <p class="text-[#0F132499]/60 text-center text-sm mb-6">
+      Thank you for ordering from Consultitude. Download instructions are on
+      their way to your inbox.
+    </p>
+
+    <!-- (click)="closeSuccessPopup()" -->
+    <button
+      class="bg-[#9241DC] text-white md:w-[400px] w-[281px] h-10 px-3 py-2.5 rounded-xl hover:bg-purple-700 transition duration-200"
+    >
+      My downloads
+    </button>
   </div>
 </div>

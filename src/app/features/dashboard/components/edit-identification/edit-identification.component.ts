@@ -45,6 +45,8 @@ export class EditIdentificationComponent implements OnInit {
   title: string = '';
   email: string = '';
   selectedSkills: string[] = [];
+  country: string = '';
+  nationality: string = '';
 
   skills = [
     { label: 'Strategy', value: 'Strategy' },
@@ -71,9 +73,13 @@ export class EditIdentificationComponent implements OnInit {
           // console.log(res.data);
           this.profileId = res.data.id;
           this.userData = res.data;
+
           this.firstName = this.userData.firstName;
           this.title = this.userData.title;
           this.lastName = this.userData.lastName;
+          this.country = this.userData.country;
+          this.nationality = this.userData.nationality;
+
           this.selectedSkills = this.profileData.skills!.industryFocus.map(
             (f: any) => f.areaOfFocusId
           );
@@ -101,6 +107,8 @@ export class EditIdentificationComponent implements OnInit {
       middleName: this.userData.middleName,
       phone: this.userData.phone,
       about: this.userData.about,
+      country: this.country,
+      nationality: this.nationality,
     };
     this.profileService
       .editIdentification(this.profileId, updatedProfile)

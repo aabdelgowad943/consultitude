@@ -5,15 +5,13 @@ import {
   OnChanges,
   SimpleChanges,
   OnInit,
-  ElementRef,
-  ViewChild,
 } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { loadStripe, Stripe, StripeElements } from '@stripe/stripe-js';
 import { AuthService } from '../../../../../auth/services/auth.service';
 import { PaymentService } from '../../services/payment.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -21,7 +19,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
 })
 export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
   @Input() productPrice: number = 0;
@@ -42,26 +40,31 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
 
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
-  card: any;
+  paymentElement: any;
   clientSecret: string = '';
-  stripePublishableKey: string =
-    'pk_test_51M2CsDLiXG1Mixu3zo3pn3Br9yVaW7XhScQQEnJHlSyDv9dBSBouSMudRBPyHgYsgdDgxvbGZpgGhZK4pIGfAupH00yNITHpax';
+  stripePublishableKey: string = 'pk_test_G5bt1644CG8jzK2PPr9mHQYj00hm5lHkLu';
+
+  paymentIntentId: string = '';
 
   description: string = 'Custom payment';
   loading = false;
-  error = '';
+  errorPayment: string = '';
+
+  // New property for payment success popup
+  showSuccessPopup: boolean = false;
 
   constructor(
     private location: Location,
     private authService: AuthService,
     private paymentService: PaymentService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router // Added Router for redirecting if needed
   ) {}
+
   ngOnInit(): void {
     const templateId = this.route.snapshot.paramMap.get('id');
     this.productId = templateId!;
     this.getProfileDataByUserId();
-    this.createPaymentIntent();
     this.calculateTotalAmount();
   }
 
@@ -83,101 +86,98 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
 
   async ngAfterViewInit() {
     if (this.userId) {
-      await this.initializeStripe();
+      // We'll call createPaymentIntent here to ensure we have the clientSecret first
+      await this.createPaymentIntent();
     }
   }
 
-  // --------------------------------stripe------------------------------------------
+  // Initialize Stripe with the client secret from createPaymentIntent
   async initializeStripe() {
-    this.stripe = await loadStripe(
-      'pk_test_51M2CsDLiXG1Mixu3zo3pn3Br9yVaW7XhScQQEnJHlSyDv9dBSBouSMudRBPyHgYsgdDgxvbGZpgGhZK4pIGfAupH00yNITHpax'
-    );
-    if (this.stripe) {
-      this.clientSecret = this.clientSecret;
-      // console.log('cle', this.clientSecret);
+    this.stripe = await loadStripe(this.stripePublishableKey);
 
-      this.elements = this.stripe!.elements({
+    if (this.stripe && this.clientSecret) {
+      this.elements = this.stripe.elements({
         clientSecret: this.clientSecret,
+        appearance: {
+          theme: 'stripe',
+        },
       });
 
       // Create and mount the payment element
-      const options = { layout: 'tabs' /* options */ };
-      const paymentElement = this.elements.create('payment', {
+      this.paymentElement = this.elements.create('payment', {
         paymentMethodOrder: ['card'],
-        fields: { billingDetails: { address: { country: 'never' } } },
+        fields: { billingDetails: { address: 'auto' } },
       });
 
-      paymentElement.mount('#payment-element');
+      this.paymentElement.mount('#payment-element');
+    } else {
+      this.errorPayment =
+        'Failed to initialize payment form. Please try again.';
     }
   }
 
-  async checkout() {
+  async handleSubmit(event: Event) {
+    event.preventDefault();
+
+    if (!this.stripe || !this.elements) {
+      return;
+    }
+
     this.loading = true;
-    this.error = '';
-    try {
-      const stripe = await loadStripe(this.stripePublishableKey);
-      // console.log('stripe is', stripe);
+    this.errorPayment = '';
 
-      if (!stripe) {
-        // console.log('====================================');
+    // Submit the form with the payment element
+    const { error, paymentIntent } = await this.stripe.confirmPayment({
+      elements: this.elements,
 
-        throw new Error('Stripe failed to load');
-      }
-      const { error } = await this.stripe!.confirmCardPayment(
-        this.clientSecret,
-        {
-          payment_method: {
-            card: this.card,
-            billing_details: {
-              email: this.email,
+      confirmParams: {
+        return_url: window.location.origin + '/payment-success',
+        payment_method_data: {
+          billing_details: {
+            email: this.email,
+            address: {
+              country: 'US',
             },
           },
-        }
-      );
-      if (error) {
-        throw error;
+        },
+      },
+
+      redirect: 'if_required',
+    });
+
+    if (error) {
+      // Show error to your customer
+      this.errorPayment = error.message || 'An unexpected error occurred.';
+      const paymentError = document.getElementById('payment-error');
+      if (paymentError) {
+        paymentError.textContent =
+          error.message || 'An unexpected error occurred.';
       }
-    } catch (error) {
-      console.log('this step logged');
-      console.log('Error:', error);
-      this.error = 'An error occurred. Please try again.';
-    } finally {
-      this.loading = false;
+    } else {
+      // Payment was successful!
+      // Save the payment intent ID
+      this.paymentIntentId = paymentIntent?.id || '';
+
+      // Create the order in your system
+      this.createOrder();
+
+      // Show success popup
+      this.showSuccessPopup = true;
+
+      // You can also add a timeout to redirect the user after showing the popup
+      // setTimeout(() => {
+      //   this.router.navigate(['/payment-success']);
+      // }, 3000);
     }
+
+    this.loading = false;
   }
 
   goBack() {
     this.location.back();
   }
 
-  async handlePayment(event: Event) {
-    event.preventDefault();
-    if (!this.stripe || !this.card) return;
-
-    const { error } = await this.stripe.confirmCardPayment(this.clientSecret, {
-      payment_method: {
-        card: this.card,
-        billing_details: {
-          email: this.email,
-        },
-      },
-    });
-
-    if (error) {
-      console.log('Payment error:', error);
-      const cardErrorElement = document.getElementById('card-error') as any;
-      if (cardErrorElement) {
-        cardErrorElement.textContent = error.message;
-      }
-    } else {
-      const resultMessageElement = document.querySelector('.result-message');
-      if (resultMessageElement) {
-        resultMessageElement.classList.remove('hidden');
-      }
-    }
-  }
-
-  // ------------------------------------promo code and calculate total and subtotal-----------------------
+  // Calculate total amount including any discount from promo code
   calculateTotalAmount() {
     this.paymentService
       .calculateTotalAmount({
@@ -214,6 +214,8 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
         },
         complete: () => {
           this.calculateTotalAmount();
+          // We should create a new payment intent when a promo code is applied
+          this.createPaymentIntent();
         },
         error: (err: HttpErrorResponse) => {
           this.errorMessage = err.error.errors[0].message;
@@ -222,9 +224,7 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       });
   }
 
-  // ------------------------------------create payment intent----------------------------------------------
-  paymentIntentId: string = '';
-  errorPayment: string = '';
+  // Create payment intent with the server
   createPaymentIntent() {
     this.paymentService
       .createPaymentIntent({
@@ -243,27 +243,49 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       .subscribe({
         next: (res: any) => {
           this.clientSecret = res.clientSecret;
+          this.paymentIntentId = res.paymentIntentId;
+          // console.log('Payment Intent ID:', this.paymentIntentId);
         },
         complete: () => {
           this.initializeStripe();
-          this.checkout();
         },
         error: (err: HttpErrorResponse) => {
-          this.errorPayment = err.error.message;
+          this.errorPayment =
+            err.error.message ||
+            'Failed to initialize payment. Please try again.';
         },
       });
   }
 
-  ngOnDestroy() {
-    this.card?.destroy();
+  createOrder() {
+    this.paymentService
+      .createOrder({
+        userId: this.userId,
+        paymentIntentId: this.paymentIntentId,
+        orderDetails: [
+          {
+            productId: this.productId,
+            quantity: 1,
+            price: this.totalAmount,
+          },
+        ],
+      })
+      .subscribe({
+        next: (res: any) => {
+          // console.log('Order created successfully:', res);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Error creating order:', err);
+        },
+      });
   }
 
-  //   this.verifyPayment();
-  // verifyPayment() {
-  //   this.paymentService.verifyPayment(this.paymentIntentId).subscribe({
-  //     next: (res: any) => {
-  //       console.log(res);
-  //     },
-  //   });
-  // }
+  // Close the success popup
+  closeSuccessPopup() {
+    this.showSuccessPopup = false;
+  }
+
+  ngOnDestroy() {
+    this.paymentElement?.destroy();
+  }
 }

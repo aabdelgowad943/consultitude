@@ -10,6 +10,6 @@ import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 })
 export class ContactUsComponent {
   onSubmit() {
-    console.log('Form submitted');
+    // console.log('Form submitted');
   }
 }

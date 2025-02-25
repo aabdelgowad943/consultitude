@@ -22,6 +22,7 @@ export class SettingsComponent {
   isSubmitting = false;
   errorMessage = '';
   successMessage = '';
+  userEmail: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -31,16 +32,28 @@ export class SettingsComponent {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.getUserData();
+  }
+
+  getUserData() {
+    this.authService
+      .getUserDataByUserId(localStorage.getItem('userId')!)
+      .subscribe({
+        next: (res: any) => {
+          this.userEmail = res.data.user.email;
+          this.settingsForm.get('email')?.setValue(this.userEmail);
+        },
+      });
   }
 
   private initializeForm(): void {
     this.settingsForm = this.fb.group(
       {
-        // Not used in the API call, but shown in the UI
-        username: ['amamdouh14', [Validators.required]],
-
         // Email field
-        email: ['', [Validators.required, Validators.email]],
+        email: [
+          { value: '', disabled: true },
+          [Validators.required, Validators.email],
+        ],
 
         // Old Password
         oldPassword: ['', [Validators.required]],
@@ -70,10 +83,6 @@ export class SettingsComponent {
     return null;
   }
 
-  // Convenience getters for template
-  get username(): AbstractControl | null {
-    return this.settingsForm.get('username');
-  }
   get email(): AbstractControl | null {
     return this.settingsForm.get('email');
   }
@@ -110,7 +119,7 @@ export class SettingsComponent {
       next: () => {
         this.successMessage = 'Password changed successfully!';
         this.isSubmitting = false;
-        this.showLogoutPopup = true;
+        // this.showLogoutPopup = true;
       },
       error: (err) => {
         this.errorMessage =

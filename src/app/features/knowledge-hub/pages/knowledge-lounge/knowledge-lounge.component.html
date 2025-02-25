@@ -32,15 +32,24 @@
         >
         </app-mai-content>
 
-        <div class="card flex justify-center mt-6">
+        <!-- <div class="card flex justify-center mt-6">
           <p-paginator
             (onPageChange)="onPageChange($event)"
             [first]="first"
             [rows]="rows"
             [totalRecords]="totalRecords"
           ></p-paginator>
+        </div> -->
+
+        <div class="flex justify-center py-2">
+          <p-paginator
+            [first]="first"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
+            (onPageChange)="onPageChange($event)"
+            styleClass="w-full"
+          ></p-paginator>
         </div>
-        <!-- [rowsPerPageOptions]="[10, 20, 30]" -->
       </div>
     </div>
   </div>
