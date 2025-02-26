@@ -10,6 +10,7 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { IndexComponent } from './pages/index/index.component';
 import { AlreadySubscribedComponent } from './pages/already-subscribed/already-subscribed.component';
 import { FaqsComponent } from './pages/faqs/faqs.component';
+import { PageNotFoundComponent } from '../../../shared/pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -25,40 +26,44 @@ const routes: Routes = [
         redirectTo: 'home',
         pathMatch: 'full',
       },
+      {
+        path: '**',
+        component: PageNotFoundComponent,
+      },
     ],
   },
-  {
-    path: 'successfully_subscribed',
-    component: SuccessfullySubscribedComponent,
-  },
-  {
-    path: 'terms-and-conditions',
-    component: TermsAndConditionComponent,
-  },
-  {
-    path: 'privacy-and-policy',
-    component: PrivacyAndPolicyComponent,
-  },
-  {
-    path: 'cookie-policy',
-    component: CookiesPolicyComponent,
-  },
-  {
-    path: 'contact-us',
-    component: ContactUsComponent,
-  },
-  {
-    path: 'faqs',
-    component: FaqsComponent,
-  },
-  {
-    path: 'index',
-    component: IndexComponent,
-  },
-  {
-    path: 'subscribed',
-    component: AlreadySubscribedComponent,
-  },
+  // {
+  //   path: 'successfully_subscribed',
+  //   component: SuccessfullySubscribedComponent,
+  // },
+  // {
+  //   path: 'terms-and-conditions',
+  //   component: TermsAndConditionComponent,
+  // },
+  // {
+  //   path: 'privacy-and-policy',
+  //   component: PrivacyAndPolicyComponent,
+  // },
+  // {
+  //   path: 'cookie-policy',
+  //   component: CookiesPolicyComponent,
+  // },
+  // {
+  //   path: 'contact-us',
+  //   component: ContactUsComponent,
+  // },
+  // {
+  //   path: 'faqs',
+  //   component: FaqsComponent,
+  // },
+  // {
+  //   path: 'index',
+  //   component: IndexComponent,
+  // },
+  // {
+  //   path: 'subscribed',
+  //   component: AlreadySubscribedComponent,
+  // },
 ];
 
 @NgModule({
