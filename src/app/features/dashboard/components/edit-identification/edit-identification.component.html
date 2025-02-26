@@ -69,14 +69,17 @@
       <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
         Nationality
       </label>
-      <input
+      <p-dropdown
         [(ngModel)]="nationality"
-        type="text"
-        placeholder="Ex: Egyptian"
-        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
-      />
+        [options]="nationalities"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a nationality"
+        appendTo="body"
+        [panelStyle]="{ width: '100%' }"
+        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl mt-1"
+      ></p-dropdown>
     </div>
-    <!-- [(ngModel)]="nationality" -->
 
     <!-- Top Skills -->
     <div class="mb-3">
@@ -86,6 +89,8 @@
       <p-multiSelect
         [options]="skills"
         [(ngModel)]="selectedSkills"
+        optionLabel="label"
+        optionValue="value"
         appendTo="body"
         placeholder="Choose Top Skills"
         class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl py-[2px] mt-1"

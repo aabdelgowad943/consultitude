@@ -13,6 +13,7 @@ export interface Profile {
   password?: string;
   country?: string;
   nationality?: string;
+  topSkills?: TopSkill[];
 }
 
 export interface UserSkills {
@@ -31,4 +32,8 @@ export interface DomainFocus {
 
 export interface RegionalFocus {
   regionId: string;
+}
+
+export interface TopSkill {
+  topSkillId: string;
 }

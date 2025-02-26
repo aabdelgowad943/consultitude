@@ -23,36 +23,53 @@
       <!-- Image Section -->
       <div class="relative rounded-2xl 2xl:h-[240px] w-full mx-auto">
         <img
-          [src]="selectedImage"
-          [alt]="doc.documentFormat"
+          [src]="doc.orderDetails[0].product.images[0]?.url"
+          [alt]="doc.orderDetails[0].product.documents[0]?.documentFormat.name"
           class="w-full h-[240px] object-cover rounded-t-2xl"
         />
-
         <div
           class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-10 text-white rounded-t-2xl"
         >
           <h3 class="text-3xl mb-1 w-[50%] font-[700]">
-            {{ doc.productName }}
+            {{ doc.orderDetails[0].product.translations[0].name }}
           </h3>
         </div>
       </div>
 
       <!-- Card Body -->
       <div class="p-4 2xl:h-[161px]">
-        <!-- Price -->
-        <div class="flex items-center justify-between mb-4">
-          <!-- Title -->
-          <h3 class="text-[#171717] flex flex-col text-[24px] font-bold">
-            {{ doc.productName }}
-          </h3>
-          <!-- <h3 class="text-[#171717] flex flex-col text-[24px] font-bold">
-            {{ doc.price }}
-          </h3> -->
-        </div>
-
-        <h3 class="text-gray-500 flex flex-col text-sm mb-4 font-bold">
-          {{ doc.documentFormat }}
+        <!-- Title -->
+        <h3 class="text-[#171717] flex flex-col text-[24px] font-bold">
+          {{ doc.orderDetails[0].product.translations[0].name }}
         </h3>
+
+        <!-- Option Display (Line 55 Update) -->
+        <div class="flex gap-1 items-center w-full my-4">
+          <!-- عنصر الدومين -->
+          <h1
+            class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+          >
+            {{
+              doc.orderDetails[0].product.domains[0]?.domain.translations[0]
+                .name
+            }}
+          </h1>
+          <!-- عنصر الأريا فوكس -->
+          <h1
+            class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+          >
+            {{
+              doc.orderDetails[0].product.areaOfFocus[0]?.AreaOfFocus
+                .translations[0].name
+            }}
+          </h1>
+          <!-- عنصر الدوكيومنتس -->
+          <h1
+            class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+          >
+            {{ doc.orderDetails[0].product.documents[0]?.documentFormat.name }}
+          </h1>
+        </div>
 
         <!-- View Button -->
         <button
@@ -79,13 +96,12 @@
           You did not download any documents yet!
         </h3>
       </div>
-
       <div class="flex flex-col items-center sm:flex-row gap-4 justify-center">
         <button
           routerLink="/knowledge/lounge"
           class="px-4 py-2 text-[16px] md:w-[181px] w-[209px] h-[44px] font-sans bg-[#7F56D9] hover:bg-[#a24af5] text-white rounded-lg font-semibold transition-colors"
         >
-          Browser now!
+          Browse now!
         </button>
       </div>
     </div>

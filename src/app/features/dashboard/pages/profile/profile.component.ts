@@ -22,6 +22,8 @@ import { Profile } from '../../models/profile';
 export class ProfileComponent implements OnInit {
   userId: string = localStorage.getItem('userId')!;
   profile: any = {};
+  topSkills: string[] = [];
+  topSkillsList: string[] = [];
 
   ngOnInit(): void {
     this.getProfileDataByUserId();
@@ -30,8 +32,33 @@ export class ProfileComponent implements OnInit {
   getProfileDataByUserId() {
     this.authService.getUserDataByUserId(this.userId).subscribe({
       next: (res: any) => {
-        // console.log('user profile data is', res.data);
+        console.log(res.data.topSkills);
+
+        //   [
+        //     {
+        //         "topSkill": {
+        //             "id": "dd667875-ca82-4e45-8bf5-1a34ede7fa64",
+        //             "translations": [
+        //                 {
+        //                     "name": "JavaScript"
+        //                 }
+        //             ]
+        //         }
+        //     },
+        //     {
+        //         "topSkill": {
+        //             "id": "e76eb4b6-a9b6-41dc-81f5-0d91f666715a",
+        //             "translations": [
+        //                 {
+        //                     "name": "Type Script"
+        //                 }
+        //             ]
+        //         }
+        //     }
+        // ]
+
         this.profile = res.data;
+        this.topSkillsList = this.extractTopSkills(res.data.topSkills || []);
         this.skillsData = this.profile.skills;
         this.name = res.data.firstName;
         this.title = res.data.title;
@@ -39,6 +66,12 @@ export class ProfileComponent implements OnInit {
         this.email = res.data.user?.email;
       },
     });
+  }
+
+  private extractTopSkills(topSkills: any[]): string[] {
+    return topSkills
+      .map((item) => item.topSkill?.translations?.[0]?.name || '')
+      .filter((name) => name !== '');
   }
 
   // ===============================================edit identify======================================================

@@ -50,7 +50,12 @@
       </div>
       <div *ngIf="section.isOpen" class="ml-4">
         <ng-container *ngIf="section.key !== 'price'">
-          <div *ngFor="let item of filters[section.key]" class="mt-2 mb-5">
+          <div
+            *ngFor="
+              let item of getVisibleItems(filters[section.key], section.key)
+            "
+            class="mt-2 mb-5"
+          >
             <label class="flex items-center">
               <input
                 class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
@@ -62,6 +67,14 @@
                 item.name
               }}</span>
             </label>
+          </div>
+          <div *ngIf="shouldShowMoreButton(filters[section.key])" class="mt-2">
+            <button
+              class="text-[#792EBA] -ms-2 text-[16px] mt-0 font-bold"
+              (click)="toggleExpand(section.key)"
+            >
+              {{ expandedSections[section.key] ? "See Less" : "See More" }}
+            </button>
           </div>
         </ng-container>
         <div *ngIf="section.key === 'price'" class="ml-1 px-1 py-3">
@@ -89,7 +102,9 @@
           </div>
         </div>
 
-        <a class="text-[#792EBA] -ms-2 text-[16px] mt-5 font-bold">See more</a>
+        <!-- <button class="text-[#792EBA] -ms-2 text-[16px] mt-5 font-bold">
+          See more
+        </button> -->
       </div>
     </div>
     <div class="mt-4">
