@@ -18,6 +18,13 @@ export class SidebarComponent {
   @Output() toggleSection = new EventEmitter<any>();
   @Output() toggleDomainChildren = new EventEmitter<any>();
 
+  readonly visibleItems = 4;
+  expandedSections: { [key: string]: boolean } = {
+    domains: false,
+    areasOfFocus: false,
+    documentTypes: false,
+  };
+
   onFilterChange() {
     this.filterChange.emit();
   }
@@ -37,5 +44,20 @@ export class SidebarComponent {
 
   onToggleDomainChildren(domain: any) {
     this.toggleDomainChildren.emit(domain);
+  }
+
+  toggleExpand(sectionKey: string) {
+    this.expandedSections[sectionKey] = !this.expandedSections[sectionKey];
+  }
+
+  getVisibleItems(items: any[], sectionKey: string): any[] {
+    if (!items) return [];
+    return this.expandedSections[sectionKey]
+      ? items
+      : items.slice(0, this.visibleItems);
+  }
+
+  shouldShowMoreButton(items: any[]): boolean {
+    return items && items.length > this.visibleItems;
   }
 }

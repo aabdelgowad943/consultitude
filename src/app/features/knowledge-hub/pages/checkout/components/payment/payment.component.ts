@@ -162,7 +162,7 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       this.createOrder();
 
       // Show success popup
-      this.showSuccessPopup = true;
+      // this.showSuccessPopup = true;
 
       // You can also add a timeout to redirect the user after showing the popup
       // setTimeout(() => {
@@ -262,20 +262,23 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       .createOrder({
         userId: this.userId,
         paymentIntentId: this.paymentIntentId,
+        voucherCode: this.promoCode,
         orderDetails: [
           {
             productId: this.productId,
             quantity: 1,
-            price: this.totalAmount,
+            // price: this.totalAmount,
           },
         ],
       })
       .subscribe({
         next: (res: any) => {
           // console.log('Order created successfully:', res);
+          this.showSuccessPopup = true;
         },
         error: (err: HttpErrorResponse) => {
-          console.error('Error creating order:', err);
+          // console.error('Error creating order:', err);
+          this.errorPayment = err.error.message || 'Failed to create order.';
         },
       });
   }

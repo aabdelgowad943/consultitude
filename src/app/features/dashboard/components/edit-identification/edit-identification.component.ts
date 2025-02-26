@@ -48,10 +48,28 @@ export class EditIdentificationComponent implements OnInit {
   country: string = '';
   nationality: string = '';
 
-  skills = [
-    { label: 'Strategy', value: 'Strategy' },
-    { label: 'Design', value: 'Design' },
-    { label: 'Delivery', value: 'Delivery' },
+  skills: any[] = [];
+  fullSkillsData: any[] = [];
+
+  nationalities: any[] = [
+    { label: 'Egyptian', value: 'Egyptian' },
+    { label: 'Saudi Arabian', value: 'Saudi Arabian' },
+    { label: 'Emirati', value: 'Emirati' },
+    { label: 'Kuwaiti', value: 'Kuwaiti' },
+    { label: 'Qatari', value: 'Qatari' },
+    { label: 'Omani', value: 'Omani' },
+    { label: 'Bahraini', value: 'Bahraini' },
+    { label: 'Jordanian', value: 'Jordanian' },
+    { label: 'Lebanese', value: 'Lebanese' },
+    { label: 'Syrian', value: 'Syrian' },
+    { label: 'Iraqi', value: 'Iraqi' },
+    { label: 'Palestinian', value: 'Palestinian' },
+    { label: 'Sudanese', value: 'Sudanese' },
+    { label: 'Algerian', value: 'Algerian' },
+    { label: 'Moroccan', value: 'Moroccan' },
+    { label: 'Tunisian', value: 'Tunisian' },
+    { label: 'Libyan', value: 'Libyan' },
+    { label: 'Yemeni', value: 'Yemeni' },
   ];
 
   constructor(
@@ -61,6 +79,21 @@ export class EditIdentificationComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getUserDataByUserId();
+    this.getAllSkills();
+  }
+
+  getAllSkills() {
+    this.profileService.getAllSkills().subscribe({
+      next: (res: any) => {
+        this.fullSkillsData = res.data;
+        this.skills = res.data.map((skill: any) => ({
+          label: skill.translations[0].name,
+          value: skill.translations[0].name,
+        }));
+        console.log(this.skills);
+      },
+      complete: () => {},
+    });
   }
 
   userData: any;
@@ -70,7 +103,6 @@ export class EditIdentificationComponent implements OnInit {
       .getUserDataByUserId(localStorage.getItem('userId')!)
       .subscribe({
         next: (res: any) => {
-          // console.log(res.data);
           this.profileId = res.data.id;
           this.userData = res.data;
 
@@ -80,9 +112,14 @@ export class EditIdentificationComponent implements OnInit {
           this.country = this.userData.country;
           this.nationality = this.userData.nationality;
 
-          this.selectedSkills = this.profileData.skills!.industryFocus.map(
-            (f: any) => f.areaOfFocusId
-          );
+          // Transform topSkills into the format needed for multiselect
+          if (this.userData.topSkills && this.userData.topSkills.length > 0) {
+            this.selectedSkills = this.userData.topSkills.map(
+              (skill: any) => skill.topSkill.translations[0].name
+            );
+          }
+
+          console.log(this.userData);
         },
         complete: () => {},
       });
@@ -99,6 +136,15 @@ export class EditIdentificationComponent implements OnInit {
     this.displayChange.emit(this.display);
   }
 
+  getSkillIds(): { topSkillId: string }[] {
+    return this.selectedSkills.map((skillName) => {
+      const skill = this.fullSkillsData.find(
+        (s) => s.translations[0].name === skillName
+      );
+      return { topSkillId: skill.id };
+    });
+  }
+
   saveChanges() {
     const updatedProfile: Profile = {
       firstName: this.firstName,
@@ -109,6 +155,7 @@ export class EditIdentificationComponent implements OnInit {
       about: this.userData.about,
       country: this.country,
       nationality: this.nationality,
+      topSkills: this.getSkillIds(),
     };
     this.profileService
       .editIdentification(this.profileId, updatedProfile)

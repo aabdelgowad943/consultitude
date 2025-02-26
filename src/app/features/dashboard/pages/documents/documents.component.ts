@@ -166,29 +166,18 @@ export class DocumentsComponent implements OnInit {
       )
       .subscribe({
         next: (res: any) => {
-          // console.log('Received data:', res);
+          console.log('Received data:', res);
 
           // Update total records from API metadata
           if (res.meta) {
             this.totalRecords = res.meta.totalItems;
           }
 
-          // Map API data into your document model
-          this.documents = res.data.map((order: any) => {
-            const orderDetail = order.orderDetails[0];
-            const document = orderDetail.documents[0];
-            return {
-              id: order.id,
-              orderCode: order.code,
-              orderDate: order.createdAt,
-              totalAmount: order.totalAmount,
-              price: orderDetail.price,
-              productName: orderDetail.name,
-              url: document.url,
-              documentFormat: document.documentFormat,
-              language: document.language,
-            };
-          });
+          if (res && res.success && Array.isArray(res.data)) {
+            this.documents = res.data;
+          } else {
+            this.documents = [];
+          }
         },
         error: (err) => {
           console.error('Error fetching documents:', err);

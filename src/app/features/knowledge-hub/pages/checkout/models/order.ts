@@ -17,11 +17,12 @@ export interface OrderRequest {
 export interface OrderDetails {
   productId: string;
   quantity: number;
-  price: number;
+  // price: number;
 }
 
 export interface CreateOrder {
   userId: string;
   paymentIntentId: string;
+  voucherCode: string;
   orderDetails: OrderDetails[];
 }

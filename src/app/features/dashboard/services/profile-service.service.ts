@@ -24,4 +24,8 @@ export class ProfileServiceService {
   getAllRegions(page: number, limit: number): Observable<any> {
     return this.apiService.get<any[]>(`/regions?page=${page}&limit=${limit}`);
   }
+
+  getAllSkills(): Observable<any[]> {
+    return this.apiService.get<any[]>(`/top-skill`);
+  }
 }
