@@ -84,7 +84,8 @@
     ></button>
     <button
       pButton
-      label="Save"
+      [label]="loading ? 'Saving...' : 'Save'"
+      [disabled]="loading"
       class="bg-[#9241DC] border border-[#7F56D9] rounded-[8px] py-2.5 px-[24px] text-white font-[600] text-[16px]"
       (click)="onSave()"
     ></button>

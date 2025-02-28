@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MaiContentComponent } from './components/mai-content/mai-content.component';
 import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-lounge-secion.component';
-import { Product, ProductStatus } from '../../models/products';
+import { ProductStatus } from '../../models/products';
 import { Language } from '../../models/language.enum';
 import { PaginatorModule } from 'primeng/paginator';
 
@@ -204,15 +204,6 @@ export class KnowledgeLoungeComponent implements OnInit {
       },
     });
   }
-
-  // private loadFeatures() {
-  //   this.templateService.getAllFeatures().subscribe({
-  //     next: (data) => {
-  //       this.featuresList = data;
-  //       this.initializeFilters();
-  //     },
-  //   });
-  // }
 
   // Initialize filters only once after the lists load.
   private initializeFilters() {

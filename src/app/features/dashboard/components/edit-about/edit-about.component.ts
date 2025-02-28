@@ -18,7 +18,7 @@ import { ToastModule } from 'primeng/toast';
 export class EditAboutComponent implements OnInit {
   @Input() display: boolean = false;
   @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Input() about: string = '';
+  @Input() about: string = ''; // Initialize with empty string
   @Output() saveChangesEvent: EventEmitter<string> = new EventEmitter();
 
   constructor(
@@ -28,6 +28,10 @@ export class EditAboutComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getUserDataByUserId();
+    // Ensure about is never null
+    if (!this.about) {
+      this.about = '';
+    }
   }
 
   saveChanges() {
