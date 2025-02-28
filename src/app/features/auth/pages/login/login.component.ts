@@ -37,31 +37,47 @@ export class LoginComponent {
 
     this.authService.login(loginData).subscribe({
       next: (res: any) => {
+        if (!res.data.token) {
+          this.errorMessage = 'Login failed: No token received';
+          return;
+        }
+
+        const token = res.data.token;
+        if (!token.startsWith('Bearer ')) {
+          this.errorMessage = 'Invalid token format';
+          return;
+        }
+
         // Set token and user id
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('token', token);
         const userId = this.authService.getTokenData();
+        if (!userId) {
+          this.errorMessage = 'Invalid token data';
+          return;
+        }
         localStorage.setItem('userId', userId);
-        // console.log(res.data);
 
         // Use take(1) to only subscribe to the current pending value
         this.globalStateService.pendingPurchase$
           .pipe(take(1))
           .subscribe((pendingId) => {
             if (pendingId) {
-              // console.log('pending', pendingId);
-              // Redirect to checkout using the pending template id
               this.router.navigate(['/knowledge/checkout', pendingId]);
-              // Clear the global pending purchase state
               this.globalStateService.clearPendingPurchase();
             } else {
-              // Redirect to a default route if no pending purchase
               this.router.navigate(['/dashboard']);
             }
           });
       },
       error: (err: HttpErrorResponse) => {
-        // console.log(err.error);
-        this.errorMessage = err.error.errors[0].message;
+        if (err.error.isLogin === false) {
+          localStorage.setItem('email', this.email);
+          this.router.navigate(['/auth/active-email']);
+          console.log('email', this.email);
+        }
+
+        this.errorMessage =
+          err.error?.errors?.[0]?.message || 'An error occurred during login';
       },
     });
   }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth.service';
 import { EditIdentificationComponent } from '../../components/edit-identification/edit-identification.component';
 import { EditAboutComponent } from '../../components/edit-about/edit-about.component';
@@ -26,37 +26,17 @@ export class ProfileComponent implements OnInit {
   topSkillsList: string[] = [];
 
   ngOnInit(): void {
-    this.getProfileDataByUserId();
+    if (this.userId) {
+      // Redirect to login page
+      this.getProfileDataByUserId();
+    }
   }
+
   constructor(private authService: AuthService) {}
   getProfileDataByUserId() {
     this.authService.getUserDataByUserId(this.userId).subscribe({
       next: (res: any) => {
         console.log(res.data.topSkills);
-
-        //   [
-        //     {
-        //         "topSkill": {
-        //             "id": "dd667875-ca82-4e45-8bf5-1a34ede7fa64",
-        //             "translations": [
-        //                 {
-        //                     "name": "JavaScript"
-        //                 }
-        //             ]
-        //         }
-        //     },
-        //     {
-        //         "topSkill": {
-        //             "id": "e76eb4b6-a9b6-41dc-81f5-0d91f666715a",
-        //             "translations": [
-        //                 {
-        //                     "name": "Type Script"
-        //                 }
-        //             ]
-        //         }
-        //     }
-        // ]
-
         this.profile = res.data;
         this.topSkillsList = this.extractTopSkills(res.data.topSkills || []);
         this.skillsData = this.profile.skills;

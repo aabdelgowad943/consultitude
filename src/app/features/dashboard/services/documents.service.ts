@@ -26,4 +26,16 @@ export class DocumentsService {
       { headers }
     );
   }
+
+  viewDocumentByUserIdAndByOrderId(
+    userId: string,
+    orderId: string,
+    language: string
+  ): Observable<any[]> {
+    const headers = { 'accept-language': language };
+    return this.httpClient.get<any[]>(
+      `${environment.url}/profile/my-downloads/${userId}/${orderId}`,
+      { headers }
+    );
+  }
 }

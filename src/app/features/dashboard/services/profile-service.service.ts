@@ -28,4 +28,8 @@ export class ProfileServiceService {
   getAllSkills(): Observable<any[]> {
     return this.apiService.get<any[]>(`/top-skill`);
   }
+
+  uploadFile(formData: FormData): Observable<any> {
+    return this.apiService.post<any>('/uploads/upload', formData);
+  }
 }
