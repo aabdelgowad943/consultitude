@@ -18,8 +18,8 @@ export class LinkedinCallbackComponent implements OnInit {
 
       if (token) {
         localStorage.setItem('token', token);
-        localStorage.setItem('userName', name);
-        localStorage.setItem('userEmail', email);
+        localStorage.setItem('name', name);
+        localStorage.setItem('email', email);
         this.router.navigate(['/dashboard']);
       }
     });

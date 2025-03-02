@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   userId: string = localStorage.getItem('userId')!;
   name: string = '';
   email: string = '';
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {
     initFlowbite();
     this.getProfileDataByUserId();
@@ -33,5 +33,14 @@ export class DashboardComponent implements OnInit {
 
   toggleMenu() {
     this.menuVisible = !this.menuVisible;
+  }
+
+  logout() {
+    // Clear the token and user id from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+
+    // Optionally, you can navigate the user to the login page or home page after logout
+    this.router.navigate(['/auth/login']);
   }
 }

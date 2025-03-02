@@ -6,15 +6,19 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
 import { VerifyOtpComponent } from './pages/verify-otp/verify-otp.component';
 import { LinkedinCallbackComponent } from '../../shared/linkedin-callback/linkedin-callback.component';
 import { ActiveEmailComponent } from './pages/active-email/active-email.component';
+import { AuthGuard } from '../../guard/auth.guard';
+import { NonAuthGuard } from '../../guard/non-auth.guard';
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [NonAuthGuard],
   },
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [NonAuthGuard],
   },
   {
     path: 'rest-password',

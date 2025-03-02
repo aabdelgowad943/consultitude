@@ -47,54 +47,47 @@ export class EditProfileImageComponent {
 
   constructor(private profileService: ProfileServiceService) {}
 
-  // Called when the parent updates `initialImage`
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['initialImage'] && this.initialImage) {
-      // If we are receiving a base64 or a new image file, reset the cropper
       this.croppedImage = null;
-      // Optionally set the imageChangedEvent if it's base64
-      // If it's a file, you would handle that differently
+    }
+  }
+  onFileChange(event: any): void {
+    this.imageChangedEvent = event;
+
+    if (event?.target?.files?.[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        // Store the base64 as a fallback
+        this.initialImage = e.target.result;
+
+        // If cropping fails, use this directly
+        if (!this.croppedImage) {
+          this.croppedImage = e.target.result;
+        }
+      };
+
+      reader.readAsDataURL(file);
     }
   }
 
-  /**
-   * When user selects a new file from input type="file"
-   */
-  onFileChange(event: any): void {
-    this.imageChangedEvent = event;
-  }
-
-  /**
-   * ngx-image-cropper emits this event whenever the image is cropped
-   */
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64 || null;
   }
+  onZoomChange() {}
 
-  /**
-   * If you want to handle zoom manually using the slider, you can
-   * adjust cropper settings in the template or recalculate here.
-   * For simplicity, we rely on built-in 'zoom' from the library.
-   */
-  onZoomChange() {
-    // You can integrate this.zoomValue with the cropper in the template if needed.
-  }
-
-  /**
-   * Close the dialog
-   */
   onCancel() {
     this.display = false;
     this.displayChange.emit(false);
   }
 
-  /**
-   * Save the cropped image
-   */
-
   onSave() {
-    if (!this.croppedImage) {
-      console.error('No image to save');
+    const imageToSave = this.croppedImage || this.initialImage;
+
+    if (!imageToSave) {
+      console.log('No image to save');
       return;
     }
 
@@ -104,7 +97,7 @@ export class EditProfileImageComponent {
 
     this.loading = true;
 
-    const file = this.convertBase64ToFile(this.croppedImage);
+    const file = this.convertBase64ToFile(imageToSave);
     if (!file) {
       this.loading = false;
       console.error('Failed to convert image');
@@ -151,6 +144,18 @@ export class EditProfileImageComponent {
         this.loading = false;
       },
     });
+  }
+
+  imageLoaded() {
+    console.log('Image loaded');
+  }
+
+  cropperReady() {
+    console.log('Cropper ready');
+  }
+
+  loadImageFailed() {
+    console.log('Load image failed');
   }
 
   private convertBase64ToFile(base64Image: string): File | null {
