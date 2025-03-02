@@ -89,6 +89,7 @@ export class ViewTemplateDetailsComponent {
     if (templateId) {
       this.fetchTemplateById(templateId);
       // console.log('template id', templateId);
+      this.getSimilarProducts(templateId);
     }
   }
 
@@ -214,5 +215,22 @@ export class ViewTemplateDetailsComponent {
       alert('You should login first');
       this.router.navigate(['/auth/login']);
     }
+  }
+
+  getSimilarProducts(id: string) {
+    this.productService.getSimilarProductByProdId(id).subscribe({
+      next: (response: any) => {
+        console.log('response', response);
+
+        // this.relatedArticles = response.data.map((item: any) => ({
+        //   id: item.id,
+        //   title: item.translations[0].name,
+        //   description: item.translations[0].description,
+        //   image: item.images[0].url,
+        //   price: item.price,
+        //   downloads: item.downloads,
+        // }));
+      },
+    });
   }
 }

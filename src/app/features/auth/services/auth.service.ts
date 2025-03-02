@@ -77,4 +77,8 @@ export class AuthService {
   ): Observable<ChangePasswordSettings> {
     return this.apiService.post('/auth/change-password', changePassword);
   }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
 }

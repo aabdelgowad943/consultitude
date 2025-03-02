@@ -32,25 +32,86 @@
           >Become An Expert</a
         >
       </nav>
-      <!-- Login Button -->
-      <button
-        *ngIf="!isLoggedIn"
-        routerLink="/auth/login"
-        [disabled]="isHomePath"
-        class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
-      >
-        <span class="material-icons">Login</span>
-      </button>
+      <div class="flex items-center lg:order-2">
+        <!-- Dropdown menu -->
+        <button
+          type="button"
+          class="flex mx-3 text-sm items-center gap-3 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
+          id="user-menu-button"
+          aria-expanded="false"
+          data-dropdown-toggle="dropdown"
+        >
+          <span class="sr-only">Open user menu</span>
+          <i class="pi pi-user w-10 h-10 text-2xl mt-2"></i>
 
-      <!-- Show Logout button if logged in -->
-      <button
-        *ngIf="isLoggedIn"
-        (click)="logout()"
-        [disabled]="isHomePath"
-        class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
-      >
-        <span class="material-icons">Logout</span>
-      </button>
+          <!-- <img
+            src="/images/arrow-down-sign-to-navigate (1).png "
+            class="w-4 h-4"
+            alt=""
+          /> -->
+        </button>
+        <!-- Dropdown menu -->
+        <div
+          class="hidden z-50 my-4 w-64 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl"
+          id="dropdown"
+        >
+          <div
+            *ngIf="userId"
+            routerLink="profile"
+            class="py-3 px-4 flex justify-between cursor-pointer items-center space-x-3"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                class="w-10 h-10 rounded-full"
+                src="/images/profile.png"
+                alt="User avatar"
+              />
+              <div *ngIf="userId">
+                <span class="block text-sm font-semibold text-gray-900">{{
+                  name
+                }}</span>
+                <span class="block text-sm text-gray-500 truncate">{{
+                  email
+                }}</span>
+              </div>
+            </div>
+            <img *ngIf="userId" src="/images/next.png" class="w-5 h-5" alt="" />
+            <!-- <span class="ml-auto text-gray-400">&rarr;</span> -->
+          </div>
+          <ul class="py-2">
+            <li>
+              <a
+                *ngIf="userId"
+                routerLink="/dashboard/profile"
+                class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
+                >My Profile</a
+              >
+            </li>
+            <li>
+              <a
+                *ngIf="userId"
+                (click)="logout()"
+                class="flex cursor-pointer items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-[#0A0F290A] dark:hover:bg-gray-700 group"
+              >
+                <span class="ml-2 text-[14px] font-[500] text-red-600"
+                  >Logout</span
+                >
+              </a>
+            </li>
+            <li>
+              <a
+                *ngIf="!userId"
+                routerLink="/auth/login"
+                class="flex cursor-pointer items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-[#0A0F290A] dark:hover:bg-gray-700 group"
+              >
+                <span class="ml-2 text-[14px] font-[500] text-green-600"
+                  >Login</span
+                >
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <button
       class="px-4 py-2 bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors md:hidden"
@@ -88,22 +149,6 @@
       <a [routerLink]="'/pricing'">Pricing</a>
       <a [routerLink]="'/contact-us'">Contact us</a>
       <a [routerLink]="'/become-expert'">Become an expert</a>
-      <button
-        *ngIf="!isLoggedIn"
-        [disabled]="isHomePath"
-        routerLink="/auth/login"
-        class="px-4 py-2 w-full bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
-      >
-        Login
-      </button>
-      <button
-        *ngIf="isLoggedIn"
-        [disabled]="isHomePath"
-        (click)="logout()"
-        class="px-4 py-2 w-full bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
-      >
-        Logout
-      </button>
     </nav>
   </header>
 </div>

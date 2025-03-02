@@ -160,14 +160,6 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
 
       // Create the order in your system
       this.createOrder();
-
-      // Show success popup
-      // this.showSuccessPopup = true;
-
-      // You can also add a timeout to redirect the user after showing the popup
-      // setTimeout(() => {
-      //   this.router.navigate(['/payment-success']);
-      // }, 3000);
     }
 
     this.loading = false;
@@ -273,14 +265,19 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       })
       .subscribe({
         next: (res: any) => {
-          // console.log('Order created successfully:', res);
           this.showSuccessPopup = true;
+          // this.router.navigate(['/dashboard/documents'], { replaceUrl: true });
         },
         error: (err: HttpErrorResponse) => {
           // console.error('Error creating order:', err);
           this.errorPayment = err.error.message || 'Failed to create order.';
         },
       });
+  }
+
+  successPopupAction() {
+    this.showSuccessPopup = false;
+    this.router.navigate(['/dashboard/documents'], { replaceUrl: true });
   }
 
   // Close the success popup

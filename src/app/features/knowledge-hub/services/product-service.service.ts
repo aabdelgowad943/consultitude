@@ -140,4 +140,8 @@ export class ProductServiceService {
     //     )
     //   );
   }
+
+  getSimilarProductByProdId(productId: string): Observable<any[]> {
+    return this.apiService.get<any[]>(`/products/similar/${productId}`);
+  }
 }

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { initFlowbite } from 'flowbite';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,12 +12,25 @@ import { CommonModule } from '@angular/common';
 })
 export class NavbarComponent {
   menuVisible: boolean = false;
+  userId: string = localStorage.getItem('userId')!;
+  name: string = '';
+  email: string = '';
 
-  toggleMenu() {
-    this.menuVisible = !this.menuVisible;
+  ngOnInit(): void {
+    initFlowbite();
+    this.getProfileDataByUserId();
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
+
+  getProfileDataByUserId() {
+    this.authService.getUserDataByUserId(this.userId).subscribe({
+      next: (res: any) => {
+        this.name = res.data.firstName;
+        this.email = res.data.user?.email;
+      },
+    });
+  }
 
   // Getter to determine if red background should be applied
   get shouldApplyRedBg(): boolean {
@@ -45,12 +60,13 @@ export class NavbarComponent {
     return false;
   }
 
+  toggleMenu() {
+    this.menuVisible = !this.menuVisible;
+  }
+
   logout() {
-    // Clear the token and user id from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
-
-    // Optionally, you can navigate the user to the login page or home page after logout
     this.router.navigate(['/auth/login']);
   }
 }

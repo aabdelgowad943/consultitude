@@ -20,6 +20,9 @@
       [roundCropper]="true"
       format="png"
       (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded()"
+      (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"
       style="max-width: 100%; height: auto; border-radius: 20px"
     ></image-cropper>
   </div>
