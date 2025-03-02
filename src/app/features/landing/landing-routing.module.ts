@@ -26,16 +26,27 @@ const routes: Routes = [
         redirectTo: 'home',
         pathMatch: 'full',
       },
+
+      {
+        path: 'successfully_subscribed',
+        component: SuccessfullySubscribedComponent,
+      },
+
+      {
+        path: 'subscribed',
+        component: AlreadySubscribedComponent,
+      },
+
       {
         path: '**',
         component: PageNotFoundComponent,
       },
     ],
   },
-  {
-    path: 'successfully_subscribed',
-    component: SuccessfullySubscribedComponent,
-  },
+  // {
+  //   path: 'successfully_subscribed',
+  //   component: SuccessfullySubscribedComponent,
+  // },
   // {
   //   path: 'terms-and-conditions',
   //   component: TermsAndConditionComponent,
@@ -60,10 +71,6 @@ const routes: Routes = [
   //   path: 'index',
   //   component: IndexComponent,
   // },
-  {
-    path: 'subscribed',
-    component: AlreadySubscribedComponent,
-  },
 ];
 
 @NgModule({
