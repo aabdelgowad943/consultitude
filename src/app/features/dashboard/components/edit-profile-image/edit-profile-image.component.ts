@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -12,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { SliderModule } from 'primeng/slider';
 import { ProfileServiceService } from '../../services/profile-service.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-edit-profile-image',
@@ -26,7 +28,7 @@ import { ProfileServiceService } from '../../services/profile-service.service';
   templateUrl: './edit-profile-image.component.html',
   styleUrl: './edit-profile-image.component.scss',
 })
-export class EditProfileImageComponent {
+export class EditProfileImageComponent implements OnInit {
   @Input() display: boolean = false; // Controls the visibility of the dialog
   @Output() displayChange = new EventEmitter<boolean>();
 
@@ -45,12 +47,18 @@ export class EditProfileImageComponent {
 
   loading: boolean = false;
 
-  constructor(private profileService: ProfileServiceService) {}
+  constructor(
+    private profileService: ProfileServiceService,
+    private authService: AuthService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['initialImage'] && this.initialImage) {
       this.croppedImage = null;
     }
+  }
+  ngOnInit(): void {
+    this.getUserDataByUserId();
   }
   onFileChange(event: any): void {
     this.imageChangedEvent = event;
@@ -109,35 +117,39 @@ export class EditProfileImageComponent {
 
     this.profileService.uploadFile(formData).subscribe({
       next: (response) => {
-        if (!response?.url) {
+        if (!response?.Location) {
           console.error('No URL in response');
           this.loading = false;
           return;
         }
 
         const profileData = {
-          profileUrl: response.url,
+          profileUrl: response.Location,
         };
 
         const userId = localStorage.getItem('userId');
         if (!userId) {
-          console.error('No user ID found');
+          console.log('No user ID found');
           this.loading = false;
           return;
         }
 
-        this.profileService.editIdentification(userId, profileData).subscribe({
-          next: (updatedProfile) => {
-            this.saveImageEvent.emit(response.url);
-            this.display = false;
-            this.displayChange.emit(false);
-            this.loading = false;
-          },
-          error: (error) => {
-            console.error('Error updating profile:', error);
-            this.loading = false;
-          },
-        });
+        this.profileService
+          .editIdentification(this.profileId, profileData)
+          .subscribe({
+            next: (response: any) => {
+              console.log('res', response);
+
+              this.saveImageEvent.emit(response.Location);
+              this.display = false;
+              this.displayChange.emit(false);
+              this.loading = false;
+            },
+            error: (error) => {
+              console.log('Error updating profile:', error.error);
+              this.loading = false;
+            },
+          });
       },
       error: (error) => {
         console.error('Error uploading file:', error);
@@ -188,5 +200,20 @@ export class EditProfileImageComponent {
     }
 
     return new Blob(byteArrays, { type: contentType });
+  }
+
+  userData: any;
+  profileId: string = '';
+  getUserDataByUserId() {
+    this.authService
+      .getUserDataByUserId(localStorage.getItem('userId')!)
+      .subscribe({
+        next: (res: any) => {
+          // console.log(res.data);
+          this.profileId = res.data.id;
+          this.userData = res.data;
+        },
+        complete: () => {},
+      });
   }
 }
