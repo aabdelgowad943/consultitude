@@ -32,10 +32,10 @@ const routes: Routes = [
       },
     ],
   },
-  // {
-  //   path: 'successfully_subscribed',
-  //   component: SuccessfullySubscribedComponent,
-  // },
+  {
+    path: 'successfully_subscribed',
+    component: SuccessfullySubscribedComponent,
+  },
   // {
   //   path: 'terms-and-conditions',
   //   component: TermsAndConditionComponent,
@@ -60,10 +60,10 @@ const routes: Routes = [
   //   path: 'index',
   //   component: IndexComponent,
   // },
-  // {
-  //   path: 'subscribed',
-  //   component: AlreadySubscribedComponent,
-  // },
+  {
+    path: 'subscribed',
+    component: AlreadySubscribedComponent,
+  },
 ];
 
 @NgModule({
