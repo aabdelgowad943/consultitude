@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth.service';
 import { EditIdentificationComponent } from '../../components/edit-identification/edit-identification.component';
 import { EditAboutComponent } from '../../components/edit-about/edit-about.component';
@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
   profile: any = {};
   topSkills: string[] = [];
   topSkillsList: string[] = [];
+  profileUrl: string = '';
 
   ngOnInit(): void {
     if (this.userId) {
@@ -36,6 +37,8 @@ export class ProfileComponent implements OnInit {
   getProfileDataByUserId() {
     this.authService.getUserDataByUserId(this.userId).subscribe({
       next: (res: any) => {
+        // console.log('ressss', res.data.profileUrl);
+
         console.log(res.data.topSkills);
         this.profile = res.data;
         this.topSkillsList = this.extractTopSkills(res.data.topSkills || []);
@@ -44,6 +47,7 @@ export class ProfileComponent implements OnInit {
         this.title = res.data.title;
         this.about = res.data.about;
         this.email = res.data.user?.email;
+        this.profileUrl = res.data.profileUrl;
       },
     });
   }
