@@ -14,6 +14,8 @@ import { DialogModule } from 'primeng/dialog';
 import { SliderModule } from 'primeng/slider';
 import { ProfileServiceService } from '../../services/profile-service.service';
 import { AuthService } from '../../../auth/services/auth.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-edit-profile-image',
@@ -24,19 +26,20 @@ import { AuthService } from '../../../auth/services/auth.service';
     SliderModule,
     FormsModule,
     CommonModule,
+    ToastModule,
   ],
+  providers: [MessageService],
   templateUrl: './edit-profile-image.component.html',
   styleUrl: './edit-profile-image.component.scss',
 })
 export class EditProfileImageComponent implements OnInit {
   @Input() display: boolean = false; // Controls the visibility of the dialog
-  @Output() displayChange = new EventEmitter<boolean>();
+  @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output() saveImageEvent: EventEmitter<string> = new EventEmitter();
 
   // The original image to crop (as File or base64)
   @Input() initialImage: string | null = null;
-
-  // The final cropped image (base64)
-  @Output() saveImageEvent = new EventEmitter<string | null>();
 
   // Local state
   imageChangedEvent: any = '';
@@ -49,7 +52,8 @@ export class EditProfileImageComponent implements OnInit {
 
   constructor(
     private profileService: ProfileServiceService,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -61,10 +65,20 @@ export class EditProfileImageComponent implements OnInit {
     this.getUserDataByUserId();
   }
   onFileChange(event: any): void {
-    this.imageChangedEvent = event;
-
     if (event?.target?.files?.[0]) {
       const file = event.target.files[0];
+
+      // Check file size (5MB = 5 * 1024 * 1024 bytes)
+      if (file.size > 5 * 1024 * 1024) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Image size should not exceed 5MB',
+        });
+        return;
+      }
+
+      this.imageChangedEvent = event;
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
@@ -118,7 +132,11 @@ export class EditProfileImageComponent implements OnInit {
     this.profileService.uploadFile(formData).subscribe({
       next: (response) => {
         if (!response?.Location) {
-          console.error('No URL in response');
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to upload image',
+          });
           this.loading = false;
           return;
         }
@@ -138,21 +156,32 @@ export class EditProfileImageComponent implements OnInit {
           .editIdentification(this.profileId, profileData)
           .subscribe({
             next: (response: any) => {
-              console.log('res', response);
-
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Profile image updated successfully',
+              });
               this.saveImageEvent.emit(response.Location);
               this.display = false;
               this.displayChange.emit(false);
               this.loading = false;
             },
             error: (error) => {
-              console.log('Error updating profile:', error.error);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Failed to update profile image',
+              });
               this.loading = false;
             },
           });
       },
       error: (error) => {
-        console.error('Error uploading file:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to upload image',
+        });
         this.loading = false;
       },
     });
