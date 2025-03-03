@@ -1,4 +1,4 @@
 export const environment = {
-  url: 'http://13.49.3.217:3000',
+  url: 'https://api.consultitude.com',
   production: false,
 };
