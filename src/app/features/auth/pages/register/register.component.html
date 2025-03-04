@@ -1,10 +1,10 @@
-<div class="w-full max-w-[1600px] mx-auto h-screen">
+<div class="w-full max-w-[1600px] mx-auto relative">
   <app-navbar></app-navbar>
   <section class="bg-white mt-20">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Left side: Form content -->
       <div
-        class="flex md:items-center h-screen justify-center px-4 md:order-1 order-2"
+        class="flex md:items-center h-screen justify-center px-4 md:order-1 order-2 max-w-[720px]"
       >
         <div class="w-full space-y-6 mt-[48px] md:mt-0 max-w-[480px]">
           <!-- Title -->
@@ -60,6 +60,7 @@
                 type="email"
                 id="email"
                 [(ngModel)]="email"
+                (ngModelChange)="emailError = ''"
                 placeholder="email@mail.com"
                 class="mt-1 block w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border border-[#DEE0E3] placeholder:text-[#0D112666]/60 rounded-xl"
               />
@@ -379,6 +380,13 @@
             <p class="text-[#475467] text-[16px] md:w-[480px] font-[400]">
               Your registration is complete.
             </p>
+
+            <a
+              routerLink="/auth/login"
+              class="text-[#9241DC] cursor-pointer mt-5 text-[16px] font-[500]"
+            >
+              Go to login
+            </a>
           </div>
 
           <!-- Footer: Login link -->
@@ -404,4 +412,10 @@
       </div>
     </div>
   </section>
+
+  <h1
+    class="max-w-[1600px] absolute bottom-10 text-[#475467] text-[14px] left-10"
+  >
+    © Consultitude Inc. 2024
+  </h1>
 </div>
