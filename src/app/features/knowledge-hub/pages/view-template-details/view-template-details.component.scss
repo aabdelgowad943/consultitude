@@ -1,0 +1,21 @@
+:host ::ng-deep {
+  .p-carousel {
+    .p-carousel-indicators {
+      .p-carousel-indicator {
+        button {
+          background-color: #000000 !important; // gray
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          opacity: 0.7;
+          transition: all 0.3s ease;
+        }
+
+        &.p-highlight button {
+          background-color: #000000 !important; // black
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

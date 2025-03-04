@@ -32,7 +32,13 @@
               <button
                 *ngFor="let option of sortOptions"
                 (click)="selectSortOption(option.value)"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                class="block px-4 py-2 text-sm w-full text-left"
+                [ngClass]="{
+                  'bg-[#F9F5FF] text-[#7F56D9]':
+                    currentSortOption === option.value,
+                  'text-gray-700 hover:bg-gray-100':
+                    currentSortOption !== option.value
+                }"
               >
                 {{ option.label }}
               </button>
@@ -99,7 +105,13 @@
             <button
               *ngFor="let option of sortOptions"
               (click)="selectSortOption(option.value)"
-              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+              class="block px-4 py-2 text-sm w-full text-left"
+              [ngClass]="{
+                'bg-[#F9F5FF] text-[#7F56D9]':
+                  currentSortOption === option.value,
+                'text-gray-700 hover:bg-gray-100':
+                  currentSortOption !== option.value
+              }"
             >
               {{ option.label }}
             </button>
@@ -141,7 +153,7 @@
       <div class="flex flex-col items-center sm:flex-row gap-4 justify-center">
         <button
           (click)="clearFilters.emit()"
-          class="px-4 py-2 text-[16px] md:w-[181px] w-[209px] h-[44px] font-sans bg-[#7F56D9] hover:bg-[#a24af5] text-white rounded-lg font-semibold transition-colors"
+          class="px-4 py-2.5 text-[16px] md:w-[181px] w-[209px] h-[44px] font-sans bg-[#7F56D9] hover:bg-[#a24af5] text-white rounded-lg font-semibold transition-colors"
         >
           Refine your search
         </button>

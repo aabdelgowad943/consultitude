@@ -32,7 +32,7 @@
         >
         </app-mai-content>
 
-        <div class="flex justify-center py-2">
+        <div *ngIf="templates.length !== 0" class="flex justify-center py-2">
           <p-paginator
             [first]="first"
             [rows]="rows"

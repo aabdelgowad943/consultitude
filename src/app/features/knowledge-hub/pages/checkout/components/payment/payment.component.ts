@@ -193,6 +193,10 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
   }
 
   applyPromoCode() {
+    if (this.promoCode === '') {
+      this.errorMessage = 'Voucher code should not be empty ';
+      return;
+    }
     this.paymentService
       .applyVoucher({
         code: this.promoCode,
