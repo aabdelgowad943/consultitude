@@ -124,7 +124,7 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
     }
 
     this.loading = true;
-    this.errorPayment = '';
+    this.errorPayment = ''; // Clear error when starting new payment attempt
 
     // Submit the form with the payment element
     const { error, paymentIntent } = await this.stripe.confirmPayment({
@@ -283,6 +283,12 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
   // Close the success popup
   closeSuccessPopup() {
     this.showSuccessPopup = false;
+  }
+
+  onPromoCodeInput() {
+    if (!this.promoCode) {
+      this.errorMessage = '';
+    }
   }
 
   ngOnDestroy() {

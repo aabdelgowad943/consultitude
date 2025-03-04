@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-reset-password',
@@ -52,9 +53,13 @@ export class ResetPasswordComponent {
         this.showPopup = true;
         this.isSubmitting = false;
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         this.isSubmitting = false;
-        this.errorMessage = 'Failed to send reset email. Please try again.';
+        // console.log('e', err.error);
+        // console.log('ee', err.error.errors);
+        // console.log('eee', );
+
+        this.errorMessage = err.error.errors[0].message;
       },
     });
   }

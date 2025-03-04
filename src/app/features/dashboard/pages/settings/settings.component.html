@@ -13,20 +13,6 @@
     [formGroup]="settingsForm"
     (ngSubmit)="onSubmit()"
   >
-    <!-- Error / Success Alerts -->
-    <div
-      *ngIf="errorMessage"
-      class="mb-4 rounded-md bg-red-100 p-3 text-red-700"
-    >
-      {{ errorMessage }}
-    </div>
-    <div
-      *ngIf="successMessage"
-      class="mb-4 rounded-md bg-green-100 p-3 text-green-700"
-    >
-      {{ successMessage }}
-    </div>
-
     <!-- General Section -->
     <section class="mb-6">
       <h2 class="mb-2 text-2xl font-semibold text-[#14151A]">General</h2>
@@ -61,7 +47,7 @@
         </div>
         <p class="mt-2 text-sm text-[#0D112666]/40">
           To change your email, please
-          <a href="/contact-us" class="text-indigo-500 underline">contact us</a>
+          <a href="/contact-us" class="text-[#bb92dc] underline">contact us</a>
         </p>
       </div>
     </section>
@@ -161,7 +147,7 @@
     </section>
 
     <!-- Action Buttons -->
-    <div class="flex justify-end">
+    <div class="flex justify-end mb-5">
       <button
         type="button"
         class="mr-3 rounded-lg border border-gray-300 bg-white px-[32px] py-2.5 text-gray-700 hover:bg-gray-50"
@@ -178,6 +164,19 @@
         <span *ngIf="!isSubmitting">Save</span>
         <span *ngIf="isSubmitting">Saving...</span>
       </button>
+    </div>
+    <!-- Error / Success Alerts -->
+    <div
+      *ngIf="errorMessage"
+      class="my-4 rounded-md bg-red-100 p-3 text-red-700"
+    >
+      {{ errorMessage }}
+    </div>
+    <div
+      *ngIf="successMessage"
+      class="mb-4 rounded-md bg-green-100 p-3 text-green-700"
+    >
+      {{ successMessage }}
     </div>
   </form>
 </div>
