@@ -60,12 +60,12 @@ export class ViewTemplateDetailsComponent {
   overviewText = `The Business Strategy Template includes a fully structured storyline complete with ready-to-use slides, as well as frameworks, tools, tutorials, real-life examples, and best practices to help you:`;
 
   // Style Configurations
-  indicatorStyle = {
-    width: '10px',
-    height: '10px',
-    borderRadius: '50%',
-  };
-  indicatorStyleClass = 'hover:bg-[#a24af5] cursor-pointer';
+  // indicatorStyle = {
+  //   width: '10px',
+  //   height: '10px',
+  //   borderRadius: '50%',
+  // };
+  // indicatorStyleClass = 'hover:bg-[#a24af5] cursor-pointer';
 
   // Component Configuration
   responsiveOptions: any[] = [
@@ -187,7 +187,7 @@ export class ViewTemplateDetailsComponent {
       {
         label: 'Download Sample',
         classes:
-          'bg-white border text-[#344054] w-[172.5px] md:w-[220px]  py-3 px-[18px] rounded-md',
+          'bg-white border text-[#344054] w-[172.5px] md:w-[220px] text-[16px] leading-[24px] py-3 px-[18px] rounded-md',
         action: () =>
           this.downloadTemplate(this.template?.documents[0]?.sampleUrl),
       },
@@ -233,4 +233,15 @@ export class ViewTemplateDetailsComponent {
       },
     });
   }
+
+  indicatorStyle = {
+    'background-color': 'black',
+    width: '10px',
+    height: '10px',
+    'border-radius': '50%',
+    opacity: '0.7',
+  };
+
+  // Optional: If you want to add a custom CSS class
+  indicatorStyleClass = 'custom-indicator';
 }

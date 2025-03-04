@@ -50,7 +50,7 @@ export class KnowledgeLoungeComponent implements OnInit {
     { name: 'Area of Focus', key: 'areasOfFocus', isOpen: false },
     { name: 'Document Format', key: 'documentTypes', isOpen: false },
     // { name: 'Features', key: 'features', isOpen: false },
-    { name: 'Price', key: 'price', isOpen: false },
+    { name: 'Price ($) ', key: 'price', isOpen: false },
     // { name: 'Language', key: 'language', isOpen: false },
   ];
 
@@ -81,17 +81,20 @@ export class KnowledgeLoungeComponent implements OnInit {
   onSearchChange(searchText: string) {
     this.searchText = searchText;
     this.currentPage = 1;
+    this.first = 0; // Reset the first record index
     this.loadProducts();
   }
 
   onFilterChange() {
     this.currentPage = 1;
+    this.first = 0; // Reset the first record index
     this.loadProducts();
   }
 
-  onSortChange(sortOption: string) {
+  onSortChange(sortOption: any) {
     this.sortBy = sortOption;
     this.currentPage = 1;
+    this.first = 0; // Reset the first record index
     this.loadProducts();
   }
 
@@ -306,6 +309,7 @@ export class KnowledgeLoungeComponent implements OnInit {
         type: this.getTagType(tagId),
       });
       this.currentPage = 1;
+      this.first = 0; // Reset the first record index
       this.loadProducts();
     }
   }

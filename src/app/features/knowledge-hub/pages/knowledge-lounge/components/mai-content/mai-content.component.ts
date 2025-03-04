@@ -22,6 +22,7 @@ export class MaiContentComponent {
   @Output() tagClick = new EventEmitter<string>();
 
   isSortMenuOpen = false;
+  currentSortOption: string = ''; // Add this line to track current sort
 
   sortOptions: { label: string; value: string }[] = [
     { label: 'Price: Low to High', value: 'priceAsc' },
@@ -36,6 +37,7 @@ export class MaiContentComponent {
 
   selectSortOption(option: string) {
     this.isSortMenuOpen = false;
+    this.currentSortOption = option; // Update current sort option
     this.sortChange.emit(option);
   }
 

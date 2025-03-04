@@ -14,13 +14,14 @@ export interface ProductItem {
   originalPrice?: number;
   discountedPrice: number;
   isFree?: boolean;
-  id: string; // Add ID property
+  id: string;
 }
 
 export interface Product {
   title: string;
   items: ProductItem[];
 }
+
 @Component({
   selector: 'app-product-card',
   imports: [CommonModule, RouterModule],
@@ -36,10 +37,11 @@ export class ProductCardComponent implements OnChanges {
   ];
 
   @Input() template: any;
+  @Input() selectedFilters: any[] = []; // Add this input to track selected filters
   @Output() tagClick = new EventEmitter<string>();
 
-  tags: any[] = []; // Array to hold combined tags
-  selectedImage: string; // Variable to hold the selected image
+  tags: any[] = [];
+  selectedImage: string;
 
   constructor(private router: Router) {
     this.selectedImage = this.getRandomImage();
@@ -47,7 +49,6 @@ export class ProductCardComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.template) {
-      // Extract names and ids from areaOfFocus, features, and domains
       const areaTags =
         this.template.areaOfFocus?.map((a: any) => ({
           id: a.id,
@@ -60,9 +61,7 @@ export class ProductCardComponent implements OnChanges {
         this.template.domains?.map((d: any) => ({ id: d.id, name: d.name })) ||
         [];
 
-      // Combine all tags into one array
       this.tags = [...areaTags, ...featureTags, ...domainTags];
-      // console.log('domains tage', featureTags);
     }
   }
 
@@ -79,6 +78,17 @@ export class ProductCardComponent implements OnChanges {
   }
 
   onTagClick(tag: { id: string; name: string }) {
+    // Check if the tag has already been selected as a filter
+    if (this.isTagDisabled(tag.id)) {
+      return; // Prevent further action
+    }
+
+    // Emit the tag ID for filtering
     this.tagClick.emit(tag.id);
+  }
+
+  isTagDisabled(tagId: string): boolean {
+    // Check if the tag is in the list of selected filters
+    return this.selectedFilters.some((filter) => filter.id === tagId);
   }
 }

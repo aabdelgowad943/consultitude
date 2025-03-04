@@ -1,4 +1,6 @@
-<div class="py-10 px-4 md:px-[120px] md:py-[64px] h-full mb-20 bg-gray-100">
+<div
+  class="py-10 px-4 md:px-[120px] md:py-[64px] h-full mb-20 bg-[#F2F4F7] border border-[#E9EAEC]"
+>
   <div class="w-full">
     <button
       class="flex text-[24px] gap-3 leading-[28px] font-[500] items-center text-[#101828] hover:text-gray-800"
@@ -107,8 +109,18 @@
             [disabled]="loading"
           >
             <span *ngIf="loading">Processing...</span>
-            <span *ngIf="!loading">Pay</span>
+            <span *ngIf="!loading">Pay ${{ totalAmount }}</span>
           </button>
+          <div class="w-full text-center my-4">
+            <span class="text-[#475467] my-4 text-[12px] w-full text-center"
+              >By continuing, you agree to Consultitude’s
+              <a href="/terms-and-conditions" class="underline">Terms</a> of
+              Service and
+              <a href="/privacy-and-policy" class="underline"
+                >Privacy Policy.</a
+              >
+            </span>
+          </div>
           <p
             *ngIf="errorPayment"
             class="w-full bg-red-100 mt-2 text-red-500 p-2 rounded-md"
