@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { GlobalStateService } from '../../../../../shared/services/global-state.service';
 import { take } from 'rxjs';
+import { ProfileServiceService } from '../../../dashboard/services/profile-service.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private globalStateService: GlobalStateService
+    private globalStateService: GlobalStateService,
+    private profileService: ProfileServiceService
   ) {}
 
   login() {
@@ -37,6 +39,8 @@ export class LoginComponent {
 
     this.authService.login(loginData).subscribe({
       next: (res: any) => {
+        // console.log('data', res);
+
         if (!res.data.token) {
           this.errorMessage = 'Login failed: No token received';
           return;
@@ -56,6 +60,8 @@ export class LoginComponent {
           return;
         }
         localStorage.setItem('userId', userId);
+
+        this.localStorageStoring(userId);
 
         // Use take(1) to only subscribe to the current pending value
         this.globalStateService.pendingPurchase$
@@ -82,6 +88,22 @@ export class LoginComponent {
     });
   }
 
+  localStorageStoring(userId: string) {
+    this.authService.getUserDataByUserId(userId).subscribe({
+      next: (res: any) => {
+        console.log('profile data is', res.data);
+        const profileId = localStorage.setItem('profileId', res.data.id);
+        const email = localStorage.setItem('email', res.data.user.email);
+        const firstName = localStorage.setItem('firstName', res.data.firstName);
+        const lastName = localStorage.setItem('lastName', res.data.lastName);
+        const profileUrl = localStorage.setItem(
+          'profileUrl',
+          res.data.profileUrl
+        );
+      },
+      complete: () => {},
+    });
+  }
   goBack() {
     this.showPasswordInput = false;
     this.emailExists = false;

@@ -132,9 +132,12 @@ export class SettingsComponent {
   showLogoutPopup = false; // Flag for displaying logout popup
 
   onLogout(): void {
-    // Clear the token and user id from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('profileId');
+    localStorage.removeItem('email');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
 
     // Optionally, you can navigate the user to the login page or home page after logout
     this.router.navigate(['/auth/login']);
