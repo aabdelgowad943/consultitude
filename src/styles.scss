@@ -44,3 +44,19 @@
 body {
   font-family: "Neue Montreal", sans-serif;
 }
+
+.p-carousel-indicator-active .p-carousel-indicator-button {
+  background: #000000;
+}
+
+.p-carousel-indicator-list {
+  background: #bfbfbf45;
+  width: fit-content;
+  padding: 10px;
+  margin: 20px auto;
+  border-radius: 50px;
+}
+
+.p-carousel-indicator-button {
+  background: gray;
+}

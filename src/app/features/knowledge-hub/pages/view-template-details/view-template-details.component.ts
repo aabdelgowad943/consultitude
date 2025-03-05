@@ -235,11 +235,11 @@ export class ViewTemplateDetailsComponent {
   }
 
   indicatorStyle = {
-    'background-color': 'black',
+    // 'background-color': 'black',
     width: '10px',
     height: '10px',
     'border-radius': '50%',
-    opacity: '0.7',
+    // opacity: '0.7',
   };
 
   // Optional: If you want to add a custom CSS class
