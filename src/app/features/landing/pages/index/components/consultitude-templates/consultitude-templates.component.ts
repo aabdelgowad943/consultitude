@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-consultitude-templates',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './consultitude-templates.component.html',
   styleUrl: './consultitude-templates.component.scss',
 })

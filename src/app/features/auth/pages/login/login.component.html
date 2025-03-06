@@ -92,7 +92,9 @@
                 </i>
               </div>
               <div
-                *ngIf="errorMessage"
+                *ngIf="
+                  errorMessage && (email.length > 0 || password.length > 0)
+                "
                 class="text-red-500 bg-red-100 py-1 px-3 mb-2 md:w-[480px] w-[329px] rounded-md text-left text-sm"
               >
                 {{ errorMessage }}
@@ -114,8 +116,14 @@
                 <span
                   class="text-xs font-[400] text-[#475467] w-full text-center"
                 >
-                  By continuing, you agree to Consultitude’s Terms of Service
-                  and Privacy Policy.
+                  By continuing, you agree to Consultitude’s
+                  <a class="underline" routerLink="/terms-and-conditions"
+                    >Terms of Service</a
+                  >
+                  and
+                  <a class="underline" routerLink="/privacy-and-policy"
+                    >Privacy Policy.</a
+                  >
                 </span>
               </div>
             </div>

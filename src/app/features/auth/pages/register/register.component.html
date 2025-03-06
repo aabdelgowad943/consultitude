@@ -65,7 +65,7 @@
                 class="mt-1 block w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border border-[#DEE0E3] placeholder:text-[#0D112666]/60 rounded-xl"
               />
               <div
-                *ngIf="emailError"
+                *ngIf="emailError && email.length > 0"
                 class="text-red-500 bg-red-100 mt-2 py-1 px-3 mb-2 md:w-[480px] w-[329px] rounded-md text-left text-sm"
               >
                 {{ emailError }}
@@ -80,7 +80,7 @@
               <div class="w-full text-center mt-4">
                 <span class="text-xs font-[400] text-[#475467]">
                   By continuing, you agree to Consultitude’s
-                  <a class="underline" routerLink="/terms-and-condition"
+                  <a class="underline" routerLink="/terms-and-conditions"
                     >Terms of Service</a
                   >
                   and
@@ -124,7 +124,7 @@
                     class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
                   />
                   <div
-                    *ngIf="nameError"
+                    *ngIf="nameError && name.length > 0"
                     class="text-red-500 bg-red-100 mt-2 py-1 px-3 mb-2 md:w-[480px] w-[329px] rounded-md text-left text-sm"
                   >
                     {{ nameError }}
@@ -145,7 +145,7 @@
                     class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
                   />
                   <div
-                    *ngIf="roleError"
+                    *ngIf="roleError && currentRole.length > 0"
                     class="text-red-500 bg-red-100 mt-2 py-1 px-3 mb-2 md:w-[480px] w-[329px] rounded-md text-left text-sm"
                   >
                     {{ roleError }}
@@ -174,7 +174,7 @@
               <div class="w-full text-center mt-4">
                 <span class="text-xs font-[400] text-[#475467]">
                   By continuing, you agree to Consultitude’s
-                  <a class="underline" routerLink="/terms-and-condition"
+                  <a class="underline" routerLink="/terms-and-conditions"
                     >Terms of Service</a
                   >
                   and
@@ -217,7 +217,7 @@
                     class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
                   />
                   <div
-                    *ngIf="passwordError"
+                    *ngIf="passwordError && password.length > 0"
                     class="text-red-500 bg-red-100 mt-2 py-1 px-3 mb-2 md:w-[480px] w-[329px] rounded-md text-left text-sm"
                   >
                     {{ passwordError }}
@@ -239,7 +239,7 @@
                     class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
                   />
                   <div
-                    *ngIf="confirmPasswordError"
+                    *ngIf="confirmPasswordError && confirmPassword.length > 0"
                     class="text-red-500 bg-red-100 mt-2 py-1 px-3 mb-2 md:w-[480px] w-[329px] rounded-md text-left text-sm"
                   >
                     {{ confirmPasswordError }}
@@ -275,7 +275,7 @@
               <div class="w-full text-center mt-4">
                 <span class="text-xs font-[400] text-[#475467]">
                   By continuing, you agree to Consultitude’s
-                  <a class="underline" routerLink="/terms-and-condition"
+                  <a class="underline" routerLink="/terms-and-conditions"
                     >Terms of Service</a
                   >
                   and
@@ -348,7 +348,7 @@
               <div class="w-full text-center mt-4">
                 <span class="text-xs font-[400] text-[#475467]">
                   By continuing, you agree to Consultitude’s
-                  <a class="underline" routerLink="/terms-and-condition"
+                  <a class="underline" routerLink="/terms-and-conditions"
                     >Terms of Service</a
                   >
                   and
