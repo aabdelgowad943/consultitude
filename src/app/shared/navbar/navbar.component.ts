@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  HostListener,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { initFlowbite } from 'flowbite';
@@ -10,14 +16,31 @@ import { AuthService } from '../../features/auth/services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   menuVisible: boolean = false;
   userId: string = localStorage.getItem('userId')!;
   name: string = '';
   email: string = '';
+  isDropdownOpen: boolean = false;
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: Event) {
+    const dropdown = document.getElementById('dropdown');
+    const menuButton = document.getElementById('user-menu-button');
+
+    if (
+      this.isDropdownOpen &&
+      dropdown &&
+      menuButton &&
+      !dropdown.contains(event.target as Node) &&
+      !menuButton.contains(event.target as Node)
+    ) {
+      this.isDropdownOpen = false;
+    }
+  }
 
   ngOnInit(): void {
-    initFlowbite();
+    // initFlowbite();
     this.getProfileDataByUserId();
   }
 
@@ -64,9 +87,19 @@ export class NavbarComponent {
     this.menuVisible = !this.menuVisible;
   }
 
+  toggleDropdown(event: Event) {
+    event.stopPropagation();
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('profileId');
+    localStorage.removeItem('email');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
+    localStorage.removeItem('profileUrl');
     this.router.navigate(['/auth/login']);
   }
 }

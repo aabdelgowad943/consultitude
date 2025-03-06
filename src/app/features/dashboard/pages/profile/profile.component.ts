@@ -37,9 +37,6 @@ export class ProfileComponent implements OnInit {
   getProfileDataByUserId() {
     this.authService.getUserDataByUserId(this.userId).subscribe({
       next: (res: any) => {
-        // console.log('ressss', res.data.profileUrl);
-
-        console.log(res.data.topSkills);
         this.profile = res.data;
         this.topSkillsList = this.extractTopSkills(res.data.topSkills || []);
         this.skillsData = this.profile.skills;
@@ -152,11 +149,20 @@ export class ProfileComponent implements OnInit {
     this.displayEditImage = true;
   }
 
-  onSaveImage(newImage: string | null) {
-    // This is where you get the cropped image from the child
+  onSaveImage(newImage: string) {
     if (newImage) {
+      // Update all references to the image URL
       this.currentImage = newImage;
-      // Possibly send it to the server or do something else
+      this.profileUrl = newImage;
+      this.profile = {
+        ...this.profile,
+        profileUrl: newImage,
+      };
+
+      // Force change detection by using NgZone
+      this.displayEditImage = false;
+      // Update the full profile data
+      this.getProfileDataByUserId();
     }
   }
 

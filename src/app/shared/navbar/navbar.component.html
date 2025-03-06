@@ -38,22 +38,16 @@
           type="button"
           class="flex mx-3 text-sm items-center gap-3 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
           id="user-menu-button"
-          aria-expanded="false"
-          data-dropdown-toggle="dropdown"
+          (click)="toggleDropdown($event)"
         >
           <span class="sr-only">Open user menu</span>
           <i class="pi pi-user w-10 h-10 text-2xl mt-2"></i>
-
-          <!-- <img
-            src="/images/arrow-down-sign-to-navigate (1).png "
-            class="w-4 h-4"
-            alt=""
-          /> -->
         </button>
-        <!-- Dropdown menu -->
+        <!-- Dropdown user menu -->
         <div
-          class="hidden z-50 my-4 w-64 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl"
+          class="z-50 my-4 w-64 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl absolute top-12 right-0"
           id="dropdown"
+          [class.hidden]="!isDropdownOpen"
         >
           <div
             *ngIf="userId"
@@ -120,7 +114,7 @@
       <span class="material-icons"><i class="pi pi-align-justify"></i></span>
     </button>
     <nav
-      class="fixed top-0 py-10 px-5 left-0 w-full z-50 h-fit bg-black flex flex-col items-start justify-start space-y-4 md:hidden transition-transform duration-300"
+      class="fixed top-0 py-10 px-5 left-0 w-full z-50 h-fit bg-[#11061A] flex flex-col items-start justify-start space-y-4 md:hidden transition-transform duration-300"
       [ngClass]="{
         'transform -translate-y-full': !menuVisible,
         'transform translate-y-0': menuVisible

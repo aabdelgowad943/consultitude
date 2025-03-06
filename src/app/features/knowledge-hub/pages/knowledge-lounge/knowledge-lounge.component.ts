@@ -266,9 +266,13 @@ export class KnowledgeLoungeComponent implements OnInit {
   clearAllFilters() {
     for (const section of this.sections) {
       const sectionItems = this.filters[section.key];
-      sectionItems.forEach(
-        (item: { checked: boolean }) => (item.checked = false)
-      );
+      sectionItems.forEach((item: any) => {
+        if (typeof item === 'object' && item !== null) {
+          item.checked = false;
+        } else {
+          // console.warn('Unexpected item type', item);
+        }
+      });
     }
     this.onFilterChange();
   }

@@ -1,74 +1,76 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { SliderModule } from 'primeng/slider';
-import { ProfileServiceService } from '../../services/profile-service.service';
-import { AuthService } from '../../../auth/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { ProfileServiceService } from '../../services/profile-service.service';
 
 @Component({
   selector: 'app-edit-profile-image',
-  imports: [
-    DialogModule,
-    ButtonModule,
-    ImageCropperComponent,
-    SliderModule,
-    FormsModule,
-    CommonModule,
-    ToastModule,
-  ],
+  standalone: true,
+  imports: [DialogModule, ButtonModule, FormsModule, CommonModule, ToastModule],
   providers: [MessageService],
-  templateUrl: './edit-profile-image.component.html',
-  styleUrl: './edit-profile-image.component.scss',
+  template: `
+    <p-dialog
+      [(visible)]="display"
+      [modal]="true"
+      [draggable]="false"
+      [resizable]="false"
+      [style]="{ width: '30vw', minWidth: '300px' }"
+      header="Update Profile Picture"
+    >
+      <div class="flex flex-col gap-4">
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          accept="image/*"
+          class="block w-full text-sm text-slate-500
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-full file:border-0
+            file:text-sm file:font-semibold
+            file:bg-violet-50 file:text-violet-700
+            hover:file:bg-violet-100"
+        />
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-2">
+          <p-button
+            label="Cancel"
+            (click)="onCancel()"
+            styleClass="p-button-text"
+          ></p-button>
+          <p-button
+            label="Save"
+            (click)="onSave()"
+            [loading]="loading"
+          ></p-button>
+        </div>
+      </ng-template>
+    </p-dialog>
+    <p-toast></p-toast>
+  `,
 })
-export class EditProfileImageComponent implements OnInit {
-  @Input() display: boolean = false; // Controls the visibility of the dialog
-  @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  @Output() saveImageEvent: EventEmitter<string> = new EventEmitter();
-
-  // The original image to crop (as File or base64)
-  @Input() initialImage: string | null = null;
-
-  // Local state
-  imageChangedEvent: any = '';
-  croppedImage: string | null = null;
-
-  // Zoom slider value (0 - 100 for example)
-  zoomValue: number = 50;
+export class EditProfileImageComponent {
+  @Input() display: boolean = false;
+  @Output() displayChange = new EventEmitter<boolean>();
+  @Output() saveImageEvent = new EventEmitter<string>();
 
   loading: boolean = false;
+  selectedFile: File | null = null;
+  profileId: string = localStorage.getItem('profileId')!;
 
   constructor(
     private profileService: ProfileServiceService,
-    private authService: AuthService,
     private messageService: MessageService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['initialImage'] && this.initialImage) {
-      this.croppedImage = null;
-    }
-  }
-  ngOnInit(): void {
-    this.getUserDataByUserId();
-  }
   onFileChange(event: any): void {
     if (event?.target?.files?.[0]) {
       const file = event.target.files[0];
 
-      // Check file size (5MB = 5 * 1024 * 1024 bytes)
       if (file.size > 5 * 1024 * 1024) {
         this.messageService.add({
           severity: 'error',
@@ -78,56 +80,31 @@ export class EditProfileImageComponent implements OnInit {
         return;
       }
 
-      this.imageChangedEvent = event;
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        // Store the base64 as a fallback
-        this.initialImage = e.target.result;
-
-        // If cropping fails, use this directly
-        if (!this.croppedImage) {
-          this.croppedImage = e.target.result;
-        }
-      };
-
-      reader.readAsDataURL(file);
+      this.selectedFile = file;
     }
   }
 
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64 || null;
-  }
-  onZoomChange() {}
-
   onCancel() {
+    this.selectedFile = null;
     this.display = false;
     this.displayChange.emit(false);
   }
 
   onSave() {
-    const imageToSave = this.croppedImage || this.initialImage;
-
-    if (!imageToSave) {
-      console.log('No image to save');
+    if (!this.selectedFile) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Please select an image first',
+      });
       return;
     }
 
-    if (this.loading) {
-      return;
-    }
+    if (this.loading) return;
 
     this.loading = true;
-
-    const file = this.convertBase64ToFile(imageToSave);
-    if (!file) {
-      this.loading = false;
-      console.error('Failed to convert image');
-      return;
-    }
-
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', this.selectedFile);
 
     this.profileService.uploadFile(formData).subscribe({
       next: (response) => {
@@ -145,17 +122,10 @@ export class EditProfileImageComponent implements OnInit {
           profileUrl: response.Location,
         };
 
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
-          console.log('No user ID found');
-          this.loading = false;
-          return;
-        }
-
         this.profileService
           .editIdentification(this.profileId, profileData)
           .subscribe({
-            next: (response: any) => {
+            next: () => {
               this.messageService.add({
                 severity: 'success',
                 summary: 'Success',
@@ -164,19 +134,21 @@ export class EditProfileImageComponent implements OnInit {
               this.saveImageEvent.emit(response.Location);
               this.display = false;
               this.displayChange.emit(false);
-              this.loading = false;
+              this.selectedFile = null;
             },
-            error: (error) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
                 detail: 'Failed to update profile image',
               });
+            },
+            complete: () => {
               this.loading = false;
             },
           });
       },
-      error: (error) => {
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -185,64 +157,5 @@ export class EditProfileImageComponent implements OnInit {
         this.loading = false;
       },
     });
-  }
-
-  imageLoaded() {
-    console.log('Image loaded');
-  }
-
-  cropperReady() {
-    console.log('Cropper ready');
-  }
-
-  loadImageFailed() {
-    console.log('Load image failed');
-  }
-
-  private convertBase64ToFile(base64Image: string): File | null {
-    try {
-      const split = base64Image.split(',');
-      const base64Data = split.length > 1 ? split[1] : split[0];
-      const blob = this.base64ToBlob(base64Data, 'image/png');
-      if (!blob) return null;
-      return new File([blob], 'profile-image.png', { type: 'image/png' });
-    } catch (error) {
-      console.error('Error converting base64 to file:', error);
-      return null;
-    }
-  }
-
-  private base64ToBlob(base64: string, contentType: string): Blob {
-    const byteCharacters = atob(base64);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-      const slice = byteCharacters.slice(offset, offset + 512);
-
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-
-    return new Blob(byteArrays, { type: contentType });
-  }
-
-  userData: any;
-  profileId: string = '';
-  getUserDataByUserId() {
-    this.authService
-      .getUserDataByUserId(localStorage.getItem('userId')!)
-      .subscribe({
-        next: (res: any) => {
-          // console.log(res.data);
-          this.profileId = res.data.id;
-          this.userData = res.data;
-        },
-        complete: () => {},
-      });
   }
 }

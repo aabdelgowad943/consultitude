@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-consulting-needs',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './consulting-needs.component.html',
   styleUrl: './consulting-needs.component.scss',
 })
