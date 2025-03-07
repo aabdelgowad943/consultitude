@@ -28,9 +28,9 @@
         <a [routerLink]="'/about-us'" class="font-sans">About us</a>
         <a [routerLink]="'/faqs'" class="font-sans">FAQs</a>
         <a [routerLink]="'/contact-us'" class="font-sans">Contact us</a>
-        <a [routerLink]="'/become-expert'" class="font-sans"
+        <!-- <a [routerLink]="'/become-expert'" class="font-sans"
           >Become An Expert</a
-        >
+        > -->
       </nav>
       <div class="flex items-center lg:order-2">
         <!-- Dropdown menu -->
@@ -85,7 +85,7 @@
               <a
                 *ngIf="userId"
                 (click)="logout()"
-                class="flex cursor-pointer items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-[#0A0F290A] dark:hover:bg-gray-700 group"
+                class="flex cursor-pointer items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
               >
                 <span class="ml-2 text-[14px] font-[500] text-red-600"
                   >Logout</span
@@ -96,7 +96,7 @@
               <a
                 *ngIf="!userId"
                 routerLink="/auth/login"
-                class="flex cursor-pointer items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-[#0A0F290A] dark:hover:bg-gray-700 group"
+                class="flex cursor-pointer items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
               >
                 <span class="ml-2 text-[14px] font-[500] text-gray-500"
                   >Login</span
@@ -142,7 +142,7 @@
       <a [routerLink]="'/how-it-works'">How it works</a>
       <a [routerLink]="'/pricing'">Pricing</a>
       <a [routerLink]="'/contact-us'">Contact us</a>
-      <a [routerLink]="'/become-expert'">Become an expert</a>
+      <!-- <a [routerLink]="'/become-expert'">Become an expert</a> -->
     </nav>
   </header>
 </div>
