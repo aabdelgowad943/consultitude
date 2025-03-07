@@ -4,3 +4,19 @@
 4- navbar in wainting list will be disabled ....
 5- validation message will take space from the start .......
 6- remove toast message and show the error under the input ......
+
+<!-- note for -->
+
+1- register
+
+<!--  -->
+
+request document will go to index and go to the section contact us
+bg color for navbar responsive
+
+<!--  -->
+
+-- related product ....
+--reset password ==> auto redirect to login page after send email ....
+-- footer text in auth
+-- handle resend otp code without timer ..........

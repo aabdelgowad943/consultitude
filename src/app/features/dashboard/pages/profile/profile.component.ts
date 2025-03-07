@@ -142,6 +142,7 @@ export class ProfileComponent implements OnInit {
   // ===============================================edit skills======================================================
 
   // ===============================================edit profile image===============================================
+
   currentImage: string | null = null;
   displayEditImage = false;
   openEditImage() {
@@ -167,4 +168,43 @@ export class ProfileComponent implements OnInit {
   }
 
   // ===============================================edit profile image===============================================
+
+  // ===============================================collapsing skills===============================================
+  showAllIndustrySkills = false;
+  showAllDomainSkills = false;
+  showAllRegionalSkills = false;
+  showAllConsultingSkills = false;
+  toggleShowMoreIndustry(): void {
+    this.showAllIndustrySkills = !this.showAllIndustrySkills;
+    console.log('d', this.showAllIndustrySkills);
+  }
+
+  toggleShowMoreDomain(): void {
+    this.showAllDomainSkills = !this.showAllDomainSkills;
+  }
+
+  toggleShowMoreRegional(): void {
+    this.showAllRegionalSkills = !this.showAllRegionalSkills;
+  }
+
+  getDomainSkillsToShow(): any[] {
+    if (!this.profile?.skills?.domainFocus) return [];
+    return this.showAllDomainSkills
+      ? this.profile.skills.domainFocus
+      : this.profile.skills.domainFocus.slice(0, 4);
+  }
+
+  getRegionalSkillsToShow(): any[] {
+    if (!this.profile?.skills?.regionalFocus) return [];
+    return this.showAllRegionalSkills
+      ? this.profile.skills.regionalFocus
+      : this.profile.skills.regionalFocus.slice(0, 4);
+  }
+  getIndustrySkillsToShow(): any[] {
+    if (!this.profile?.skills?.industryFocus) return [];
+    return this.showAllIndustrySkills
+      ? this.profile.skills.industryFocus
+      : this.profile.skills.industryFocus.slice(0, 4);
+  }
+  // ===============================================collapsing skills===============================================
 }

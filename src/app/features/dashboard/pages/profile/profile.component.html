@@ -82,18 +82,20 @@
               <i class="pi pi-pencil"></i>
             </div>
           </div>
-
           <!-- Skill Categories -->
           <div class="mt-4 space-y-4">
             <!-- Industry Focus -->
-            <div *ngIf="profile?.skills">
+            <div *ngIf="profile?.skills?.industryFocus?.length">
               <div>
                 <h3 class="text-[16px] font-medium text-[#101828]">
                   Industry Focus
                 </h3>
                 <div class="mt-2 flex flex-wrap gap-2">
                   <ng-container
-                    *ngFor="let skill of profile.skills.industryFocus"
+                    *ngFor="
+                      let skill of getIndustrySkillsToShow();
+                      let i = index
+                    "
                   >
                     <span
                       class="px-3 py-1 text-sm leading-5 font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
@@ -104,34 +106,75 @@
                       }}
                     </span>
                   </ng-container>
+                  <span
+                    *ngIf="
+                      !showAllIndustrySkills &&
+                      profile.skills.industryFocus.length > 4
+                    "
+                    class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                    (click)="toggleShowMoreIndustry()"
+                  >
+                    +{{ profile.skills.industryFocus.length - 4 }}
+                  </span>
+                  <span
+                    *ngIf="
+                      showAllIndustrySkills &&
+                      profile.skills.industryFocus.length > 4
+                    "
+                    class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                    (click)="toggleShowMoreIndustry()"
+                  >
+                    Show less
+                  </span>
                 </div>
               </div>
             </div>
 
             <!-- Domain Focus -->
-            <div *ngIf="profile?.skills">
+            <div *ngIf="profile?.skills?.domainFocus?.length">
               <h3 class="text-[16px] font-medium text-[#101828]">
                 Domain Focus
               </h3>
               <div class="mt-2 flex flex-wrap gap-2">
-                <ng-container *ngFor="let skill of profile.skills.domainFocus!">
+                <ng-container
+                  *ngFor="let skill of getDomainSkillsToShow(); let i = index"
+                >
                   <span
                     class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
                   >
                     {{ skill.domain.translations[0].name ?? skill.domain.id }}
                   </span>
                 </ng-container>
+                <span
+                  *ngIf="
+                    !showAllDomainSkills &&
+                    profile.skills.domainFocus.length > 4
+                  "
+                  class="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreDomain()"
+                >
+                  +{{ profile.skills.domainFocus.length - 4 }}
+                </span>
+                <span
+                  *ngIf="
+                    showAllDomainSkills && profile.skills.domainFocus.length > 4
+                  "
+                  class="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreDomain()"
+                >
+                  Show less
+                </span>
               </div>
             </div>
 
             <!-- Regional Focus -->
-            <div *ngIf="profile?.skills">
+            <div *ngIf="profile?.skills?.regionalFocus?.length">
               <h3 class="text-[16px] font-medium text-[#101828]">
                 Regional Focus
               </h3>
               <div class="mt-2 flex flex-wrap gap-2">
                 <ng-container
-                  *ngFor="let skill of profile.skills.regionalFocus"
+                  *ngFor="let skill of getRegionalSkillsToShow(); let i = index"
                 >
                   <span
                     class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
@@ -139,26 +182,28 @@
                     {{ skill.region.translations[0].name ?? skill.region.id }}
                   </span>
                 </ng-container>
+                <span
+                  *ngIf="
+                    !showAllRegionalSkills &&
+                    profile.skills.regionalFocus.length > 4
+                  "
+                  class="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreRegional()"
+                >
+                  +{{ profile.skills.regionalFocus.length - 4 }}
+                </span>
+                <span
+                  *ngIf="
+                    showAllRegionalSkills &&
+                    profile.skills.regionalFocus.length > 4
+                  "
+                  class="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreRegional()"
+                >
+                  Show less
+                </span>
               </div>
             </div>
-
-            <!-- Consulting Skills -->
-            <!-- <div *ngIf="profile?.skills">
-              <h3 class="text-[16px] font-medium text-[#101828]">
-                Consulting Skills
-              </h3>
-              <div class="mt-2 flex flex-wrap gap-2">
-                <ng-container
-                  *ngFor="let skill of profile.skills.consultingSkills"
-                >
-                  <span
-                    class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >
-                    {{ skill.name ?? "consulting" }}
-                  </span>
-                </ng-container>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>

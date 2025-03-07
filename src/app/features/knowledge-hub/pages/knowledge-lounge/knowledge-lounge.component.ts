@@ -8,6 +8,7 @@ import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-
 import { ProductStatus } from '../../models/products';
 import { Language } from '../../models/language.enum';
 import { PaginatorModule } from 'primeng/paginator';
+import { SliderModule } from 'primeng/slider';
 
 @Component({
   selector: 'app-knowledge-lounge',
@@ -18,6 +19,7 @@ import { PaginatorModule } from 'primeng/paginator';
     MaiContentComponent,
     HeroLoungeSecionComponent,
     PaginatorModule,
+    SliderModule,
   ],
   templateUrl: './knowledge-lounge.component.html',
   styleUrls: ['./knowledge-lounge.component.scss'],
@@ -335,5 +337,12 @@ export class KnowledgeLoungeComponent implements OnInit {
     // event.page is zero-based so we add 1 to match our 1-indexed currentPage
     this.currentPage = event.page + 1;
     this.loadProducts();
+  }
+
+  validatePriceRange() {
+    // Make sure min doesn't exceed max
+    if (this.filters.price[0] > this.filters.price[1]) {
+      this.filters.price[0] = this.filters.price[1];
+    }
   }
 }

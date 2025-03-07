@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
 import { ProductServiceService } from '../../services/product-service.service';
 import { GlobalStateService } from '../../../../../shared/services/global-state.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-view-template-details',
@@ -11,7 +12,7 @@ import { GlobalStateService } from '../../../../../shared/services/global-state.
   styleUrl: './view-template-details.component.scss',
   imports: [CommonModule, RouterModule, CarouselModule],
 })
-export class ViewTemplateDetailsComponent {
+export class ViewTemplateDetailsComponent implements OnInit, OnDestroy {
   template: any;
   images: any = [
     'https://picsum.photos/200/300',
@@ -51,17 +52,30 @@ export class ViewTemplateDetailsComponent {
 
   details = [{ label: '', property: '' }];
   tags: any = [];
+  private routeSubscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductServiceService,
     private router: Router,
     private globalStateService: GlobalStateService
-  ) {
-    const templateId = this.route.snapshot.paramMap.get('id');
-    if (templateId) {
-      this.fetchTemplateById(templateId);
-      this.getSimilarProducts(templateId);
+  ) {}
+
+  ngOnInit() {
+    // Subscribe to route parameter changes
+    this.routeSubscription = this.route.paramMap.subscribe((params) => {
+      const templateId = params.get('id');
+      if (templateId) {
+        this.fetchTemplateById(templateId);
+        this.getSimilarProducts(templateId);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    // Clean up subscription when component is destroyed
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
     }
   }
 
@@ -195,6 +209,11 @@ export class ViewTemplateDetailsComponent {
                   domain.name ||
                   'Unknown domain'
               ) || [],
+            areaOfFocus: product.areaOfFocus?.map(
+              (areaOfFocus: any) =>
+                areaOfFocus.areaOfFocus?.translations?.[0]?.name ||
+                areaOfFocus.name
+            ),
           };
         });
       },

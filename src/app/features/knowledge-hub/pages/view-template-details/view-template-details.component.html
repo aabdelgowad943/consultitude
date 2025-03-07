@@ -191,10 +191,10 @@
       </div>
 
       <!-- Updated related articles section to match product card design -->
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="flex flex-col lg:flex-row gap-6 lg:overflow-x-auto py-4">
         <div
           *ngFor="let product of relatedArticles"
-          class="relative border border-[#d1d0d0] rounded-2xl bg-white"
+          class="min-w-[300px] md:w-[467px] relative border border-[#d1d0d0] rounded-2xl bg-white flex-shrink-0"
         >
           <!-- Image Section -->
           <div class="relative rounded-2xl 2xl:h-[240px]">
@@ -214,7 +214,6 @@
                 Featured
               </h1>
             </div>
-
             <div
               class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-10 text-white rounded-t-2xl"
             >
@@ -245,12 +244,17 @@
             <!-- Tags & Downloads -->
             <div class="flex justify-between items-center w-full mb-4">
               <div class="flex gap-1 items-center w-full">
-                <!-- If you have tags for related products, you can add them here -->
                 <h1
                   *ngFor="let domain of product.domains?.slice(0, 2)"
                   class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
                 >
                   {{ domain }}
+                </h1>
+                <h1
+                  *ngFor="let areaOfFocus of product.areaOfFocus?.slice(0, 2)"
+                  class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+                >
+                  {{ areaOfFocus }}
                 </h1>
               </div>
               <!-- Downloads -->
@@ -273,7 +277,7 @@
         <!-- Empty state when no related products -->
         <div
           *ngIf="relatedArticles.length === 0"
-          class="col-span-full text-center py-10"
+          class="min-w-full text-center py-10"
         >
           <p class="text-[#667085] text-lg">No similar documents found.</p>
         </div>
@@ -288,13 +292,3 @@
     </div>
   </div>
 </ng-template>
-
-<!-- <div class="card">
-  <p-carousel
-    [numVisible]="3"
-    [numScroll]="3"
-    [circular]="false"
-    [responsiveOptions]="responsiveOptions"
-  >
-  </p-carousel>
-</div> -->

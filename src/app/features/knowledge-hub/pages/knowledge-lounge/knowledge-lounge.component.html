@@ -75,6 +75,7 @@
     </div>
 
     <!-- Filters Section -->
+    <!-- Filters Section in the Mobile Modal -->
     <div class="sidebar">
       <div
         *ngFor="let section of sections"
@@ -87,18 +88,46 @@
           <h3 class="font-bold text-gray-700 text-sm">{{ section.name }}</h3>
         </div>
         <div *ngIf="section.isOpen" class="ml-4">
-          <div *ngFor="let item of filters[section.key]" class="mt-2">
-            <label class="flex items-center">
+          <!-- Special handling for price range -->
+          <div *ngIf="section.key === 'price'" class="ml-1 px-1 py-3">
+            <!-- Range Input Container -->
+            <div class="relative pt-6">
               <input
-                class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
-                type="checkbox"
-                [(ngModel)]="item.checked"
+                type="range"
+                min="0"
+                max="1000"
+                [(ngModel)]="filters.price[0]"
                 (ngModelChange)="onFilterChange()"
+                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-slider"
               />
-              <span class="ml-2 text-[#171717] font-sans text-[13px]">{{
-                item.name
-              }}</span>
-            </label>
+
+              <!-- Value Display -->
+              <div class="flex justify-between items-center mt-4">
+                <span class="text-sm text-gray-500">$0</span>
+                <div
+                  class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
+                >
+                  {{ filters.price[0] }}
+                </div>
+                <span class="text-sm text-gray-500">$1000</span>
+              </div>
+            </div>
+          </div>
+          <!-- Regular checkbox filters for other sections -->
+          <div *ngIf="section.key !== 'price'">
+            <div *ngFor="let item of filters[section.key]" class="mt-2">
+              <label class="flex items-center">
+                <input
+                  class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
+                  type="checkbox"
+                  [(ngModel)]="item.checked"
+                  (ngModelChange)="onFilterChange()"
+                />
+                <span class="ml-2 text-[#171717] font-sans text-[13px]">{{
+                  item.name
+                }}</span>
+              </label>
+            </div>
           </div>
         </div>
       </div>
