@@ -71,7 +71,7 @@ export class LoginComponent {
               this.router.navigate(['/knowledge/checkout', pendingId]);
               this.globalStateService.clearPendingPurchase();
             } else {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/knowledge/lounge']);
             }
           });
       },

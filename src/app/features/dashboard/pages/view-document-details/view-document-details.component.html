@@ -101,16 +101,14 @@
       <!-- Right side -->
       <div class="col-span-12 md:col-span-8 mt-10 md:mt-0">
         <div
-          class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white h-[200px] md:h-[400px] py-8 px-5"
-          [style.background-image]="
-            'url(' + (template.images[0] || defaultImageUrl) + ')'
-          "
+          class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white md:w-[756px] h-[200px] md:h-[395px] py-8 px-5"
+          [style.background-image]="'url(' + (template.images[0] || '') + ')'"
         >
           <div class="absolute inset-0 bg-[#0D1F40]/60 rounded-lg"></div>
           <div
             class="flex absolute left-0 z-50 top-5 px-4 justify-between items-center w-full"
           >
-            <img class="w-16 md:w-20" [src]="logoUrl" alt="Logo" />
+            <img class="w-16 md:w-20" [src]="logoUrl" />
           </div>
 
           <div
@@ -120,13 +118,14 @@
               {{ template.name }}
             </h1>
             <p class="text-base md:text-lg text-gray-300">
-              {{ template.description || "No description available" }}
+              {{ template.description }}
             </p>
           </div>
         </div>
 
         <!-- Carousel Section -->
-        <div class="mt-6" *ngIf="images && images.length > 0">
+        <div class="mt-6">
+          <!-- [value]="template.images" -->
           <p-carousel
             [value]="images"
             [numVisible]="5"
@@ -136,16 +135,17 @@
             [responsiveOptions]="responsiveOptions"
             [showIndicators]="true"
             [showNavigators]="false"
+            [responsiveOptions]="responsiveOptions"
             [indicatorStyle]="indicatorStyle"
             [indicatorStyleClass]="indicatorStyleClass"
           >
             <ng-template let-image pTemplate="item">
               <div
-                class="border my-2 rounded-md overflow-hidden mx-1 h-[97px] border-[#0000001A]/10"
+                class="border rounded-md overflow-hidden mx-1 h-[97px] border-[#0000001A]/10"
               >
                 <img
-                  [src]="image"
-                  alt="Document preview"
+                  [src]="image!"
+                  alt="Template preview"
                   class="w-full h-full object-cover"
                 />
               </div>
@@ -164,6 +164,7 @@
           </p>
 
           <!-- Tags Section -->
+
           <h1
             class="text-[24px] font-[500] leading-[28.8px] text-[#101828] mb-6"
           >
