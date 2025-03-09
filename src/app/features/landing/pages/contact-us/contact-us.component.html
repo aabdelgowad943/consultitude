@@ -1,139 +1,143 @@
-<app-navbar></app-navbar>
-<div
-  class="w-full relative md:py-32 2xl:pb-0 py-32 px-4 md:px-0 pb-10 overflow-hidden"
->
-  <!-- background images -->
+<div class="max-w-[1600px] mx-auto">
+  <app-navbar></app-navbar>
   <div
-    class="absolute inset-0 bg-cover 2xl:h-screen bg-center bg-black -z-10"
-    style="background-image: url('/images/Group 25.png')"
-  ></div>
-
-  <div class="absolute md:block right-0 hidden z-0 top-40">
-    <img src="/images/Group 37.svg" alt="background icon" />
-  </div>
-
-  <!-- title and subtitle -->
-
-  <div class="text-center w-full flex flex-col items-center mb-5">
-    <h2
-      class="md:text-[52px] text-[40px] leading-[48px] md:leading-[62px] font-bold text-white"
-    >
-      Let’s Shape the Future of Your <br />
-      Business Together!
-    </h2>
-    <p class="text-[#E9D8FC] mt-6 font-sans text-[18px]">
-      Our consulting services prioritize adaptive strategies, ensuring your
-      solutions resonate <br />
-      with your audience from the start.
-    </p>
-  </div>
-
-  <!-- form -->
-  <div
-    class="max-w-xl md:mt-20 mx-auto relative z-50 border border-[#A25DDF66] bg-gradient-to-br from-[#552482] to-[#873DE64D]/20 p-8 rounded-xl shadow-lg"
+    class="w-full relative md:py-32 2xl:pb-0 py-32 px-4 md:px-0 pb-10 overflow-hidden"
   >
-    <form>
-      <!-- First and Last Name -->
-      <div class="flex space-x-4 mb-4">
-        <div class="flex-1">
-          <label for="first-name" class="block text-sm font-sans text-gray-300"
-            >First name</label
+    <!-- background images -->
+    <div
+      class="absolute inset-0 bg-cover 2xl:h-fit bg-center bg-black -z-10"
+      style="background-image: url('/images/Group 25.png')"
+    ></div>
+
+    <div class="absolute md:block right-0 hidden z-0 top-40">
+      <img src="/images/Group 37.svg" alt="background icon" />
+    </div>
+
+    <!-- title and subtitle -->
+
+    <div class="text-center w-full flex flex-col items-center mb-5">
+      <h2
+        class="md:text-[52px] text-[40px] leading-[48px] md:leading-[62px] font-bold text-white"
+      >
+        Let’s Shape the Future of Your <br />
+        Business Together!
+      </h2>
+      <p class="text-[#E9D8FC] mt-6 font-sans text-[18px]">
+        Our consulting services prioritize adaptive strategies, ensuring your
+        solutions resonate <br />
+        with your audience from the start.
+      </p>
+    </div>
+
+    <!-- form -->
+    <div
+      class="max-w-xl md:mt-20 mx-auto relative z-50 border border-[#A25DDF66] bg-gradient-to-br from-[#552482] to-[#873DE64D]/20 p-8 rounded-xl shadow-lg"
+    >
+      <form>
+        <!-- First and Last Name -->
+        <div class="flex space-x-4 mb-4">
+          <div class="flex-1">
+            <label
+              for="first-name"
+              class="block text-sm font-sans text-gray-300"
+              >First name</label
+            >
+            <input
+              type="text"
+              id="first-name"
+              value="{{ firstName }}"
+              placeholder="Write your first name"
+              class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          <div class="flex-1">
+            <label for="last-name" class="block text-sm font-sans text-gray-300"
+              >Last name</label
+            >
+            <input
+              type="text"
+              value="{{ lastName }}"
+              id="last-name"
+              placeholder="Write your last name"
+              class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-sans text-gray-300"
+            >E-mail</label
           >
           <input
-            type="text"
-            id="first-name"
-            value="{{ firstName }}"
-            placeholder="Write your first name"
+            value="{{ email }}"
+            type="email"
+            id="email"
+            placeholder="Enter your e-mail"
             class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
           />
         </div>
-        <div class="flex-1">
-          <label for="last-name" class="block text-sm font-sans text-gray-300"
-            >Last name</label
+
+        <!-- Phone Number -->
+        <div class="mb-4">
+          <label for="phone" class="block text-sm font-sans text-gray-300"
+            >Phone number</label
           >
-          <input
-            type="text"
-            value="{{ lastName }}"
-            id="last-name"
-            placeholder="Write your last name"
-            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
-          />
+          <div class="relative">
+            <input
+              type="tel"
+              id="phone"
+              value="{{ phone }}"
+              placeholder="+966 749302040"
+              class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
         </div>
-      </div>
 
-      <!-- Email -->
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-sans text-gray-300"
-          >E-mail</label
-        >
-        <input
-          value="{{ email }}"
-          type="email"
-          id="email"
-          placeholder="Enter your e-mail"
-          class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
-        />
-      </div>
-
-      <!-- Phone Number -->
-      <div class="mb-4">
-        <label for="phone" class="block text-sm font-sans text-gray-300"
-          >Phone number</label
-        >
-        <div class="relative">
-          <input
-            type="tel"
-            id="phone"
-            value="{{ phone }}"
-            placeholder="+966 749302040"
-            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
-          />
-        </div>
-      </div>
-
-      <!-- Message -->
-      <div class="mb-4">
-        <label for="message" class="block text-sm font-sans text-gray-300"
-          >Your message</label
-        >
-        <textarea
-          id="message"
-          placeholder="Let us know how Consultitude can empower your success."
-          rows="4"
-          class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
-        ></textarea>
-      </div>
-
-      <!-- Terms and Conditions -->
-      <div class="flex items-center mb-6">
-        <input
-          type="checkbox"
-          id="terms"
-          class="w-4 h-4 text-purple-600 checked:bg-purple-600 bg-gray-200 rounded focus:ring-2 focus:ring-purple-500"
-        />
-        <label for="terms" class="ml-2 text-sm text-gray-300">
-          By submitting this form, you confirm that you have read and agree to
-          <a href="#" class="text-purple-400 hover:underline"
-            >Consultitude Terms of Service</a
+        <!-- Message -->
+        <div class="mb-4">
+          <label for="message" class="block text-sm font-sans text-gray-300"
+            >Your message</label
           >
-          and
-          <a href="#" class="text-purple-400 hover:underline"
-            >Privacy Statement</a
-          >.
-        </label>
-      </div>
+          <textarea
+            id="message"
+            placeholder="Let us know how Consultitude can empower your success."
+            rows="4"
+            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
+          ></textarea>
+        </div>
 
-      <!-- Submit Button -->
-      <div>
-        <button
-          type="submit"
-          class="w-full py-3 bg-[#9241DC] text-white transition-colors font-sans rounded-xl hover:bg-[#9241DC]/50 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
-        >
-          Send message
-        </button>
-      </div>
-    </form>
+        <!-- Terms and Conditions -->
+        <div class="flex items-center mb-6">
+          <input
+            type="checkbox"
+            id="terms"
+            class="w-4 h-4 text-purple-600 checked:bg-purple-600 bg-gray-200 rounded focus:ring-2 focus:ring-purple-500"
+          />
+          <label for="terms" class="ml-2 text-sm text-gray-300">
+            By submitting this form, you confirm that you have read and agree to
+            <a href="#" class="text-purple-400 hover:underline"
+              >Consultitude Terms of Service</a
+            >
+            and
+            <a href="#" class="text-purple-400 hover:underline"
+              >Privacy Statement</a
+            >.
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <button
+            type="submit"
+            class="w-full py-3 bg-[#9241DC] text-white transition-colors font-sans rounded-xl hover:bg-[#9241DC]/50 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
+          >
+            Send message
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
-<app-footer></app-footer>
+  <app-footer></app-footer>
+</div>

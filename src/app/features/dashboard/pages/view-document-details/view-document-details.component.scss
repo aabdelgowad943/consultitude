@@ -1,0 +1,16 @@
+:host ::ng-deep {
+  .p-carousel {
+    .p-carousel-indicators {
+      .p-carousel-indicator {
+        button {
+          background-color: #000000 !important; // gray
+        }
+
+        &.p-highlight button {
+          background-color: #000000 !important; // black
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

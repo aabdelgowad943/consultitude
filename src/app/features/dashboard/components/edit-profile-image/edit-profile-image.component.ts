@@ -33,6 +33,15 @@ import { ProfileServiceService } from '../../services/profile-service.service';
             file:bg-violet-50 file:text-violet-700
             hover:file:bg-violet-100"
         />
+
+        <!-- Image Preview -->
+        <div *ngIf="imagePreviewUrl" class="mt-4 flex justify-center">
+          <img
+            [src]="imagePreviewUrl"
+            alt="Profile Preview"
+            class="max-w-full max-h-64 rounded-md object-cover border border-gray-200 shadow-sm"
+          />
+        </div>
       </div>
 
       <ng-template pTemplate="footer">
@@ -60,6 +69,7 @@ export class EditProfileImageComponent {
 
   loading: boolean = false;
   selectedFile: File | null = null;
+  imagePreviewUrl: string | null = null;
   profileId: string = localStorage.getItem('profileId')!;
 
   constructor(
@@ -81,10 +91,33 @@ export class EditProfileImageComponent {
       }
 
       this.selectedFile = file;
+
+      // Create a preview URL for the selected image
+      this.createImagePreview(file);
     }
   }
 
+  createImagePreview(file: File): void {
+    // Revoke the previous URL if it exists to prevent memory leaks
+    if (this.imagePreviewUrl) {
+      URL.revokeObjectURL(this.imagePreviewUrl);
+    }
+
+    // Create a new URL for the selected file
+    this.imagePreviewUrl = URL.createObjectURL(file);
+  }
+
   onCancel() {
+    this.resetComponent();
+  }
+
+  resetComponent() {
+    // Clean up the object URL to prevent memory leaks
+    if (this.imagePreviewUrl) {
+      URL.revokeObjectURL(this.imagePreviewUrl);
+      this.imagePreviewUrl = null;
+    }
+
     this.selectedFile = null;
     this.display = false;
     this.displayChange.emit(false);
@@ -132,9 +165,7 @@ export class EditProfileImageComponent {
                 detail: 'Profile image updated successfully',
               });
               this.saveImageEvent.emit(response.Location);
-              this.display = false;
-              this.displayChange.emit(false);
-              this.selectedFile = null;
+              this.resetComponent();
             },
             error: () => {
               this.messageService.add({
@@ -142,6 +173,7 @@ export class EditProfileImageComponent {
                 summary: 'Error',
                 detail: 'Failed to update profile image',
               });
+              this.loading = false;
             },
             complete: () => {
               this.loading = false;
@@ -157,5 +189,12 @@ export class EditProfileImageComponent {
         this.loading = false;
       },
     });
+  }
+
+  ngOnDestroy() {
+    // Clean up any object URLs when the component is destroyed
+    if (this.imagePreviewUrl) {
+      URL.revokeObjectURL(this.imagePreviewUrl);
+    }
   }
 }

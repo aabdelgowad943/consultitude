@@ -80,7 +80,25 @@ export class ViewDocumentDetailsComponent implements OnInit {
   error: string | null = null;
 
   // Placeholder images until real images are loaded
-  images: any = [];
+  images: any = [
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/200/300',
+  ];
   defaultImageUrl = 'https://picsum.photos/200/300';
 
   logoUrl = '/images/Logo.svg';
@@ -91,11 +109,11 @@ export class ViewDocumentDetailsComponent implements OnInit {
   indicatorStyle = {
     width: '10px',
     height: '10px',
-    borderRadius: '50%',
+    'border-radius': '50%',
   };
-  indicatorStyleClass = 'hover:bg-[#a24af5] cursor-pointer';
 
-  // Component Configuration
+  indicatorStyleClass = 'custom-indicator';
+
   responsiveOptions: any[] = [
     { breakpoint: '1400px', numVisible: 5, numScroll: 5 },
     { breakpoint: '1199px', numVisible: 5, numScroll: 5 },
@@ -142,7 +160,7 @@ export class ViewDocumentDetailsComponent implements OnInit {
           if (response.success && response.data?.orderDetails?.length > 0) {
             this.template = this.mapResponseToTemplate(response.data);
             this.initializeTemplateData();
-            this.loadImages();
+            // this.loadImages();
           } else {
             this.error = 'No document details found';
           }
@@ -186,15 +204,15 @@ export class ViewDocumentDetailsComponent implements OnInit {
     };
   }
 
-  private loadImages(): void {
-    if (this.template?.images && this.template.images.length > 0) {
-      // this.images = this.template.images;
-      this.images = Array(5).fill(this.defaultImageUrl);
-    } else {
-      // Populate with placeholders if no images
-      this.images = Array(5).fill(this.defaultImageUrl);
-    }
-  }
+  // private loadImages(): void {
+  //   if (this.template?.images && this.template.images.length > 0) {
+  //     // this.images = this.template.images;
+  //     this.images = Array(5).fill(this.defaultImageUrl);
+  //   } else {
+  //     // Populate with placeholders if no images
+  //     this.images = Array(5).fill(this.defaultImageUrl);
+  //   }
+  // }
 
   private initializeTemplateData(): void {
     if (!this.template) return;
