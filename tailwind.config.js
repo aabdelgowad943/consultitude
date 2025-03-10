@@ -4,6 +4,12 @@ module.exports = {
   content: ["./src/**/*.{html,ts}", "./node_modules/flowbite/**/*.js"],
   theme: {
     extend: {
+      screens: {
+        xs: "375px", // تعريف breakpoint مخصص للشاشات التي عرضها 375px وأقل
+        xss: "390px",
+        big: "1440px",
+        ipad: "768px",
+      },
       colors: {
         primary: {
           50: "#f5f3ff",

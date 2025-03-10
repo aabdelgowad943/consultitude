@@ -10,7 +10,7 @@
           <!-- Title -->
           <div class="w-full flex justify-center md:mb-10">
             <img
-              src="/images/pink-logo.png"
+              src="/images/logo-pink SVG.svg"
               class="md:w-60 w-[237.5px]"
               alt="logo"
             />
@@ -62,7 +62,7 @@
                 [(ngModel)]="email"
                 (ngModelChange)="emailError = ''"
                 placeholder="email@mail.com"
-                class="mt-1 block w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border border-[#DEE0E3] placeholder:text-[#0D112666]/60 rounded-xl"
+                class="mt-1 block w-[329px] md:w-[480px] h-[40px] py-2.5 px-3 border text-[#14151A] border-[#DEE0E3] placeholder:text-[#0D112666]/60 rounded-xl"
               />
               <div
                 *ngIf="emailError && email.length > 0"
@@ -121,7 +121,7 @@
                     id="name"
                     [(ngModel)]="name"
                     placeholder="Your name"
-                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl text-[#14151A]"
                   />
                   <div
                     *ngIf="nameError && name.length > 0"
@@ -142,7 +142,7 @@
                     id="currentRole"
                     [(ngModel)]="currentRole"
                     placeholder="Your current role"
-                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl text-[#14151A]"
                   />
                   <div
                     *ngIf="roleError && currentRole.length > 0"
@@ -214,7 +214,7 @@
                     id="password"
                     [(ngModel)]="password"
                     placeholder="••••••••"
-                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl text-[#14151A]"
                   />
                   <div
                     *ngIf="passwordError && password.length > 0"
@@ -236,7 +236,7 @@
                     id="confirmPassword"
                     [(ngModel)]="confirmPassword"
                     placeholder="••••••••"
-                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl text-[#14151A]"
                   />
                   <div
                     *ngIf="confirmPasswordError && confirmPassword.length > 0"
@@ -316,7 +316,7 @@
                     id="verificationCode"
                     [(ngModel)]="verificationCode"
                     placeholder="••••••"
-                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl text-[#14151A]"
                   />
                   <div
                     *ngIf="verificationCodeError"
