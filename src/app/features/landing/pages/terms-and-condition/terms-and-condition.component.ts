@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FooterComponent } from '../../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-terms-and-condition',
-  imports: [CommonModule, FooterComponent, NavbarComponent],
+  imports: [CommonModule, FooterComponent, NavbarComponent, RouterModule],
   templateUrl: './terms-and-condition.component.html',
   styleUrl: './terms-and-condition.component.scss',
 })

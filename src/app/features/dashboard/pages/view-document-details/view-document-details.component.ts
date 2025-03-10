@@ -259,7 +259,7 @@ export class ViewDocumentDetailsComponent implements OnInit {
       {
         label: 'Download Now',
         classes:
-          'bg-[#7F56D9] hover:bg-[#a24af5] text-white border w-full py-3 px-[18px] rounded-md',
+          'bg-[#7F56D9] hover:bg-[#a24af5] text-white xs:w-[90%] xss:w-full border w-full py-3 px-[18px] rounded-md',
         action: () => this.downloadTemplate(this.template?.documents[0]?.url),
       },
     ];

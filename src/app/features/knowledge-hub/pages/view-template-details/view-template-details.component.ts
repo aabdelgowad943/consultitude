@@ -161,13 +161,13 @@ export class ViewTemplateDetailsComponent implements OnInit, OnDestroy {
       {
         label: `Buy Now $${this.template?.price}`,
         classes:
-          'bg-[#7F56D9] hover:bg-[#a24af5] w-[172.5px] md:w-[220px] text-[#FFFFFF] py-3 px-[18px] rounded-md',
+          'bg-[#7F56D9] hover:bg-[#a24af5] xss:w-[172.5px]  big:w-[220px] text-[#FFFFFF] py-3 px-[18px] rounded-md',
         action: () => this.handlePurchase(),
       },
       {
         label: 'Download Sample',
         classes:
-          'bg-white border text-[#344054] w-[172.5px] md:w-[220px] text-[16px] leading-[24px] py-3 px-[18px] rounded-md',
+          'bg-white border text-[#344054] xss:w-[172.5px]  big:w-[220px] text-[16px] leading-[24px] py-3 px-[18px] rounded-md',
         action: () =>
           this.downloadTemplate(this.template?.documents[0]?.sampleUrl),
       },
