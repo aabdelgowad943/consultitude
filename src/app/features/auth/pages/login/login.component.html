@@ -1,12 +1,15 @@
 <div class="w-full max-w-[1600px] mx-auto relative">
   <app-navbar></app-navbar>
   <section class="bg-white mt-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 relative md:grid-cols-2 gap-6">
       <!-- Left side: Form content -->
+      <!-- <div class="absolute bottom-4 left-4 ">
+        <h1 class="text-[#475467] text-[14px]">© Consultitude Inc. 2024</h1>
+      </div> -->
       <div
         class="flex flex-col md:items-center h-screen md:mt-32 2xl:mt-20 justify-center px-4 md:order-1 order-2"
       >
-        <div class="w-full space-y-6 md:space-y-4 mt-[48px] md:mt-0 max-w-md">
+        <div class="w-full space-y-6 mt-[48px] md:mt-0 max-w-[480px]">
           <!-- Title -->
           <div class="w-full flex justify-center md:mb-10">
             <img
@@ -60,7 +63,7 @@
                 id="email"
                 [(ngModel)]="email"
                 placeholder="email@mail.com"
-                class="mt-1 block w-[329px] md:w-[480px] h-[48px] py-2.5 px-3 border border-[#DEE0E3] placeholder:text-[#0D112666]/60 rounded-xl"
+                class="mt-1 block w-[329px] md:w-[480px] h-[48px] py-2.5 px-3 text-[#14151A] border border-[#DEE0E3] placeholder:text-[#0D112666]/60 rounded-xl"
               />
 
               <label
@@ -137,7 +140,6 @@
             </p>
           </div>
         </div>
-
         <div class="w-full h-full flex items-end">
           <h1
             class="text-[#475467] text-[14px] lg:mb-10 md:mb-10 mb-2 md:ms-10"

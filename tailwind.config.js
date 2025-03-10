@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       screens: {
         xs: "375px", // تعريف breakpoint مخصص للشاشات التي عرضها 375px وأقل
-        xss: "390px",
+        xss: "393px",
         big: "1440px",
         ipad: "768px",
       },
