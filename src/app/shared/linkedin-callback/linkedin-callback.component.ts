@@ -23,15 +23,6 @@ export class LinkedinCallbackComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  localStorageStoring(userId: string) {
-    this.authService.getUserDataByUserId(userId).subscribe({
-      next: (res: any) => {
-        const profileId = localStorage.setItem('profileId', res.data.id);
-        console.log(res + profileId);
-      },
-    });
-  }
-
   ngOnInit() {
     this.route.queryParams.subscribe({
       next: (params) => {
@@ -54,6 +45,7 @@ export class LinkedinCallbackComponent implements OnInit {
 
           if (decodedToken && decodedToken.id) {
             localStorage.setItem('userId', decodedToken.id);
+            this.localStorageStoring(decodedToken.id);
             this.router.navigate(['/dashboard']);
           } else {
             console.error('No user ID found in decoded token');
@@ -68,6 +60,15 @@ export class LinkedinCallbackComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error in query params subscription:', error);
+      },
+    });
+  }
+
+  localStorageStoring(userId: string) {
+    this.authService.getUserDataByUserId(userId).subscribe({
+      next: (res: any) => {
+        const profileId = localStorage.setItem('profileId', res.data.id);
+        console.log(profileId);
       },
     });
   }
