@@ -91,7 +91,7 @@ export class LoginComponent {
   localStorageStoring(userId: string) {
     this.authService.getUserDataByUserId(userId).subscribe({
       next: (res: any) => {
-        console.log('profile data is', res.data);
+        // console.log('profile data is', res.data);
         const profileId = localStorage.setItem('profileId', res.data.id);
         const email = localStorage.setItem('email', res.data.user.email);
         const firstName = localStorage.setItem('firstName', res.data.firstName);
