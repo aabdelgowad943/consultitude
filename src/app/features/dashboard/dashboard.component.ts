@@ -67,6 +67,7 @@ export class DashboardComponent implements OnInit {
     localStorage.removeItem('firstName');
     localStorage.removeItem('lastName');
     localStorage.removeItem('profileUrl');
+    localStorage.removeItem('name');
 
     // Optionally, you can navigate the user to the login page or home page after logout
     this.router.navigate(['/auth/login']);
