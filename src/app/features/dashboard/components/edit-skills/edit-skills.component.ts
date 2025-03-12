@@ -185,7 +185,8 @@ export class EditSkillsComponent implements OnChanges, OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Profile updated',
-            detail: 'Your profile has been updated successfully.',
+            contentStyleClass: 'text-white bg-green-900 ',
+            closeIcon: 'pi pi-check text-white',
           });
           this.userData = profile;
           this.saveChangesEvent.emit(profile.skills);
@@ -195,7 +196,8 @@ export class EditSkillsComponent implements OnChanges, OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to update profile',
+            contentStyleClass: 'text-white bg-red-900 ',
+            closeIcon: 'pi pi-times text-white',
           });
         },
       });

@@ -91,16 +91,18 @@
           <div id="payment-element"></div>
           <div class="mt-4 space-y-4">
             <div class="flex justify-between">
-              <span>Subtotal</span>
-              <span>{{ subTotalAmount | currency }}</span>
+              <span class="text-[#101828]">Subtotal</span>
+              <span class="text-[#101828]">{{
+                subTotalAmount | currency
+              }}</span>
             </div>
             <div class="flex justify-between">
-              <span>Discount</span>
-              <span>{{ discountValue | currency }}</span>
+              <span class="text-[#101828]">Discount</span>
+              <span class="text-[#101828]">{{ discountValue | currency }}</span>
             </div>
             <div class="flex justify-between">
-              <span>Total</span>
-              <span>{{ totalAmount | currency }}</span>
+              <span class="text-[#101828]">Total</span>
+              <span class="text-[#101828]">{{ totalAmount | currency }}</span>
             </div>
           </div>
           <button

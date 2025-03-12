@@ -60,3 +60,91 @@ body {
 .p-carousel-indicator-button {
   background: gray;
 }
+
+/* In your component SCSS file or global styles */
+
+/* Base styles for both themes */
+.p-multiselect-theme-aware {
+  border: 1px solid #dee0e3;
+  border-radius: 0.75rem;
+
+  .p-multiselect-label {
+    font-weight: 700;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .p-multiselect-placeholder {
+    color: rgba(13, 17, 38, 0.4);
+  }
+
+  &.p-focus {
+    box-shadow: 0 0 0 2px rgba(13, 17, 38, 0.1);
+    border-color: #ccd0d5;
+  }
+}
+
+/* Light theme specifics (default) */
+:root:not(.dark-theme) .p-multiselect-theme-aware {
+  background-color: #ffffff;
+  color: #000000;
+
+  .p-multiselect-label-container,
+  .p-multiselect-trigger {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  .p-multiselect-items {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  .p-multiselect-item.p-highlight {
+    background-color: rgba(13, 17, 38, 0.08);
+  }
+}
+
+/* Dark theme specifics */
+:root.dark-theme .p-multiselect-theme-aware,
+.dark-mode .p-multiselect-theme-aware,
+[data-theme="dark"] .p-multiselect-theme-aware {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-color: #3a3a3a;
+
+  .p-multiselect-label-container,
+  .p-multiselect-trigger {
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+
+  .p-multiselect-panel {
+    background-color: #1e1e1e;
+    border-color: #3a3a3a;
+  }
+
+  .p-multiselect-items {
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+
+  .p-multiselect-item:hover {
+    background-color: #2c2c2c;
+  }
+
+  .p-multiselect-item.p-highlight {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .p-multiselect-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+.p-paginator {
+  background: white;
+  color: black;
+}
+
+.p-paginator-page.p-paginator-page-selected {
+  color: gray;
+}

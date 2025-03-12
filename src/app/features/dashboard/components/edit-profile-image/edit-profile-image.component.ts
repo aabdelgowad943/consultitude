@@ -18,6 +18,7 @@ import { ProfileServiceService } from '../../services/profile-service.service';
       [modal]="true"
       [draggable]="false"
       [resizable]="false"
+      styleClass="bg-white text-black"
       [style]="{ width: '30vw', minWidth: '300px' }"
       header="Update Profile Picture"
     >
@@ -31,7 +32,7 @@ import { ProfileServiceService } from '../../services/profile-service.service';
             file:rounded-full file:border-0
             file:text-sm file:font-semibold
             file:bg-violet-50 file:text-violet-700
-            hover:file:bg-violet-100"
+            hover:file:bg-violet-100 bg-white"
         />
 
         <!-- Image Preview -->
@@ -53,6 +54,7 @@ import { ProfileServiceService } from '../../services/profile-service.service';
           ></p-button>
           <p-button
             label="Save"
+            styleClass="text-white"
             (click)="onSave()"
             [loading]="loading"
           ></p-button>

@@ -49,7 +49,7 @@
           class="transform transition-transform"
           [class.rotate-180]="!section.isOpen"
         >
-          <i class="pi pi-angle-up"></i>
+          <i class="pi pi-angle-up text-gray-500"></i>
         </span>
       </div>
       <div *ngIf="section.isOpen" class="ml-4">
@@ -112,14 +112,14 @@
       </div>
     </div>
     <div class="mt-4">
-      <label class="block mb-3 font-bold text-sm">Language</label>
+      <label class="block mb-3 font-bold text-sm text-black">Language</label>
       <select
         [(ngModel)]="filters.language"
         (ngModelChange)="onFilterChange()"
-        class="w-full p-2 border border-gray-300 rounded-xl"
+        class="w-full p-2 border border-gray-300 rounded-xl text-black"
       >
-        <option value="EN">EN</option>
-        <option value="AR">AR</option>
+        <option value="EN" class="text-black">EN</option>
+        <option value="AR" class="text-black">AR</option>
       </select>
     </div>
   </div>

@@ -8,7 +8,7 @@
     <div class="flex items-center w-full justify-between gap-10">
       <div class="md:hidden block">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a href="/index" class="-m-1.5 p-1.5 text-xl font-semibold">
             <span class="sr-only">Logo</span>
 
             <img src="/images/new_logo.svg" alt="Logo" />
@@ -17,7 +17,7 @@
       </div>
       <nav class="space-x-4 hidden md:flex items-center gap-2">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a href="/index" class="-m-1.5 p-1.5 text-xl font-semibold">
             <span class="sr-only">Logo</span>
 
             <img src="/images/new_logo.svg" alt="Logo" />
@@ -36,12 +36,13 @@
         <!-- Dropdown menu -->
         <button
           type="button"
-          class="flex mx-3 text-sm items-center gap-3 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
+          class="flex mx-3 text-sm items-center gap-3 rounded-full md:mr-0"
           id="user-menu-button"
           (click)="toggleDropdown($event)"
         >
           <span class="sr-only">Open user menu</span>
-          <i class="pi pi-user w-10 h-10 text-2xl mt-2"></i>
+          <img src="/images/profile-user.png" class="w-8 md:mt-2 h-8" alt="" />
+          <!-- <i class="pi pi-user w-10 h-10 text-2xl mt-2 text-[#9241DC]"></i> -->
         </button>
         <!-- Dropdown user menu -->
         <div
@@ -122,7 +123,7 @@
     >
       <div class="mb-5 flex w-full justify-between items-center">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a href="/index" class="-m-1.5 p-1.5 text-xl font-semibold">
             <span class="sr-only">Logo</span>
 
             <img src="/images/white_logo_for_nav.svg" alt="Logo" />
