@@ -150,7 +150,7 @@
                     !showAllDomainSkills &&
                     profile.skills.domainFocus.length > 4
                   "
-                  class="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
                   (click)="toggleShowMoreDomain()"
                 >
                   +{{ profile.skills.domainFocus.length - 4 }}
@@ -159,7 +159,7 @@
                   *ngIf="
                     showAllDomainSkills && profile.skills.domainFocus.length > 4
                   "
-                  class="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
                   (click)="toggleShowMoreDomain()"
                 >
                   Show less
@@ -187,7 +187,7 @@
                     !showAllRegionalSkills &&
                     profile.skills.regionalFocus.length > 4
                   "
-                  class="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
                   (click)="toggleShowMoreRegional()"
                 >
                   +{{ profile.skills.regionalFocus.length - 4 }}
@@ -197,7 +197,7 @@
                     showAllRegionalSkills &&
                     profile.skills.regionalFocus.length > 4
                   "
-                  class="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
                   (click)="toggleShowMoreRegional()"
                 >
                   Show less

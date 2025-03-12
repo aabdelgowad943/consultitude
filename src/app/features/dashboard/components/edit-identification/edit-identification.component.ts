@@ -12,6 +12,12 @@ import { Profile } from '../../models/profile';
 import { AuthService } from '../../../auth/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-edit-identification',
@@ -25,6 +31,7 @@ import { ToastModule } from 'primeng/toast';
     ChipModule,
     SelectModule,
     ToastModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './edit-identification.component.html',
   styleUrl: './edit-identification.component.scss',
@@ -72,14 +79,31 @@ export class EditIdentificationComponent implements OnInit {
     { label: 'Yemeni', value: 'Yemeni' },
   ];
 
+  identificationForm!: FormGroup;
+
   constructor(
     private profileService: ProfileServiceService,
     private authService: AuthService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private fb: FormBuilder
+  ) {
+    this.initForm();
+  }
+
   ngOnInit(): void {
     this.getUserDataByUserId();
     this.getAllSkills();
+  }
+
+  private initForm() {
+    this.identificationForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      title: ['', [Validators.required, Validators.minLength(2)]],
+      country: ['', [Validators.required]],
+      nationality: ['', [Validators.required]],
+      selectedSkills: [[], [Validators.required, Validators.minLength(1)]],
+    });
   }
 
   getAllSkills() {
@@ -119,6 +143,15 @@ export class EditIdentificationComponent implements OnInit {
             );
           }
 
+          this.identificationForm.patchValue({
+            firstName: this.userData.firstName,
+            lastName: this.userData.lastName,
+            title: this.userData.title,
+            country: this.userData.country,
+            nationality: this.userData.nationality,
+            selectedSkills: this.selectedSkills,
+          });
+
           console.log(this.userData);
         },
         complete: () => {},
@@ -146,17 +179,36 @@ export class EditIdentificationComponent implements OnInit {
   }
 
   saveChanges() {
+    if (this.identificationForm.invalid) {
+      Object.keys(this.identificationForm.controls).forEach((key) => {
+        const control = this.identificationForm.get(key);
+        if (control?.invalid) {
+          control.markAsTouched();
+        }
+      });
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please fill all required fields correctly',
+        contentStyleClass: 'text-white bg-red-900',
+        closeIcon: 'pi pi-times text-white',
+      });
+      return;
+    }
+
+    const formValue = this.identificationForm.value;
     const updatedProfile: Profile = {
-      firstName: this.firstName,
-      title: this.title,
-      lastName: this.lastName,
+      firstName: formValue.firstName,
+      title: formValue.title,
+      lastName: formValue.lastName,
       middleName: this.userData.middleName,
       phone: this.userData.phone,
       about: this.userData.about,
-      country: this.country,
-      nationality: this.nationality,
+      country: formValue.country,
+      nationality: formValue.nationality,
       topSkills: this.getSkillIds(),
     };
+
     this.profileService
       .editIdentification(this.profileId, updatedProfile)
       .subscribe({
@@ -166,14 +218,16 @@ export class EditIdentificationComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Profile updated',
-            detail: 'Your profile has been updated successfully.',
+            contentStyleClass: 'text-white bg-green-900 ',
+            closeIcon: 'pi pi-check text-white',
           });
         },
         error: (err) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to update profile',
+            contentStyleClass: 'text-white bg-red-900 ',
+            closeIcon: 'pi pi-times text-white',
           });
         },
       });

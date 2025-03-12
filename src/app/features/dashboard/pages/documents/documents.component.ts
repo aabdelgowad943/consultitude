@@ -109,7 +109,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { DocumentsService } from '../../services/documents.service';
-import { DocumentsResponse, Order } from '../../models/documents';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
@@ -166,7 +165,7 @@ export class DocumentsComponent implements OnInit {
       )
       .subscribe({
         next: (res: any) => {
-          console.log('Received data:', res);
+          // console.log('Received data:', res);
 
           // Update total records from API metadata
           if (res.meta) {
