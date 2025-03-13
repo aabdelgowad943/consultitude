@@ -1,0 +1,70 @@
+<!-- carouser card  -->
+
+<div class="carousel-container relative w-full overflow-hidden">
+  <!-- Main Carousel -->
+  <div class="carousel-wrapper">
+    <div
+      class="carousel-slides flex gap-4 transition-transform duration-500 ease-in-out"
+      [style.transform]="'translateX(' + -activeIndex * 100 + '%)'"
+    >
+      <div *ngFor="let image of images" class="carousel-slide min-w-full">
+        <img
+          [src]="image.src"
+          [alt]="image.alt"
+          class="w-full object-cover rounded-lg"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Arrows -->
+  <button
+    (click)="prevSlide()"
+    class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 rounded-full z-10 backdrop-blur-sm"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="white"
+      class="w-5 h-5"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M15.75 19.5L8.25 12l7.5-7.5"
+      />
+    </svg>
+  </button>
+
+  <button
+    (click)="nextSlide()"
+    class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 rounded-full z-10 backdrop-blur-sm"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="white"
+      class="w-5 h-5"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M8.25 4.5l7.5 7.5-7.5 7.5"
+      />
+    </svg>
+  </button>
+
+  <!-- Indicator Dots -->
+  <div class="flex justify-center mt-4 gap-2">
+    <button
+      *ngFor="let image of images; let i = index"
+      (click)="goToSlide(i)"
+      class="h-2 rounded-full transition-all"
+      [ngClass]="activeIndex === i ? 'w-6 bg-white' : 'w-2 bg-white/40'"
+    ></button>
+  </div>
+</div>

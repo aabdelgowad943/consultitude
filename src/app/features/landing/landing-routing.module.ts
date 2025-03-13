@@ -10,6 +10,7 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { IndexComponent } from './pages/index/index.component';
 import { AlreadySubscribedComponent } from './pages/already-subscribed/already-subscribed.component';
 import { FaqsComponent } from './pages/faqs/faqs.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,10 @@ const routes: Routes = [
   {
     path: 'subscribed',
     component: AlreadySubscribedComponent,
+  },
+  {
+    path: 'about-us',
+    component: AboutUsComponent,
   },
 ];
 
