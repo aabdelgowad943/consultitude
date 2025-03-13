@@ -33,7 +33,7 @@
     <div
       class="max-w-xl md:mt-20 mx-auto relative z-50 border border-[#A25DDF66] bg-gradient-to-br from-[#552482] to-[#873DE64D]/20 p-8 rounded-xl shadow-lg"
     >
-      <form>
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <!-- First and Last Name -->
         <div class="flex space-x-4 mb-4">
           <div class="flex-1">
@@ -43,24 +43,48 @@
               >First name</label
             >
             <input
+              formControlName="firstName"
               type="text"
               id="first-name"
               value="{{ firstName }}"
               placeholder="Write your first name"
               class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
             />
+            <div
+              *ngIf="
+                contactForm.get('firstName')?.touched &&
+                contactForm.get('firstName')?.errors
+              "
+              class="text-red-500 text-sm mt-1"
+            >
+              <span *ngIf="contactForm.get('firstName')?.errors?.['required']"
+                >First name is required</span
+              >
+            </div>
           </div>
           <div class="flex-1">
             <label for="last-name" class="block text-sm font-sans text-gray-300"
               >Last name</label
             >
             <input
+              formControlName="lastName"
               type="text"
               value="{{ lastName }}"
               id="last-name"
               placeholder="Write your last name"
               class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
             />
+            <div
+              *ngIf="
+                contactForm.get('lastName')?.touched &&
+                contactForm.get('lastName')?.errors
+              "
+              class="text-red-500 text-sm mt-1"
+            >
+              <span *ngIf="contactForm.get('lastName')?.errors?.['required']"
+                >Last name is required</span
+              >
+            </div>
           </div>
         </div>
 
@@ -70,12 +94,27 @@
             >E-mail</label
           >
           <input
+            formControlName="email"
             value="{{ email }}"
             type="email"
             id="email"
             placeholder="Enter your e-mail"
             class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
           />
+          <div
+            *ngIf="
+              contactForm.get('email')?.touched &&
+              contactForm.get('email')?.errors
+            "
+            class="text-red-500 text-sm mt-1"
+          >
+            <span *ngIf="contactForm.get('email')?.errors?.['required']"
+              >Email is required</span
+            >
+            <span *ngIf="contactForm.get('email')?.errors?.['email']"
+              >Please enter a valid email</span
+            >
+          </div>
         </div>
 
         <!-- Phone Number -->
@@ -85,12 +124,24 @@
           >
           <div class="relative">
             <input
+              formControlName="phone"
               type="tel"
               id="phone"
               value="{{ phone }}"
               placeholder="+966 749302040"
               class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
             />
+          </div>
+          <div
+            *ngIf="
+              contactForm.get('phone')?.touched &&
+              contactForm.get('phone')?.errors
+            "
+            class="text-red-500 text-sm mt-1"
+          >
+            <span *ngIf="contactForm.get('phone')?.errors?.['required']"
+              >Phone number is required</span
+            >
           </div>
         </div>
 
@@ -100,11 +151,23 @@
             >Your message</label
           >
           <textarea
+            formControlName="message"
             id="message"
             placeholder="Let us know how Consultitude can empower your success."
             rows="4"
             class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
           ></textarea>
+          <div
+            *ngIf="
+              contactForm.get('message')?.touched &&
+              contactForm.get('message')?.errors
+            "
+            class="text-red-500 text-sm mt-1"
+          >
+            <span *ngIf="contactForm.get('message')?.errors?.['required']"
+              >Message is required</span
+            >
+          </div>
         </div>
 
         <!-- Terms and Conditions -->
@@ -127,6 +190,7 @@
         </div>
 
         <!-- Submit Button -->
+        <!-- [disabled]="contactForm.invalid" -->
         <div>
           <button
             type="submit"
@@ -134,6 +198,14 @@
           >
             Send message
           </button>
+        </div>
+
+        <div class="mt-2">
+          @if (errorMessage) {
+          <div class="text-red-500">{{ errorMessage }}</div>
+          }@else if (successMessage) {
+          <div class="text-green-500">{{ successMessage }}</div>
+          }
         </div>
       </form>
     </div>
