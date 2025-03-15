@@ -28,4 +28,13 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+
+  {
+    path: 'ai-agents',
+    loadChildren: () =>
+      import('./features/ai-agents/ai-agents.module').then(
+        (m) => m.AiAgentsModule
+      ),
+    canActivate: [AuthGuard],
+  },
 ];

@@ -205,6 +205,7 @@ export class DocumentsComponent implements OnInit {
     // event.page is zero-based
     this.currentPage = event.page + 1;
     this.loadDocuments();
+    window.scrollTo(0, 0);
   }
 
   viewTemplateDetails() {

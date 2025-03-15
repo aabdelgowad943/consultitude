@@ -334,9 +334,10 @@ export class KnowledgeLoungeComponent implements OnInit {
   onPageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
-    // event.page is zero-based so we add 1 to match our 1-indexed currentPage
     this.currentPage = event.page + 1;
     this.loadProducts();
+    // scroll to top
+    window.scrollTo(0, 0);
   }
 
   validatePriceRange() {

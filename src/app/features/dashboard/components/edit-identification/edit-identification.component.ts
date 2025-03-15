@@ -41,19 +41,10 @@ export class EditIdentificationComponent implements OnInit {
   @Input() display: boolean = false;
   @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @Input() profileData!: Profile; // Use the UserProfile interface
+  @Input() profileData!: Profile;
   @Output() saveChangesEvent: EventEmitter<Profile> = new EventEmitter();
 
-  firstName: string = '';
-  middleName: string = '';
-  lastName: string = '';
-  phone: string = '';
-  about: string = '';
-  title: string = '';
-  email: string = '';
-  selectedSkills: string[] = [];
-  country: string = '';
-  nationality: string = '';
+  identificationForm!: FormGroup;
 
   skills: any[] = [];
   fullSkillsData: any[] = [];
@@ -78,8 +69,6 @@ export class EditIdentificationComponent implements OnInit {
     { label: 'Libyan', value: 'Libyan' },
     { label: 'Yemeni', value: 'Yemeni' },
   ];
-
-  identificationForm!: FormGroup;
 
   constructor(
     private profileService: ProfileServiceService,
@@ -130,26 +119,22 @@ export class EditIdentificationComponent implements OnInit {
           this.profileId = res.data.id;
           this.userData = res.data;
 
-          this.firstName = this.userData.firstName;
-          this.title = this.userData.title;
-          this.lastName = this.userData.lastName;
-          this.country = this.userData.country;
-          this.nationality = this.userData.nationality;
-
           // Transform topSkills into the format needed for multiselect
+          let selectedSkills: string[] = [];
           if (this.userData.topSkills && this.userData.topSkills.length > 0) {
-            this.selectedSkills = this.userData.topSkills.map(
+            selectedSkills = this.userData.topSkills.map(
               (skill: any) => skill.topSkill.translations[0].name
             );
           }
 
+          // Update the form with user data
           this.identificationForm.patchValue({
             firstName: this.userData.firstName,
             lastName: this.userData.lastName,
             title: this.userData.title,
             country: this.userData.country,
             nationality: this.userData.nationality,
-            selectedSkills: this.selectedSkills,
+            selectedSkills: selectedSkills,
           });
 
           console.log(this.userData);
@@ -159,9 +144,12 @@ export class EditIdentificationComponent implements OnInit {
   }
 
   handleRemoveSkill(skillToRemove: string) {
-    this.selectedSkills = this.selectedSkills.filter(
-      (skill) => skill !== skillToRemove
+    const currentSkills =
+      this.identificationForm.get('selectedSkills')?.value || [];
+    const updatedSkills = currentSkills.filter(
+      (skill: string) => skill !== skillToRemove
     );
+    this.identificationForm.patchValue({ selectedSkills: updatedSkills });
   }
 
   closeDialog() {
@@ -170,7 +158,9 @@ export class EditIdentificationComponent implements OnInit {
   }
 
   getSkillIds(): { topSkillId: string }[] {
-    return this.selectedSkills.map((skillName) => {
+    const selectedSkills =
+      this.identificationForm.get('selectedSkills')?.value || [];
+    return selectedSkills.map((skillName: string) => {
       const skill = this.fullSkillsData.find(
         (s) => s.translations[0].name === skillName
       );
@@ -201,9 +191,6 @@ export class EditIdentificationComponent implements OnInit {
       firstName: formValue.firstName,
       title: formValue.title,
       lastName: formValue.lastName,
-      middleName: this.userData.middleName,
-      phone: this.userData.phone,
-      about: this.userData.about,
       country: formValue.country,
       nationality: formValue.nationality,
       topSkills: this.getSkillIds(),
@@ -219,7 +206,7 @@ export class EditIdentificationComponent implements OnInit {
             severity: 'success',
             summary: 'Profile updated',
             contentStyleClass: 'text-white bg-green-900 ',
-            closeIcon: 'pi pi-check text-white',
+            closeIcon: 'pi dark:pi-check text-white',
           });
         },
         error: (err) => {
@@ -227,7 +214,7 @@ export class EditIdentificationComponent implements OnInit {
             severity: 'error',
             summary: 'Error',
             contentStyleClass: 'text-white bg-red-900 ',
-            closeIcon: 'pi pi-times text-white',
+            closeIcon: 'pi pi-times dark:text-white',
           });
         },
       });

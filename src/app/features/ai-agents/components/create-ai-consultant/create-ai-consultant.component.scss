@@ -1,0 +1,42 @@
+:host ::ng-deep .custom-toast {
+  .p-toast-message {
+    background-color: white;
+    border: 1px #dee0e3;
+    border-radius: 8px;
+    // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    width: 450px;
+  }
+
+  .p-toast-icon-close {
+    color: #6b7280;
+    font-size: 16px;
+  }
+
+  .p-toast-message-icon {
+    background-color: #fef3c7;
+    border-radius: 50%;
+    padding: 4px;
+    color: #f59e0b;
+    font-size: 16px;
+  }
+
+  .p-toast-message-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .p-toast-summary {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 4px;
+    color: #111827;
+  }
+
+  .p-toast-detail {
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.5;
+  }
+}
