@@ -34,6 +34,7 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
   errorMessage: string = '';
 
   promoCode: string = '';
+  validatedPromoCode: string = ''; // This will store the validated promo code
   discountValue: number = 0;
   totalAmount: number = 0;
   subTotalAmount: number = 0;
@@ -53,12 +54,15 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
   // New property for payment success popup
   showSuccessPopup: boolean = false;
 
+  // To track payment status
+  paymentProcessed: boolean = false;
+
   constructor(
     private location: Location,
     private authService: AuthService,
     private paymentService: PaymentService,
     private route: ActivatedRoute,
-    private router: Router // Added Router for redirecting if needed
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -86,12 +90,10 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
 
   async ngAfterViewInit() {
     if (this.userId) {
-      // We'll call createPaymentIntent here to ensure we have the clientSecret first
       await this.createPaymentIntent();
     }
   }
 
-  // Initialize Stripe with the client secret from createPaymentIntent
   async initializeStripe() {
     this.stripe = await loadStripe(this.stripePublishableKey);
 
@@ -123,46 +125,60 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       return;
     }
 
+    // Prevent double submissions/multiple payments
+    if (this.paymentProcessed) {
+      this.errorPayment =
+        'This payment has already been processed. Please refresh the page to make a new payment.';
+      return;
+    }
+
     this.loading = true;
     this.errorPayment = ''; // Clear error when starting new payment attempt
 
-    // Submit the form with the payment element
-    const { error, paymentIntent } = await this.stripe.confirmPayment({
-      elements: this.elements,
-
-      confirmParams: {
-        return_url: window.location.origin + '/payment-success',
-        payment_method_data: {
-          billing_details: {
-            email: this.email,
-            address: {
-              country: 'US',
+    try {
+      // Submit the form with the payment element
+      const { error, paymentIntent } = await this.stripe.confirmPayment({
+        elements: this.elements,
+        confirmParams: {
+          return_url: window.location.origin + '/payment-success',
+          payment_method_data: {
+            billing_details: {
+              email: this.email,
+              address: {
+                country: 'US',
+              },
             },
           },
         },
-      },
+        redirect: 'if_required',
+      });
 
-      redirect: 'if_required',
-    });
-
-    if (error) {
-      // Show error to your customer
-      this.errorPayment = error.message || 'An unexpected error occurred.';
-      const paymentError = document.getElementById('payment-error');
-      if (paymentError) {
-        paymentError.textContent =
-          error.message || 'An unexpected error occurred.';
+      if (error) {
+        // Check for specific error cases
+        if (error.code === 'payment_intent_unexpected_state') {
+          this.errorPayment =
+            'This payment has already been processed successfully.';
+          this.paymentProcessed = true;
+          // Show success popup since payment was already successful
+          this.showSuccessPopup = true;
+        } else {
+          // Show general error to customer
+          this.errorPayment = error.message || 'An unexpected error occurred.';
+        }
+      } else {
+        // Payment was successful!
+        this.paymentIntentId = paymentIntent?.id || '';
+        this.paymentProcessed = true;
+        // Create the order in your system
+        this.createOrder();
       }
-    } else {
-      // Payment was successful!
-      // Save the payment intent ID
-      this.paymentIntentId = paymentIntent?.id || '';
-
-      // Create the order in your system
-      this.createOrder();
+    } catch (err: any) {
+      this.errorPayment =
+        err.message ||
+        'An unexpected error occurred during payment processing.';
+    } finally {
+      this.loading = false;
     }
-
-    this.loading = false;
   }
 
   goBack() {
@@ -179,7 +195,7 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
             quantity: 1,
           },
         ],
-        voucherCode: this.promoCode,
+        voucherCode: this.validatedPromoCode, // Use validated promo code instead
         taxPercentage: 0,
       })
       .subscribe({
@@ -194,9 +210,10 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
 
   applyPromoCode() {
     if (this.promoCode === '') {
-      this.errorMessage = 'Voucher code should not be empty ';
+      this.errorMessage = 'Voucher code should not be empty';
       return;
     }
+
     this.paymentService
       .applyVoucher({
         code: this.promoCode,
@@ -207,15 +224,19 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
         next: (res: any) => {
           this.successMessage = res.message;
           this.errorMessage = '';
+          // Only set the validated promo code when it's successfully applied
+          this.validatedPromoCode = this.promoCode;
         },
         complete: () => {
           this.calculateTotalAmount();
-          // We should create a new payment intent when a promo code is applied
+          // Create a new payment intent with the applied promo code
           this.createPaymentIntent();
         },
         error: (err: HttpErrorResponse) => {
           this.errorMessage = err.error.errors[0].message;
           this.successMessage = '';
+          // Clear the validated promo code if there's an error
+          this.validatedPromoCode = '';
         },
       });
   }
@@ -233,21 +254,20 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
             },
           ],
           taxPercentage: 0,
-          voucherCode: this.promoCode || null!,
+          voucherCode: this.validatedPromoCode || null!, // Use validated promo code
         },
       })
       .subscribe({
         next: (res: any) => {
           this.clientSecret = res.clientSecret;
           this.paymentIntentId = res.paymentIntentId;
-          // console.log('Payment Intent ID:', this.paymentIntentId);
         },
         complete: () => {
           this.initializeStripe();
         },
-        error: (err: HttpErrorResponse) => {
+        error: (err) => {
           this.errorPayment =
-            err.error.message ||
+            err.error[0].message ||
             'Failed to initialize payment. Please try again.';
         },
       });
@@ -258,23 +278,20 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
       .createOrder({
         userId: this.userId,
         paymentIntentId: this.paymentIntentId,
-        voucherCode: this.promoCode,
+        voucherCode: this.validatedPromoCode, // Use validated promo code
         orderDetails: [
           {
             productId: this.productId,
             quantity: 1,
-            // price: this.totalAmount,
           },
         ],
       })
       .subscribe({
         next: (res: any) => {
           this.showSuccessPopup = true;
-          // this.router.navigate(['/dashboard/documents'], { replaceUrl: true });
         },
-        error: (err: HttpErrorResponse) => {
-          // console.error('Error creating order:', err);
-          this.errorPayment = err.error.message || 'Failed to create order.';
+        error: (err) => {
+          this.errorPayment = err.error[0].message || 'Failed to create order.';
         },
       });
   }
@@ -284,7 +301,6 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
     this.router.navigate(['/dashboard/documents'], { replaceUrl: true });
   }
 
-  // Close the success popup
   closeSuccessPopup() {
     this.showSuccessPopup = false;
   }
@@ -293,6 +309,16 @@ export class PaymentComponent implements AfterViewInit, OnChanges, OnInit {
     if (!this.promoCode) {
       this.errorMessage = '';
     }
+    // Don't clear validatedPromoCode here - it should only be set when Apply is clicked
+  }
+
+  clearPromoCode() {
+    this.promoCode = '';
+    this.validatedPromoCode = '';
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.calculateTotalAmount();
+    this.createPaymentIntent();
   }
 
   ngOnDestroy() {

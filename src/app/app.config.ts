@@ -1,5 +1,4 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -11,6 +10,12 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+  withViewTransitions,
+} from '@angular/router';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,5 +28,15 @@ export const appConfig: ApplicationConfig = {
         preset: Aura,
       },
     }),
+
+    provideRouter(
+      routes,
+      withViewTransitions(),
+      withComponentInputBinding(),
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      })
+    ),
   ],
 };

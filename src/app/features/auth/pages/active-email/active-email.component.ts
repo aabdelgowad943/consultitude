@@ -63,8 +63,6 @@ export class ActiveEmailComponent implements OnInit {
   }
 
   resendCode() {
-    // Implement resend code logic here if needed
-    // console.log('Resend code for:', this.email);
     this.authService
       .resetPassword({
         email: this.email,

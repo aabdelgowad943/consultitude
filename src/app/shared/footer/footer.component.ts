@@ -22,4 +22,10 @@ export class FooterComponent {
           event.url.includes('home') || event.url.includes('/checkout');
       });
   }
+
+  redirectToContactUs() {
+    this.router.navigate(['/contact-us']);
+    // add underline
+    window.scrollTo(0, 0);
+  }
 }

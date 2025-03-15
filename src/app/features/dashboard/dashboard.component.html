@@ -231,8 +231,7 @@
             consulting tools and frameworks.
           </h1>
           <button
-            routerLink="/index"
-            [fragment]="'request-document'"
+            (click)="navigateToRequestDocument()"
             class="text-[#14151A] bg-white py-[6px] font-bold px-2.5 text-[14px] rounded-[10px] flex justify-center items-center gap-2 border border-[#DEE0E3]"
           >
             Request document
@@ -342,8 +341,7 @@
               consulting tools and frameworks.
             </h1>
             <button
-              routerLink="/index"
-              [fragment]="'request-document'"
+              (click)="navigateToRequestDocument()"
               class="text-[#14151A] font-bold w-[160px] h-[32px] bg-white py-[4px] px-2.5 text-[14px] rounded-[10px] border border-[#DEE0E3s] flex justify-center items-center gap-2"
             >
               Request document

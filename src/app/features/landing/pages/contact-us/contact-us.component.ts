@@ -11,6 +11,7 @@ import {
 import { ContactUsService } from '../../services/contact-us.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-contact-us',
@@ -19,6 +20,7 @@ import { CommonModule } from '@angular/common';
     NavbarComponent,
     ReactiveFormsModule,
     CommonModule,
+    RouterModule,
   ],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.scss',
@@ -37,11 +39,13 @@ export class ContactUsComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private contactService: ContactUsService
   ) {
+    this.getUserData();
+
     this.contactForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
+      firstName: [this.firstName, Validators.required],
+      lastName: [this.lastName, Validators.required],
+      email: [this.email, [Validators.required, Validators.email]],
+      phone: [this.phone, Validators.required],
       message: ['', Validators.required],
     });
   }
@@ -63,6 +67,14 @@ export class ContactUsComponent implements OnInit, OnChanges {
         this.lastName = res.data.lastName;
         this.email = res.data.user.email;
         this.phone = res.data.phone;
+
+        // Update form values after getting user data
+        this.contactForm.patchValue({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          phone: this.phone,
+        });
       },
     });
   }
@@ -74,9 +86,9 @@ export class ContactUsComponent implements OnInit, OnChanges {
     const formValue = this.contactForm.value;
     this.contactService
       .createContactUs({
-        name: this.firstName + ' ' + this.lastName,
-        email: this.email,
-        phone: this.phone,
+        name: `${formValue.firstName} ${formValue.lastName}`,
+        email: formValue.email,
+        phone: formValue.phone,
         message: formValue.message,
       })
       .subscribe({
@@ -85,11 +97,18 @@ export class ContactUsComponent implements OnInit, OnChanges {
             res.message || 'Contact us successfully created ';
           // this.contactForm.reset();
           this.errorMessage = '';
+          // clear the message after 2 sec
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 2000);
         },
         error: (err: HttpErrorResponse) => {
           this.errorMessage =
             err.message || 'Failed in creation, please try again!';
           this.successMessage = '';
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 2000);
         },
       });
   }

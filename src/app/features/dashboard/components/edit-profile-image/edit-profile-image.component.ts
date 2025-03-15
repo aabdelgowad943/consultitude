@@ -12,8 +12,7 @@ import { ProfileServiceService } from '../../services/profile-service.service';
   standalone: true,
   imports: [DialogModule, ButtonModule, FormsModule, CommonModule, ToastModule],
   providers: [MessageService],
-  template: `
-    <p-dialog
+  template: ` <p-dialog
       [(visible)]="display"
       [modal]="true"
       [draggable]="false"
@@ -61,8 +60,7 @@ import { ProfileServiceService } from '../../services/profile-service.service';
         </div>
       </ng-template>
     </p-dialog>
-    <p-toast></p-toast>
-  `,
+    <p-toast></p-toast>`,
 })
 export class EditProfileImageComponent {
   @Input() display: boolean = false;
@@ -164,7 +162,9 @@ export class EditProfileImageComponent {
               this.messageService.add({
                 severity: 'success',
                 summary: 'Success',
-                detail: 'Profile image updated successfully',
+                // detail: 'Profile image updated successfully',
+                contentStyleClass: 'text-white bg-green-900 ',
+                closeIcon: 'pi dark:pi-check text-white',
               });
               this.saveImageEvent.emit(response.Location);
               this.resetComponent();
@@ -173,7 +173,9 @@ export class EditProfileImageComponent {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
-                detail: 'Failed to update profile image',
+                // detail: 'Failed to update profile image',
+                contentStyleClass: 'text-white bg-red-900 ',
+                closeIcon: 'pi pi-times dark:text-white',
               });
               this.loading = false;
             },
@@ -187,6 +189,8 @@ export class EditProfileImageComponent {
           severity: 'error',
           summary: 'Error',
           detail: 'Failed to upload image',
+          contentStyleClass: 'text-white bg-red-900 ',
+          closeIcon: 'pi pi-times dark:text-white',
         });
         this.loading = false;
       },

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProductCardComponent } from '../../../../components/product-card/product-card.component';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -32,6 +32,8 @@ export class MaiContentComponent {
     { label: 'Featured', value: 'featuredFirst' },
   ];
 
+  constructor(private router: Router) {}
+
   toggleSortMenu() {
     this.isSortMenuOpen = !this.isSortMenuOpen;
   }
@@ -44,5 +46,17 @@ export class MaiContentComponent {
 
   openSidebare() {
     this.openSidebar.emit();
+  }
+
+  navigateToRequestDocument() {
+    this.router.navigate(['/index'], { fragment: 'request-document' });
+
+    // Add manual scroll after a small delay
+    setTimeout(() => {
+      const element = document.getElementById('request-document');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 }

@@ -158,8 +158,7 @@
           Refine your search
         </button>
         <button
-          routerLink="/index"
-          [fragment]="'request-document'"
+          (click)="navigateToRequestDocument()"
           class="px-4 py-2 text-[16px] flex items-center md:w-[209px] w-[209px] h-[44px] gap-2 font-sans border border-[#D0D5DD] text-[#0D1F40] hover:bg-gray-50 rounded-lg font-medium transition-colors"
         >
           Request document <i class="pi pi-arrow-right"></i>

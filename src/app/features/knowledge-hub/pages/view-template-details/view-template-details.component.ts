@@ -221,6 +221,11 @@ export class ViewTemplateDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  viewDetail(id: string) {
+    this.router.navigate(['/knowledge/view-template-details', id]);
+    window.scrollTo(0, 0);
+  }
+
   indicatorStyle = {
     width: '10px',
     height: '10px',
