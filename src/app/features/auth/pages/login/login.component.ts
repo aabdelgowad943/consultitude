@@ -79,7 +79,7 @@ export class LoginComponent {
         if (err.error.isLogin === false) {
           localStorage.setItem('email', this.email);
           this.router.navigate(['/auth/active-email']);
-          console.log('email', this.email);
+          // console.log('email', this.email);
         }
 
         this.errorMessage =

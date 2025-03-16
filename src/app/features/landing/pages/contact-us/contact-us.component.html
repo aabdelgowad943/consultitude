@@ -138,6 +138,9 @@
             <span *ngIf="contactForm.get('phone')?.errors?.['required']"
               >Phone number is required</span
             >
+            <span *ngIf="contactForm.get('phone')?.errors?.['pattern']"
+              >Please insert numbers only</span
+            >
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 <!-- browse-agents.component.html -->
-<div class="container mx-auto">
+<div class="container mx-auto px-2 md:px-6 py-6">
   <!-- Header -->
   <div class="flex justify-between items-center mb-2">
     <div>
@@ -18,26 +18,60 @@
     </button>
   </div>
 
-  <!-- Created by me section -->
+  <!-- HTML template (card-list.component.html) -->
   <div class="mt-10">
     <h2 class="text-[16px] font-medium text-black mb-4">Created by me</h2>
-    <div
-      class="scroller w-full mx-auto"
-      data-direction="left"
-      data-speed="fast"
-    >
-      <ul class="tag-list scroller__inner">
+    <div class="w-full mx-auto overflow-x-auto">
+      <ul class="tag-list flex gap-3 p-2">
         <li
-          *ngFor="let agent of featuredAgents"
-          class="p-4 max-w-[240px] max-h-[141px] rounded-[20px] bg-[#F9FAFB]"
+          *ngFor="let agent of featuredAgents; let i = index"
+          class="p-4 min-w-[240px] max-h-[141px] rounded-[20px] bg-[#F9FAFB] relative group"
         >
           <div class="bg-[#F2F4F7] rounded-md p-1 mb-3 w-fit">
             <i class="pi pi-file"></i>
           </div>
-          <h3 class="font-medium text-sm">{{ agent.title }}</h3>
-          <p class="text-[10px] font-sans text-[#667085] mt-1 line-clamp-2">
+          <h3 class="font-medium text-sm text-black">{{ agent.title }}</h3>
+          <p class="text-[12px] font-sans text-[#667085] mt-1 line-clamp-2">
             {{ agent.description }}
           </p>
+
+          <!-- Burger menu button that appears on hover -->
+          <button
+            class="absolute top-2 right-2 p-1 rounded-lg w-[32px] h-[32px] flex justify-center items-center bg-[#0A0F290A]/10 shadow-sm hidden group-hover:block"
+            (click)="toggleDropdown(i, $event)"
+          >
+            <i class="pi pi-ellipsis-v text-[#667085]"></i>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div
+            *ngIf="openDropdownIndex === i"
+            class="absolute top-8 right-2 bg-white shadow-md rounded-md py-1 z-10 w-48"
+          >
+            <button
+              class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-black"
+              (click)="editAgent(agent)"
+            >
+              Edit
+            </button>
+            <!-- Toggle switch for deactivate -->
+            <div
+              class="flex items-center justify-between px-4 py-2 hover:bg-gray-100"
+            >
+              <span class="text-sm text-black">Deactivate</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  [checked]="agent.isActive"
+                  (change)="toggleActivation(agent, $event)"
+                  class="sr-only peer"
+                />
+                <div
+                  class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
@@ -97,3 +131,9 @@
   [(display)]="displayEditDialog"
   (displayChange)="onDisplayChange($event)"
 ></app-create-ai-consultant>
+
+<app-edit-ai-consultant
+  [(display)]="displayEditConsultantDialog"
+  (displayChange)="onEditDisplayChange($event)"
+  [agentData]="selectedAgent"
+></app-edit-ai-consultant>

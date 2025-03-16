@@ -69,7 +69,7 @@ export class ActiveEmailComponent implements OnInit {
       })
       .subscribe({
         next: (response: any) => {
-          console.log(response);
+          // console.log(response);
 
           this.successMessage = response.data.message;
         },

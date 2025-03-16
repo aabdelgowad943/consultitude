@@ -176,7 +176,7 @@ export class ProfileComponent implements OnInit {
   showAllConsultingSkills = false;
   toggleShowMoreIndustry(): void {
     this.showAllIndustrySkills = !this.showAllIndustrySkills;
-    console.log('d', this.showAllIndustrySkills);
+    // console.log('d', this.showAllIndustrySkills);
   }
 
   toggleShowMoreDomain(): void {

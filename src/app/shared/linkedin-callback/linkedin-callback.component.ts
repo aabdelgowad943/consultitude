@@ -68,7 +68,7 @@ export class LinkedinCallbackComponent implements OnInit {
     this.authService.getUserDataByUserId(userId).subscribe({
       next: (res: any) => {
         const profileId = localStorage.setItem('profileId', res.data.id);
-        console.log(profileId);
+        // console.log(profileId);
       },
     });
   }

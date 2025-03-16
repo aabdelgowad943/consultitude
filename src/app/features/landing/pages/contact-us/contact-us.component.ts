@@ -45,7 +45,10 @@ export class ContactUsComponent implements OnInit, OnChanges {
       firstName: [this.firstName, Validators.required],
       lastName: [this.lastName, Validators.required],
       email: [this.email, [Validators.required, Validators.email]],
-      phone: [this.phone, Validators.required],
+      phone: [
+        this.phone,
+        [Validators.required, Validators.pattern('^[0-9]*$')],
+      ],
       message: ['', Validators.required],
     });
   }

@@ -326,6 +326,19 @@
               >
             </a>
           </li>
+
+          <li>
+            <a
+              routerLink="agents"
+              routerLinkActive="bg-[#0A0F290A]"
+              class="flex items-center p-2 text-base font-medium text-gray-900 w-[248px] h-[44px] rounded-[10px] hover:bg-[#0A0F290A]"
+            >
+              <i class="pi pi-shopping-bag text-xl text-[#0F132499]/60"></i>
+              <span class="ml-3 text-[14px] font-[500] text-[#14151A]"
+                >Ai Agents</span
+              >
+            </a>
+          </li>
         </ul>
         <div
           class="w-full flex justify-center relative overflow-hidden mb-6 items-center"
@@ -358,14 +371,16 @@
       </div>
     </aside>
 
-    <main
-      class="p-4 bg-white md:bg-[#f9fafc] md:pl-72 h-full rounded-2xl text-black pt-20 md:pt-20 max-w-[1600px] mx-auto"
-    >
-      <div
-        class="bg-white h-full md:h-screen rounded-[10px] border-none md:border border-[#EAECF0] p-0 md:p-1"
+    <div class="w-full h-screen bg-white">
+      <main
+        class="p-4 bg-white md:bg-[#f9fafc] md:pl-72 rounded-2xl text-black pt-20 md:pt-20"
       >
-        <router-outlet></router-outlet>
-      </div>
-    </main>
+        <div
+          class="bg-white w-full h-full rounded-[10px] border-none md:border border-[#EAECF0] p-0 md:p-1"
+        >
+          <router-outlet></router-outlet>
+        </div>
+      </main>
+    </div>
   </div>
 </div>

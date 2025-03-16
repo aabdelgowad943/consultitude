@@ -148,3 +148,29 @@ body {
 .p-paginator-page.p-paginator-page-selected {
   color: gray;
 }
+
+.p-multiselect-panel {
+  background: white !important;
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item {
+  color: #333 !important;
+  background-color: white !important;
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item:hover {
+  background-color: #f0f0f0 !important;
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
+  background-color: #e0e0e0 !important;
+  color: #000 !important;
+}
+
+::-webkit-scrollbar {
+  // enhance the design
+  width: 10px;
+  height: 10px;
+  // change the color
+  background-color: #1e1e1e;
+}

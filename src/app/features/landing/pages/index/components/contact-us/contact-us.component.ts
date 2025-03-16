@@ -52,7 +52,7 @@ export class ContactUsComponent {
     this.productService.getAllAreaFocus().subscribe({
       next: (data) => {
         this.areaOfFocusList = data;
-        console.log(data);
+        // console.log(data);
       },
     });
   }

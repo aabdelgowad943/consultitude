@@ -5,6 +5,8 @@ import { DocumentsComponent } from './pages/documents/documents.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ViewDocumentDetailsComponent } from './pages/view-document-details/view-document-details.component';
+import { AiAgentsComponent } from '../ai-agents/ai-agents.component';
+import { AgentsComponent } from '../ai-agents/pages/agents/agents.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,10 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'agents',
+        component: AgentsComponent,
       },
 
       {
