@@ -1,13 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CreateAiConsultantComponent } from '../../components/create-ai-consultant/create-ai-consultant.component';
 import { Profile } from '../../../dashboard/models/profile';
 import { AuthService } from '../../../auth/services/auth.service';
+import { EditAiConsultantComponent } from '../../components/edit-ai-consultant/edit-ai-consultant.component';
 
 @Component({
   selector: 'app-agents',
-  imports: [CommonModule, RouterModule, CreateAiConsultantComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    CreateAiConsultantComponent,
+    EditAiConsultantComponent,
+  ],
   templateUrl: './agents.component.html',
   styleUrl: './agents.component.scss',
 })
@@ -19,6 +25,7 @@ export class AgentsComponent implements OnInit {
         'Designed to resolve sensitive issues efficiently while ensuring a positive customer experience',
       creator: 'Sayed E.',
       comments: 1,
+      isActive: false,
     },
     {
       title: 'Sales Executive',
@@ -26,6 +33,7 @@ export class AgentsComponent implements OnInit {
         'Focused on driving revenue growth through new client acquisition and relationship management',
       creator: 'Jordan T.',
       comments: 1,
+      isActive: false,
     },
     {
       title: 'Product Manager',
@@ -33,6 +41,7 @@ export class AgentsComponent implements OnInit {
         'Oversees product development from conception to launch, aligning business goals with user needs',
       creator: 'Taylor M.',
       comments: 1,
+      isActive: false,
     },
     {
       title: 'Marketing Specialist',
@@ -40,6 +49,7 @@ export class AgentsComponent implements OnInit {
         'Expert in digital marketing strategies and brand development to enhance market presence',
       creator: 'Alex R.',
       comments: 1,
+      isActive: false,
     },
     {
       title: 'UX Designer',
@@ -47,6 +57,7 @@ export class AgentsComponent implements OnInit {
         'Creates user-centered designs that enhance usability and improve overall user satisfaction',
       creator: 'Casey L.',
       comments: 1,
+      isActive: false,
     },
     {
       title: 'UX Designer',
@@ -54,6 +65,7 @@ export class AgentsComponent implements OnInit {
         'Creates user-centered designs that enhance usability and improve overall user satisfaction',
       creator: 'Casey L.',
       comments: 1,
+      isActive: true,
     },
     {
       title: 'UX Designer',
@@ -61,6 +73,7 @@ export class AgentsComponent implements OnInit {
         'Creates user-centered designs that enhance usability and improve overall user satisfaction',
       creator: 'Casey L.',
       comments: 1,
+      isActive: true,
     },
     {
       title: 'UX Designer',
@@ -68,10 +81,13 @@ export class AgentsComponent implements OnInit {
         'Creates user-centered designs that enhance usability and improve overall user satisfaction',
       creator: 'Casey L.',
       comments: 1,
+      isActive: true,
     },
   ];
 
   displayEditDialog: boolean = false;
+  displayEditConsultantDialog: boolean = false;
+  selectedAgent: any = null;
 
   featuredAgents = this.agents.slice(0, 10);
 
@@ -110,5 +126,36 @@ export class AgentsComponent implements OnInit {
 
   onDisplayChange(value: boolean) {
     this.displayEditDialog = value;
+  }
+
+  onEditDisplayChange(value: boolean) {
+    this.displayEditConsultantDialog = value;
+  }
+
+  openDropdownIndex: number | null = null;
+
+  toggleDropdown(index: number, event: Event): void {
+    event.stopPropagation();
+    this.openDropdownIndex = this.openDropdownIndex === index ? null : index;
+  }
+
+  editAgent(agent: any): void {
+    this.selectedAgent = agent;
+    this.displayEditConsultantDialog = true;
+    this.openDropdownIndex = null;
+  }
+
+  toggleActivation(agent: any, event: Event): void {
+    event.stopPropagation(); // Prevent dropdown from closing
+    agent.isActive = !agent.isActive;
+    console.log(agent.isActive ? 'Activated' : 'Deactivated', 'agent:', agent);
+
+    // Implement your activation/deactivation logic here
+    // Don't close the dropdown so users can see the toggle state change
+  }
+
+  @HostListener('document:click')
+  closeDropdown(): void {
+    this.openDropdownIndex = null;
   }
 }

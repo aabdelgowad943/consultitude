@@ -103,7 +103,7 @@ export class EditIdentificationComponent implements OnInit {
           label: skill.translations[0].name,
           value: skill.translations[0].name,
         }));
-        console.log(this.skills);
+        // console.log(this.skills);
       },
       complete: () => {},
     });
@@ -137,7 +137,7 @@ export class EditIdentificationComponent implements OnInit {
             selectedSkills: selectedSkills,
           });
 
-          console.log(this.userData);
+          // console.log(this.userData);
         },
         complete: () => {},
       });

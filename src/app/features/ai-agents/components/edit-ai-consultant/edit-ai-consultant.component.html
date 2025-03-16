@@ -1,0 +1,227 @@
+<p-toast position="bottom-right" key="br" />
+<p-dialog
+  [visible]="display"
+  (onHide)="closeDialog()"
+  [modal]="true"
+  [closable]="false"
+  styleClass="md:w-[600px] xss:w-[380px] xs:w-[340px] bg-white text-black"
+>
+  <div>
+    <h1 class="text-xl text-[#14151A] font-bold mb-1">Edit AI Consultant</h1>
+    <p class="text-sm text-[#0F132499]/60 mb-4">
+      Modify your AI consultant's properties
+    </p>
+
+    <form [formGroup]="consultantForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium mb-1">Name</label>
+        <div class="flex">
+          <input
+            id="name"
+            formControlName="name"
+            type="text"
+            placeholder="Name your AI Agent"
+            class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-2 px-2.5"
+            [ngClass]="{
+              'border-red-500':
+                consultantForm.get('name')?.invalid &&
+                consultantForm.get('name')?.touched
+            }"
+          />
+        </div>
+        <small
+          class="text-red-500"
+          *ngIf="
+            consultantForm.get('name')?.invalid &&
+            consultantForm.get('name')?.touched
+          "
+        >
+          Name is required (minimum 3 characters)
+        </small>
+      </div>
+
+      <!-- Persona Field -->
+      <div class="mb-4">
+        <label for="persona" class="block text-sm font-medium mb-1"
+          >Persona</label
+        >
+        <input
+          id="persona"
+          formControlName="persona"
+          type="text"
+          placeholder="Assign your agent"
+          class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-2 px-2.5"
+          [ngClass]="{
+            'border-red-500':
+              consultantForm.get('persona')?.invalid &&
+              consultantForm.get('persona')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            consultantForm.get('persona')?.invalid &&
+            consultantForm.get('persona')?.touched
+          "
+        >
+          Persona is required
+        </small>
+      </div>
+
+      <!-- Domain Field -->
+
+      <div class="mb-3">
+        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+          Domain Focus
+        </label>
+        <p-multiSelect
+          formControlName="domain"
+          [options]="domainFocusOptions"
+          optionLabel="name"
+          optionValue="domainId"
+          appendTo="body"
+          placeholder="Choose Domain Focus"
+          class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl bg-white py-[2px] mt-1"
+        ></p-multiSelect>
+        <small
+          class="text-red-500"
+          *ngIf="
+            consultantForm.get('domain')?.invalid &&
+            consultantForm.get('domain')?.touched
+          "
+        >
+          Domain is required
+        </small>
+      </div>
+
+      <!-- ========== INDUSTRY FOCUS ========== -->
+      <div class="mb-3">
+        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+          Industry Focus
+        </label>
+        <p-multiSelect
+          [options]="industryFocusOptions"
+          formControlName="areaOfFocus"
+          optionLabel="name"
+          optionValue="areaOfFocusId"
+          appendTo="body"
+          placeholder="Choose Industry Focus"
+          class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl bg-white py-[2px] mt-1"
+        ></p-multiSelect>
+        <small
+          class="text-red-500"
+          *ngIf="
+            consultantForm.get('areaOfFocus')?.invalid &&
+            consultantForm.get('areaOfFocus')?.touched
+          "
+        >
+          Area of focus is required
+        </small>
+      </div>
+
+      <!-- ========== REGIONAL FOCUS ========== -->
+      <div class="mb-3">
+        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+          Regional Focus
+        </label>
+        <p-multiSelect
+          [options]="regionalFocusOptions"
+          formControlName="regional"
+          optionLabel="name"
+          optionValue="regionId"
+          appendTo="body"
+          placeholder="Choose Regional Focus"
+          removeIcon="pi pi-times text-[#0F132499]/60 text-xs mt-1"
+          styleClass="border border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-[4px] px-2.5"
+        ></p-multiSelect>
+        <small
+          class="text-red-500"
+          *ngIf="
+            consultantForm.get('regional')?.invalid &&
+            consultantForm.get('regional')?.touched
+          "
+        >
+          Regional is required
+        </small>
+      </div>
+
+      <!-- Location Field -->
+      <div class="mb-4">
+        <label for="location" class="block text-sm font-medium mb-1"
+          >Location</label
+        >
+        <div class="relative">
+          <input
+            id="location"
+            formControlName="location"
+            type="text"
+            placeholder="Enter location"
+            class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-2 px-2.5"
+            [ngClass]="{
+              'border-red-500':
+                consultantForm.get('location')?.invalid &&
+                consultantForm.get('location')?.touched
+            }"
+          />
+        </div>
+        <small
+          class="text-red-500"
+          *ngIf="
+            consultantForm.get('location')?.invalid &&
+            consultantForm.get('location')?.touched
+          "
+        >
+          Location is required
+        </small>
+      </div>
+
+      <!-- Output Field -->
+      <div class="mb-6">
+        <label for="output" class="block text-sm font-medium mb-1"
+          >Output</label
+        >
+        <textarea
+          id="output"
+          formControlName="output"
+          rows="5"
+          placeholder="What is expected from Agent?"
+          class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-2 px-2.5"
+          [ngClass]="{
+            'border-red-500':
+              consultantForm.get('output')?.invalid &&
+              consultantForm.get('output')?.touched
+          }"
+        ></textarea>
+        <div class="flex justify-between items-center mt-1">
+          <small
+            class="text-red-500"
+            *ngIf="
+              consultantForm.get('output')?.invalid &&
+              consultantForm.get('output')?.touched
+            "
+          >
+            Output is required
+          </small>
+          <small class="text-gray-500"
+            >{{ remainingChars }}/{{ maxOutputLength }}</small
+          >
+        </div>
+      </div>
+      <div class="flex justify-end space-x-3 mt-4">
+        <button
+          type="button"
+          (click)="closeDialog()"
+          class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="px-6 py-2 bg-[#9241DC] hover:bg-[#7735b5] rounded-lg text-white font-medium"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</p-dialog>

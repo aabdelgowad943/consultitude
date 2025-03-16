@@ -1,3 +1,29 @@
 :host ::ng-deep .p-chip-remove-icon {
   @apply text-[#0F132499]/60 flex justify-center items-center text-sm;
 }
+::ng-deep .p-multiselect .p-multiselect-label {
+  color: black !important;
+}
+
+::ng-deep .p-multiselect-placeholder {
+  color: black !important;
+  opacity: 1 !important;
+}
+
+::ng-deep .p-multiselect-panel {
+  background: white !important;
+}
+
+::ng-deep .p-multiselect-items .p-multiselect-item {
+  color: #333 !important; /* Or any color you prefer */
+  background-color: white !important;
+}
+
+::ng-deep .p-multiselect-items .p-multiselect-item:hover {
+  background-color: #f0f0f0 !important; /* Light gray hover effect */
+}
+
+::ng-deep .p-multiselect-items .p-multiselect-item.p-highlight {
+  background-color: #e0e0e0 !important; /* Selected item background */
+  color: #000 !important; /* Selected item text color */
+}
