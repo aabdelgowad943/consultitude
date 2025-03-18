@@ -7,6 +7,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ViewDocumentDetailsComponent } from './pages/view-document-details/view-document-details.component';
 import { AiAgentsComponent } from '../ai-agents/ai-agents.component';
 import { AgentsComponent } from '../ai-agents/pages/agents/agents.component';
+import { AskEvoComponent } from './pages/ask-evo/ask-evo.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'ask-evo',
+        component: AskEvoComponent,
       },
       {
         path: 'agents',

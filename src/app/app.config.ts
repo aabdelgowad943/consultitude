@@ -16,9 +16,12 @@ import {
   withInMemoryScrolling,
   withViewTransitions,
 } from '@angular/router';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    DynamicDialogConfig,
+
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
