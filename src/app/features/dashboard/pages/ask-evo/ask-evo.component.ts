@@ -8,6 +8,7 @@ import {
 } from 'primeng/dynamicdialog';
 import { ProfileServiceService } from '../../services/profile-service.service';
 import { finalize } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
 
 interface Agent {
   id: number;
@@ -22,7 +23,7 @@ interface Agent {
 
 @Component({
   selector: 'app-ask-evo',
-  imports: [CommonModule, DynamicDialogModule],
+  imports: [CommonModule, DynamicDialogModule, FormsModule],
   templateUrl: './ask-evo.component.html',
   styleUrl: './ask-evo.component.scss',
   providers: [DialogService, DynamicDialogRef],
@@ -32,9 +33,16 @@ export class AskEvoComponent {
   title = 'evo-dashboard';
   isLoading = false;
 
+  isAnalyzing = false;
+  analysisComplete = false;
+
   errorMessage: string | null = null;
   showDocumentUploadStepper = false;
   imageUrl: string = '';
+
+  // Current step in the document upload process
+  currentStep = 1;
+  userQuestion: string = '';
 
   // File upload related properties
   selectedFile: File | null = null;
@@ -134,6 +142,7 @@ export class AskEvoComponent {
     dialogRef.onClose.subscribe((result) => {
       if (result && result.showStepper) {
         this.showDocumentUploadStepper = true;
+        this.currentStep = 1;
       }
     });
   }
@@ -233,6 +242,7 @@ export class AskEvoComponent {
         },
       });
   }
+
   // Remove the uploaded file
   removeFile() {
     this.selectedFile = null;
@@ -242,12 +252,71 @@ export class AskEvoComponent {
     }
   }
 
-  // Handle the continue button click
-  continueToNextStep() {
-    if (this.selectedFile) {
-      // Implement your logic to go to the next step
-      console.log('Continuing to next step with file:', this.selectedFile.name);
-      // You can add navigation or state change logic here
+  // Go back to previous step
+  goToPreviousStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    } else {
+      this.showDocumentUploadStepper = false;
     }
+  }
+
+  // Process the user's question
+  processUserQuestion() {
+    console.log('Processing question:', this.userQuestion);
+    // Here you would typically send the question along with the document
+    // to your backend service for processing
+
+    // For now, we'll just log it and can expand later
+    this.currentStep = 3; // Move to a results step that we'll implement later
+  }
+
+  // Handle Enter key press in the question input
+  onQuestionInputKeypress(event: KeyboardEvent) {
+    if (event.key === 'Enter' && this.userQuestion.trim() && !event.shiftKey) {
+      event.preventDefault();
+      this.continueToNextStep();
+    }
+  }
+
+  analyzeDocument() {
+    this.isAnalyzing = true;
+    this.analysisComplete = false;
+
+    // Simulate document analysis
+    setTimeout(() => {
+      // After some time, switch the text styling (as shown in your images)
+      this.analysisComplete = true;
+
+      // After analysis is complete, wait a moment and then show consultants
+      setTimeout(() => {
+        this.isAnalyzing = false;
+        this.currentStep = 3; // Move to step 3 (consultant suggestions)
+      }, 1500);
+    }, 3000);
+  }
+
+  // Update the continueToNextStep method
+  continueToNextStep() {
+    if (this.currentStep === 1) {
+      this.currentStep = 2;
+    } else if (this.currentStep === 2) {
+      // When continuing from step 2, start the document analysis process
+      this.analyzeDocument();
+    } else if (this.currentStep === 3) {
+      // Handle completion
+      this.showDocumentUploadStepper = false;
+      // Reset for future use
+      this.resetState();
+    }
+  }
+
+  // Helper to reset state
+  resetState() {
+    this.currentStep = 1;
+    this.selectedFile = null;
+    this.userQuestion = '';
+    this.isAnalyzing = false;
+    this.analysisComplete = false;
   }
 }
