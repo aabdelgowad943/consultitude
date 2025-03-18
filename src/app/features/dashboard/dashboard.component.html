@@ -275,7 +275,7 @@
 
     <!-- Sidebar -->
     <aside
-      class="fixed top-5 z-40 w-[280px] h-screen pt-14 transition-transform -translate-x-full bg-[#f9fafc] md:translate-x-0"
+      class="fixed top-5 z-40 w-[280px] max-h-[1070px] h-screen pt-14 transition-transform -translate-x-full bg-[#f9fafc] md:translate-x-0"
       aria-label="Sidenav"
       id="drawer-navigation"
     >
@@ -330,11 +330,24 @@
 
           <li>
             <a
+              routerLink="ask-evo"
+              routerLinkActive="bg-[#0A0F290A]"
+              class="flex items-center p-2 text-base font-medium text-gray-900 w-[248px] h-[44px] rounded-[10px] hover:bg-[#0A0F290A]"
+            >
+              <img src="images/icon-dashboard (2).svg" alt="" />
+              <span class="ml-3 text-[14px] font-[500] text-[#14151A]"
+                >Ask Evo</span
+              >
+            </a>
+          </li>
+
+          <li>
+            <a
               routerLink="agents"
               routerLinkActive="bg-[#0A0F290A]"
               class="flex items-center p-2 text-base font-medium text-gray-900 w-[248px] h-[44px] rounded-[10px] hover:bg-[#0A0F290A]"
             >
-              <i class="pi pi-shopping-bag text-xl text-[#0F132499]/60"></i>
+              <img src="images/icon-dashboard (3).svg" alt="" />
               <span class="ml-3 text-[14px] font-[500] text-[#14151A]"
                 >Ai Agents</span
               >
@@ -372,7 +385,7 @@
       </div>
     </aside>
 
-    <div class="w-full h-screen bg-white">
+    <div class="w-full bg-white max-w-[1600px] h-[1100px] mx-auto">
       <main
         class="p-4 bg-white md:bg-[#f9fafc] md:pl-72 rounded-2xl text-black pt-20 md:pt-20"
       >

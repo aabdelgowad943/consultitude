@@ -174,3 +174,8 @@ body {
   // change the color
   background-color: #1e1e1e;
 }
+
+.p-dialog-mask {
+  backdrop-filter: blur(4px) !important;
+  // background-color: rgba(0, 0, 0, 0.4) !important;
+}
