@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
   styleUrl: './settings.component.scss',
 })
 export class SettingsComponent {
+  isLoading = false;
   settingsForm!: FormGroup;
   isSubmitting = false;
   errorMessage = '';
@@ -36,12 +37,17 @@ export class SettingsComponent {
   }
 
   getUserData() {
+    this.isLoading = true;
     this.authService
       .getUserDataByUserId(localStorage.getItem('userId')!)
       .subscribe({
         next: (res: any) => {
           this.userEmail = res.data.user.email;
           this.settingsForm.get('email')?.setValue(this.userEmail);
+          this.isLoading = false;
+        },
+        error: (err: any) => {
+          this.isLoading = false;
         },
       });
   }

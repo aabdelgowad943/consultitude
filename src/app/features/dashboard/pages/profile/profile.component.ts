@@ -21,6 +21,7 @@ import { Profile } from '../../models/profile';
 })
 export class ProfileComponent implements OnInit {
   userId: string = localStorage.getItem('userId')!;
+  loading = true;
   profile: any = {};
   topSkills: string[] = [];
   topSkillsList: string[] = [];
@@ -37,6 +38,8 @@ export class ProfileComponent implements OnInit {
   getProfileDataByUserId() {
     this.authService.getUserDataByUserId(this.userId).subscribe({
       next: (res: any) => {
+        this.loading = false;
+
         this.profile = res.data;
         this.topSkillsList = this.extractTopSkills(res.data.topSkills || []);
         this.skillsData = this.profile.skills;
@@ -45,6 +48,9 @@ export class ProfileComponent implements OnInit {
         this.about = res.data.about;
         this.email = res.data.user?.email;
         this.profileUrl = res.data.profileUrl;
+      },
+      error: (err: any) => {
+        this.loading = false;
       },
     });
   }

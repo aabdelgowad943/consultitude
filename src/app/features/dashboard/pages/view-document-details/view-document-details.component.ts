@@ -76,7 +76,7 @@ interface MappedDocument {
 })
 export class ViewDocumentDetailsComponent implements OnInit {
   template: MappedDocument | null = null;
-  isLoading = true;
+  isLoading = false;
   error: string | null = null;
 
   // Placeholder images until real images are loaded
@@ -146,6 +146,7 @@ export class ViewDocumentDetailsComponent implements OnInit {
   }
 
   private fetchDocumentDetails(documentId: string): void {
+    this.isLoading = true;
     const userId = localStorage.getItem('userId');
     if (!userId) {
       this.error = 'User not authenticated';
@@ -157,14 +158,15 @@ export class ViewDocumentDetailsComponent implements OnInit {
       .viewDocumentByUserIdAndByOrderId(userId, documentId, 'EN')
       .subscribe({
         next: (response: any) => {
+          this.isLoading = false;
           if (response.success && response.data?.orderDetails?.length > 0) {
             this.template = this.mapResponseToTemplate(response.data);
             this.initializeTemplateData();
             // this.loadImages();
           } else {
             this.error = 'No document details found';
+            this.isLoading = false;
           }
-          this.isLoading = false;
         },
         error: (err) => {
           console.error('Error fetching document details:', err);

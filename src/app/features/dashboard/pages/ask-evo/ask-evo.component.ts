@@ -30,6 +30,7 @@ interface Agent {
 export class AskEvoComponent {
   @ViewChild('fileInput') fileInput!: ElementRef;
   title = 'evo-dashboard';
+  isLoading = false;
 
   errorMessage: string | null = null;
   showDocumentUploadStepper = false;
