@@ -120,6 +120,8 @@ import { PaginatorModule } from 'primeng/paginator';
   styleUrl: './documents.component.scss',
 })
 export class DocumentsComponent implements OnInit {
+  loading = true;
+
   images = [
     '/images/Pic1.svg',
     '/images/Pic2.svg',
@@ -156,6 +158,8 @@ export class DocumentsComponent implements OnInit {
   }
 
   loadDocuments() {
+    this.loading = true;
+
     this.documentService
       .getAllDocumentsByUserId(
         this.userId,
@@ -167,6 +171,7 @@ export class DocumentsComponent implements OnInit {
         next: (res: any) => {
           // console.log('Received data:', res);
 
+          this.loading = false;
           // Update total records from API metadata
           if (res.meta) {
             this.totalRecords = res.meta.totalItems;
@@ -176,6 +181,7 @@ export class DocumentsComponent implements OnInit {
             this.documents = res.data;
           } else {
             this.documents = [];
+            this.loading = false;
           }
         },
         error: (err) => {
