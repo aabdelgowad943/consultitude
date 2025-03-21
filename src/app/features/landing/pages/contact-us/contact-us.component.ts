@@ -50,6 +50,7 @@ export class ContactUsComponent implements OnInit, OnChanges {
         [Validators.required, Validators.pattern('^[0-9]*$')],
       ],
       message: ['', Validators.required],
+      agree: [, Validators.required],
     });
   }
   ngOnInit(): void {

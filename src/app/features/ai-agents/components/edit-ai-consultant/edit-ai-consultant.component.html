@@ -71,7 +71,7 @@
       <!-- Domain Field -->
 
       <div class="mb-3">
-        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+        <label class="block text-[14px] font-[500] mb-1 text-[#14151A]">
           Domain Focus
         </label>
         <p-multiSelect
@@ -96,7 +96,7 @@
 
       <!-- ========== INDUSTRY FOCUS ========== -->
       <div class="mb-3">
-        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+        <label class="block text-[14px] font-[500] mb-1 text-[#14151A]">
           Industry Focus
         </label>
         <p-multiSelect
@@ -121,7 +121,7 @@
 
       <!-- ========== REGIONAL FOCUS ========== -->
       <div class="mb-3">
-        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+        <label class="block text-[14px] font-[500] mb-1 text-[#14151A]">
           Regional Focus
         </label>
         <p-multiSelect
@@ -132,7 +132,7 @@
           appendTo="body"
           placeholder="Choose Regional Focus"
           removeIcon="pi pi-times text-[#0F132499]/60 text-xs mt-1"
-          styleClass="border border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-[4px] px-2.5"
+          class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl bg-white py-[2px] mt-1"
         ></p-multiSelect>
         <small
           class="text-red-500"
@@ -156,7 +156,7 @@
             formControlName="location"
             type="text"
             placeholder="Enter location"
-            class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-2 px-2.5"
+            class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[16px] py-2 px-2.5"
             [ngClass]="{
               'border-red-500':
                 consultantForm.get('location')?.invalid &&
@@ -184,6 +184,7 @@
           id="output"
           formControlName="output"
           rows="5"
+          maxlength="{{ maxOutputLength }}"
           placeholder="What is expected from Agent?"
           class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-2 px-2.5"
           [ngClass]="{

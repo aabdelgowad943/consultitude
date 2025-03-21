@@ -90,9 +90,7 @@ export class CreateAiConsultantComponent {
 
   get remainingChars(): number {
     const outputControl = this.consultantForm.get('output');
-    return outputControl
-      ? this.maxOutputLength - (outputControl.value?.length || 0)
-      : this.maxOutputLength;
+    return outputControl ? outputControl.value?.length || 0 : 0;
   }
 
   onSubmit(): void {
