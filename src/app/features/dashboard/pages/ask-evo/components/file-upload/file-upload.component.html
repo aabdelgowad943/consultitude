@@ -1,0 +1,88 @@
+<!-- file-upload.component.html -->
+<div
+  class="border border-[#E9EAEB] bg-[#F9FAFB] rounded-lg py-4 px-6 text-center flex flex-col items-center justify-center"
+  [class.border-[#792EBA]]="isDragging"
+  [class.bg-[#F9F7FC]]="isDragging"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+>
+  <input
+    type="file"
+    #fileInput
+    (change)="onFileSelected($event)"
+    style="display: none"
+    accept="image/jpeg, image/png, image/gif, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain"
+  />
+
+  <!-- If no file is selected or uploading -->
+  <div *ngIf="!selectedFile && !isUploading" class="flex flex-col items-center">
+    <div
+      class="bg-white p-2.5 border border-[#E9EAEB] rounded-md w-10 h-10 shadow-md mb-3"
+    >
+      <i class="pi pi-cloud-upload"></i>
+    </div>
+    <div class="flex items-center gap-1">
+      <p
+        class="text-sm text-[#792EBA] font-medium cursor-pointer hover:underline"
+        (click)="fileInput.click()"
+      >
+        Click to upload
+      </p>
+      <p class="text-xs text-[#535862]">or drag-and-drop</p>
+    </div>
+  </div>
+
+  <!-- Progress indicator section - Replace the progress bar with a spinner -->
+  <div *ngIf="isUploading" class="w-full flex justify-between items-center">
+    <div class="flex items-center justify-between gap-2 py-2">
+      <div class="flex items-start gap-3">
+        <div class="rounded-md">
+          <i class="pi pi-file"></i>
+        </div>
+        <div class="text-left">
+          <p class="text-sm font-medium text-[#414651] truncate max-w-[300px]">
+            {{ selectedFile?.name }}
+          </p>
+          <p class="text-xs text-[#667085]">
+            {{ selectedFile ? (selectedFile.size / 1024).toFixed(0) : 0 }}
+            KB
+            <span class="ml-1">{{ uploadProgress }}% uploaded</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spinner instead of progress bar -->
+    <div class="flex justify-center my-2">
+      <div
+        class="w-8 h-8 rounded-full border-4 border-[#E9EAEB] border-t-[#792EBA] animate-spin"
+      ></div>
+    </div>
+  </div>
+
+  <!-- If file is selected and upload completed -->
+  <div *ngIf="selectedFile && !isUploading" class="w-full">
+    <div class="flex items-center justify-between rounded-md">
+      <div class="flex items-start gap-3">
+        <div class="rounded-md">
+          <i class="pi pi-file"></i>
+        </div>
+        <div class="text-left">
+          <p class="text-sm font-medium text-[#414651] truncate max-w-[300px]">
+            {{ selectedFile.name }}
+          </p>
+          <p class="text-xs text-[#667085]">
+            {{ (selectedFile.size / 1024).toFixed(0) }} KB - 100% uploaded
+          </p>
+        </div>
+      </div>
+      <button
+        class="text-[#667085] bg-white p-2.5 rounded-xl w-10 h-10 flex justify-center items-center border border-[#DEE0E3] hover:text-red-500 transition-colors"
+        (click)="removeFile()"
+      >
+        <i class="pi pi-trash"></i>
+      </button>
+    </div>
+  </div>
+</div>

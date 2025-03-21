@@ -13,39 +13,7 @@
     </button>
   </div>
 
-  <!-- Skeleton Loader -->
-  <div
-    *ngIf="loading"
-    class="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 2xl:grid-cols-3 md:px-6 2xl:px-6 px-0 gap-6"
-  >
-    <div
-      *ngFor="let item of [1, 2, 3, 4, 5, 6]"
-      class="relative border border-[#d1d0d0] rounded-2xl bg-white w-full mx-auto"
-    >
-      <!-- Image Skeleton -->
-      <div
-        class="relative rounded-2xl 2xl:h-[240px] h-[240px] w-full mx-auto bg-gray-200 animate-pulse"
-      ></div>
-
-      <!-- Card Body Skeleton -->
-      <div class="p-4 2xl:h-[161px]">
-        <!-- Title Skeleton -->
-        <div class="h-8 bg-gray-200 rounded-md w-3/4 mb-4 animate-pulse"></div>
-
-        <!-- Option Display Skeleton -->
-        <div class="flex gap-1 items-center w-full my-4">
-          <div class="bg-gray-200 h-6 w-20 rounded-lg animate-pulse"></div>
-          <div class="bg-gray-200 h-6 w-24 rounded-lg animate-pulse"></div>
-          <div class="bg-gray-200 h-6 w-28 rounded-lg animate-pulse"></div>
-        </div>
-
-        <!-- Button Skeleton -->
-        <div
-          class="w-full h-10 bg-gray-200 rounded-xl mt-4 animate-pulse"
-        ></div>
-      </div>
-    </div>
-  </div>
+  <app-document-loader *ngIf="loading"></app-document-loader>
 
   <!-- Documents Grid -->
   <div

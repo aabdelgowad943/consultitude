@@ -10,10 +10,11 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { ChangePasswordSettings } from '../../../auth/models/change-password';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SettingsLoaderComponent } from '../../../../shared/loaders/settings-loader/settings-loader.component';
 
 @Component({
   selector: 'app-settings',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, SettingsLoaderComponent],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
 })

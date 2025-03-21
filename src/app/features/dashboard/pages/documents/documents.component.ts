@@ -112,10 +112,16 @@ import { DocumentsService } from '../../services/documents.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
+import { DocumentLoaderComponent } from '../../../../shared/loaders/document-loader/document-loader.component';
 
 @Component({
   selector: 'app-documents',
-  imports: [CommonModule, PaginatorModule, RouterModule],
+  imports: [
+    CommonModule,
+    PaginatorModule,
+    RouterModule,
+    DocumentLoaderComponent,
+  ],
   templateUrl: './documents.component.html',
   styleUrl: './documents.component.scss',
 })

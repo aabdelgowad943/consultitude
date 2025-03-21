@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { CarouselModule } from 'primeng/carousel';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 import { DocumentsService } from '../../services/documents.service';
+import { ViewTemplateLoaderComponent } from '../../../../shared/loaders/view-template-loader/view-template-loader.component';
+import { ViewDocLoaderComponent } from '../../../../shared/loaders/view-doc-loader/view-doc-loader.component';
 
 interface Document {
   id: string;
@@ -70,7 +72,14 @@ interface MappedDocument {
 
 @Component({
   selector: 'app-view-document-details',
-  imports: [CommonModule, RouterModule, CarouselModule, NavbarComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    CarouselModule,
+    NavbarComponent,
+    ViewTemplateLoaderComponent,
+    ViewDocLoaderComponent,
+  ],
   templateUrl: './view-document-details.component.html',
   styleUrl: './view-document-details.component.scss',
 })

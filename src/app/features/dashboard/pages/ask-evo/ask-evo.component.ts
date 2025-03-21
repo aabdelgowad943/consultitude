@@ -9,8 +9,10 @@ import {
 import { ProfileServiceService } from '../../services/profile-service.service';
 import { finalize } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
+import { AskEvoLoaderComponent } from '../../../../shared/loaders/ask-evo-loader/ask-evo-loader.component';
+import { StepperLoaderComponent } from '../../../../shared/loaders/stepper-loader/stepper-loader.component';
 
-interface Agent {
+export interface Agent {
   id: number;
   type: string;
   description: string;
@@ -23,7 +25,13 @@ interface Agent {
 
 @Component({
   selector: 'app-ask-evo',
-  imports: [CommonModule, DynamicDialogModule, FormsModule],
+  imports: [
+    CommonModule,
+    DynamicDialogModule,
+    FormsModule,
+    AskEvoLoaderComponent,
+    StepperLoaderComponent,
+  ],
   templateUrl: './ask-evo.component.html',
   styleUrl: './ask-evo.component.scss',
   providers: [DialogService, DynamicDialogRef],
@@ -70,50 +78,6 @@ export class AskEvoComponent {
       manager: {
         initial: 'S',
         name: 'Sayed E.',
-      },
-      commentCount: 1,
-    },
-    {
-      id: 3,
-      type: 'Sales Executive',
-      description:
-        'Focused on driving revenue growth through new client acquisition and relationship management',
-      manager: {
-        initial: 'J',
-        name: 'Jordan T.',
-      },
-      commentCount: 1,
-    },
-    {
-      id: 4,
-      type: 'Marketing Specialist',
-      description:
-        'Expert in digital marketing strategies and brand development to enhance market presence',
-      manager: {
-        initial: 'A',
-        name: 'Alex R.',
-      },
-      commentCount: 1,
-    },
-    {
-      id: 5,
-      type: 'Product Manager',
-      description:
-        'Oversees product development from conception to launch, aligning business goals with user needs',
-      manager: {
-        initial: 'T',
-        name: 'Taylor M.',
-      },
-      commentCount: 1,
-    },
-    {
-      id: 6,
-      type: 'UX Designer',
-      description:
-        'Creates user-centered designs that enhance usability and improve overall user satisfaction',
-      manager: {
-        initial: 'S',
-        name: 'Casey L.',
       },
       commentCount: 1,
     },
@@ -185,11 +149,6 @@ export class AskEvoComponent {
   processFile(file: File) {
     // Check if file type is allowed (PDF, Word, etc.)
     const allowedTypes = [
-      // allow image
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-
       'application/pdf',
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -264,10 +223,6 @@ export class AskEvoComponent {
   // Process the user's question
   processUserQuestion() {
     console.log('Processing question:', this.userQuestion);
-    // Here you would typically send the question along with the document
-    // to your backend service for processing
-
-    // For now, we'll just log it and can expand later
     this.currentStep = 3; // Move to a results step that we'll implement later
   }
 

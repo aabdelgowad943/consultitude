@@ -5,12 +5,18 @@ import { CarouselModule } from 'primeng/carousel';
 import { ProductServiceService } from '../../services/product-service.service';
 import { GlobalStateService } from '../../../../../shared/services/global-state.service';
 import { Subscription } from 'rxjs';
+import { ViewTemplateLoaderComponent } from '../../../../shared/loaders/view-template-loader/view-template-loader.component';
 
 @Component({
   selector: 'app-view-template-details',
   templateUrl: './view-template-details.component.html',
   styleUrl: './view-template-details.component.scss',
-  imports: [CommonModule, RouterModule, CarouselModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    CarouselModule,
+    ViewTemplateLoaderComponent,
+  ],
 })
 export class ViewTemplateDetailsComponent implements OnInit, OnDestroy {
   template: any;

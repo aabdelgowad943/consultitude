@@ -3,10 +3,17 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProductCardComponent } from '../../../../components/product-card/product-card.component';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MainContentLoaderComponent } from '../../../../../../shared/loaders/main-content-loader/main-content-loader.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ProductCardComponent, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    ProductCardComponent,
+    FormsModule,
+    RouterModule,
+    MainContentLoaderComponent,
+  ],
   selector: 'app-mai-content',
   templateUrl: './mai-content.component.html',
   styleUrl: './mai-content.component.scss',
