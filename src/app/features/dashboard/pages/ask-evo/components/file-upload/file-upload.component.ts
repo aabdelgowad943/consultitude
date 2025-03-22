@@ -4,44 +4,51 @@ import {
   Output,
   ViewChild,
   EventEmitter,
+  Input,
 } from '@angular/core';
-import { ProfileServiceService } from '../../../../services/profile-service.service';
-import { finalize } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ProfileServiceService } from '../../../../services/profile-service.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-file-upload',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.scss',
 })
 export class FileUploadComponent {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+  @Input() selectedFile: File | null = null;
+  @Input() isUploading = false;
+  @Input() isDragging = false;
+  @Input() uploadProgress = 0;
+  @Input() errorMessage: string | null = null;
+
+  @Output() fileSelected = new EventEmitter<File>();
+  @Output() fileDragOver = new EventEmitter<DragEvent>();
+  @Output() fileDragLeave = new EventEmitter<DragEvent>();
+  @Output() fileDrop = new EventEmitter<DragEvent>();
+  @Output() fileRemove = new EventEmitter<void>();
+  @Output() continue = new EventEmitter<void>();
+  @Output() previous = new EventEmitter<void>();
+  @Output() uploadComplete = new EventEmitter<string>();
+  @Output() uploadError = new EventEmitter<string>();
+
   constructor(private profileService: ProfileServiceService) {}
 
-  @ViewChild('fileInput') fileInput!: ElementRef;
-  @Output() fileSelected = new EventEmitter<File>();
-  // @Output() removeFile = new EventEmitter<void>();
-
-  isDragging = false;
-  selectedFile: File | null = null;
-  isUploading = false;
-  uploadProgress = 0;
-
-  errorMessage: string | null = null;
-  showDocumentUploadStepper = false;
-  imageUrl: string = '';
-
-  // File drag and drop handlers
   onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.isDragging = true;
+    this.fileDragOver.emit(event);
   }
 
   onDragLeave(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.isDragging = false;
+    this.fileDragLeave.emit(event);
   }
 
   onDrop(event: DragEvent) {
@@ -55,25 +62,15 @@ export class FileUploadComponent {
     }
   }
 
-  // File input change handler
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-
     if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      this.processFile(file);
+      this.processFile(input.files[0]);
     }
   }
 
-  // Process the selected file
-  processFile(file: File) {
-    // Check if file type is allowed (PDF, Word, etc.)
+  private processFile(file: File) {
     const allowedTypes = [
-      // allow image
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-
       'application/pdf',
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -81,15 +78,18 @@ export class FileUploadComponent {
     ];
 
     if (!allowedTypes.includes(file.type)) {
-      alert('Please select a PDF, Word document, or text file.');
+      this.uploadError.emit(
+        'Please select a PDF, Word document, or text file.'
+      );
       return;
     }
 
     this.selectedFile = file;
+    this.fileSelected.emit(file); // Emit the file to parent
     this.uploadFile(file);
   }
 
-  uploadFile(file: File) {
+  private uploadFile(file: File) {
     this.isUploading = true;
     this.errorMessage = null;
     this.uploadProgress = 0;
@@ -111,28 +111,35 @@ export class FileUploadComponent {
           if (response && response.progress) {
             this.uploadProgress = response.progress;
           } else {
-            this.imageUrl = response.Location;
-
             this.uploadProgress = 100;
             setTimeout(() => {
               this.isUploading = false;
+              this.uploadComplete.emit(response.Location);
             }, 500);
           }
         },
         error: (error) => {
-          this.errorMessage =
+          const errorMessage =
             error.error.message || 'Failed to upload file. Please try again.';
+          this.uploadError.emit(errorMessage);
           this.selectedFile = null;
         },
       });
   }
 
-  // Remove the uploaded file
   removeFile() {
     this.selectedFile = null;
-    // Reset the file input
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
     }
+    this.fileRemove.emit();
+  }
+
+  goToPreviousStep() {
+    this.previous.emit();
+  }
+
+  continueToNextStep() {
+    this.continue.emit();
   }
 }

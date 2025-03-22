@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgentCardComponent } from './agent-card.component';
+import { AskEvoHeaderComponent } from './ask-evo-header.component';
 
-describe('AgentCardComponent', () => {
-  let component: AgentCardComponent;
-  let fixture: ComponentFixture<AgentCardComponent>;
+describe('AskEvoHeaderComponent', () => {
+  let component: AskEvoHeaderComponent;
+  let fixture: ComponentFixture<AskEvoHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AgentCardComponent]
+      imports: [AskEvoHeaderComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AgentCardComponent);
+    fixture = TestBed.createComponent(AskEvoHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

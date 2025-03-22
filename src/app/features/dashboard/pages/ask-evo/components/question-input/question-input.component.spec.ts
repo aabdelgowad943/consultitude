@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DocumentStepperComponent } from './document-stepper.component';
+import { QuestionInputComponent } from './question-input.component';
 
-describe('DocumentStepperComponent', () => {
-  let component: DocumentStepperComponent;
-  let fixture: ComponentFixture<DocumentStepperComponent>;
+describe('QuestionInputComponent', () => {
+  let component: QuestionInputComponent;
+  let fixture: ComponentFixture<QuestionInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DocumentStepperComponent]
+      imports: [QuestionInputComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DocumentStepperComponent);
+    fixture = TestBed.createComponent(QuestionInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
