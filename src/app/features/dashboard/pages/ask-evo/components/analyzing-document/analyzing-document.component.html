@@ -1,26 +1,17 @@
 <!-- analyzing-document.component.html -->
 <div class="w-full flex flex-col justify-center items-center">
   <div class="relative mb-8">
-    <div class="w-20 h-20 rounded-full bg-purple-200 opacity-50"></div>
+    <!-- <div class="w-20 h-20 rounded-full bg-purple-200 opacity-50"></div> -->
+    <img
+      src="images/new/circles.gif"
+      class="w-20 h-20 opacity-40 blur-xl"
+      alt=""
+    />
+
     <div
       class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#9241DC"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        [class.animate-spin]="isAnalyzing"
-      >
-        <path
-          d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
-        ></path>
-      </svg>
+      <img src="images/new/stars.gif" class="w-52" alt="" />
     </div>
   </div>
 

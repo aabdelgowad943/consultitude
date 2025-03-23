@@ -60,6 +60,7 @@ interface ChatMessage {
 export class ChatComponent implements OnInit {
   @Input() selectedFile: File | null = null;
   @Input() userQuestion: string = '';
+  @Input() selectedConsultants: any = [];
   @Input() imageUrl: string = '';
 
   // Flags for different sections
@@ -91,6 +92,10 @@ export class ChatComponent implements OnInit {
   // Generated content
   get consultantsNames(): string {
     return this.consultants.map((c) => c.name).join(', ');
+  }
+
+  get consultantTypes(): string {
+    return this.selectedConsultants.map((item: any) => item.type).join(', ');
   }
 
   documentSummary: string =

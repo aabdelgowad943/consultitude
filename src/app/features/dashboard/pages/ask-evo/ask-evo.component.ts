@@ -14,6 +14,8 @@ import { AnalyzingDocumentComponent } from './components/analyzing-document/anal
 import { ConsultingSuggestionComponent } from './components/consulting-suggestion/consulting-suggestion.component';
 import { AskEvoHeaderComponent } from './components/ask-evo-header/ask-evo-header.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { SummaryDetailsComponent } from './components/summary-details/summary-details.component';
+import { Consultant } from './components/consulting-suggestion/consulting-suggestion.component';
 
 export interface Agent {
   id: number;
@@ -41,6 +43,7 @@ export interface Agent {
     ConsultingSuggestionComponent,
     AskEvoHeaderComponent,
     ChatComponent,
+    SummaryDetailsComponent,
   ],
   templateUrl: './ask-evo.component.html',
   styleUrl: './ask-evo.component.scss',
@@ -67,6 +70,9 @@ export class AskEvoComponent {
   isDragging = false;
   uploadProgress = 0;
 
+  // Store selected consultants
+  selectedConsultants: Consultant[] = [];
+
   agents: Agent[] = [
     {
       id: 1,
@@ -74,7 +80,7 @@ export class AskEvoComponent {
       description:
         'Designed to resolve sensitive issues efficiently while ensuring a positive customer experience',
       manager: {
-        initial: 'images/account.png',
+        initial: 'images/new/circle.svg',
         name: 'Consultitude',
       },
       commentCount: 1,
@@ -117,6 +123,11 @@ export class AskEvoComponent {
     this.currentStep = 3; // Move to a results step that we'll implement later
   }
 
+  // Store selected consultants
+  onSelectedConsultantsChange(consultants: Consultant[]) {
+    this.selectedConsultants = consultants;
+  }
+
   // Handle Enter key press in the question input
   onQuestionInputKeypress(event: KeyboardEvent) {
     if (event.key === 'Enter' && this.userQuestion.trim() && !event.shiftKey) {
@@ -146,7 +157,9 @@ export class AskEvoComponent {
     } else if (this.currentStep === 2) {
       this.analyzeDocument();
     } else if (this.currentStep === 3) {
-      // Instead of resetting, show the chat interface
+      this.currentStep = 4; // Move to the new summary step
+    } else if (this.currentStep === 4) {
+      // Show the chat interface
       this.showDocumentUploadStepper = false;
       this.showChatInterface = true;
     }
@@ -165,6 +178,7 @@ export class AskEvoComponent {
     this.analysisComplete = false;
     this.errorMessage = null; // Also reset error message
     this.showChatInterface = false;
+    this.selectedConsultants = []; // Reset selected consultants
   }
 
   onQuestionChange(question: string) {
@@ -175,5 +189,16 @@ export class AskEvoComponent {
   exitChat() {
     this.showChatInterface = false;
     this.resetState();
+  }
+
+  // Helper to get file size in readable format
+  getReadableFileSize(): string {
+    if (!this.selectedFile) return '';
+
+    const bytes = this.selectedFile.size;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) return '0 Byte';
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
   }
 }
