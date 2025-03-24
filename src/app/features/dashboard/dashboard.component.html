@@ -341,21 +341,65 @@
               >
             </a>
           </li>
-
-          <li>
-            <a
-              routerLink="settings"
-              routerLinkActive="bg-[#0A0F290A]"
-              class="flex items-center p-2 text-base font-medium text-gray-900 w-[248px] h-[44px] rounded-lg hover:bg-[#0A0F290A]"
-            >
-              <img src="/images/setting (1).png" class="w-5 h-5" alt="" />
-              <span class="ml-2 text-[14px] font-[500] text-[#14151A]"
-                >Settings</span
-              >
-            </a>
-          </li>
         </ul>
-        <div
+
+        <div class="mt-auto mb-[32px]">
+          <!-- Credits section -->
+          <div
+            class="flex bg-white border border-[#F2F4F7] rounded-xl p-4 justify-between items-center mb-4 mt-4"
+          >
+            <div class="flex flex-col gap-1">
+              <span class="text-sm font-medium text-black"
+                >100 credits left</span
+              >
+              <span class="text-sm font-medium text-[#475467]"
+                >Add credits</span
+              >
+            </div>
+            <div class="h-6 w-6 rounded-full bg-purple-400"></div>
+          </div>
+
+          <!-- Bottom menu items -->
+          <ul class="space-y-2">
+            <li>
+              <a
+                class="flex items-center p-2 text-base font-medium text-gray-900 w-full rounded-lg hover:bg-[#0A0F290A]"
+              >
+                <i class="pi pi-file-edit text-xl text-[#0F132499]/60"></i>
+                <span class="ml-3 text-[14px] font-[500] text-[#14151A]"
+                  >Plan & Billing</span
+                >
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="settings"
+                routerLinkActive="bg-[#0A0F290A]"
+                class="flex items-center p-2 text-base font-medium text-gray-900 w-full rounded-lg hover:bg-[#0A0F290A]"
+              >
+                <i class="pi pi-cog text-xl text-[#0F132499]/60"></i>
+                <span class="ml-3 text-[14px] font-[500] text-[#14151A]"
+                  >Settings</span
+                >
+              </a>
+            </li>
+
+            <li>
+              <a
+                (click)="logout()"
+                class="flex items-center p-2 cursor-pointer text-base font-medium text-gray-900 w-full rounded-lg hover:bg-[#0A0F290A]"
+              >
+                <i class="pi pi-sign-out text-xl text-[#0F132499]/60"></i>
+                <span class="ml-3 text-[14px] font-[500] text-[#14151A]"
+                  >Logout</span
+                >
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- <div
           class="w-full flex justify-center relative overflow-hidden mb-6 items-center"
         >
           <div
@@ -375,7 +419,6 @@
               class="text-[#14151A] font-bold w-[160px] h-[32px] bg-white py-[4px] px-2.5 text-[14px] rounded-[10px] border border-[#DEE0E3s] flex justify-center items-center gap-2"
             >
               Request document
-              <!-- <img src="/images/next.png" class="w-4 h-4" alt="" /> -->
               <i class="pi pi-arrow-right text-xs text-[#0F132499]/60"></i>
             </button>
           </div>
@@ -384,7 +427,7 @@
             class="absolute -right-3 bottom-0"
             alt="pattern image"
           />
-        </div>
+        </div> -->
       </div>
     </aside>
 

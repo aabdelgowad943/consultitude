@@ -7,13 +7,12 @@
 
     <div class="mb-6 ms-12">
       <p class="text-[#667085] mb-6">
-        Here's a summary of everything you've provided. Please review the
-        details before proceeding to chat.
+        Here’s my summary before we move forward:
       </p>
 
       <!-- File Details -->
       <div class="mb-6 p-4 border border-[#EAECF0] rounded-lg">
-        <h3 class="font-bold text-lg mb-2">Uploaded Document</h3>
+        <h3 class="font-bold text-lg mb-2">I`ve reviewed</h3>
         <div class="flex items-center gap-2">
           <i class="pi pi-file text-[#9241DC]"></i>
           <span>{{ fileName || "No file selected" }}</span>
@@ -25,7 +24,7 @@
 
       <!-- Question -->
       <div class="mb-6 p-4 border border-[#EAECF0] rounded-lg">
-        <h3 class="font-bold text-lg mb-2">Your Question</h3>
+        <h3 class="font-bold text-lg mb-2">You’re asking for</h3>
         <p class="text-[#101828]">
           {{ userQuestion || "No question provided" }}
         </p>
@@ -34,7 +33,7 @@
       <!-- Selected Consultants -->
       <div class="p-4 border border-[#EAECF0] rounded-lg">
         <h3 class="font-bold text-lg mb-4">
-          Selected Consultants ({{ selectedConsultants.length }})
+          Suggested Consultants ({{ selectedConsultants.length }})
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -84,7 +83,7 @@
           (click)="continueToNextStep()"
           class="px-6 py-3 bg-[#9241DC] text-white rounded-xl hover:bg-purple-700"
         >
-          Start Chat
+          Confirm
         </button>
 
         <button

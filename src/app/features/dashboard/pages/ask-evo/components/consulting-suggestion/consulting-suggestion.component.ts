@@ -23,6 +23,7 @@ export interface Consultant {
   styleUrl: './consulting-suggestion.component.scss',
 })
 export class ConsultingSuggestionComponent {
+  private readonly maxSelectedConsultants = 3;
   @Output() continue = new EventEmitter<void>();
   @Output() previous = new EventEmitter<void>();
   @Output() selectedConsultantsChange = new EventEmitter<Consultant[]>();
@@ -128,12 +129,24 @@ export class ConsultingSuggestionComponent {
 
   // Toggle selection for suggested consultants
   toggleSuggestedSelection(consultant: Consultant) {
+    if (
+      !consultant.selected &&
+      this.selectedConsultantsCount >= this.maxSelectedConsultants
+    ) {
+      return;
+    }
     consultant.selected = !consultant.selected;
     this.selectedConsultantsChange.emit(this.allSelectedConsultants);
   }
 
   // Toggle selection for other consultants
   toggleOtherSelection(consultant: Consultant) {
+    if (
+      !consultant.selected &&
+      this.selectedConsultantsCount >= this.maxSelectedConsultants
+    ) {
+      return;
+    }
     consultant.selected = !consultant.selected;
     this.selectedConsultantsChange.emit(this.allSelectedConsultants);
   }

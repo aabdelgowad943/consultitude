@@ -15,7 +15,7 @@
         <div
           class="w-[54px] h-[33px] rounded-full border border-[#F2F4F7] bg-[#F9FAFB] text-black flex justify-center items-center"
         >
-          {{ selectedConsultantsCount }}/{{ totalConsultantsCount }}
+          {{ selectedConsultantsCount }}/{{ suggestedConsultants.length }}
         </div>
       </div>
 
@@ -23,10 +23,14 @@
         <!-- Suggested Consultants -->
         <div
           *ngFor="let consultant of suggestedConsultants"
-          class="border rounded-[20px] p-4 flex flex-col max-w-[276px] cursor-pointer transition-all duration-200"
+          class="border rounded-[20px] p-4 flex flex-col max-w-[276px] transition-all duration-200"
           [ngClass]="{
             'border-[#9241DC] border-2': consultant.selected,
-            'border-[#EAECF0]': !consultant.selected
+            'border-[#EAECF0]': !consultant.selected,
+            'cursor-pointer':
+              consultant.selected || selectedConsultantsCount < 3,
+            'cursor-not-allowed opacity-50':
+              !consultant.selected && selectedConsultantsCount >= 3
           }"
           (click)="toggleSuggestedSelection(consultant)"
         >
@@ -76,10 +80,14 @@
       <div class="grid grid-cols-2 gap-3">
         <div
           *ngFor="let consultant of paginatedConsultants"
-          class="border rounded-[20px] p-4 flex flex-col cursor-pointer transition-all duration-200"
+          class="border rounded-[20px] p-4 flex flex-col transition-all duration-200"
           [ngClass]="{
             'border-[#9241DC] border-2': consultant.selected,
-            'border-[#EAECF0]': !consultant.selected
+            'border-[#EAECF0]': !consultant.selected,
+            'cursor-pointer':
+              consultant.selected || selectedConsultantsCount < 3,
+            'cursor-not-allowed opacity-50':
+              !consultant.selected && selectedConsultantsCount >= 3
           }"
           (click)="toggleOtherSelection(consultant)"
         >
