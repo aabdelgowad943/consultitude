@@ -55,22 +55,35 @@
         [analysisComplete]="analysisComplete"
       ></app-analyzing-document>
 
-      <!-- Modified Step 3 for the consultant suggestions -->
+      <!-- Step 3: Consultant Suggestions -->
       <div *ngIf="currentStep === 3">
         <app-consulting-suggestion
           (continue)="continueToNextStep()"
           (previous)="goToPreviousStep()"
+          (selectedConsultantsChange)="onSelectedConsultantsChange($event)"
         ></app-consulting-suggestion>
+      </div>
+
+      <!-- Step 4: Summary Details -->
+      <div *ngIf="currentStep === 4">
+        <app-summary-details
+          [fileName]="selectedFile?.name || ''"
+          [fileSize]="getReadableFileSize()"
+          [userQuestion]="userQuestion"
+          [selectedConsultants]="selectedConsultants"
+          (continue)="continueToNextStep()"
+          (previous)="goToPreviousStep()"
+        ></app-summary-details>
       </div>
     </div>
   </div>
 
   <!----------------------------------------Chat Interface-------------------------------------------- -->
-  <!-- *ngIf="currentStep === 1" -->
   <app-chat
     *ngIf="!isLoading && showChatInterface"
     [selectedFile]="selectedFile"
     [userQuestion]="userQuestion"
     [imageUrl]="imageUrl"
+    [selectedConsultants]="selectedConsultants"
   ></app-chat>
 </div>

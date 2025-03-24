@@ -10,16 +10,22 @@ import {
   query,
   state,
 } from '@angular/animations';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
-interface Consultant {
-  name: string;
-  role: string;
-  description: string;
+// Extend the jsPDF type to include autoTable
+declare module 'jspdf' {
+  interface jsPDF {
+    autoTable: typeof autoTable;
+    lastAutoTable: {
+      finalY: number;
+    };
+  }
 }
 
 interface ChatMessage {
   sender: 'user' | 'evo' | 'consultant';
-  consultantInfo?: Consultant;
+  consultantInfo?: any;
   text: string;
   timestamp: Date;
   displayText?: string; // For typing animation
@@ -60,6 +66,7 @@ interface ChatMessage {
 export class ChatComponent implements OnInit {
   @Input() selectedFile: File | null = null;
   @Input() userQuestion: string = '';
+  @Input() selectedConsultants: any = [];
   @Input() imageUrl: string = '';
 
   // Flags for different sections
@@ -73,24 +80,9 @@ export class ChatComponent implements OnInit {
 
   // Content
   chatMessages: ChatMessage[] = [];
-  consultants: Consultant[] = [
-    {
-      name: 'Alpha',
-      role: 'Marketing Specialist',
-      description:
-        'The document outlines a plan to increase market share by 15% in the next year, focusing on social media ad spend, influencer collaborations, and SEO. The total marketing budget is 15 million SAR, with a target cost per acquisition (CPA) of 50 SAR.',
-    },
-    {
-      name: 'Delta',
-      role: 'Brand Strategist',
-      description:
-        'Brand positioning is critical for sustained growth. While short-term acquisition metrics like CPA matter, consistent branding across channels and markets can lower acquisition costs over time and boost retention rates.',
-    },
-  ];
 
-  // Generated content
-  get consultantsNames(): string {
-    return this.consultants.map((c) => c.name).join(', ');
+  get consultantTypes(): string {
+    return this.selectedConsultants.map((item: any) => item.type).join(', ');
   }
 
   documentSummary: string =
@@ -127,8 +119,8 @@ export class ChatComponent implements OnInit {
           this.addMessageWithTypingEffect(
             {
               sender: 'consultant',
-              consultantInfo: this.consultants[0],
-              text: this.consultants[0].description,
+              consultantInfo: this.consultantTypes[0],
+              text: this.selectedConsultants[0].description,
               timestamp: new Date(),
             },
             () => {
@@ -137,8 +129,8 @@ export class ChatComponent implements OnInit {
                 this.addMessageWithTypingEffect(
                   {
                     sender: 'consultant',
-                    consultantInfo: this.consultants[1],
-                    text: this.consultants[1].description,
+                    consultantInfo: this.consultantTypes[1],
+                    text: this.selectedConsultants[1].description,
                     timestamp: new Date(),
                   },
                   () => {
@@ -156,7 +148,8 @@ export class ChatComponent implements OnInit {
                             this.addMessageWithTypingEffect(
                               {
                                 sender: 'consultant',
-                                consultantInfo: this.consultants[1],
+                                consultantInfo: this.consultantTypes[1],
+
                                 text: 'Strong brand identity can reduce reliance on paid ads; recognition leads to more organic traffic and better conversions. We could see CPA drop by 10-15% after six months of consistent brand reinforcement across platforms.',
                                 timestamp: new Date(),
                               },
@@ -207,11 +200,158 @@ export class ChatComponent implements OnInit {
   }
 
   suggestions: any[] = [
-    { text: 'Summarize into a document & download?', icon: 'pi pi-download' },
+    {
+      text: 'Summarize into a document & download?',
+      icon: 'pi pi-download',
+      action: () => this.downloadPdfSummary(),
+    },
     {
       text: 'Drafting a proposal/presentation?',
       soon: 'coming soon',
       icon: 'pi pi-file',
     },
   ];
+
+  // Function to download PDF summary
+  downloadPdfSummary() {
+    // Create new PDF document
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    // Add header with logo
+    doc.setFillColor(81, 20, 163); // Purple color similar to Evo's theme
+    doc.rect(0, 0, pageWidth, 20, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(16);
+    doc.text('Evo Consultation Summary', 10, 15);
+
+    // Add timestamp
+    const currentDate = new Date().toLocaleDateString();
+    const currentTime = new Date().toLocaleTimeString();
+    doc.setFontSize(10);
+    doc.text(`Generated: ${currentDate} at ${currentTime}`, pageWidth - 70, 15);
+
+    // Add user question section
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(14);
+    doc.text('Original Request', 10, 30);
+    doc.setFontSize(12);
+    doc.setTextColor(50, 50, 50);
+
+    const userQuestionLines = doc.splitTextToSize(
+      this.userQuestion || '[No question provided]',
+      pageWidth - 20
+    );
+    doc.text(userQuestionLines, 10, 40);
+
+    let yPosition = 40 + userQuestionLines.length * 7;
+
+    // Add document summary section
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Document Overview', 10, yPosition + 10);
+    doc.setFontSize(12);
+    doc.setTextColor(50, 50, 50);
+
+    const documentSummaryLines = doc.splitTextToSize(
+      this.documentSummary,
+      pageWidth - 20
+    );
+    doc.text(documentSummaryLines, 10, yPosition + 20);
+
+    yPosition = yPosition + 20 + documentSummaryLines.length * 7;
+
+    // Add consultants section
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Consultants Consultitude', 10, yPosition + 10);
+    doc.setFontSize(12);
+
+    // Check if we need a new page
+    if (yPosition > pageHeight - 50) {
+      doc.addPage();
+      yPosition = 20;
+    }
+
+    // Create table for consultants
+    const consultantTableData = this.selectedConsultants.map(
+      (consultant: any) => [
+        consultant.type,
+        // consultant.role,
+        consultant.description,
+      ]
+    );
+
+    autoTable(doc, {
+      startY: yPosition + 15,
+      head: [['Consultant', 'Input']],
+      body: consultantTableData,
+      theme: 'grid',
+      headStyles: { fillColor: [81, 20, 163], textColor: [255, 255, 255] },
+      margin: { top: 10 },
+    });
+
+    yPosition = doc.lastAutoTable.finalY + 10;
+
+    // Check if we need a new page
+    if (yPosition > pageHeight - 60) {
+      doc.addPage();
+      yPosition = 20;
+    }
+
+    // Add final summary section
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Final Summary & Recommendations', 10, yPosition + 10);
+    doc.setFontSize(12);
+    doc.setTextColor(50, 50, 50);
+
+    const finalSummaryLines = doc.splitTextToSize(
+      this.finalSummary,
+      pageWidth - 20
+    );
+    doc.text(finalSummaryLines, 10, yPosition + 20);
+
+    // Add conversation highlights if needed
+    if (this.chatMessages.length > 0) {
+      yPosition = yPosition + 20 + finalSummaryLines.length * 7 + 10;
+
+      // Check if we need a new page
+      if (yPosition > pageHeight - 70) {
+        doc.addPage();
+        yPosition = 20;
+      }
+
+      doc.setFontSize(14);
+      doc.setTextColor(0, 0, 0);
+      doc.text('Conversation Highlights', 10, yPosition);
+
+      const conversationData = this.chatMessages
+        .filter((msg) => msg.sender !== 'user')
+        .map((msg) => {
+          let sender =
+            msg.sender === 'evo' ? 'Evo' : `Consultant ${this.consultantTypes}`;
+          return [
+            sender,
+            msg.text,
+            new Date(msg.timestamp).toLocaleTimeString(),
+          ];
+        });
+
+      autoTable(doc, {
+        startY: yPosition + 5,
+        head: [['Participant', 'Message', 'Time']],
+        body: conversationData,
+        theme: 'striped',
+        headStyles: { fillColor: [81, 20, 163], textColor: [255, 255, 255] },
+        margin: { top: 10 },
+      });
+    }
+
+    // Save the PDF
+    doc.save(
+      `Evo_Consultation_Summary_${new Date().toISOString().slice(0, 10)}.pdf`
+    );
+  }
 }

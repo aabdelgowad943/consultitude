@@ -23,7 +23,7 @@ export class RapidResponseDialogComponent {
         'AI consultants are instantly invited to analyze submitted documents and provide tailored, context-aware answers.',
     },
     {
-      icon: 'images/Frame-1.svg',
+      icon: 'images/new/Doc Icon.svg',
       title: 'Document-Based Intelligence',
       description:
         'EVO Consultative AI, extracts key insights, identifies gaps, and delivers precise recommendations grounded in the submitted content.',
