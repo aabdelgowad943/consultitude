@@ -43,6 +43,8 @@ export class CreateAiConsultantComponent {
   @Input() display: boolean = false;
   @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  @Output() onModalChange = new EventEmitter<boolean>();
+
   @Output() saveChangesEvent: EventEmitter<Profile> = new EventEmitter();
 
   consultantForm!: FormGroup;
@@ -61,6 +63,8 @@ export class CreateAiConsultantComponent {
   domainFocusSelected: string[] = [];
   regionalFocusSelected: string[] = [];
   consultingSkillsSelected: string[] = [];
+
+  profileId: string = localStorage.getItem('profileId') || '';
 
   constructor(
     private fb: FormBuilder,
@@ -88,6 +92,7 @@ export class CreateAiConsultantComponent {
         '',
         [Validators.required, Validators.maxLength(this.maxOutputLength)],
       ],
+      profileId: [this.profileId],
     });
   }
 
@@ -114,7 +119,7 @@ export class CreateAiConsultantComponent {
     const consultantData = this.consultantForm.value;
     this.agentService.createAgent(consultantData).subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.messageService.add({
           severity: 'success',
           summary: 'Success Message',
@@ -122,8 +127,11 @@ export class CreateAiConsultantComponent {
           key: 'br',
           life: 3000,
         });
+        this.onModalChange.emit();
 
         this.consultantForm.reset();
+        // close the dialog
+        this.display = false;
       },
       error: (err) => {
         console.log(err);

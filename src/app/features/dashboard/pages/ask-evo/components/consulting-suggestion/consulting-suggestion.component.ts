@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface Consultant {
@@ -13,6 +13,8 @@ export interface Consultant {
   likes: number;
   icon: string;
   selected?: boolean;
+  profileId?: string;
+  agentId?: string;
 }
 
 @Component({
@@ -22,75 +24,76 @@ export interface Consultant {
   templateUrl: './consulting-suggestion.component.html',
   styleUrl: './consulting-suggestion.component.scss',
 })
-export class ConsultingSuggestionComponent {
-  private readonly maxSelectedConsultants = 3;
+export class ConsultingSuggestionComponent implements OnInit {
+  @Input() suggestedAgents: any[] = []; // Input to receive agents from parent component
   @Output() continue = new EventEmitter<void>();
   @Output() previous = new EventEmitter<void>();
   @Output() selectedConsultantsChange = new EventEmitter<Consultant[]>();
 
-  suggestedConsultants: Consultant[] = [
-    {
-      id: 1,
-      type: 'Customer Support Consultant',
-      description:
-        'Designed to resolve sensitive issues efficiently while ensuring a positive customer experience',
-      creator: {
-        name: 'Consultitude',
-        avatar: 'images/new/circle.svg',
-      },
-      likes: 1,
-      icon: 'pi-comments',
-      selected: true,
-    },
-    {
-      id: 2,
-      type: 'Customer Support Consultant',
-      description:
-        'Designed to resolve sensitive issues efficiently while ensuring a positive customer experience',
-      creator: {
-        name: 'Consultitude',
-        avatar: 'images/new/circle.svg',
-      },
-      likes: 1,
-      icon: 'pi-user',
-      selected: true,
-    },
-    {
-      id: 3,
-      type: 'Customer Support Consultant',
-      description:
-        'Designed to resolve sensitive issues efficiently while ensuring a positive customer experience',
-      creator: {
-        name: 'Consultitude',
-        avatar: 'images/new/circle.svg',
-      },
-      likes: 1,
-      icon: 'pi-clock',
-      selected: true,
-    },
-  ];
+  private readonly maxSelectedConsultants = 3;
 
-  otherConsultants: Consultant[] = [
-    {
-      id: 4,
-      type: 'Customer Support Consultant',
-      description:
-        'Designed to resolve sensitive issues efficiently while ensuring a positive customer experience',
-      creator: {
-        name: 'Consultitude',
-        avatar: 'images/new/circle.svg',
-      },
-      likes: 1,
-      icon: 'pi-comments',
-      selected: false,
-    },
-    // ... other consultants remain the same
-  ];
+  suggestedConsultants: Consultant[] = [];
+  otherConsultants: Consultant[] = [];
 
   currentPage = 1;
   itemsPerPage = 6;
 
-  // Get total selected consultants count
+  ngOnInit() {
+    // Transform input suggested agents into Consultant format
+    if (this.suggestedAgents && this.suggestedAgents.length > 0) {
+      this.suggestedConsultants = this.suggestedAgents
+        .slice(0, 3)
+        .map((agent, index) => ({
+          id: index + 1,
+          type: agent.name || 'Consultant',
+          description: `${agent.persona} in ${agent.domain} located in ${agent.location}`,
+          creator: {
+            name: agent.name || 'Consultitude',
+            avatar: 'images/new/circle.svg',
+          },
+          likes: 1,
+          icon: this.getIconForIndex(index),
+          selected: true,
+          profileId: agent.profileId,
+          agentId: agent.agentId,
+        }));
+
+      // If more than 3 agents, put the rest in otherConsultants
+      if (this.suggestedAgents.length > 3) {
+        this.otherConsultants = this.suggestedAgents
+          .slice(3)
+          .map((agent, index) => ({
+            id: index + 4,
+            type: agent.name || 'Consultant',
+            description: `${agent.persona} in ${agent.domain} located in ${agent.location}`,
+            creator: {
+              name: agent.name || 'Consultitude',
+              avatar: 'images/new/circle.svg',
+            },
+            likes: 1,
+            icon: this.getIconForIndex(index),
+            selected: false,
+            profileId: agent.profileId,
+            agentId: agent.agentId,
+          }));
+      }
+    }
+  }
+
+  // Helper method to assign different icons
+  private getIconForIndex(index: number): string {
+    const icons = [
+      'pi-comments',
+      'pi-user',
+      'pi-clock',
+      'pi-inbox',
+      'pi-users',
+      'pi-chart-bar',
+    ];
+    return icons[index % icons.length];
+  }
+
+  // Existing methods remain the same as in the previous implementation
   get selectedConsultantsCount(): number {
     const suggestedSelected = this.suggestedConsultants.filter(
       (c) => c.selected
@@ -101,12 +104,10 @@ export class ConsultingSuggestionComponent {
     return suggestedSelected + otherSelected;
   }
 
-  // Get total consultants count
   get totalConsultantsCount(): number {
     return this.suggestedConsultants.length + this.otherConsultants.length;
   }
 
-  // Get all selected consultants
   get allSelectedConsultants(): Consultant[] {
     const selectedFromSuggested = this.suggestedConsultants.filter(
       (c) => c.selected
@@ -127,7 +128,6 @@ export class ConsultingSuggestionComponent {
     return Math.ceil(this.otherConsultants.length / this.itemsPerPage);
   }
 
-  // Toggle selection for suggested consultants
   toggleSuggestedSelection(consultant: Consultant) {
     if (
       !consultant.selected &&
@@ -139,7 +139,6 @@ export class ConsultingSuggestionComponent {
     this.selectedConsultantsChange.emit(this.allSelectedConsultants);
   }
 
-  // Toggle selection for other consultants
   toggleOtherSelection(consultant: Consultant) {
     if (
       !consultant.selected &&

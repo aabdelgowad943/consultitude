@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -18,6 +25,15 @@ import { ToastModule } from 'primeng/toast';
 import { ProfileServiceService } from '../../../dashboard/services/profile-service.service';
 import { AgentsService } from '../../../dashboard/services/agents.service';
 
+// Add this interface near the top of the file
+interface AgentData {
+  id: string;
+  name: string;
+  output: string;
+  owner: string;
+  isActive: boolean;
+}
+
 @Component({
   selector: 'app-edit-ai-consultant',
   standalone: true,
@@ -36,9 +52,9 @@ import { AgentsService } from '../../../dashboard/services/agents.service';
   templateUrl: './edit-ai-consultant.component.html',
   providers: [MessageService],
 })
-export class EditAiConsultantComponent {
+export class EditAiConsultantComponent implements OnChanges {
   @Input() display: boolean = false;
-  @Input() agentData: any;
+  @Input() agentData!: any;
   @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   consultantForm!: FormGroup;
@@ -55,7 +71,14 @@ export class EditAiConsultantComponent {
     private agentService: AgentsService
   ) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['agentData'] && changes['agentData'].currentValue) {
+      this.initForm();
+    }
+  }
   ngOnInit(): void {
+    console.log('Agent data:', this.agentData);
+
     this.getAllDomains();
     this.getAllIndustries();
     this.getAllRegions();
@@ -64,20 +87,33 @@ export class EditAiConsultantComponent {
 
   initForm(): void {
     this.consultantForm = this.fb.group({
-      name: [
-        this.agentData?.title || '',
-        [Validators.required, Validators.minLength(3)],
-      ],
-      // persona: [this.agentData?.persona || '', Validators.required],
-      domains: [this.agentData?.domain || '', Validators.required],
-      // location: [this.agentData?.location || '', Validators.required],
-      // regional: [this.agentData?.regional || '', Validators.required],
-      sectors: [this.agentData?.areaOfFocus || '', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      domains: ['', Validators.required],
+      sectors: ['', Validators.required],
       output: [
         '',
         [Validators.required, Validators.maxLength(this.maxOutputLength)],
       ],
     });
+
+    // Populate form with existing agent data
+    if (this.agentData) {
+      // Map domain IDs
+      const domainIds = this.agentData.domains.map((domain: any) => domain.id);
+
+      // Map sector IDs
+      const sectorIds = this.agentData.sectors.map((sector: any) => sector.id);
+
+      // Patch form values
+      this.consultantForm.patchValue({
+        name: this.agentData.name,
+        domains: domainIds,
+        sectors: sectorIds,
+        output: this.agentData.output,
+      });
+
+      console.log('Form values:', this.consultantForm.value);
+    }
   }
 
   // =======================================get all skills=================================
@@ -155,38 +191,39 @@ export class EditAiConsultantComponent {
   onSubmit(): void {
     if (this.consultantForm.invalid) {
       return;
-    } else {
-      const formValue = this.consultantForm.value;
-      this.agentService
-        .updateAgent({
-          id: this.agentData.id,
-          name: formValue.name,
-          output: formValue.output,
-          profileId: localStorage.getItem('profileId')!,
-          sectors: formValue.sectors,
-          domains: formValue.domains,
-        })
-        .subscribe({
-          next: (res: any) => {
-            // Implement update logic here
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Agent updated successfully',
-              key: 'br',
-            });
-            this.closeDialog();
-          },
-          error: (err) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Agent updated Failed',
-              key: 'br',
-            });
-          },
-        });
     }
+
+    const formValue = this.consultantForm.value;
+    this.agentService
+      .updateAgent({
+        name: formValue.name,
+        output: formValue.output,
+        // profileId: localStorage.getItem('profileId')!,
+        sectors: formValue.sectors,
+        domains: formValue.domains,
+        // isActive: this.agentData.isActive,
+        // owner: this.agentData.owner
+      })
+      .subscribe({
+        next: (res: any) => {
+          // Implement update logic here
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Agent updated successfully',
+            key: 'br',
+          });
+          this.closeDialog();
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Agent updated Failed',
+            key: 'br',
+          });
+        },
+      });
   }
 
   get remainingChars(): number {

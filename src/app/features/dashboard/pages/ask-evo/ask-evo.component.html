@@ -1,4 +1,4 @@
-<div class="w-full max-w-[1600px] big:h-[1000px] overflow-y-auto mx-auto">
+<div class="w-full max-w-[1600px] h-[1121px] overflow-y-auto mx-auto">
   <!---------------------------------------- Skeleton Loader-------------------------------------------- -->
   <app-ask-evo-loader *ngIf="isLoading"></app-ask-evo-loader>
 
@@ -60,6 +60,7 @@
       <!-- Step 3: Consultant Suggestions -->
       <div *ngIf="currentStep === 3">
         <app-consulting-suggestion
+          [suggestedAgents]="selectedConsultants"
           (continue)="continueToNextStep()"
           (previous)="goToPreviousStep()"
           (selectedConsultantsChange)="onSelectedConsultantsChange($event)"
