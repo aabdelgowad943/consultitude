@@ -68,6 +68,7 @@ export class ChatComponent implements OnInit {
   @Input() userQuestion: string = '';
   @Input() selectedConsultants: any = [];
   @Input() imageUrl: string = '';
+  @Input() serviceId: string = '';
 
   // Flags for different sections
   summarySection: boolean = true;

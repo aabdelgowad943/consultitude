@@ -6,6 +6,8 @@
   <app-ask-evo-header
     *ngIf="!isLoading && !showDocumentUploadStepper && !showChatInterface"
     [agents]="agents"
+    [serviceId]="serviceId"
+    (serviceIdChange)="onSelectedServiceIdChange($event)"
     [conversations]="conversations"
     (showDocumentUploadStepper)="onShowDocumentUploadStepper($event)"
   ></app-ask-evo-header>
@@ -70,6 +72,7 @@
           [fileName]="selectedFile?.name || ''"
           [fileSize]="getReadableFileSize()"
           [userQuestion]="userQuestion"
+          [serviceId]="serviceId"
           [selectedConsultants]="selectedConsultants"
           (continue)="continueToNextStep()"
           (previous)="goToPreviousStep()"
@@ -85,5 +88,6 @@
     [userQuestion]="userQuestion"
     [imageUrl]="imageUrl"
     [selectedConsultants]="selectedConsultants"
+    [serviceId]="serviceId"
   ></app-chat>
 </div>

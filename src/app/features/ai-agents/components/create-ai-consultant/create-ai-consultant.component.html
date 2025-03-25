@@ -44,7 +44,7 @@
       </div>
 
       <!-- Persona Field -->
-      <div class="mb-4">
+      <!-- <div class="mb-4">
         <label for="persona" class="block text-sm font-medium mb-1"
           >Persona</label
         >
@@ -69,7 +69,7 @@
         >
           Persona is required
         </small>
-      </div>
+      </div> -->
 
       <!-- Domain Field -->
 
@@ -78,7 +78,7 @@
           Domain Focus
         </label>
         <p-multiSelect
-          formControlName="domain"
+          formControlName="domains"
           [options]="domainFocusOptions"
           optionLabel="name"
           optionValue="domainId"
@@ -89,8 +89,8 @@
         <small
           class="text-red-500"
           *ngIf="
-            consultantForm.get('domain')?.invalid &&
-            consultantForm.get('domain')?.touched
+            consultantForm.get('domains')?.invalid &&
+            consultantForm.get('domains')?.touched
           "
         >
           Domain is required
@@ -100,30 +100,30 @@
       <!-- ========== INDUSTRY FOCUS ========== -->
       <div class="mb-3">
         <label class="block text-[14px] font-[500] mb-1 text-[#14151A]">
-          Industry Focus
+          Sector
         </label>
         <p-multiSelect
           [options]="industryFocusOptions"
-          formControlName="areaOfFocus"
+          formControlName="sectors"
           optionLabel="name"
           optionValue="areaOfFocusId"
           appendTo="body"
-          placeholder="Choose Industry Focus"
+          placeholder="Choose Sector"
           class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl bg-white py-[2px] mt-1"
         ></p-multiSelect>
         <small
           class="text-red-500"
           *ngIf="
-            consultantForm.get('areaOfFocus')?.invalid &&
-            consultantForm.get('areaOfFocus')?.touched
+            consultantForm.get('sectors')?.invalid &&
+            consultantForm.get('sectors')?.touched
           "
         >
-          Area of focus is required
+          Sector is required
         </small>
       </div>
 
       <!-- ========== REGIONAL FOCUS ========== -->
-      <div class="mb-3">
+      <!-- <div class="mb-3">
         <label class="block text-[14px] font-[500] mb-1 text-[#14151A]">
           Regional Focus
         </label>
@@ -146,10 +146,10 @@
         >
           Regional is required
         </small>
-      </div>
+      </div> -->
 
       <!-- Location Field -->
-      <div class="mb-4">
+      <!-- <div class="mb-4">
         <label for="location" class="block text-sm font-medium mb-1"
           >Location</label
         >
@@ -176,7 +176,7 @@
         >
           Location is required
         </small>
-      </div>
+      </div> -->
 
       <!-- Output Field -->
       <div class="mb-6">

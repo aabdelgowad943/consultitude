@@ -18,6 +18,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { ToastModule } from 'primeng/toast';
+import { AgentsService } from '../../../dashboard/services/agents.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-ai-consultant',
@@ -63,7 +65,8 @@ export class CreateAiConsultantComponent {
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private profileService: ProfileServiceService
+    private profileService: ProfileServiceService,
+    private agentService: AgentsService
   ) {}
 
   ngOnInit(): void {
@@ -76,11 +79,11 @@ export class CreateAiConsultantComponent {
   initForm(): void {
     this.consultantForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      persona: ['', Validators.required],
-      domain: ['', Validators.required],
-      location: ['', Validators.required],
-      regional: ['', Validators.required],
-      areaOfFocus: ['', Validators.required],
+      // persona: ['', Validators.required],
+      domains: ['', Validators.required],
+      // location: ['', Validators.required],
+      // regional: ['', Validators.required],
+      sectors: ['', Validators.required],
       output: [
         '',
         [Validators.required, Validators.maxLength(this.maxOutputLength)],
@@ -108,21 +111,32 @@ export class CreateAiConsultantComponent {
 
       return;
     }
-
     const consultantData = this.consultantForm.value;
-    // console.log('Submitting consultant data:', consultantData);
+    this.agentService.createAgent(consultantData).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success Message',
+          detail: res.message,
+          key: 'br',
+          life: 3000,
+        });
 
-    // Here you would typically call a service to save the data
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success Message',
-      detail: 'Message Content',
-      key: 'br',
-      life: 3000,
+        this.consultantForm.reset();
+      },
+      error: (err) => {
+        console.log(err);
+
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error Message',
+          detail: 'Failed to create',
+          key: 'br',
+          life: 3000,
+        });
+      },
     });
-
-    // Reset form after successful submission
-    this.consultantForm.reset();
   }
 
   closeDialog(): void {

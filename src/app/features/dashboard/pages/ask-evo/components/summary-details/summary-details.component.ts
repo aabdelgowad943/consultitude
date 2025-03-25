@@ -26,6 +26,7 @@ export class SummaryDetailsComponent {
   @Input() fileName: string = '';
   @Input() fileSize: string = '';
   @Input() userQuestion: string = '';
+  @Input() serviceId: string = '';
   @Input() selectedConsultants: Consultant[] = [];
 
   @Output() continue = new EventEmitter<void>();

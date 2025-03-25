@@ -5,6 +5,7 @@ import { CreateAiConsultantComponent } from '../../components/create-ai-consulta
 import { Profile } from '../../../dashboard/models/profile';
 import { AuthService } from '../../../auth/services/auth.service';
 import { EditAiConsultantComponent } from '../../components/edit-ai-consultant/edit-ai-consultant.component';
+import { AgentsService } from '../../../dashboard/services/agents.service';
 
 @Component({
   selector: 'app-agents',
@@ -18,8 +19,11 @@ import { EditAiConsultantComponent } from '../../components/edit-ai-consultant/e
   styleUrl: './agents.component.scss',
 })
 export class AgentsComponent implements OnInit {
-  agents = [
+  constructor(private agentService: AgentsService) {}
+
+  agents: any = [
     {
+      id: 1,
       title: 'Customer Support Assistant',
       description:
         'Designed to resolve sensitive issues efficiently while ensuring a positive customer experience',
@@ -28,6 +32,7 @@ export class AgentsComponent implements OnInit {
       isActive: false,
     },
     {
+      id: 2,
       title: 'Sales Executive',
       description:
         'Focused on driving revenue growth through new client acquisition and relationship management',
@@ -36,6 +41,7 @@ export class AgentsComponent implements OnInit {
       isActive: false,
     },
     {
+      id: 3,
       title: 'Product Manager',
       description:
         'Oversees product development from conception to launch, aligning business goals with user needs',
@@ -44,6 +50,8 @@ export class AgentsComponent implements OnInit {
       isActive: false,
     },
     {
+      id: 4,
+
       title: 'Marketing Specialist',
       description:
         'Expert in digital marketing strategies and brand development to enhance market presence',
@@ -52,6 +60,7 @@ export class AgentsComponent implements OnInit {
       isActive: false,
     },
     {
+      id: 5,
       title: 'UX Designer',
       description:
         'Creates user-centered designs that enhance usability and improve overall user satisfaction',
@@ -60,6 +69,7 @@ export class AgentsComponent implements OnInit {
       isActive: false,
     },
     {
+      id: 6,
       title: 'UX Designer',
       description:
         'Creates user-centered designs that enhance usability and improve overall user satisfaction',
@@ -68,6 +78,7 @@ export class AgentsComponent implements OnInit {
       isActive: true,
     },
     {
+      id: 7,
       title: 'UX Designer',
       description:
         'Creates user-centered designs that enhance usability and improve overall user satisfaction',
@@ -76,6 +87,7 @@ export class AgentsComponent implements OnInit {
       isActive: true,
     },
     {
+      id: 8,
       title: 'UX Designer',
       description:
         'Creates user-centered designs that enhance usability and improve overall user satisfaction',
@@ -92,36 +104,20 @@ export class AgentsComponent implements OnInit {
   featuredAgents = this.agents.slice(0, 10);
 
   ngOnInit(): void {
-    const scrollers = document.querySelectorAll('.scroller');
-
-    // If a user hasn't opted in for recuded motion, then we add the animation
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      addAnimation();
-    }
-
-    function addAnimation() {
-      scrollers.forEach((scroller: any) => {
-        // add data-animated="true" to every `.scroller` on the page
-        scroller.setAttribute('data-animated', true);
-
-        // Make an array from the elements within `.scroller-inner`
-        const scrollerInner = scroller.querySelector('.scroller__inner');
-        const scrollerContent = Array.from(scrollerInner.children);
-
-        // For each item in the array, clone it
-        // add aria-hidden to it
-        // add it into the `.scroller-inner`
-        scrollerContent.forEach((item: any) => {
-          const duplicatedItem = item.cloneNode(true);
-          duplicatedItem.setAttribute('aria-hidden', true);
-          scrollerInner.appendChild(duplicatedItem);
-        });
-      });
-    }
+    this.getAllAgents();
   }
 
   openDialog() {
     this.displayEditDialog = true;
+  }
+
+  getAllAgents() {
+    this.agentService.getAllAgents(1, 100).subscribe({
+      next: (res: any) => {
+        console.log('agents', res.data);
+        // this.agents = res.data;
+      },
+    });
   }
 
   onDisplayChange(value: boolean) {
@@ -141,6 +137,8 @@ export class AgentsComponent implements OnInit {
 
   editAgent(agent: any): void {
     this.selectedAgent = agent;
+    console.log(this.selectedAgent);
+
     this.displayEditConsultantDialog = true;
     this.openDropdownIndex = null;
   }
@@ -149,9 +147,6 @@ export class AgentsComponent implements OnInit {
     event.stopPropagation(); // Prevent dropdown from closing
     agent.isActive = !agent.isActive;
     console.log(agent.isActive ? 'Activated' : 'Deactivated', 'agent:', agent);
-
-    // Implement your activation/deactivation logic here
-    // Don't close the dropdown so users can see the toggle state change
   }
 
   @HostListener('document:click')
@@ -159,3 +154,30 @@ export class AgentsComponent implements OnInit {
     this.openDropdownIndex = null;
   }
 }
+
+// const scrollers = document.querySelectorAll('.scroller');
+
+// // If a user hasn't opted in for recuded motion, then we add the animation
+// if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+//   addAnimation();
+// }
+
+// function addAnimation() {
+//   scrollers.forEach((scroller: any) => {
+//     // add data-animated="true" to every `.scroller` on the page
+//     scroller.setAttribute('data-animated', true);
+
+//     // Make an array from the elements within `.scroller-inner`
+//     const scrollerInner = scroller.querySelector('.scroller__inner');
+//     const scrollerContent = Array.from(scrollerInner.children);
+
+//     // For each item in the array, clone it
+//     // add aria-hidden to it
+//     // add it into the `.scroller-inner`
+//     scrollerContent.forEach((item: any) => {
+//       const duplicatedItem = item.cloneNode(true);
+//       duplicatedItem.setAttribute('aria-hidden', true);
+//       scrollerInner.appendChild(duplicatedItem);
+//     });
+//   });
+// }

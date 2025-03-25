@@ -16,6 +16,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { ToastModule } from 'primeng/toast';
 import { ProfileServiceService } from '../../../dashboard/services/profile-service.service';
+import { AgentsService } from '../../../dashboard/services/agents.service';
 
 @Component({
   selector: 'app-edit-ai-consultant',
@@ -50,7 +51,8 @@ export class EditAiConsultantComponent {
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private profileService: ProfileServiceService
+    private profileService: ProfileServiceService,
+    private agentService: AgentsService
   ) {}
 
   ngOnInit(): void {
@@ -66,11 +68,11 @@ export class EditAiConsultantComponent {
         this.agentData?.title || '',
         [Validators.required, Validators.minLength(3)],
       ],
-      persona: [this.agentData?.persona || '', Validators.required],
-      domain: [this.agentData?.domain || '', Validators.required],
-      location: [this.agentData?.location || '', Validators.required],
-      regional: [this.agentData?.regional || '', Validators.required],
-      areaOfFocus: [this.agentData?.areaOfFocus || '', Validators.required],
+      // persona: [this.agentData?.persona || '', Validators.required],
+      domains: [this.agentData?.domain || '', Validators.required],
+      // location: [this.agentData?.location || '', Validators.required],
+      // regional: [this.agentData?.regional || '', Validators.required],
+      sectors: [this.agentData?.areaOfFocus || '', Validators.required],
       output: [
         '',
         [Validators.required, Validators.maxLength(this.maxOutputLength)],
@@ -153,15 +155,38 @@ export class EditAiConsultantComponent {
   onSubmit(): void {
     if (this.consultantForm.invalid) {
       return;
+    } else {
+      const formValue = this.consultantForm.value;
+      this.agentService
+        .updateAgent({
+          id: this.agentData.id,
+          name: formValue.name,
+          output: formValue.output,
+          profileId: localStorage.getItem('profileId')!,
+          sectors: formValue.sectors,
+          domains: formValue.domains,
+        })
+        .subscribe({
+          next: (res: any) => {
+            // Implement update logic here
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Agent updated successfully',
+              key: 'br',
+            });
+            this.closeDialog();
+          },
+          error: (err) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Agent updated Failed',
+              key: 'br',
+            });
+          },
+        });
     }
-    // Implement update logic here
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Agent updated successfully',
-      key: 'br',
-    });
-    this.closeDialog();
   }
 
   get remainingChars(): number {
