@@ -1,0 +1,14 @@
+import { Injectable } from '@angular/core';
+import { ApiService } from '../../../../shared/services/api.service';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EvoServicesService {
+  constructor(private apiService: ApiService) {}
+
+  getAllServices(page: number, limit: number): Observable<any[]> {
+    return this.apiService.get(`/services?page=${page}&limit=${limit}`);
+  }
+}

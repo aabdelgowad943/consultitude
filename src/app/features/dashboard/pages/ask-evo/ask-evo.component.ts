@@ -70,6 +70,8 @@ export class AskEvoComponent {
   isDragging = false;
   uploadProgress = 0;
 
+  serviceId: string = '';
+
   // Store selected consultants
   selectedConsultants: Consultant[] = [];
 
@@ -126,6 +128,11 @@ export class AskEvoComponent {
   // Store selected consultants
   onSelectedConsultantsChange(consultants: Consultant[]) {
     this.selectedConsultants = consultants;
+  }
+
+  // store selected service id
+  onSelectedServiceIdChange(serviceId: string) {
+    this.serviceId = serviceId;
   }
 
   // Handle Enter key press in the question input
