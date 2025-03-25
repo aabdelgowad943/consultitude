@@ -16,6 +16,8 @@ import { AskEvoHeaderComponent } from './components/ask-evo-header/ask-evo-heade
 import { ChatComponent } from './components/chat/chat.component';
 import { SummaryDetailsComponent } from './components/summary-details/summary-details.component';
 import { Consultant } from './components/consulting-suggestion/consulting-suggestion.component';
+import { EvoServicesService } from '../../services/evo-services.service';
+import { finalize } from 'rxjs';
 
 export interface Agent {
   id: number;
@@ -96,14 +98,19 @@ export class AskEvoComponent {
     },
   ];
 
+  constructor(private evoService: EvoServicesService) {}
+
   onShowDocumentUploadStepper(show: boolean) {
     this.showDocumentUploadStepper = show;
     this.currentStep = 1;
     this.showChatInterface = false;
   }
 
+  documentUrl: string = '';
+
   onFileUploadComplete(imageUrl: string) {
     this.imageUrl = imageUrl;
+    this.documentUrl = imageUrl; // Store the document URL when upload is complete
   }
 
   onFileUploadError(error: string) {
@@ -144,19 +151,75 @@ export class AskEvoComponent {
   }
 
   analyzeDocument() {
+    // Reset analysis state
     this.isAnalyzing = true;
     this.analysisComplete = false;
-    // Simulate document analysis
-    setTimeout(() => {
-      // After some time, switch the text styling (as shown in your images)
-      this.analysisComplete = true;
-      // After analysis is complete, wait a moment and then show consultants
-      setTimeout(() => {
-        this.isAnalyzing = false;
-        this.currentStep = 3; // Move to step 3 (consultant suggestions)
-      }, 1500);
-    }, 3000);
+    this.errorMessage = '';
+
+    this.evoService
+      .suggestAgents({
+        ask: this.userQuestion,
+        documents: [this.documentUrl],
+      })
+      .pipe(
+        // Add RxJS operators to handle the flow
+        finalize(() => {
+          // This will run whether the observable completes successfully or errors out
+          this.isAnalyzing = false;
+          this.analysisComplete = true;
+
+          // Move to next step after analysis
+          this.currentStep = 3;
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('Analysis result:', res);
+          // Store the suggested consultants
+          // this.selectedConsultants = res.data;
+          this.selectedConsultants = res.data.suggested_agents;
+        },
+        error: (err) => {
+          console.error('Document analysis error:', err);
+          this.errorMessage = 'An error occurred while analyzing the document';
+          // Optionally reset analysis state more explicitly on error
+          this.isAnalyzing = false;
+          this.analysisComplete = false;
+        },
+      });
   }
+
+  // analyzeDocument() {
+  //   this.evoService
+  //     .suggestAgents({
+  //       ask: this.userQuestion,
+  //       documents: [this.documentUrl], // Pass the document URL instead of file
+  //     })
+  //     .subscribe({
+  //       next: (res) => {
+  //         console.log('ssss', res);
+  //         // Store the suggested consultants
+  //         this.selectedConsultants = res.data;
+  //       },
+  //       complete: () => {},
+  //       error: (err) => {
+  //         this.errorMessage = 'An error occurred while analyzing the document';
+  //       },
+  //     });
+
+  //   this.isAnalyzing = true;
+  //   this.analysisComplete = false;
+  //   // Simulate document analysis
+  //   setTimeout(() => {
+  //     // After some time, switch the text styling (as shown in your images)
+  //     this.analysisComplete = true;
+  //     // After analysis is complete, wait a moment and then show consultants
+  //     setTimeout(() => {
+  //       this.isAnalyzing = false;
+  //       this.currentStep = 3; // Move to step 3 (consultant suggestions)
+  //     }, 1500);
+  //   }, 3000);
+  // }
 
   continueToNextStep() {
     if (this.currentStep === 1) {

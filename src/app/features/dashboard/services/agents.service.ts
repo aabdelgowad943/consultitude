@@ -20,4 +20,8 @@ export class AgentsService {
   updateAgent(agent: Agent): Observable<Agent> {
     return this.apiService.put(`/agents/${agent.id}`, agent);
   }
+
+  toggleStatus(id: string, agent: Agent): Observable<Agent> {
+    return this.apiService.patch(`/agents/${id}/status`, agent);
+  }
 }

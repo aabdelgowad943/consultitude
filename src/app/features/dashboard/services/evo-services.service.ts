@@ -11,4 +11,8 @@ export class EvoServicesService {
   getAllServices(page: number, limit: number): Observable<any[]> {
     return this.apiService.get(`/services?page=${page}&limit=${limit}`);
   }
+
+  suggestAgents(suggest: any): Observable<any> {
+    return this.apiService.post('/chats/suggest-agents', suggest);
+  }
 }
