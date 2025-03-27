@@ -189,38 +189,6 @@ export class AskEvoComponent {
       });
   }
 
-  // analyzeDocument() {
-  //   this.evoService
-  //     .suggestAgents({
-  //       ask: this.userQuestion,
-  //       documents: [this.documentUrl], // Pass the document URL instead of file
-  //     })
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log('ssss', res);
-  //         // Store the suggested consultants
-  //         this.selectedConsultants = res.data;
-  //       },
-  //       complete: () => {},
-  //       error: (err) => {
-  //         this.errorMessage = 'An error occurred while analyzing the document';
-  //       },
-  //     });
-
-  //   this.isAnalyzing = true;
-  //   this.analysisComplete = false;
-  //   // Simulate document analysis
-  //   setTimeout(() => {
-  //     // After some time, switch the text styling (as shown in your images)
-  //     this.analysisComplete = true;
-  //     // After analysis is complete, wait a moment and then show consultants
-  //     setTimeout(() => {
-  //       this.isAnalyzing = false;
-  //       this.currentStep = 3; // Move to step 3 (consultant suggestions)
-  //     }, 1500);
-  //   }, 3000);
-  // }
-
   continueToNextStep() {
     if (this.currentStep === 1) {
       this.currentStep = 2;

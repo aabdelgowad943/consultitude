@@ -18,94 +18,88 @@
     </button>
   </div>
 
-  <!-- Created by me section -->
-  <div class="mt-10" *ngIf="myFeaturedAgents.length > 0">
-    <h2 class="text-[16px] font-medium text-black mb-4">Created by me</h2>
-    <div class="w-full mx-auto overflow-x-auto">
-      <ul class="tag-list flex gap-3 p-2">
-        <li
-          *ngFor="let agent of myFeaturedAgents; let i = index"
-          class="p-4 min-w-[240px] max-h-[141px] rounded-[20px] bg-[#F9FAFB] relative group"
-        >
-          <div class="bg-[#F2F4F7] rounded-md p-1 mb-3 w-fit">
-            <i class="pi pi-file"></i>
-          </div>
-          <h3 class="font-medium text-sm text-black">{{ agent.name }}</h3>
-          <p class="text-[12px] font-sans text-[#667085] mt-1 line-clamp-2">
-            {{ agent.output }}
-          </p>
+  <!-- Filtering Tabs -->
+  <div class="flex items-center mt-6 mb-6 gap-4">
+    <div class="flex items-center bg-[#F2F4F7] rounded-xl p-0.5">
+      <button
+        (click)="filterAgents('all')"
+        [class.active-tab]="activeFilter === 'all'"
+        class="px-4 py-2 rounded-md text-sm transition-colors"
+      >
+        All
+      </button>
+      <button
+        (click)="filterAgents('byme')"
+        [class.active-tab]="activeFilter === 'byme'"
+        class="px-4 py-2 rounded-md text-sm transition-colors"
+      >
+        By me
+      </button>
+      <button
+        (click)="filterAgents('consultitude')"
+        [class.active-tab]="activeFilter === 'consultitude'"
+        class="px-4 py-2 rounded-md text-sm transition-colors"
+      >
+        Consultitude
+      </button>
+    </div>
 
-          <!-- Burger menu button that appears on hover -->
-          <button
-            class="absolute top-2 right-2 p-1 rounded-lg w-[32px] h-[32px] flex justify-center items-center bg-[#0A0F290A]/10 shadow-sm hidden group-hover:block"
-            (click)="toggleDropdown(i, $event)"
-          >
-            <i class="pi pi-ellipsis-v text-[#667085]"></i>
-          </button>
-
-          <!-- Dropdown menu -->
-          <div
-            *ngIf="openDropdownIndex === i"
-            class="absolute top-8 right-2 bg-white shadow-md rounded-md py-1 z-10 w-48 agent-dropdown"
-          >
-            <button
-              class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-black"
-              (click)="editAgent(agent)"
-            >
-              Edit
-            </button>
-            <!-- Toggle switch for deactivate -->
-            <div
-              class="flex items-center justify-between px-4 py-2 hover:bg-gray-100"
-            >
-              <span class="text-sm text-black">
-                {{ agent.isActive ? "Deactivate" : "Activate" }}
-              </span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input
-                  id="{{ agent.id }}"
-                  type="checkbox"
-                  [checked]="agent.isActive"
-                  (change)="toggleActivation(agent, $event)"
-                  class="sr-only peer"
-                />
-                <div
-                  class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"
-                ></div>
-              </label>
-            </div>
-          </div>
-        </li>
-      </ul>
+    <!-- Search Input -->
+    <div class="ml-auto relative flex-grow max-w-xs">
+      <input
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="searchTerm"
+        (input)="searchAgents()"
+        class="w-full pl-8 pr-4 py-2 rounded-md border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+      />
+      <i
+        class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+      ></i>
     </div>
   </div>
 
-  <!-- Agents Consultitude section -->
-  <div class="mt-10">
-    <h2 class="text-md font-medium text-gray-900 mb-5">Consultitude</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-      <div *ngFor="let agent of allAgents" class="flex gap-5 rounded-lg">
+  <!-- Agents List -->
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 our:grid-cols-3 gap-4"
+  >
+    <div
+      *ngFor="let agent of filteredAgents; let i = index"
+      class="rounded-[20px] p-5 bg-white border border-[#EAECF0] max-w-[352px] relative group"
+    >
+      <div class="flex gap-5">
         <div
-          class="bg-[#F2F4F7] h-fit rounded-xl max-h-[40px] flex items-center justify-center p-3 w-fit"
+          class="bg-[#F2F4F7] h-[44px] rounded-md mb-3 w-[44px] flex justify-center items-center p-3"
         >
-          <i class="pi pi-file"></i>
+          <i class="pi pi-file text-[#9241DC]"></i>
         </div>
-        <div class="flex-1">
-          <div class="flex gap-2 items-center">
-            <h3 class="font-medium text-black text-[16px]">
-              {{ agent.name }}
-            </h3>
+
+        <div class="w-full">
+          <div class="flex w-full justify-between items-center">
+            <h3 class="font-medium max-w-[207px]">{{ agent.name }}</h3>
+            <div
+              class="hidden group-hover:block"
+              *ngIf="agent.profileId === profileId"
+            >
+              <button
+                (click)="toggleDropdown(i, $event)"
+                class="text-gray-500 bg-[#0A0F290A]/5 flex justify-between items-center hover:bg-gray-100 w-6 h-6 rounded-md p-[5px]"
+              >
+                <i class="pi pi-ellipsis-v text-sm"></i>
+              </button>
+            </div>
           </div>
-          <p class="text-sm text-[#667085] font-sans mt-1">
+          <p class="text-sm text-[#667085] mt-1 mb-3 line-clamp-2 max-w-[80%]">
             {{ agent.output }}
           </p>
-          <div class="flex items-center mt-4">
+
+          <div class="flex gap-5 items-center">
             <div
-              class="w-6 h-6 bg-[#F2F4F7] rounded-md flex items-center justify-center text-xs text-[#9241DC] font-medium"
+              class="w-6 h-6 bg-[#F2F4F7] rounded-md flex items-center justify-center text-xs text-[#9241DC] font-medium mr-2"
             >
               {{ agent.owner.charAt(0) }}
             </div>
-            <div class="flex items-center ml-4 text-gray-400">
+            <div class="flex items-center text-gray-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-4 w-4 mr-1"
@@ -125,10 +119,54 @@
           </div>
         </div>
       </div>
+
+      <!-- Dropdown menu -->
+      <div
+        *ngIf="openDropdownIndex === i"
+        class="absolute top-12 right-4 bg-white shadow-md rounded-md py-1 z-10 w-48 border agent-dropdown"
+      >
+        <button
+          class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-black"
+          (click)="editAgent(agent)"
+        >
+          Edit
+        </button>
+        <div
+          class="flex items-center justify-between px-4 py-2 hover:bg-gray-100"
+        >
+          <span class="text-sm text-black">
+            {{ agent.isActive ? "Deactivate" : "Activate" }}
+          </span>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input
+              id="{{ agent.id }}"
+              type="checkbox"
+              [checked]="agent.isActive"
+              (change)="toggleActivation(agent, $event)"
+              class="sr-only peer"
+            />
+            <div
+              class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"
+            ></div>
+          </label>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div *ngIf="totalRecords > 0" class="flex justify-center py-2">
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [first]="first"
+      [rows]="pageSize"
+      [totalRecords]="totalRecords"
+      class="w-full"
+      styleClass="w-full"
+    ></p-paginator>
   </div>
 </div>
 
+<!-- Modal components remain the same -->
 <app-create-ai-consultant
   [(display)]="displayEditDialog"
   (displayChange)="onDisplayChange($event)"
@@ -139,4 +177,5 @@
   [(display)]="displayEditConsultantDialog"
   (displayChange)="onEditDisplayChange($event)"
   [agentData]="selectedAgent"
+  (onModalChange)="getAllAgents()"
 ></app-edit-ai-consultant>

@@ -4,8 +4,8 @@ export interface Agent {
   sectors: string;
   domains: string;
   output: string;
+  persona: string;
 
-  persona?: string;
   domain?: string;
   location?: string;
   profileId?: string;

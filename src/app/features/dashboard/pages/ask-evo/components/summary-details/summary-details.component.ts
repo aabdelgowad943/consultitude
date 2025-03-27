@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Consultant {
@@ -22,7 +22,7 @@ interface Consultant {
   templateUrl: './summary-details.component.html',
   styleUrl: './summary-details.component.scss',
 })
-export class SummaryDetailsComponent {
+export class SummaryDetailsComponent implements OnInit {
   @Input() fileName: string = '';
   @Input() fileSize: string = '';
   @Input() userQuestion: string = '';
@@ -31,6 +31,12 @@ export class SummaryDetailsComponent {
 
   @Output() continue = new EventEmitter<void>();
   @Output() previous = new EventEmitter<void>();
+
+  ngOnInit(): void {
+    console.log(this.userQuestion);
+    console.log(this.serviceId);
+    console.log(this.selectedConsultants);
+  }
 
   goToPreviousStep() {
     this.previous.emit();

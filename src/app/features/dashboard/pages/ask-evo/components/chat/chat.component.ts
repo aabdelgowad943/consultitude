@@ -97,6 +97,15 @@ export class ChatComponent implements OnInit {
   typingSpeed: number = 20; // milliseconds per character
 
   ngOnInit() {
+    console.log('Selected file:', this.selectedFile);
+    console.log('User question:', this.userQuestion);
+    console.log('Selected consultants:', this.selectedConsultants);
+    console.log('Image URL:', this.imageUrl);
+    console.log('Service ID:', this.serviceId);
+    console.log('Consultant types:', this.consultantTypes);
+    console.log('Document summary:', this.documentSummary);
+    console.log('Final summary:', this.finalSummary);
+
     // Show initial summary section
     setTimeout(() => {
       // After 3 seconds, start the conversation automatically

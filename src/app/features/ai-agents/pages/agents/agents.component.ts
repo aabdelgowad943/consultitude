@@ -1,59 +1,75 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { PaginatorModule } from 'primeng/paginator';
 import { CreateAiConsultantComponent } from '../../components/create-ai-consultant/create-ai-consultant.component';
-import { Profile } from '../../../dashboard/models/profile';
-import { AuthService } from '../../../auth/services/auth.service';
 import { EditAiConsultantComponent } from '../../components/edit-ai-consultant/edit-ai-consultant.component';
 import { AgentsService } from '../../../dashboard/services/agents.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-agents',
   imports: [
     CommonModule,
     RouterModule,
+    PaginatorModule,
     CreateAiConsultantComponent,
     EditAiConsultantComponent,
+    FormsModule,
   ],
   templateUrl: './agents.component.html',
   styleUrl: './agents.component.scss',
 })
 export class AgentsComponent implements OnInit {
   constructor(private agentService: AgentsService) {}
+
   profileId: string = localStorage.getItem('profileId') || '';
 
+  // PrimeNG Pagination properties
+  first: number = 0;
+  pageSize: number = 9;
+  totalRecords: number = 0;
+
   allAgents: any = [];
-  myAgents: any = [];
-  myFeaturedAgents: any = [];
+  filteredAgents: any = [];
 
   displayEditDialog: boolean = false;
   displayEditConsultantDialog: boolean = false;
   selectedAgent: any = null;
 
+  // Filtering properties
+  activeFilter: 'all' | 'byme' | 'consultitude' = 'all';
+  searchTerm: string = '';
+
   ngOnInit(): void {
     this.getAllAgents();
   }
 
-  openDialog() {
-    this.displayEditDialog = true;
-  }
+  getAllAgents(params: any = {}) {
+    const currentPage = Math.floor(this.first / this.pageSize) + 1;
 
-  getAllAgents() {
-    this.agentService.getAllAgents(1, 100).subscribe({
+    // Prepare filter parameters
+    const filterParams: any = {
+      page: currentPage,
+      limit: this.pageSize,
+      search: this.searchTerm || undefined,
+    };
+
+    // Add specific filters based on activeFilter
+    if (this.activeFilter === 'byme') {
+      filterParams.profileId = this.profileId;
+    } else if (this.activeFilter === 'consultitude') {
+      filterParams.type = ['EVO_USER'];
+    }
+
+    // Merge any additional params (like search)
+    Object.assign(filterParams, params);
+
+    this.agentService.getAllAgents(filterParams).subscribe({
       next: (res: any) => {
-        // All agents for Consultitude section
         this.allAgents = res.data;
-
-        // Agents created by the current user
-        this.myAgents = res.data.filter(
-          (agent: any) => agent.profileId === this.profileId
-        );
-
-        // First 10 of the user's agents
-        this.myFeaturedAgents = this.myAgents.slice(0, 10);
-
-        console.log('All agents', this.allAgents);
-        console.log('My agents', this.myAgents);
+        this.filteredAgents = res.data;
+        this.totalRecords = res.meta.totalItems;
       },
       error: (err) => {
         console.error('Error fetching agents', err);
@@ -61,13 +77,32 @@ export class AgentsComponent implements OnInit {
     });
   }
 
-  onDisplayChange(value: boolean) {
-    this.displayEditDialog = value;
+  // PrimeNG Page Change Handler
+  onPageChange(event: any) {
+    this.first = event.first;
+    this.pageSize = event.rows;
+    this.getAllAgents();
   }
 
-  onAgentChange(event: any) {
+  // Filtering method
+  filterAgents(filter: 'all' | 'byme' | 'consultitude') {
+    this.activeFilter = filter;
+    this.first = 0; // Reset pagination to first page
     this.getAllAgents();
-    console.log('Agent change event', event);
+  }
+
+  // Search method
+  searchAgents() {
+    this.first = 0; // Reset pagination to first page
+    this.getAllAgents();
+  }
+
+  openDialog() {
+    this.displayEditDialog = true;
+  }
+
+  onDisplayChange(value: boolean) {
+    this.displayEditDialog = value;
   }
 
   onEditDisplayChange(value: boolean) {
@@ -82,15 +117,13 @@ export class AgentsComponent implements OnInit {
   }
 
   editAgent(agent: any): void {
-    this.selectedAgent = agent;
-    console.log('selected agent to edit', this.selectedAgent);
-
     this.displayEditConsultantDialog = true;
+    this.selectedAgent = agent;
     this.openDropdownIndex = null;
   }
 
   toggleActivation(agent: any, event: Event): void {
-    event.stopPropagation(); // Prevent dropdown from closing
+    event.stopPropagation();
     agent.isActive = !agent.isActive;
 
     this.agentService.toggleStatus(agent.id, agent).subscribe({
@@ -100,14 +133,8 @@ export class AgentsComponent implements OnInit {
     });
   }
 
-  closeDropdown(event: Event): void {
-    event.stopPropagation();
-    this.openDropdownIndex = null;
-  }
-
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
-    // Check if click is outside of any dropdown
     const dropdowns = document.querySelectorAll('.agent-dropdown');
     let clickedInside = false;
 

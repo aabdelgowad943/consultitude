@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../../../shared/services/api.service';
 import { Observable } from 'rxjs';
+import { Chat } from '../models/chat';
 
 @Injectable({
   providedIn: 'root',
@@ -14,5 +15,9 @@ export class EvoServicesService {
 
   suggestAgents(suggest: any): Observable<any> {
     return this.apiService.post('/chats/suggest-agents', suggest);
+  }
+
+  startChat(chat: Chat): Observable<Chat> {
+    return this.apiService.post('/chats', chat);
   }
 }
