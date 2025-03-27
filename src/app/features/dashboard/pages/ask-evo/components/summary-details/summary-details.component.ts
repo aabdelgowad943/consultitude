@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Consultant {
@@ -22,21 +22,39 @@ interface Consultant {
   templateUrl: './summary-details.component.html',
   styleUrl: './summary-details.component.scss',
 })
-export class SummaryDetailsComponent {
+export class SummaryDetailsComponent implements OnInit {
   @Input() fileName: string = '';
   @Input() fileSize: string = '';
   @Input() userQuestion: string = '';
   @Input() serviceId: string = '';
-  @Input() selectedConsultants: Consultant[] = [];
+  @Input() selectedConsultants: any[] = [];
+  @Input() documentUrl: string = '';
 
   @Output() continue = new EventEmitter<void>();
   @Output() previous = new EventEmitter<void>();
+  @Output() startChat = new EventEmitter<any>();
+
+  ngOnInit(): void {
+    // console.log(this.userQuestion);
+    // console.log(this.serviceId);
+    // console.log(this.selectedConsultants);
+  }
 
   goToPreviousStep() {
     this.previous.emit();
   }
 
   continueToNextStep() {
+    const chatData = {
+      title: this.fileName || 'New Chat',
+      threadId: null,
+      serviceId: this.serviceId,
+      ownerId: localStorage.getItem('profileId') || '',
+      ask: this.userQuestion,
+      agents: this.selectedConsultants.map((c) => c.agentId.toString()),
+      documents: [this.documentUrl],
+    };
+    this.startChat.emit(chatData);
     this.continue.emit();
   }
 }

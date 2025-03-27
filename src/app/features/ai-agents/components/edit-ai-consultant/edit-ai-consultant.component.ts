@@ -25,15 +25,6 @@ import { ToastModule } from 'primeng/toast';
 import { ProfileServiceService } from '../../../dashboard/services/profile-service.service';
 import { AgentsService } from '../../../dashboard/services/agents.service';
 
-// Add this interface near the top of the file
-interface AgentData {
-  id: string;
-  name: string;
-  output: string;
-  owner: string;
-  isActive: boolean;
-}
-
 @Component({
   selector: 'app-edit-ai-consultant',
   standalone: true,
@@ -56,6 +47,7 @@ export class EditAiConsultantComponent implements OnChanges {
   @Input() display: boolean = false;
   @Input() agentData!: any;
   @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onModalChange = new EventEmitter<boolean>();
 
   consultantForm!: FormGroup;
   maxOutputLength: number = 5000;
@@ -71,18 +63,16 @@ export class EditAiConsultantComponent implements OnChanges {
     private agentService: AgentsService
   ) {}
 
+  ngOnInit(): void {
+    this.getAllDomains();
+    this.getAllIndustries();
+    this.initForm();
+    console.log('Agent data:', this.agentData);
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['agentData'] && changes['agentData'].currentValue) {
       this.initForm();
     }
-  }
-  ngOnInit(): void {
-    console.log('Agent data:', this.agentData);
-
-    this.getAllDomains();
-    this.getAllIndustries();
-    this.getAllRegions();
-    this.initForm();
   }
 
   initForm(): void {
@@ -90,6 +80,7 @@ export class EditAiConsultantComponent implements OnChanges {
       name: ['', [Validators.required, Validators.minLength(3)]],
       domains: ['', Validators.required],
       sectors: ['', Validators.required],
+      persona: ['', Validators.required],
       output: [
         '',
         [Validators.required, Validators.maxLength(this.maxOutputLength)],
@@ -110,6 +101,7 @@ export class EditAiConsultantComponent implements OnChanges {
         domains: domainIds,
         sectors: sectorIds,
         output: this.agentData.output,
+        persona: this.agentData.persona,
       });
 
       console.log('Form values:', this.consultantForm.value);
@@ -192,17 +184,14 @@ export class EditAiConsultantComponent implements OnChanges {
     if (this.consultantForm.invalid) {
       return;
     }
-
     const formValue = this.consultantForm.value;
     this.agentService
-      .updateAgent({
+      .updateAgent(this.agentData.id, {
         name: formValue.name,
         output: formValue.output,
-        // profileId: localStorage.getItem('profileId')!,
+        persona: formValue.persona,
         sectors: formValue.sectors,
         domains: formValue.domains,
-        // isActive: this.agentData.isActive,
-        // owner: this.agentData.owner
       })
       .subscribe({
         next: (res: any) => {
@@ -214,6 +203,7 @@ export class EditAiConsultantComponent implements OnChanges {
             key: 'br',
           });
           this.closeDialog();
+          this.onModalChange.emit(true);
         },
         error: (err) => {
           this.messageService.add({

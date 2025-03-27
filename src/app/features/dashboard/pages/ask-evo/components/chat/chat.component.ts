@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -12,7 +18,6 @@ import {
 } from '@angular/animations';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-
 // Extend the jsPDF type to include autoTable
 declare module 'jspdf' {
   interface jsPDF {
@@ -22,13 +27,12 @@ declare module 'jspdf' {
     };
   }
 }
-
 interface ChatMessage {
   sender: 'user' | 'evo' | 'consultant';
   consultantInfo?: any;
   text: string;
   timestamp: Date;
-  displayText?: string; // For typing animation
+  displayText?: string;
   isTyping?: boolean;
 }
 
@@ -63,128 +67,109 @@ interface ChatMessage {
     ]),
   ],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnChanges {
   @Input() selectedFile: File | null = null;
   @Input() userQuestion: string = '';
   @Input() selectedConsultants: any = [];
   @Input() imageUrl: string = '';
   @Input() serviceId: string = '';
+  @Input() chatResponse: any = null;
 
-  // Flags for different sections
   summarySection: boolean = true;
   conversationStarted: boolean = false;
   showFinalReport: boolean = false;
 
-  // Timestamps
   summaryTimestamp: Date = new Date();
   reportTimestamp: Date = new Date();
 
-  // Content
   chatMessages: ChatMessage[] = [];
 
   get consultantTypes(): string {
     return this.selectedConsultants.map((item: any) => item.type).join(', ');
   }
 
-  documentSummary: string =
-    'The document details a comprehensive marketing plan focusing on digital channels, CPA targets, and brand positioning strategies across multiple market segments.';
-
-  finalSummary: string =
-    'Based on the document analysis and consultant insights, a balanced approach of consistent brand messaging across channels while carefully monitoring CPA metrics is recommended. This strategy should achieve both short-term acquisition goals and build long-term brand value.';
-
-  // Typing animation controls
   isTyping: boolean = false;
-  typingSpeed: number = 20; // milliseconds per character
+  typingSpeed: number = 20;
 
   ngOnInit() {
-    // Show initial summary section
-    setTimeout(() => {
-      // After 3 seconds, start the conversation automatically
-      this.startConversation();
-    }, 3000);
+    console.log(
+      'ChatComponent initialized with chatResponse:',
+      this.chatResponse
+    );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['chatResponse'] && changes['chatResponse'].currentValue) {
+      console.log('chatResponse changed:', this.chatResponse);
+      if (this.chatResponse && this.chatResponse.data?.messages) {
+        this.startConversation();
+      }
+    }
   }
 
   startConversation() {
     this.conversationStarted = true;
+    console.log(
+      'Starting conversation with messages:',
+      this.chatResponse.data.messages
+    );
 
-    // First Evo message with typing animation
-    this.addMessageWithTypingEffect(
-      {
-        sender: 'evo',
-        text: "Delta, great first point. Let's keep tying our strategies to measurable outcomes. Specifically, how can brand-building efforts lower CPA in both mature and emerging markets?",
-        timestamp: new Date(),
-      },
-      () => {
-        // Alpha consultant response
-        setTimeout(() => {
-          this.addMessageWithTypingEffect(
-            {
-              sender: 'consultant',
-              consultantInfo: this.consultantTypes[0],
-              text: this.selectedConsultants[0].description,
-              timestamp: new Date(),
-            },
-            () => {
-              // Delta consultant response
+    this.chatResponse.data.messages.forEach((message: any, index: number) => {
+      const sender =
+        message.agent.toLowerCase() === 'evo' ? 'evo' : 'consultant';
+      setTimeout(() => {
+        this.addMessageWithTypingEffect(
+          {
+            sender: sender,
+            text: message.message,
+            timestamp: new Date(),
+            consultantInfo:
+              sender === 'consultant'
+                ? this.getConsultantInfo(message.agent)
+                : null,
+          },
+          () => {
+            if (index === this.chatResponse.data.messages.length - 1) {
               setTimeout(() => {
-                this.addMessageWithTypingEffect(
-                  {
-                    sender: 'consultant',
-                    consultantInfo: this.consultantTypes[1],
-                    text: this.selectedConsultants[1].description,
-                    timestamp: new Date(),
-                  },
-                  () => {
-                    // Next Evo message
-                    setTimeout(() => {
-                      this.addMessageWithTypingEffect(
-                        {
-                          sender: 'evo',
-                          text: "Delta, great first point. Let's keep tying our strategies to measurable outcomes. Specifically, how can brand-building efforts lower CPA in both mature and emerging markets?",
-                          timestamp: new Date(),
-                        },
-                        () => {
-                          // Final Delta response
-                          setTimeout(() => {
-                            this.addMessageWithTypingEffect(
-                              {
-                                sender: 'consultant',
-                                consultantInfo: this.consultantTypes[1],
-
-                                text: 'Strong brand identity can reduce reliance on paid ads; recognition leads to more organic traffic and better conversions. We could see CPA drop by 10-15% after six months of consistent brand reinforcement across platforms.',
-                                timestamp: new Date(),
-                              },
-                              () => {
-                                // Show final report after the conversation
-                                setTimeout(() => {
-                                  this.showFinalReport = true;
-                                  this.reportTimestamp = new Date();
-                                }, 500);
-                              }
-                            );
-                          }, 1000);
-                        }
-                      );
-                    }, 1000);
-                  }
-                );
-              }, 1000);
+                this.showFinalReport = true;
+                this.reportTimestamp = new Date();
+              }, 500);
             }
-          );
-        }, 1000);
-      }
+          }
+        );
+      }, index * 1000); // Delay between messages
+    });
+  }
+
+  getConsultantInfo(agentId: string): any {
+    const consultant = this.selectedConsultants.find(
+      (c: any) => c.agentId === agentId || c.type === agentId // Match by agentId or type
+    );
+    return consultant
+      ? { name: consultant.type, description: consultant.description }
+      : { name: agentId, description: 'Unknown Consultant' };
+  }
+
+  get documentSummary(): string {
+    return (
+      this.chatResponse?.data?.summary ||
+      'Document summary will be available after analysis.'
     );
   }
 
-  // Method to handle typing animation
+  get finalSummary(): string {
+    return (
+      this.chatResponse?.data?.recommendation ||
+      'Recommendations will be available after the conversation.'
+    );
+  }
+
   addMessageWithTypingEffect(message: ChatMessage, callback: () => void) {
-    // Add message with empty display text and typing flag
     message.displayText = '';
     message.isTyping = true;
     this.chatMessages.push(message);
     this.isTyping = true;
 
-    // Start typing animation
     let i = 0;
     const text = message.text;
     const typingInterval = setInterval(() => {

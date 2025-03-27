@@ -18,6 +18,7 @@ import { SummaryDetailsComponent } from './components/summary-details/summary-de
 import { Consultant } from './components/consulting-suggestion/consulting-suggestion.component';
 import { EvoServicesService } from '../../services/evo-services.service';
 import { finalize } from 'rxjs';
+import { Chat } from '../../models/chat';
 
 export interface Agent {
   id: number;
@@ -97,6 +98,8 @@ export class AskEvoComponent {
       date: '11 Apr, 12:42 pm',
     },
   ];
+
+  chatResponse: any = null;
 
   constructor(private evoService: EvoServicesService) {}
 
@@ -189,38 +192,6 @@ export class AskEvoComponent {
       });
   }
 
-  // analyzeDocument() {
-  //   this.evoService
-  //     .suggestAgents({
-  //       ask: this.userQuestion,
-  //       documents: [this.documentUrl], // Pass the document URL instead of file
-  //     })
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log('ssss', res);
-  //         // Store the suggested consultants
-  //         this.selectedConsultants = res.data;
-  //       },
-  //       complete: () => {},
-  //       error: (err) => {
-  //         this.errorMessage = 'An error occurred while analyzing the document';
-  //       },
-  //     });
-
-  //   this.isAnalyzing = true;
-  //   this.analysisComplete = false;
-  //   // Simulate document analysis
-  //   setTimeout(() => {
-  //     // After some time, switch the text styling (as shown in your images)
-  //     this.analysisComplete = true;
-  //     // After analysis is complete, wait a moment and then show consultants
-  //     setTimeout(() => {
-  //       this.isAnalyzing = false;
-  //       this.currentStep = 3; // Move to step 3 (consultant suggestions)
-  //     }, 1500);
-  //   }, 3000);
-  // }
-
   continueToNextStep() {
     if (this.currentStep === 1) {
       this.currentStep = 2;
@@ -270,5 +241,23 @@ export class AskEvoComponent {
     if (bytes === 0) return '0 Byte';
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
     return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
+  }
+
+  onStartChat(chatData: Chat) {
+    this.evoService.startChat(chatData).subscribe({
+      next: (response: any) => {
+        // Set chatResponse first
+        this.chatResponse = response;
+        // console.log('Chat started successfully:', this.chatResponse);
+
+        // Then switch the view
+        this.showDocumentUploadStepper = false;
+        this.showChatInterface = true;
+      },
+      error: (error) => {
+        console.error('Error starting chat:', error);
+        this.errorMessage = 'Failed to start chat';
+      },
+    });
   }
 }

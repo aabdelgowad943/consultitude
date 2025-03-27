@@ -9,6 +9,7 @@ module.exports = {
         xss: "393px",
         big: "1442px",
         ipad: "768px",
+        our: "1440px",
       },
       colors: {
         primary: {

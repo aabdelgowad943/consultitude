@@ -8,7 +8,7 @@
 >
   <div>
     <h1 class="text-xl text-[#14151A] font-bold mb-1">Edit AI Consultant</h1>
-    <p class="text-sm text-[#0F132499]/60 mb-4">
+    <p class="text-sm text-black placeholder:text-[#0F132499]/60 mb-4">
       Modify your AI consultant's properties
     </p>
 
@@ -21,7 +21,7 @@
             formControlName="name"
             type="text"
             placeholder="Name your AI Agent"
-            class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-2 px-2.5"
+            class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-black placeholder:text-[#0F132499]/60 text-[14px] py-2 px-2.5"
             [ngClass]="{
               'border-red-500':
                 consultantForm.get('name')?.invalid &&
@@ -41,7 +41,7 @@
       </div>
 
       <!-- Persona Field -->
-      <!-- <div class="mb-4">
+      <div class="mb-4">
         <label for="persona" class="block text-sm font-medium mb-1"
           >Persona</label
         >
@@ -50,7 +50,7 @@
           formControlName="persona"
           type="text"
           placeholder="Assign your agent"
-          class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-2 px-2.5"
+          class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-black placeholder:text-[#0F132499]/60 text-[14px] py-2 px-2.5"
           [ngClass]="{
             'border-red-500':
               consultantForm.get('persona')?.invalid &&
@@ -66,7 +66,7 @@
         >
           Persona is required
         </small>
-      </div> -->
+      </div>
 
       <!-- Domain Field -->
 
@@ -131,7 +131,7 @@
           optionValue="regionId"
           appendTo="body"
           placeholder="Choose Regional Focus"
-          removeIcon="pi pi-times text-[#0F132499]/60 text-xs mt-1"
+          removeIcon="pi pi-times text-black placeholder:text-[#0F132499]/60 text-xs mt-1"
           class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl bg-white py-[2px] mt-1"
         ></p-multiSelect>
         <small
@@ -156,7 +156,7 @@
             formControlName="location"
             type="text"
             placeholder="Enter location"
-            class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[16px] py-2 px-2.5"
+            class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-black placeholder:text-[#0F132499]/60 text-[16px] py-2 px-2.5"
             [ngClass]="{
               'border-red-500':
                 consultantForm.get('location')?.invalid &&
@@ -186,7 +186,7 @@
           rows="5"
           maxlength="{{ maxOutputLength }}"
           placeholder="What is expected from Agent?"
-          class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[14px] py-2 px-2.5"
+          class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-black placeholder:text-[#0F132499]/60 text-[14px] py-2 px-2.5"
           [ngClass]="{
             'border-red-500':
               consultantForm.get('output')?.invalid &&
@@ -218,6 +218,7 @@
         </button>
         <button
           type="submit"
+          [disabled]="consultantForm.invalid"
           class="px-6 py-2 bg-[#9241DC] hover:bg-[#7735b5] rounded-lg text-white font-medium"
         >
           Save Changes

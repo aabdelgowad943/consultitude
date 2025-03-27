@@ -83,7 +83,7 @@ export class CreateAiConsultantComponent {
   initForm(): void {
     this.consultantForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      // persona: ['', Validators.required],
+      persona: ['', Validators.required],
       domains: ['', Validators.required],
       // location: ['', Validators.required],
       // regional: ['', Validators.required],
