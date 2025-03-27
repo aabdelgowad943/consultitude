@@ -75,8 +75,10 @@
           [userQuestion]="userQuestion"
           [serviceId]="serviceId"
           [selectedConsultants]="selectedConsultants"
+          [documentUrl]="documentUrl"
           (continue)="continueToNextStep()"
           (previous)="goToPreviousStep()"
+          (startChat)="onStartChat($event)"
         ></app-summary-details>
       </div>
     </div>
@@ -90,5 +92,6 @@
     [imageUrl]="imageUrl"
     [selectedConsultants]="selectedConsultants"
     [serviceId]="serviceId"
+    [chatResponse]="chatResponse"
   ></app-chat>
 </div>

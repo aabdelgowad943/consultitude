@@ -27,15 +27,17 @@ export class SummaryDetailsComponent implements OnInit {
   @Input() fileSize: string = '';
   @Input() userQuestion: string = '';
   @Input() serviceId: string = '';
-  @Input() selectedConsultants: Consultant[] = [];
+  @Input() selectedConsultants: any[] = [];
+  @Input() documentUrl: string = '';
 
   @Output() continue = new EventEmitter<void>();
   @Output() previous = new EventEmitter<void>();
+  @Output() startChat = new EventEmitter<any>();
 
   ngOnInit(): void {
-    console.log(this.userQuestion);
-    console.log(this.serviceId);
-    console.log(this.selectedConsultants);
+    // console.log(this.userQuestion);
+    // console.log(this.serviceId);
+    // console.log(this.selectedConsultants);
   }
 
   goToPreviousStep() {
@@ -43,6 +45,16 @@ export class SummaryDetailsComponent implements OnInit {
   }
 
   continueToNextStep() {
+    const chatData = {
+      title: this.fileName || 'New Chat',
+      threadId: null,
+      serviceId: this.serviceId,
+      ownerId: localStorage.getItem('profileId') || '',
+      ask: this.userQuestion,
+      agents: this.selectedConsultants.map((c) => c.agentId.toString()),
+      documents: [this.documentUrl],
+    };
+    this.startChat.emit(chatData);
     this.continue.emit();
   }
 }

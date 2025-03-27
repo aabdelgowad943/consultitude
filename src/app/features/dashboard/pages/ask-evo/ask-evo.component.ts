@@ -18,6 +18,7 @@ import { SummaryDetailsComponent } from './components/summary-details/summary-de
 import { Consultant } from './components/consulting-suggestion/consulting-suggestion.component';
 import { EvoServicesService } from '../../services/evo-services.service';
 import { finalize } from 'rxjs';
+import { Chat } from '../../models/chat';
 
 export interface Agent {
   id: number;
@@ -97,6 +98,8 @@ export class AskEvoComponent {
       date: '11 Apr, 12:42 pm',
     },
   ];
+
+  chatResponse: any = null;
 
   constructor(private evoService: EvoServicesService) {}
 
@@ -238,5 +241,23 @@ export class AskEvoComponent {
     if (bytes === 0) return '0 Byte';
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
     return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
+  }
+
+  onStartChat(chatData: Chat) {
+    this.evoService.startChat(chatData).subscribe({
+      next: (response: any) => {
+        // Set chatResponse first
+        this.chatResponse = response;
+        // console.log('Chat started successfully:', this.chatResponse);
+
+        // Then switch the view
+        this.showDocumentUploadStepper = false;
+        this.showChatInterface = true;
+      },
+      error: (error) => {
+        console.error('Error starting chat:', error);
+        this.errorMessage = 'Failed to start chat';
+      },
+    });
   }
 }

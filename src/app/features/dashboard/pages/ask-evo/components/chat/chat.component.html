@@ -1,16 +1,6 @@
 <div
   class="chat-container px-10 big:px-[200px] w-full h-screen overflow-y-auto flex flex-col"
 >
-  <!-- Chat Header -->
-  <!-- <div class="chat-header p-4 border-b">
-    <h2 class="text-xl font-semibold">Ask Evo</h2>
-    <div class="text-sm text-gray-500" *ngIf="selectedFile">
-      Document: {{ selectedFile.name }}
-    </div>
-  </div> -->
-
-  <!-- {{ serviceId }} -->
-
   <!-- Chat Messages -->
   <div class="chat-messages flex-grow p-4">
     <!-- Initial Summary -->
@@ -74,13 +64,13 @@
             <img src="images/Frame.svg" class="w-full h-full block" alt="" />
           </div>
           <div class="message-content w-[80%] ml-4">
-            <div
-              *ngFor="let consultant of selectedConsultants"
-              class="font-semibold mb-2 text-[#19213D]"
-            >
-              Consultant {{ consultant.name }} ({{ consultant.description }})
+            <div class="font-semibold mb-2 text-[#19213D]">
+              Consultant {{ message.consultantInfo?.name || "Unknown" }}
+              <span *ngIf="message.consultantInfo?.description">
+                ({{ message.consultantInfo.description }})
+              </span>
             </div>
-            <div class="text-[#344054] text-sm">
+            <div class="whitespace-pre-line text-[#344054] text-sm">
               {{ message.displayText }}
               <span *ngIf="message.isTyping" class="typing-cursor"></span>
             </div>
@@ -106,7 +96,6 @@
               We're all done! Below is a summary of your request, the key
               insights, and each Consultant's input. Review everything:
             </p>
-
             <ol class="list-decimal pl-5 mt-3 space-y-3">
               <li>
                 <strong>Your Original Ask:</strong>
@@ -136,7 +125,7 @@
                   class="mt-2"
                 >
                   <p>
-                    <strong>Consultant {{ consultant.name }}:</strong>
+                    <strong>Consultant {{ consultant.type }}:</strong>
                     {{ consultant.description }}
                   </p>
                 </div>
@@ -160,8 +149,7 @@
     </div>
   </div>
 
-  <!-- Footer buttons - Only shown for final report -->
-  <!-- Footer buttons - Only shown for final report -->
+  <!-- Footer buttons -->
   <div
     *ngIf="showFinalReport"
     class="border-t p-4 flex justify-center space-x-4"
