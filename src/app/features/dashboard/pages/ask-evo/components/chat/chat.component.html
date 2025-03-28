@@ -49,7 +49,7 @@
           <div class="message-content w-[80%]">
             <div class="font-semibold mb-2 text-[#19213D]">Evo</div>
             <div class="whitespace-pre-line text-[#344054] text-sm">
-              {{ message.displayText }}
+              <div [innerHTML]="message.displayHtml"></div>
               <span *ngIf="message.isTyping" class="typing-cursor"></span>
             </div>
             <div class="text-xs text-[#344054] mt-1">
@@ -71,7 +71,7 @@
               </span>
             </div>
             <div class="whitespace-pre-line text-[#344054] text-sm">
-              {{ message.displayText }}
+              <div [innerHTML]="message.displayHtml"></div>
               <span *ngIf="message.isTyping" class="typing-cursor"></span>
             </div>
             <div class="text-xs text-[#344054] mt-1">

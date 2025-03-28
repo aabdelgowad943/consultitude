@@ -18,7 +18,7 @@ import { SummaryDetailsComponent } from './components/summary-details/summary-de
 import { Consultant } from './components/consulting-suggestion/consulting-suggestion.component';
 import { EvoServicesService } from '../../services/evo-services.service';
 import { finalize } from 'rxjs';
-import { Chat } from '../../models/chat';
+import { Chat, ChatTest } from '../../models/chat';
 
 export interface Agent {
   id: number;
@@ -78,19 +78,7 @@ export class AskEvoComponent {
   // Store selected consultants
   selectedConsultants: Consultant[] = [];
 
-  agents: Agent[] = [
-    {
-      id: 1,
-      type: 'Customer Support Assistant',
-      description:
-        'Designed to resolve sensitive issues efficiently while ensuring a positive customer experience',
-      manager: {
-        initial: 'images/new/circle.svg',
-        name: 'Consultitude',
-      },
-      commentCount: 1,
-    },
-  ];
+  agents: Agent[] = [];
 
   conversations: any = [
     {
@@ -177,13 +165,11 @@ export class AskEvoComponent {
       )
       .subscribe({
         next: (res) => {
-          console.log('Analysis result:', res);
-          // Store the suggested consultants
-          // this.selectedConsultants = res.data;
+          // console.log('Analysis result:', res);
           this.selectedConsultants = res.data.suggested_agents;
         },
         error: (err) => {
-          console.error('Document analysis error:', err);
+          // console.error('Document analysis error:', err);
           this.errorMessage = 'An error occurred while analyzing the document';
           // Optionally reset analysis state more explicitly on error
           this.isAnalyzing = false;
@@ -260,4 +246,23 @@ export class AskEvoComponent {
       },
     });
   }
+
+  // =================================================
+  // onStartChat(chatData: any) {
+  //   this.evoService.startChat(chatData).subscribe({
+  //     next: (response: any) => {
+  //       // Set chatResponse first
+  //       this.chatResponse = response;
+  //       // console.log('Chat started successfully:', this.chatResponse);
+
+  //       // Then switch the view
+  //       this.showDocumentUploadStepper = false;
+  //       this.showChatInterface = true;
+  //     },
+  //     error: (error) => {
+  //       console.error('Error starting chat:', error);
+  //       this.errorMessage = 'Failed to start chat';
+  //     },
+  //   });
+  // }
 }

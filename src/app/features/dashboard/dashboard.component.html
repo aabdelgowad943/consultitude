@@ -1,4 +1,4 @@
-<div class="mx-auto max-w-[1600px] bg-[#f9fafc]">
+<div class="mx-auto max-w-[1600px] bg-[#f9fafc] h-screen">
   <div class="antialiased bg-[#f9fafc]">
     <!-- navbar form big screen -->
     <nav
@@ -151,7 +151,7 @@
 
     <!-- nav for mobile screen -->
     <nav
-      class="fixed top-0 py-5 px-4 left-0 w-full text-white z-50 h-full bg-[#11061A] flex flex-col items-start justify-start md:hidden transition-transform duration-300"
+      class="fixed top-0 py-5 px-4 left-0 w-full text-white z-50 bg-[#11061A] flex flex-col items-start justify-start md:hidden transition-transform duration-300"
       [ngClass]="{
         'transform -translate-y-full': !menuVisible,
         'transform translate-y-0': menuVisible
@@ -203,6 +203,7 @@
         >
         <!-- <a routerLink="/">Saved Cards</a> -->
         <a (click)="toggleMenu()" routerLink="settings">Settings</a>
+        <a (click)="toggleMenu()" routerLink="ask-evo">Ask Evo</a>
         <a (click)="toggleMenu()" routerLink="agents">Ai Agents</a>
 
         <a *ngIf="userId" (click)="logout()">
@@ -220,6 +221,15 @@
 
       <div class="flex justify-center items-center w-full mt-4">
         <div
+          class="flex bg-white border w-full border-[#F2F4F7] rounded-xl p-4 justify-between items-center mb-4 mt-4"
+        >
+          <div class="flex flex-col gap-1">
+            <span class="text-sm font-medium text-black">100 credits left</span>
+            <span class="text-sm font-medium text-[#475467]">Add credits</span>
+          </div>
+          <img src="images/new/Ellipse 1.svg" alt="" />
+        </div>
+        <!-- <div
           class="bg-[#f3f4f8] w-[361px] p-2 border border-[#D0D5DD] rounded-xl relative"
         >
           <h1 class="text-[16px] text-[#57247F]">
@@ -243,7 +253,7 @@
             class="absolute right-20 -bottom-5"
             alt="pattern image"
           />
-        </div>
+        </div> -->
       </div>
     </nav>
 
@@ -337,7 +347,7 @@
             >
               <img src="images/icon-dashboard (3).svg" alt="" />
               <span class="ml-3 text-[14px] font-[500] text-[#14151A]"
-                >Ai Consultants</span
+                >AI Consultants</span
               >
             </a>
           </li>
@@ -432,12 +442,10 @@
       </div>
     </aside>
 
-    <div class="w-full bg-white max-w-[1600px] h-[1100px] mx-auto">
-      <main
-        class="p-4 bg-white md:bg-[#f9fafc] md:pl-72 rounded-2xl text-black pt-20 md:pt-20"
-      >
+    <div class="w-full bg-white max-w-[1600px] mx-auto">
+      <main class="bg-white md:bg-[#f9fafc] md:pl-72 rounded-2xl text-black">
         <div
-          class="bg-white w-full h-full rounded-[10px] border-none md:border border-[#EAECF0] p-0 md:p-1"
+          class="bg-white w-full h-full rounded-[10px] border-none md:border border-[#EAECF0] p-0"
         >
           <router-outlet></router-outlet>
         </div>

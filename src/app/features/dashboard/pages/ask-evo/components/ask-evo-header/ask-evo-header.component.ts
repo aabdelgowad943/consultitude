@@ -4,10 +4,12 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { CommonModule } from '@angular/common';
 import { RapidResponseDialogComponent } from '../../../../components/rapid-response-dialog/rapid-response-dialog.component';
 import { EvoServicesService } from '../../../../services/evo-services.service';
+import { AgentsService } from '../../../../services/agents.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-ask-evo-header',
-  imports: [HistoryComponent, CommonModule],
+  imports: [HistoryComponent, CommonModule, RouterModule],
   templateUrl: './ask-evo-header.component.html',
   styleUrl: './ask-evo-header.component.scss',
 })
@@ -27,15 +29,44 @@ export class AskEvoHeaderComponent {
 
   constructor(
     private dialogService: DialogService,
-    private evoService: EvoServicesService
+    private evoService: EvoServicesService,
+    private agentService: AgentsService
   ) {
     this.getAllServices();
+    this.getAllAgents();
   }
 
   getAllServices() {
     this.evoService.getAllServices(1, 10).subscribe({
       next: (res: any) => {
         this.services = res.data;
+      },
+    });
+  }
+
+  totalItems: number = 0;
+  first: number = 0;
+  pageSize: number = 3;
+  getAllAgents(params: any = {}) {
+    const currentPage = Math.floor(this.first / this.pageSize) + 1;
+
+    // Prepare filter parameters
+    const filterParams: any = {
+      page: currentPage,
+      limit: this.pageSize,
+    };
+
+    // Merge any additional params (like search)
+    Object.assign(filterParams, params);
+
+    this.agentService.getAllAgents(filterParams).subscribe({
+      next: (res: any) => {
+        this.agents = res.data;
+        this.totalItems = res.meta.totalItems;
+        console.log('Agents:', this.agents);
+      },
+      error: (err) => {
+        console.error('Error fetching agents', err);
       },
     });
   }
@@ -119,11 +150,11 @@ export class AskEvoHeaderComponent {
 
   private openDocumentAnalysisDialog() {
     // Implement Document Analysis specific dialog/action
-    console.log('Opening Document Analysis Dialog');
+    // console.log('Opening Document Analysis Dialog');
   }
 
   private openConsultantBookingDialog() {
     // Implement Consultant Booking specific dialog/action
-    console.log('Opening Consultant Booking Dialog');
+    // console.log('Opening Consultant Booking Dialog');
   }
 }

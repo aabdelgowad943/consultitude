@@ -1,4 +1,4 @@
-<div class="w-full max-w-[1600px] mx-auto">
+<div class="w-full max-w-[1600px] mx-auto pt-24 h-screen">
   <!-- ------------------title-------------------------- -->
   <div class="w-full my-6 flex px-2 md:px-6 justify-between items-center">
     <h1
@@ -284,7 +284,7 @@
                   *ngFor="let skill of getRegionalSkillsToShow(); let i = index"
                 >
                   <span
-                    class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
+                    class="px-3 py-1 text-sm font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
                   >
                     {{ skill.region.translations[0].name ?? skill.region.id }}
                   </span>
