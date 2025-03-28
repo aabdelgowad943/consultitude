@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { marked } from 'marked';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   trigger,
   transition,
@@ -33,6 +35,7 @@ interface ChatMessage {
   text: string;
   timestamp: Date;
   displayText?: string;
+  displayHtml?: SafeHtml;
   isTyping?: boolean;
 }
 
@@ -91,6 +94,8 @@ export class ChatComponent implements OnInit, OnChanges {
   isTyping: boolean = false;
   typingSpeed: number = 20;
 
+  constructor(private sanitizer: DomSanitizer) {}
+
   ngOnInit() {
     console.log(
       'ChatComponent initialized with chatResponse:',
@@ -139,6 +144,11 @@ export class ChatComponent implements OnInit, OnChanges {
         );
       }, index * 1000); // Delay between messages
     });
+
+    // console.log(
+    //   'Chat messagesdddddddddddddddd:',
+    //   this.chatResponse.data.messages
+    // );
   }
 
   getConsultantInfo(agentId: string): any {
@@ -175,6 +185,9 @@ export class ChatComponent implements OnInit, OnChanges {
     const typingInterval = setInterval(() => {
       if (i < text.length) {
         message.displayText = text.substring(0, i + 1);
+        message.displayHtml = this.sanitizer.bypassSecurityTrustHtml(
+          marked.parse(message.displayText, { async: false })
+        );
         i++;
       } else {
         clearInterval(typingInterval);

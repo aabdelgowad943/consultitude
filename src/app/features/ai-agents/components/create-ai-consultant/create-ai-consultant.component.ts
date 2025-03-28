@@ -90,7 +90,11 @@ export class CreateAiConsultantComponent {
       sectors: ['', Validators.required],
       output: [
         '',
-        [Validators.required, Validators.maxLength(this.maxOutputLength)],
+        [
+          Validators.required,
+          Validators.maxLength(this.maxOutputLength),
+          Validators.pattern(/^(?!\s*$).+/), // Prevents only spaces
+        ],
       ],
       profileId: [this.profileId],
     });

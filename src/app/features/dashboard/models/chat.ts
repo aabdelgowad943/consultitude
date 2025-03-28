@@ -7,3 +7,17 @@ export interface Chat {
   agents: string[]; // Array of agent IDs
   documents: string[]; // Array of document URLs
 }
+
+export interface ChatTest {
+  agents: [
+    {
+      agentId: string;
+      domain: string;
+      location: string;
+      name: string;
+      output: string;
+      persona: string;
+    }
+  ];
+  docs: [''];
+}

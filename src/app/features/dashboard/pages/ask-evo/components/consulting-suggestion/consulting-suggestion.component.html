@@ -74,10 +74,15 @@
         </div>
       </div>
 
+      <!-- Other consultants - 2x2 grid -->
       <h3 class="mb-4 text-[#667085] text-[16px]">Other Consultants</h3>
 
-      <!-- Other consultants - 2x2 grid -->
-      <div class="grid grid-cols-2 gap-3">
+      <div *ngIf="isLoading" class="text-center text-[#667085]">
+        Loading consultants...
+      </div>
+      <div *ngIf="error" class="text-center text-red-500">{{ error }}</div>
+
+      <div *ngIf="!isLoading && !error" class="grid grid-cols-2 gap-3">
         <div
           *ngFor="let consultant of paginatedConsultants"
           class="border rounded-[20px] p-4 flex flex-col transition-all duration-200"
@@ -118,8 +123,9 @@
                   >
                     <span
                       class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-2"
-                      >{{ consultant.creator.initial }}</span
                     >
+                      {{ consultant.creator.initial }}
+                    </span>
                   </ng-container>
                   <span class="text-sm">{{ consultant.creator.name }}</span>
                 </div>

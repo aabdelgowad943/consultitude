@@ -83,7 +83,11 @@ export class EditAiConsultantComponent implements OnChanges {
       persona: ['', Validators.required],
       output: [
         '',
-        [Validators.required, Validators.maxLength(this.maxOutputLength)],
+        [
+          Validators.required,
+          Validators.maxLength(this.maxOutputLength),
+          Validators.pattern(/^(?!\s*$).+/), // Prevents only spaces
+        ],
       ],
     });
 

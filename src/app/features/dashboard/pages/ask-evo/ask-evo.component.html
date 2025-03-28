@@ -1,4 +1,4 @@
-<div class="w-full max-w-[1600px] h-[1121px] overflow-y-auto mx-auto">
+<div class="w-full max-w-[1600px] overflow-y-auto mx-auto">
   <!---------------------------------------- Skeleton Loader-------------------------------------------- -->
   <app-ask-evo-loader *ngIf="isLoading"></app-ask-evo-loader>
 
@@ -22,7 +22,7 @@
     *ngIf="!isLoading && showDocumentUploadStepper && !showChatInterface"
     class="w-full h-screen flex justify-center items-center"
   >
-    <div class="mt-8 p-6 bg-white rounded-lg max-w-[1000px] w-full">
+    <div class="p-6 bg-white rounded-lg max-w-[1000px] w-full">
       <!-- Step 1: File Upload -->
       <div *ngIf="currentStep === 1">
         <app-file-upload
