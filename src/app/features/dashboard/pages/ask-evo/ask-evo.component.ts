@@ -89,7 +89,7 @@ export class AskEvoComponent {
 
   chatResponse: any = null;
 
-  constructor(private evoService: EvoServicesService) {}
+  constructor(private evoService: EvoServicesService) { }
 
   onShowDocumentUploadStepper(show: boolean) {
     this.showDocumentUploadStepper = show;
@@ -244,6 +244,48 @@ export class AskEvoComponent {
         console.error('Error starting chat:', error);
         this.errorMessage = 'Failed to start chat';
       },
+    });
+  }
+
+
+  messages: any[] = [];
+
+
+  data = {
+    agents: [
+      {
+        agentId: "223e4567-e89b-12d3-a456-426614174111", domain: "Domain A", location: "Location A", name: "Agent A",
+        output: "Output A", persona: "Persona A"
+      }], docs:
+      ["https://consultittude.s3.eu-north-1.amazonaws.com/Evo_Consultation_Summary_2025-03-25.pdf"]
+  }
+
+  // startProcessing() {
+  //   this.evoService.processData(this.data).subscribe({
+  //     next: (message) => {
+  //       console.log('Received message:', message);
+
+  //       this.messages.push(message);
+  //     },
+  //     error: (error) => {
+  //       console.error('Error:', error);
+  //     },
+  //   });
+  // }
+
+
+  startProcessing() {
+    this.evoService.processData(this.data).subscribe({
+      next: (message) => {
+        console.log('Received message:', message);
+        this.messages.push(message);
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      },
+      complete: () => {
+        console.log('Stream completed');
+      }
     });
   }
 
