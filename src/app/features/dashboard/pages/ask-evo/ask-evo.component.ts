@@ -229,16 +229,20 @@ export class AskEvoComponent {
     return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
   }
 
-  onStartChat(chatData: Chat) {
+  // =================================================
+  onStartChat(chatData: any) {
     this.evoService.startChat(chatData).subscribe({
       next: (response: any) => {
-        // Set chatResponse first
         this.chatResponse = response;
-        // console.log('Chat started successfully:', this.chatResponse);
 
         // Then switch the view
         this.showDocumentUploadStepper = false;
         this.showChatInterface = true;
+      },
+      complete: () => {
+        console.log('Chat stream completed');
+        // Optionally handle completion logic here
+        this.showDocumentUploadStepper = false;
       },
       error: (error) => {
         console.error('Error starting chat:', error);
@@ -246,23 +250,4 @@ export class AskEvoComponent {
       },
     });
   }
-
-  // =================================================
-  // onStartChat(chatData: any) {
-  //   this.evoService.startChat(chatData).subscribe({
-  //     next: (response: any) => {
-  //       // Set chatResponse first
-  //       this.chatResponse = response;
-  //       // console.log('Chat started successfully:', this.chatResponse);
-
-  //       // Then switch the view
-  //       this.showDocumentUploadStepper = false;
-  //       this.showChatInterface = true;
-  //     },
-  //     error: (error) => {
-  //       console.error('Error starting chat:', error);
-  //       this.errorMessage = 'Failed to start chat';
-  //     },
-  //   });
-  // }
 }

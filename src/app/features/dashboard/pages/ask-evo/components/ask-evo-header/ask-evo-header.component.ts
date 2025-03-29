@@ -63,7 +63,7 @@ export class AskEvoHeaderComponent {
       next: (res: any) => {
         this.agents = res.data;
         this.totalItems = res.meta.totalItems;
-        console.log('Agents:', this.agents);
+        // console.log('Agents:', this.agents);
       },
       error: (err) => {
         console.error('Error fetching agents', err);

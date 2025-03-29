@@ -12,7 +12,7 @@ export class SseService {
   messages$ = this.messages.asObservable();
 
   connect() {
-    this.eventSource = new SSE('http://localhost:3000/events/stream');
+    this.eventSource = new SSE('http://13.51.183.148:3000/chats/stream');
 
     this.eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
