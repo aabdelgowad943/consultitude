@@ -95,7 +95,7 @@ export class ChatComponent implements OnInit, OnChanges {
   remainingTypingPeriod: number = 0; // Time left for typing effect
   typingSpeed: number = 10;
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     console.log(
@@ -123,7 +123,7 @@ export class ChatComponent implements OnInit, OnChanges {
       this.addMessageWithTypingEffect(
         {
           sender: sender,
-          text: this.chatResponse.message,
+          text: this.chatResponse.content,
           timestamp: new Date(),
           consultantInfo:
             sender === 'consultant'
@@ -131,7 +131,7 @@ export class ChatComponent implements OnInit, OnChanges {
               : null,
         },
         () => {
-          if (this.chatResponse.final_report) {
+          if (this.chatResponse.type === 'final_report') {
             setTimeout(() => {
               this.showFinalReport = true;
               this.reportTimestamp = new Date();
