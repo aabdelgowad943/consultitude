@@ -1,0 +1,37 @@
+<div
+  class="chat-container px-10 big:px-[200px] w-full h-screen overflow-y-auto flex flex-col pt-24"
+>
+  <!-- Chat Messages -->
+  <div class="chat-messages flex-grow p-4">
+    <!-- Initial Summary -->
+    <div *ngIf="chatDetails" class="message mb-10">
+      <div class="flex items-start">
+        <div
+          class="avatar bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-5"
+        >
+          <span>E</span>
+        </div>
+        <div class="message-content max-w-3xl text-[#344054] text-[14px]">
+          <div class="whitespace-pre-line">
+            <p>Here's my summary before we move forward:</p>
+            <ul class="list-disc pl-5 mt-2">
+              <li>
+                You're asking for:
+                {{ chatDetails.ask || "[User's ask summary]" }}
+              </li>
+              <li>
+                I've reviewed:
+                {{ chatDetails?.title || "[Document name/type]" }}
+              </li>
+              <!-- <li>Suggested Consultants: [{{ consultantTypes }}]</li> -->
+            </ul>
+            <p class="mt-2">Does this match what you need?</p>
+          </div>
+          <div class="text-xs text-gray-500 mt-1">
+            {{ chatDetails.updatedAt | customDate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

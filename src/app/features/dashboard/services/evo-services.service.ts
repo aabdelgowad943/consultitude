@@ -74,4 +74,18 @@ export class EvoServicesService {
         mergeMap((messages) => from(messages))
       );
   }
+
+  getChatsByUserId(
+    userId: string,
+    page: number,
+    limit: number
+  ): Observable<Chat[]> {
+    return this.apiService.get<Chat[]>(
+      `/chats/user/${userId}?page=${page}&limit=${limit}`
+    );
+  }
+
+  getChatById(chatId: string): Observable<Chat> {
+    return this.apiService.get<Chat>(`/chats/${chatId}`);
+  }
 }

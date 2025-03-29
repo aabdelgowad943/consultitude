@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { RapidResponseDialogComponent } from '../../../../components/rapid-response-dialog/rapid-response-dialog.component';
 import { EvoServicesService } from '../../../../services/evo-services.service';
 import { AgentsService } from '../../../../services/agents.service';
-import { RouterModule } from '@angular/router';
+import { Route, Router, RouterModule } from '@angular/router';
+import { CustomDatePipe } from '../../../../../../../shared/pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-ask-evo-header',
-  imports: [HistoryComponent, CommonModule, RouterModule],
+  imports: [HistoryComponent, CommonModule, RouterModule, CustomDatePipe],
   templateUrl: './ask-evo-header.component.html',
   styleUrl: './ask-evo-header.component.scss',
 })
@@ -17,10 +18,15 @@ export class AskEvoHeaderComponent {
   @Input() agents: any[] = [];
   @Input() conversations: any[] = [];
   @Output() showDocumentUploadStepper = new EventEmitter<boolean>();
-  services: any;
   @Input() serviceId: string = '';
-
   @Output() serviceIdChange = new EventEmitter<string>();
+
+  services: any;
+  totalItems: number = 0;
+  first: number = 0;
+  pageSize: number = 3;
+
+  userId: string = localStorage.getItem('userId') || '';
 
   onQuestionChange(value: string) {
     this.serviceId = value;
@@ -30,10 +36,12 @@ export class AskEvoHeaderComponent {
   constructor(
     private dialogService: DialogService,
     private evoService: EvoServicesService,
-    private agentService: AgentsService
+    private agentService: AgentsService,
+    private router: Router
   ) {
     this.getAllServices();
     this.getAllAgents();
+    this.getChatsByUserId();
   }
 
   getAllServices() {
@@ -44,9 +52,6 @@ export class AskEvoHeaderComponent {
     });
   }
 
-  totalItems: number = 0;
-  first: number = 0;
-  pageSize: number = 3;
   getAllAgents(params: any = {}) {
     const currentPage = Math.floor(this.first / this.pageSize) + 1;
 
@@ -156,5 +161,20 @@ export class AskEvoHeaderComponent {
   private openConsultantBookingDialog() {
     // Implement Consultant Booking specific dialog/action
     // console.log('Opening Consultant Booking Dialog');
+  }
+
+  getChatsByUserId() {
+    this.evoService.getChatsByUserId(this.userId, 1, 5).subscribe({
+      next: (res: any) => {
+        this.conversations = res.data;
+        console.log(this.conversations);
+      },
+    });
+  }
+
+  viewChatHistory(chatId: string) {
+    this.router.navigate(['dashboard/view-chat-details', chatId], {
+      queryParams: { chatId: chatId },
+    });
   }
 }

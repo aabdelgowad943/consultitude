@@ -182,6 +182,7 @@
 
       <div class="flex items-center gap-4">
         <button
+          [disabled]="!selectedConsultantsCount"
           (click)="continueToNextStep()"
           class="px-6 py-3 bg-[#9241DC] text-white rounded-xl hover:bg-purple-700"
         >

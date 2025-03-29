@@ -8,6 +8,7 @@ import { ViewDocumentDetailsComponent } from './pages/view-document-details/view
 import { AiAgentsComponent } from '../ai-agents/ai-agents.component';
 import { AgentsComponent } from '../ai-agents/pages/agents/agents.component';
 import { AskEvoComponent } from './pages/ask-evo/ask-evo.component';
+import { ShowChatComponent } from './pages/show-chat/show-chat.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'agents',
         component: AgentsComponent,
+      },
+      {
+        path: 'view-chat-details/:id',
+        component: ShowChatComponent,
       },
 
       {
