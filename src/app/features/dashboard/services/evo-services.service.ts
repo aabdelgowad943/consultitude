@@ -17,7 +17,10 @@ export class EvoServicesService {
     return this.apiService.post('/chats/suggest-agents', suggest);
   }
 
+  // startChat(chat: Chat): Observable<Chat> {
+  //   return this.apiService.post('/chats', chat);
+  // }
   startChat(chat: Chat): Observable<Chat> {
-    return this.apiService.post('/chats', chat);
+    return this.apiService.post('/chats/stream', chat);
   }
 }

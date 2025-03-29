@@ -229,26 +229,7 @@ export class AskEvoComponent {
     return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
   }
 
-  onStartChat(chatData: Chat) {
-    this.evoService.startChat(chatData).subscribe({
-      next: (response: any) => {
-        // Set chatResponse first
-        this.chatResponse = response;
-        // console.log('Chat started successfully:', this.chatResponse);
-
-        // Then switch the view
-        this.showDocumentUploadStepper = false;
-        this.showChatInterface = true;
-      },
-      error: (error) => {
-        console.error('Error starting chat:', error);
-        this.errorMessage = 'Failed to start chat';
-      },
-    });
-  }
-
-  // =================================================
-  // onStartChat(chatData: any) {
+  // onStartChat(chatData: Chat) {
   //   this.evoService.startChat(chatData).subscribe({
   //     next: (response: any) => {
   //       // Set chatResponse first
@@ -265,4 +246,34 @@ export class AskEvoComponent {
   //     },
   //   });
   // }
+
+  // =================================================
+  onStartChat(chatData: any) {
+    this.evoService.startChat(chatData).subscribe({
+      next: (response: any) => {
+        console.log(response);
+
+        // console.log(
+        //   'Chat started successfullyyyyyyyyyyyyyyyyyyyy:',
+        //   // JSON.parse(response)
+        //   // JSON.parse(response.data.replace('data: ', ''))
+        // );
+
+        // Set chatResponse first
+        this.chatResponse = JSON.parse(response);
+        // console.log('Chat started successfully:', this.chatResponse);
+
+        // Then switch the view
+        this.showDocumentUploadStepper = false;
+        this.showChatInterface = true;
+      },
+      error: (error) => {
+        console.error('Error starting chat:', error);
+        this.errorMessage = 'Failed to start chat';
+      },
+    });
+  }
 }
+
+// data: data: {"agent": "EVO", "message": "Hello! As EVO, your Rigorous Moderator, I'm ready to provide insights on the document you've mentioned. However, it appears that the document and the conversation details are missing from your message. Could you please provide the necessary information so I can assist you effectively?"}
+// data: {"agent": "EVO", "message": "Hello! I\u2019d be happy to assist with providing insights on the document. However, it appears that the document content is missing from your message. Could you please provide the document or share the relevant details? Once I have the necessary information, I can offer a comprehensive summary and insights based on my moderation expertise."}

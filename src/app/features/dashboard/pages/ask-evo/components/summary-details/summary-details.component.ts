@@ -46,35 +46,35 @@ export class SummaryDetailsComponent implements OnInit {
     this.previous.emit();
   }
 
-  continueToNextStep() {
-    const chatData = {
-      title: this.fileName || 'New Chat',
-      threadId: null,
-      serviceId: this.serviceId,
-      ownerId: localStorage.getItem('profileId') || '',
-      ask: this.userQuestion,
-      agents: this.selectedConsultants.map((c) => c.agentId.toString()),
-      documents: [this.documentUrl],
-    };
-    this.startChat.emit(chatData);
-    this.continue.emit();
-  }
-  // ===============================================================
   // continueToNextStep() {
-  //   const chatData: ChatTest = {
-  //     agents: [
-  //       {
-  //         agentId: this.selectedConsultants[0]?.agentId.toString() || '',
-  //         domain: this.selectedConsultants[0]?.domain || 'domain',
-  //         location: this.selectedConsultants[0]?.location || 'location',
-  //         name: this.selectedConsultants[0]?.name || 'name',
-  //         output: this.selectedConsultants[0]?.output || 'output',
-  //         persona: this.selectedConsultants[0]?.persona || 'persona',
-  //       },
-  //     ],
-  //     docs: [this.documentUrl],
+  //   const chatData = {
+  //     title: this.fileName || 'New Chat',
+  //     threadId: null,
+  //     serviceId: this.serviceId,
+  //     ownerId: localStorage.getItem('profileId') || '',
+  //     ask: this.userQuestion,
+  //     agents: this.selectedConsultants.map((c) => c.agentId.toString()),
+  //     documents: [this.documentUrl],
   //   };
   //   this.startChat.emit(chatData);
   //   this.continue.emit();
   // }
+  // ===============================================================
+  continueToNextStep() {
+    const chatData: ChatTest = {
+      agents: [
+        {
+          agentId: this.selectedConsultants[0]?.agentId.toString() || '',
+          domain: this.selectedConsultants[0]?.domain || 'domain',
+          location: this.selectedConsultants[0]?.location || 'location',
+          name: this.selectedConsultants[0]?.name || 'name',
+          output: this.selectedConsultants[0]?.output || 'output',
+          persona: this.selectedConsultants[0]?.persona || 'persona',
+        },
+      ],
+      docs: [this.documentUrl],
+    };
+    this.startChat.emit(chatData);
+    this.continue.emit();
+  }
 }
