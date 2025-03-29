@@ -45,30 +45,30 @@ interface ChatMessage {
   imports: [CommonModule, FormsModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
-  animations: [
-    trigger('fadeUpStagger', [
-      transition('* => *', [
-        query(
-          ':enter',
-          [
-            style({ opacity: 0, transform: 'translateY(20px)' }),
-            stagger('100ms', [
-              animate(
-                '300ms ease-out',
-                style({ opacity: 1, transform: 'translateY(0)' })
-              ),
-            ]),
-          ],
-          { optional: true }
-        ),
-      ]),
-    ]),
-    trigger('typingAnimation', [
-      state('void', style({ opacity: 0 })),
-      state('*', style({ opacity: 1 })),
-      transition('void => *', animate('300ms ease-out')),
-    ]),
-  ],
+  // animations: [
+  //   trigger('fadeUpStagger', [
+  //     transition('* => *', [
+  //       query(
+  //         ':enter',
+  //         [
+  //           style({ opacity: 0, transform: 'translateY(20px)' }),
+  //           stagger('100ms', [
+  //             animate(
+  //               '300ms ease-out',
+  //               style({ opacity: 1, transform: 'translateY(0)' })
+  //             ),
+  //           ]),
+  //         ],
+  //         { optional: true }
+  //       ),
+  //     ]),
+  //   ]),
+  //   trigger('typingAnimation', [
+  //     state('void', style({ opacity: 0 })),
+  //     state('*', style({ opacity: 1 })),
+  //     transition('void => *', animate('300ms ease-out')),
+  //   ]),
+  // ],
 })
 export class ChatComponent implements OnInit, OnChanges {
   @Input() selectedFile: File | null = null;
@@ -92,7 +92,8 @@ export class ChatComponent implements OnInit, OnChanges {
   }
 
   isTyping: boolean = false;
-  typingSpeed: number = 20;
+  remainingTypingPeriod: number = 0; // Time left for typing effect
+  typingSpeed: number = 10;
 
   constructor(private sanitizer: DomSanitizer) {}
 
@@ -106,7 +107,7 @@ export class ChatComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['chatResponse'] && changes['chatResponse'].currentValue) {
       console.log('chatResponse changed:', this.chatResponse);
-      if (this.chatResponse && this.chatResponse.data?.messages) {
+      if (this.chatResponse) {
         this.startConversation();
       }
     }
@@ -114,49 +115,42 @@ export class ChatComponent implements OnInit, OnChanges {
 
   startConversation() {
     this.conversationStarted = true;
-    console.log(
-      'Starting conversation with messages:',
-      this.chatResponse.data.messages
-    );
+    // console.log('Starting conversation with messages:', this.chatResponse);
 
-    this.chatResponse.data.messages.forEach((message: any, index: number) => {
-      const sender =
-        message.agent.toLowerCase() === 'evo' ? 'evo' : 'consultant';
-      setTimeout(() => {
-        this.addMessageWithTypingEffect(
-          {
-            sender: sender,
-            text: message.message,
-            timestamp: new Date(),
-            consultantInfo:
-              sender === 'consultant'
-                ? this.getConsultantInfo(message.agent)
-                : null,
-          },
-          () => {
-            if (index === this.chatResponse.data.messages.length - 1) {
-              setTimeout(() => {
-                this.showFinalReport = true;
-                this.reportTimestamp = new Date();
-              }, 500);
-            }
+    const sender =
+      this.chatResponse.agent.toLowerCase() === 'evo' ? 'evo' : 'consultant';
+    setTimeout(() => {
+      this.addMessageWithTypingEffect(
+        {
+          sender: sender,
+          text: this.chatResponse.message,
+          timestamp: new Date(),
+          consultantInfo:
+            sender === 'consultant'
+              ? this.getConsultantInfo(this.chatResponse.agent)
+              : null,
+        },
+        () => {
+          if (this.chatResponse.final_report) {
+            setTimeout(() => {
+              this.showFinalReport = true;
+              this.reportTimestamp = new Date();
+            }, 500);
           }
-        );
-      }, index * 1000); // Delay between messages
-    });
-
-    // console.log(
-    //   'Chat messagesdddddddddddddddd:',
-    //   this.chatResponse.data.messages
-    // );
+        }
+      );
+    }, this.remainingTypingPeriod);
   }
 
   getConsultantInfo(agentId: string): any {
-    const consultant = this.selectedConsultants.find(
-      (c: any) => c.agentId === agentId || c.type === agentId // Match by agentId or type
-    );
+    const consultant = this.chatResponse.agent;
+    // const consultant = this.selectedConsultants.find(
+    //   (c: any) => c.agentId === agentId || c.type === agentId // Match by agentId or type
+    // );
+    console.log('consultant info', consultant);
+
     return consultant
-      ? { name: consultant.type, description: consultant.description }
+      ? { name: consultant, description: consultant }
       : { name: agentId, description: 'Unknown Consultant' };
   }
 
@@ -169,7 +163,7 @@ export class ChatComponent implements OnInit, OnChanges {
 
   get finalSummary(): string {
     return (
-      this.chatResponse?.data?.recommendation ||
+      this.chatResponse?.final_report ||
       'Recommendations will be available after the conversation.'
     );
   }
@@ -182,7 +176,9 @@ export class ChatComponent implements OnInit, OnChanges {
 
     let i = 0;
     const text = message.text;
+    this.remainingTypingPeriod = text.length * this.typingSpeed; // Calculate total typing time
     const typingInterval = setInterval(() => {
+      this.remainingTypingPeriod -= this.typingSpeed; // Decrease remaining time
       if (i < text.length) {
         message.displayText = text.substring(0, i + 1);
         message.displayHtml = this.sanitizer.bypassSecurityTrustHtml(
