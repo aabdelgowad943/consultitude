@@ -19,6 +19,7 @@ import { Consultant } from './components/consulting-suggestion/consulting-sugges
 import { EvoServicesService } from '../../services/evo-services.service';
 import { finalize } from 'rxjs';
 import { Chat, ChatTest } from '../../models/chat';
+import { marked } from 'marked';
 
 export interface Agent {
   id: number;
@@ -89,7 +90,7 @@ export class AskEvoComponent {
 
   chatResponse: any = null;
 
-  constructor(private evoService: EvoServicesService) { }
+  constructor(private evoService: EvoServicesService) {}
 
   onShowDocumentUploadStepper(show: boolean) {
     this.showDocumentUploadStepper = show;
@@ -247,18 +248,23 @@ export class AskEvoComponent {
     });
   }
 
-
   messages: any[] = [];
-
 
   data = {
     agents: [
       {
-        agentId: "223e4567-e89b-12d3-a456-426614174111", domain: "Domain A", location: "Location A", name: "Agent A",
-        output: "Output A", persona: "Persona A"
-      }], docs:
-      ["https://consultittude.s3.eu-north-1.amazonaws.com/Evo_Consultation_Summary_2025-03-25.pdf"]
-  }
+        agentId: '223e4567-e89b-12d3-a456-426614174111',
+        domain: 'Domain A',
+        location: 'Location A',
+        name: 'Agent A',
+        output: 'Output A',
+        persona: 'Persona A',
+      },
+    ],
+    docs: [
+      'https://consultittude.s3.eu-north-1.amazonaws.com/Evo_Consultation_Summary_2025-03-25.pdf',
+    ],
+  };
 
   // startProcessing() {
   //   this.evoService.processData(this.data).subscribe({
@@ -273,19 +279,25 @@ export class AskEvoComponent {
   //   });
   // }
 
+  mark(message: any) {
+    return marked.parse(message);
+    // console.log('Marked message:', message);
+  }
 
   startProcessing() {
     this.evoService.processData(this.data).subscribe({
       next: (message) => {
         console.log('Received message:', message);
         this.messages.push(message);
+
+        // never duplicate the
       },
       error: (error) => {
         console.error('Error:', error);
       },
       complete: () => {
         console.log('Stream completed');
-      }
+      },
     });
   }
 

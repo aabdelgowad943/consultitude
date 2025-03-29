@@ -3,13 +3,18 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../../../../shared/services/api.service';
 import { filter, from, map, mergeMap, Observable } from 'rxjs';
 import { Chat } from '../models/chat';
-import { HttpClient, HttpDownloadProgressEvent, HttpEventType, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpDownloadProgressEvent,
+  HttpEventType,
+  HttpParams,
+} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EvoServicesService {
-  constructor(private apiService: ApiService, private http: HttpClient) { }
+  constructor(private apiService: ApiService, private http: HttpClient) {}
 
   getAllServices(page: number, limit: number): Observable<any[]> {
     return this.apiService.get(`/services?page=${page}&limit=${limit}`);
@@ -22,7 +27,6 @@ export class EvoServicesService {
   startChat(chat: Chat): Observable<Chat> {
     return this.apiService.post('/chats', chat);
   }
-
 
   // processData(data: any): Observable<any> {
   //   return this.http.post(environment.url + '/chats/stream', data, {
@@ -59,49 +63,61 @@ export class EvoServicesService {
   //   );
   // }
 
-
   processData(data: any): Observable<any> {
-    let buffer = ''; // Create a buffer to accumulate partial data
+    let previousTextLength = 0; // Track how much text we've processed
+    let buffer = ''; // Buffer for incomplete messages
 
-    return this.http.post(environment.url + '/chats/stream', data, {
-      responseType: 'text',
-      reportProgress: true,
-      observe: 'events'
-    }).pipe(
-      filter((event): event is HttpDownloadProgressEvent =>
-        event.type === HttpEventType.DownloadProgress
-      ),
-      map((event: HttpDownloadProgressEvent) => {
-        // Get the partial text from this event
-        const partialText = event.partialText || '';
+    return this.http
+      .post(environment.url + '/chats/stream', data, {
+        responseType: 'text',
+        reportProgress: true,
+        observe: 'events',
+      })
+      .pipe(
+        filter(
+          (event): event is HttpDownloadProgressEvent =>
+            event.type === HttpEventType.DownloadProgress
+        ),
+        map((event: HttpDownloadProgressEvent) => {
+          // Get the full text received so far
+          const fullText = event.partialText || '';
 
-        // Add it to our running buffer
-        buffer += partialText;
+          // Extract only the new part we haven't processed yet
+          const newText = fullText.substring(previousTextLength);
+          previousTextLength = fullText.length;
 
-        // Try to extract complete SSE messages
-        const messages = [];
-        const chunks = buffer.split('\n\n');
+          // Add new text to our buffer
+          buffer += newText;
 
-        // The last chunk might be incomplete, so we keep it in the buffer
-        buffer = chunks.pop() || '';
+          console.log(
+            '********************************************************************************************'
+          );
+          console.log('New chunk:', newText);
 
-        // Process complete chunks
-        for (const chunk of chunks) {
-          if (chunk.trim().startsWith('data:')) {
-            const dataStr = chunk.replace(/^data:\s*/, '');
-            try {
-              messages.push(JSON.parse(chunk));
-            } catch (e) {
-              console.warn('Failed to parse JSON:', dataStr, e);
+          // Try to extract complete SSE messages
+          const messages = [];
+          const chunks = buffer.split('\n\n');
+
+          // The last chunk might be incomplete, so we keep it in the buffer
+          buffer = chunks.pop() || '';
+
+          // Process complete chunks
+          for (const chunk of chunks) {
+            if (chunk.trim().startsWith('data:')) {
+              const dataStr = chunk.replace(/^data:\s*/, '');
+              try {
+                messages.push(JSON.parse(dataStr));
+              } catch (e) {
+                console.warn('Failed to parse JSON:', dataStr, e);
+              }
             }
           }
-        }
 
-        return messages.length > 0 ? messages : null;
-      }),
-      filter(data => data !== null),
-      // Flatten the array of messages
-      mergeMap(messages => from(messages))
-    );
+          return messages.length > 0 ? messages : null;
+        }),
+        filter((data) => data !== null),
+        // Flatten the array of messages
+        mergeMap((messages) => from(messages))
+      );
   }
 }
