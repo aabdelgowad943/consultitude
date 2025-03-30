@@ -107,7 +107,7 @@ export class ConsultingSuggestionComponent implements OnInit {
                 index +
                 1,
               type: agent.name || 'Consultant',
-              description: this.buildDescription(agent),
+              description: agent.persona,
               creator: {
                 name: agent.owner || 'Unknown',
                 avatar: 'images/new/circle.svg',
