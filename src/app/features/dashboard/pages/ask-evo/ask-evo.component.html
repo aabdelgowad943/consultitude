@@ -60,7 +60,7 @@
       <!-- Step 3: Consultant Suggestions -->
       <div *ngIf="currentStep === 3">
         <app-consulting-suggestion
-          [suggestedAgents]="selectedConsultants"
+          [suggestedAgents]="suggestedAgentsData"
           (continue)="continueToNextStep()"
           (previous)="goToPreviousStep()"
           (selectedConsultantsChange)="onSelectedConsultantsChange($event)"
