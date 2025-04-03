@@ -6,11 +6,12 @@
     <!-- Initial Summary -->
     <div *ngIf="summarySection" class="message mb-10">
       <div class="flex items-start">
-        <div
-          class="avatar bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-5"
-        >
-          <span>E</span>
-        </div>
+        <img
+          src="images/new/circle.svg"
+          class="w-[32px] h-[32px] mr-5"
+          alt=""
+        />
+
         <div class="message-content max-w-3xl text-[#344054] text-[14px]">
           <div class="whitespace-pre-line">
             <p>Here's my summary before we move forward:</p>
@@ -22,9 +23,8 @@
                 I've reviewed:
                 {{ selectedFile?.name || "[Document name/type]" }}
               </li>
-              <li>Suggested Consultants: [{{ consultantTypes }}]</li>
+              <li>Suggested Consultants: {{ consultantTypes }}</li>
             </ul>
-            <p class="mt-2">Does this match what you need?</p>
           </div>
           <div class="text-xs text-gray-500 mt-1">
             {{ summaryTimestamp | date : "h:mm a" }}
@@ -41,11 +41,11 @@
       <div *ngFor="let message of chatMessages" class="message mb-5">
         <!-- EVO Messages -->
         <div *ngIf="message.sender === 'evo'" class="flex items-start">
-          <div
-            class="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-4"
-          >
-            <span>E</span>
-          </div>
+          <img
+            src="images/new/circle.svg"
+            class="w-[32px] h-[32px] mr-5"
+            alt=""
+          />
           <div class="message-content w-[80%]">
             <div class="font-semibold mb-2 text-[#19213D]">Evo</div>
             <div class="whitespace-pre-line text-[#344054] text-sm">
@@ -82,55 +82,29 @@
       </div>
     </div>
 
-    <!-- Final Report Section -->
+    <!-- Message Loading Indicator -->
+    <div *ngIf="isLoadingNextMessage" class="flex items-start mt-4 mb-6 ml-10">
+      <div class="loading-indicator flex space-x-2">
+        <div class="typing-dot"></div>
+        <div class="typing-dot animation-delay-200"></div>
+        <div class="typing-dot animation-delay-400"></div>
+      </div>
+    </div>
+
+    <!-- Final Report Section with Typing Effect -->
     <div *ngIf="showFinalReport" class="message mb-6">
       <div class="flex items-start">
-        <div
-          class="avatar bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-4"
-        >
-          <span>E</span>
-        </div>
+        <img
+          src="images/new/circle.svg"
+          class="w-[32px] h-[32px] mr-5"
+          alt=""
+        />
         <div class="message-content max-w-3xl">
+          <div class="font-semibold mb-2 text-[#19213D]">Evo</div>
           <div class="whitespace-pre-line text-[#101828] text-sm">
-            <p>
-              We're all done! Below is a summary of your request, the key
-              insights, and each Consultant's input. Review everything:
-            </p>
-            <ol class="list-decimal pl-5 mt-3 space-y-3">
-              <li>
-                <strong>Your Original Ask:</strong>
-                <p>
-                  {{
-                    userQuestion ||
-                      "[Restate the user's original question/request clearly and briefly]"
-                  }}
-                </p>
-              </li>
-              <li>
-                <strong>Document Overview:</strong>
-                <p>{{ documentSummary }}</p>
-              </li>
-              <li>
-                <strong>Consultants Consulted:</strong>
-                <p>{{ consultantTypes }}</p>
-              </li>
-              <li>
-                <strong>The Summary for Your Ask:</strong>
-                <p>{{ finalSummary }}</p>
-              </li>
-              <li>
-                <strong>Consultant Opinions & Supporting Arguments:</strong>
-                <div
-                  *ngFor="let consultant of selectedConsultants"
-                  class="mt-2"
-                >
-                  <p>
-                    <strong>Consultant {{ consultant.type }}:</strong>
-                    {{ consultant.description }}
-                  </p>
-                </div>
-              </li>
-            </ol>
+            <p>Here's the final report based on our conversation:</p>
+            <div [innerHTML]="finalReportHtml"></div>
+            <span *ngIf="finalReportIsTyping" class="typing-cursor"></span>
           </div>
           <div class="text-xs text-gray-500 mt-1">
             {{ reportTimestamp | date : "h:mm a" }}
@@ -151,7 +125,7 @@
 
   <!-- Footer buttons -->
   <div
-    *ngIf="showFinalReport"
+    *ngIf="showFinalReport && !finalReportIsTyping"
     class="border-t p-4 flex justify-center space-x-4"
   >
     <div

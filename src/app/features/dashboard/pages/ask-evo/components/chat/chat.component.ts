@@ -20,6 +20,7 @@ import {
 } from '@angular/animations';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+
 // Extend the jsPDF type to include autoTable
 declare module 'jspdf' {
   interface jsPDF {
@@ -29,6 +30,7 @@ declare module 'jspdf' {
     };
   }
 }
+
 interface ChatMessage {
   sender: 'user' | 'evo' | 'consultant';
   consultantInfo?: any;
@@ -39,36 +41,42 @@ interface ChatMessage {
   isTyping?: boolean;
 }
 
+interface ChatResponse {
+  type: string;
+  agent: string;
+  content: string;
+}
+
 @Component({
   selector: 'app-chat',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
-  // animations: [
-  //   trigger('fadeUpStagger', [
-  //     transition('* => *', [
-  //       query(
-  //         ':enter',
-  //         [
-  //           style({ opacity: 0, transform: 'translateY(20px)' }),
-  //           stagger('100ms', [
-  //             animate(
-  //               '300ms ease-out',
-  //               style({ opacity: 1, transform: 'translateY(0)' })
-  //             ),
-  //           ]),
-  //         ],
-  //         { optional: true }
-  //       ),
-  //     ]),
-  //   ]),
-  //   trigger('typingAnimation', [
-  //     state('void', style({ opacity: 0 })),
-  //     state('*', style({ opacity: 1 })),
-  //     transition('void => *', animate('300ms ease-out')),
-  //   ]),
-  // ],
+  animations: [
+    trigger('fadeUpStagger', [
+      transition('* => *', [
+        query(
+          ':enter',
+          [
+            style({ opacity: 0, transform: 'translateY(20px)' }),
+            stagger('100ms', [
+              animate(
+                '300ms ease-out',
+                style({ opacity: 1, transform: 'translateY(0)' })
+              ),
+            ]),
+          ],
+          { optional: true }
+        ),
+      ]),
+    ]),
+    trigger('typingAnimation', [
+      state('void', style({ opacity: 0 })),
+      state('*', style({ opacity: 1 })),
+      transition('void => *', animate('300ms ease-out')),
+    ]),
+  ],
 })
 export class ChatComponent implements OnInit, OnChanges {
   @Input() selectedFile: File | null = null;
@@ -81,11 +89,16 @@ export class ChatComponent implements OnInit, OnChanges {
   summarySection: boolean = true;
   conversationStarted: boolean = false;
   showFinalReport: boolean = false;
+  isLoadingNextMessage: boolean = false;
+  finalReportIsTyping: boolean = false;
 
   summaryTimestamp: Date = new Date();
   reportTimestamp: Date = new Date();
 
   chatMessages: ChatMessage[] = [];
+  finalReportContent: string = '';
+  finalReportDisplayText: string = '';
+  finalReportHtml: SafeHtml = '';
 
   get consultantTypes(): string {
     return this.selectedConsultants.map((item: any) => item.type).join(', ');
@@ -98,57 +111,81 @@ export class ChatComponent implements OnInit, OnChanges {
   constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    console.log(
-      'ChatComponent initialized with chatResponse:',
-      this.chatResponse
-    );
+    // console.log(
+    //   'ChatComponent initialized with chatResponse:',
+    //   this.chatResponse
+    // );
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['chatResponse'] && changes['chatResponse'].currentValue) {
-      console.log('chatResponse changed:', this.chatResponse);
+      // console.log('chatResponse changed:', this.chatResponse);
       if (this.chatResponse) {
-        this.startConversation();
+        // Always show loading indicator when new message is coming
+        this.isLoadingNextMessage = false;
+        this.processChatResponse(this.chatResponse);
       }
     }
   }
 
-  startConversation() {
+  processChatResponse(response: ChatResponse) {
     this.conversationStarted = true;
-    // console.log('Starting conversation with messages:', this.chatResponse);
 
-    const sender =
-      this.chatResponse.agent.toLowerCase() === 'evo' ? 'evo' : 'consultant';
-    setTimeout(() => {
+    // Check if this is a final report
+    if (response.type === 'final_report') {
+      // Store final report content
+      this.finalReportContent = response.content;
+      this.reportTimestamp = new Date();
+
+      // Start typing animation for final report
+      this.showFinalReport = true;
+      this.finalReportIsTyping = true;
+      this.animateFinalReport();
+    } else {
+      // Show loading indicator for the next message
+      this.isLoadingNextMessage = true;
+
+      // Process regular message
+      const sender =
+        response.agent.toLowerCase() === 'evo' ? 'evo' : 'consultant';
       this.addMessageWithTypingEffect(
         {
           sender: sender,
-          text: this.chatResponse.content,
+          text: response.content,
           timestamp: new Date(),
           consultantInfo:
             sender === 'consultant'
-              ? this.getConsultantInfo(this.chatResponse.agent)
+              ? this.getConsultantInfo(response.agent)
               : null,
         },
         () => {
-          if (this.chatResponse.type === 'final_report') {
-            setTimeout(() => {
-              this.showFinalReport = true;
-              this.reportTimestamp = new Date();
-            }, 500);
-          }
+          // Keep loading indicator visible after message is fully typed
+          this.isLoadingNextMessage = true;
         }
       );
-    }, this.remainingTypingPeriod);
+    }
+  }
+
+  // Animate final report with typing effect
+  animateFinalReport() {
+    let i = 0;
+    const text = this.finalReportContent;
+    const typingInterval = setInterval(() => {
+      if (i < text.length) {
+        this.finalReportDisplayText = text.substring(0, i + 1);
+        this.finalReportHtml = this.sanitizer.bypassSecurityTrustHtml(
+          marked.parse(this.finalReportDisplayText, { async: false })
+        );
+        i++;
+      } else {
+        clearInterval(typingInterval);
+        this.finalReportIsTyping = false;
+      }
+    }, this.typingSpeed);
   }
 
   getConsultantInfo(agentId: string): any {
     const consultant = this.chatResponse.agent;
-    // const consultant = this.selectedConsultants.find(
-    //   (c: any) => c.agentId === agentId || c.type === agentId // Match by agentId or type
-    // );
-    console.log('consultant info', consultant);
-
     return consultant
       ? { name: consultant, description: consultant }
       : { name: agentId, description: 'Unknown Consultant' };
@@ -163,7 +200,7 @@ export class ChatComponent implements OnInit, OnChanges {
 
   get finalSummary(): string {
     return (
-      this.chatResponse?.final_report ||
+      this.chatResponse?.content ||
       'Recommendations will be available after the conversation.'
     );
   }
@@ -194,6 +231,30 @@ export class ChatComponent implements OnInit, OnChanges {
     }, this.typingSpeed);
   }
 
+  // Function to simulate streaming message sequence
+  // In a real application, this would be connected to your actual message stream
+  simulateMessageStream(messages: ChatResponse[]) {
+    let index = 0;
+
+    const processNextMessage = () => {
+      if (index < messages.length) {
+        this.isLoadingNextMessage = false;
+        this.processChatResponse(messages[index]);
+        index++;
+
+        if (index < messages.length) {
+          // Always show loading indicator between messages
+          setTimeout(() => {
+            this.isLoadingNextMessage = true;
+            setTimeout(processNextMessage, 1500);
+          }, this.remainingTypingPeriod + 500);
+        }
+      }
+    };
+
+    processNextMessage();
+  }
+
   suggestions: any[] = [
     {
       text: 'Summarize into a document & download?',
@@ -207,7 +268,7 @@ export class ChatComponent implements OnInit, OnChanges {
     },
   ];
 
-  // Function to download PDF summary
+  // Function to download PDF summary with improved final report formatting
   downloadPdfSummary() {
     // Create new PDF document
     const doc = new jsPDF();
@@ -242,25 +303,24 @@ export class ChatComponent implements OnInit, OnChanges {
 
     let yPosition = 40 + userQuestionLines.length * 7;
 
-    // Add document summary section
+    // Add document name section
     doc.setFontSize(14);
     doc.setTextColor(0, 0, 0);
-    doc.text('Document Overview', 10, yPosition + 10);
+    doc.text('Document Name', 10, yPosition + 10);
     doc.setFontSize(12);
     doc.setTextColor(50, 50, 50);
 
-    const documentSummaryLines = doc.splitTextToSize(
-      this.documentSummary,
+    const fileNameLines = doc.splitTextToSize(
+      this.selectedFile?.name || '[No file selected]',
       pageWidth - 20
     );
-    doc.text(documentSummaryLines, 10, yPosition + 20);
-
-    yPosition = yPosition + 20 + documentSummaryLines.length * 7;
+    doc.text(fileNameLines, 10, yPosition + 20);
+    yPosition = yPosition + 20 + fileNameLines.length! * 7; // Adjust for the height of the text
 
     // Add consultants section
     doc.setFontSize(14);
     doc.setTextColor(0, 0, 0);
-    doc.text('Consultants Consultitude', 10, yPosition + 10);
+    doc.text('Consultants Involved', 10, yPosition + 10);
     doc.setFontSize(12);
 
     // Check if we need a new page
@@ -271,11 +331,7 @@ export class ChatComponent implements OnInit, OnChanges {
 
     // Create table for consultants
     const consultantTableData = this.selectedConsultants.map(
-      (consultant: any) => [
-        consultant.type,
-        // consultant.role,
-        consultant.description,
-      ]
+      (consultant: any) => [consultant.type, consultant.description]
     );
 
     autoTable(doc, {
@@ -289,29 +345,8 @@ export class ChatComponent implements OnInit, OnChanges {
 
     yPosition = doc.lastAutoTable.finalY + 10;
 
-    // Check if we need a new page
-    if (yPosition > pageHeight - 60) {
-      doc.addPage();
-      yPosition = 20;
-    }
-
-    // Add final summary section
-    doc.setFontSize(14);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Final Summary & Recommendations', 10, yPosition + 10);
-    doc.setFontSize(12);
-    doc.setTextColor(50, 50, 50);
-
-    const finalSummaryLines = doc.splitTextToSize(
-      this.finalSummary,
-      pageWidth - 20
-    );
-    doc.text(finalSummaryLines, 10, yPosition + 20);
-
     // Add conversation highlights if needed
     if (this.chatMessages.length > 0) {
-      yPosition = yPosition + 20 + finalSummaryLines.length * 7 + 10;
-
       // Check if we need a new page
       if (yPosition > pageHeight - 70) {
         doc.addPage();
@@ -342,11 +377,158 @@ export class ChatComponent implements OnInit, OnChanges {
         headStyles: { fillColor: [81, 20, 163], textColor: [255, 255, 255] },
         margin: { top: 10 },
       });
+
+      yPosition = doc.lastAutoTable.finalY + 10;
     }
+
+    // Always start the final report section on a new page
+    doc.addPage();
+
+    // Add Final Summary & Recommendations section with better formatting
+    doc.setFillColor(245, 247, 250); // Light background for the header
+    doc.rect(0, 0, pageWidth, 30, 'F');
+
+    doc.setFontSize(18);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Final Summary & Recommendations', pageWidth / 2, 20, {
+      align: 'center',
+    });
+
+    // Get the final report content
+    const finalReportContent =
+      this.finalReportContent ||
+      this.chatResponse?.content ||
+      'No final recommendations available';
+
+    // Parse markdown to extract sections
+    const sections = this.parseMarkdownSections(finalReportContent);
+
+    let currentY = 40;
+
+    // Render each section with proper formatting
+    sections.forEach((section) => {
+      // Add section title
+      if (section.title) {
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(81, 20, 163); // Purple color for headings
+        doc.text(section.title, 10, currentY);
+        currentY += 10;
+      }
+
+      // Add section content
+      if (section.content) {
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 50, 50);
+
+        // Handle bullet points
+        const contentLines = section.content.split('\\n');
+        contentLines.forEach((line) => {
+          // Check if line is a bullet point
+          if (line.trim().startsWith('- ')) {
+            const bulletText = line.trim().substring(2);
+            const formattedLines = doc.splitTextToSize(
+              bulletText,
+              pageWidth - 30
+            );
+            doc.text('•', 15, currentY);
+            doc.text(formattedLines, 20, currentY);
+            currentY += formattedLines.length * 7;
+          } else {
+            const formattedLines = doc.splitTextToSize(line, pageWidth - 20);
+            doc.text(formattedLines, 10, currentY);
+            currentY += formattedLines.length * 7;
+          }
+
+          // Add some spacing between paragraphs
+          currentY += 3;
+
+          // Check if we need a new page
+          if (currentY > pageHeight - 20) {
+            doc.addPage();
+            currentY = 20;
+          }
+        });
+      }
+
+      // Add separator between sections
+      doc.setDrawColor(200, 200, 200);
+      doc.line(10, currentY, pageWidth - 10, currentY);
+      currentY += 10;
+
+      // Check if we need a new page
+      if (currentY > pageHeight - 40) {
+        doc.addPage();
+        currentY = 20;
+      }
+    });
 
     // Save the PDF
     doc.save(
       `Evo_Consultation_Summary_${new Date().toISOString().slice(0, 10)}.pdf`
     );
+  }
+
+  // Helper function to parse markdown into sections
+  parseMarkdownSections(
+    markdownText: string
+  ): { title?: string; content?: string }[] {
+    if (!markdownText) return [];
+
+    const sections = [];
+    const lines = markdownText.split('\n');
+
+    let currentSection = { title: '', content: '' };
+    let inSection = false;
+
+    lines.forEach((line) => {
+      // Check if line is a heading (starts with #)
+      if (line.startsWith('# ')) {
+        // If we're already in a section, push it to the array before starting a new one
+        if (inSection) {
+          sections.push({ ...currentSection });
+        }
+
+        currentSection = {
+          title: line.substring(2).trim(),
+          content: '',
+        };
+        inSection = true;
+      }
+      // Check if line is a subheading (starts with ##)
+      else if (line.startsWith('## ')) {
+        // If we're already in a section, push it to the array before starting a new one
+        if (inSection && currentSection.content.trim()) {
+          sections.push({ ...currentSection });
+        }
+
+        currentSection = {
+          title: line.substring(3).trim(),
+          content: '',
+        };
+        inSection = true;
+      }
+      // Otherwise, add to current section content
+      else if (inSection) {
+        currentSection.content += line + '\\n';
+      }
+      // If no section has been started yet, create an untitled one
+      else {
+        currentSection = {
+          title: '',
+          content: line + '\\n',
+        };
+        inSection = true;
+      }
+    });
+
+    // Add the last section
+    if (inSection) {
+      sections.push(currentSection);
+    }
+
+    return sections;
   }
 }
