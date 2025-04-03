@@ -89,6 +89,8 @@ export class AskEvoComponent {
 
   chatResponse: any = null;
 
+  suggestedAgentsData: any[] = []; // Add this property
+
   constructor(private evoService: EvoServicesService) {}
 
   onShowDocumentUploadStepper(show: boolean) {
@@ -111,6 +113,10 @@ export class AskEvoComponent {
 
   goToPreviousStep() {
     if (this.currentStep > 1) {
+      if (this.currentStep === 4) {
+        // When going back from summary to consulting suggestion
+        this.selectedConsultants = [...this.suggestedAgentsData]; // Restore the original data
+      }
       this.currentStep--;
     } else {
       this.showDocumentUploadStepper = false;
@@ -165,7 +171,7 @@ export class AskEvoComponent {
       )
       .subscribe({
         next: (res) => {
-          // console.log('Analysis result:', res);
+          this.suggestedAgentsData = res.data.suggested_agents; // Store the original data
           this.selectedConsultants = res.data.suggested_agents;
         },
         error: (err) => {
@@ -206,6 +212,7 @@ export class AskEvoComponent {
     this.errorMessage = null; // Also reset error message
     this.showChatInterface = false;
     this.selectedConsultants = []; // Reset selected consultants
+    this.suggestedAgentsData = []; // Add this line
   }
 
   onQuestionChange(question: string) {

@@ -49,7 +49,6 @@ export class SummaryDetailsComponent implements OnInit {
   continueToNextStep() {
     const chatData = {
       title: this.fileName || 'New Chat',
-      threadId: null,
       serviceId: this.serviceId,
       ownerId: localStorage.getItem('profileId') || '',
       ask: this.userQuestion,

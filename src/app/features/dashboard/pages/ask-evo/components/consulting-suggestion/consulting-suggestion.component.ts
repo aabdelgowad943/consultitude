@@ -68,9 +68,7 @@ export class ConsultingSuggestionComponent implements OnInit {
         .map((agent, index) => ({
           id: index + 1,
           type: agent.name || 'Consultant',
-          description: `${agent.persona} in ${agent.domain} located in ${
-            agent.location || 'Unknown'
-          }`,
+          description: agent.persona,
           creator: {
             name: agent.name || 'Consultitude',
             avatar: 'images/new/circle.svg',
@@ -95,7 +93,7 @@ export class ConsultingSuggestionComponent implements OnInit {
 
     this.agentService.getAllAgents(params).subscribe({
       next: (response: any) => {
-        console.log('res is siisisis', response);
+        // console.log('res is siisisis', response);
 
         // Type the response based on your API
         // Assuming the response is { success: boolean, message: string, data: Agent[] }
@@ -138,16 +136,6 @@ export class ConsultingSuggestionComponent implements OnInit {
         this.isLoading = false;
       },
     });
-  }
-
-  private buildDescription(agent: any): string {
-    const persona = agent.persona || 'Expert';
-    const domain =
-      agent.domains?.length > 0
-        ? agent.domains.join(', ')
-        : agent.sectors?.[0]?.translations?.[0]?.name || 'General';
-    const location = agent.location || 'Unknown';
-    return `${persona} in ${domain} located in ${location}`;
   }
 
   private getIconForIndex(index: number): string {
