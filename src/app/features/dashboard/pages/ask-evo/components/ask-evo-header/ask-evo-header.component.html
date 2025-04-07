@@ -1,17 +1,19 @@
-<div class="mx-auto pt-28 md:px-6 big:px-6">
-  <div class="mb-6">
+<div class="mx-auto pt-20 ipad:pt-28 big:pt-28 px-6 ipad:px-6 big:px-6">
+  <div class="mb-5 ipad:ml-2">
     <img src="images/new/circle.svg" class="mb-3 w-[32px] h-[32px]" alt="" />
     <h1 class="text-2xl font-bold text-black">Meet Evo,</h1>
     <p class="text-[#667085] text-2xl">How can i help you today?</p>
   </div>
 
   <!-- ------------------------------------header cards---------------------------------------- -->
-  <div class="flex flex-col md:flex-row gap-4 mb-10">
-    <!-- first card -->
+  <div
+    class="flex xss:flex-col ipad:flex-col thousand:flex-col big:flex-row gap-4 mb-10"
+  >
+    <!-- three cards -->
     <div
       *ngFor="let service of services"
       (click)="handleServiceClick(service)"
-      class="max-w-[300px] relative max-h-[155.9px] border border-[#F2F4F7] w-full rounded-[20px] cursor-pointer hover:shadow-md transition-all p-5 overflow-hidden"
+      class="ipad:max-w-full big:max-w-[300px] relative max-h-[157px] border border-[#F2F4F7] w-full rounded-[20px] cursor-pointer shadow-sm hover:shadow-md transition-all p-5 overflow-hidden"
     >
       <div class="absolute top-0 right-0 z-0">
         <img
@@ -22,7 +24,8 @@
       <div class="flex relative z-40 w-full justify-between items-center">
         <img [src]="getIcons(service.name)" class="w-5 h-5" alt="" />
         <div
-          class="bg-white shadow-sm rounded-lg py-1.5 px-2.5 text-sm text-[#792EBA]"
+          [ngClass]="getCreditTextColor(service.name)"
+          class="bg-white shadow-sm max-w-[141px] max-h-[29px] rounded-[10px] py-1.5 px-2.5 text-sm"
         >
           30 credit / request
         </div>
@@ -30,7 +33,7 @@
       <h3 class="font-medium text-lg mb-1 text-[18px] mt-5 text-[#101828]">
         {{ service.name }}
       </h3>
-      <p class="text-sm text-[#667085] mb-5 font-sans">
+      <p class="text-[14px] w-full text-[#667085] mb-5 font-sans">
         {{ getServiceDescription(service.name) }}
       </p>
     </div>
@@ -49,19 +52,22 @@
     </div>
 
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 our:grid-cols-3 gap-4"
+      class="grid ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-4"
     >
       <div
         *ngFor="let agent of agents; let i = index"
-        class="rounded-[20px] p-5 bg-white border border-[#EAECF0] max-w-[352px] relative group"
+        class="rounded-[20px] p-5 bg-white border border-[#EAECF0] ipad:max-w-full big:max-w-[352px] relative group"
       >
         <div class="flex gap-5">
           <div
-            class="bg-[#F2F4F7] h-[44px] rounded-md mb-3 w-[44px] flex justify-center items-center p-3"
+            class="bg-[#F2F4F7] h-[44px] rounded-[12px] mb-3 w-[44px] flex justify-center items-center p-3"
           >
-            <i class="pi pi-file text-[#9241DC]"></i>
+            <img
+              [src]="getIconPath(iconName)"
+              [alt]="iconName + ' icon'"
+              class="w-full h-full object-contain"
+            />
           </div>
-
           <div class="w-full">
             <div class="flex w-full justify-between items-center">
               <h3 class="font-medium max-w-[207px]">{{ agent.name }}</h3>
@@ -74,31 +80,38 @@
 
             <div class="flex gap-5 items-center">
               <div
+                *ngIf="agent.owner.toLowerCase() === 'system'"
                 class="w-6 h-6 bg-[#F2F4F7] rounded-md flex items-center justify-center text-xs text-[#9241DC] font-medium"
               >
                 {{ agent.owner.charAt(0) }}
               </div>
               <div
+                *ngIf="agent.owner.toLowerCase() !== 'system'"
+                class="w-6 h-6 bg-[#F2F4F7] rounded-md flex items-center justify-center text-xs text-[#9241DC] font-medium"
+              >
+                <img
+                  src="images/new/circle.svg"
+                  alt="Owner Icon"
+                  class="w-full h-full object-cover rounded-md"
+                />
+              </div>
+
+              <div
+                *ngIf="agent.owner.toLowerCase() === 'system'"
                 class="flex items-center justify-center text-sm font-medium text-[#667085]"
               >
                 {{ agent.owner }}
               </div>
+              <div
+                *ngIf="agent.owner.toLowerCase() !== 'system'"
+                class="flex items-center justify-center text-sm font-medium text-[#667085]"
+              >
+                Consultitude
+              </div>
+
               <div class="flex items-center text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 mr-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                  />
-                </svg>
-                <span class="text-xs">{{ agent.comments }}</span>
+                <i class="pi pi-comment w-4 h-4"></i>
+                <span class="text-sm">{{ agent.comments }}</span>
               </div>
             </div>
           </div>

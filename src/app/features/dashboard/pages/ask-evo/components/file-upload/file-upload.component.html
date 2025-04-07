@@ -1,5 +1,7 @@
 <!-- document-upload.component.html -->
-<div class="w-full h-full">
+<div
+  class="h-full w-full ipad:max-w-[700px] thousand:max-w-[700px] big:max-w-[700px] mx-auto"
+>
   <div class="w-full">
     <div class="flex flex-col mb-5">
       <div class="flex items-start">
@@ -18,10 +20,10 @@
       </div>
     </div>
 
-    <div class="mb-6 px-10">
+    <div class="mb-6">
       <!-- File upload area -->
       <div
-        class="border border-[#E9EAEB] bg-[#F9FAFB] rounded-lg py-4 px-6 text-center flex flex-col items-center justify-center"
+        class="border border-[#E9EAEB] bg-white rounded-lg py-4 px-5 text-center flex flex-col items-center justify-center"
         [class.border-[#792EBA]]="isDragging"
         [class.bg-[#F9F7FC]]="isDragging"
         (dragover)="onDragOver($event)"
@@ -61,16 +63,18 @@
         <!-- Progress indicator section -->
         <div
           *ngIf="isUploading"
-          class="w-full flex justify-between items-center"
+          class="w-full flex ipad:justify-between thousand:justify-between big:justify-between items-center"
         >
-          <div class="flex items-center justify-between gap-2 py-2">
-            <div class="flex items-start gap-3">
-              <div class="rounded-md">
-                <i class="pi pi-file"></i>
+          <div
+            class="flex items-center ipad:justify-between thousand:justify-between big:justify-between gap-2 py-2"
+          >
+            <div class="flex items-start gap-3 max-w-[80%]">
+              <div class="rounded-md flex-shrink-0">
+                <i class="pi pi-file text-[#A4A7AE]"></i>
               </div>
               <div class="text-left">
                 <p
-                  class="text-sm font-medium text-[#414651] truncate max-w-[300px]"
+                  class="text-sm font-medium text-[#414651] truncate max-w-[20%]"
                 >
                   {{ selectedFile?.name }}
                 </p>
@@ -92,16 +96,14 @@
         </div>
 
         <!-- If file is selected and upload completed -->
-        <div *ngIf="selectedFile && !isUploading" class="w-full">
-          <div class="flex items-center justify-between rounded-md">
-            <div class="flex items-start gap-3">
-              <div class="rounded-md">
-                <i class="pi pi-file"></i>
+        <div *ngIf="selectedFile && !isUploading" class="w-full bg-white">
+          <div class="flex w-full items-center justify-between rounded-md">
+            <div class="flex items-start gap-3 max-w-[80%]">
+              <div class="rounded-md flex-shrink-0">
+                <i class="pi pi-file text-[#A4A7AE]"></i>
               </div>
-              <div class="text-left">
-                <p
-                  class="text-sm font-medium text-[#414651] truncate max-w-[300px]"
-                >
+              <div class="text-left overflow-hidden">
+                <p class="text-sm font-medium text-[#414651] truncate">
                   {{ selectedFile.name }}
                 </p>
                 <p class="text-xs text-[#667085]">
@@ -110,10 +112,10 @@
               </div>
             </div>
             <button
-              class="text-[#667085] bg-white p-2.5 rounded-xl w-10 h-10 flex justify-center items-center border border-[#DEE0E3] hover:text-red-500 transition-colors"
+              class="text-[#667085] bg-white p-2 rounded-xl w-8 h-8 flex-shrink-0 flex justify-center items-center border border-[#DEE0E3] hover:text-red-500 transition-colors"
               (click)="removeFile()"
             >
-              <i class="pi pi-trash"></i>
+              <i class="pi pi-trash text-xs"></i>
             </button>
           </div>
         </div>
@@ -125,12 +127,12 @@
 
       <div class="flex justify-between mt-5">
         <button (click)="goToPreviousStep()">
-          <i class="pi pi-arrow-left text-[#0F132499]/60"></i>
+          <i class="pi pi-arrow-left w-6 text-[#0F132499]/60"></i>
         </button>
 
         <div class="flex items-center gap-4">
           <button
-            class="px-4 py-3 bg-[#9241DC] text-white rounded-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="px-4 py-3 bg-[#9241DC] text-white rounded-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed w-[108px] h-[48px]"
             [disabled]="!selectedFile || isUploading"
             (click)="continueToNextStep()"
           >
@@ -141,7 +143,7 @@
             class="flex gap-2 items-start text-[#0F132499]/60 cursor-default"
           >
             <img src="images/curved-arrow.png" class="w-5 h-5" alt="" />
-            press enter
+            Press Enter
           </button>
         </div>
       </div>
