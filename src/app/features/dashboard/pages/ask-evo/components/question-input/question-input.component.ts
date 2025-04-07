@@ -52,9 +52,12 @@ export class QuestionInputComponent {
 
   // Define suggestion texts
   suggestions: Suggestion[] = [
-    { text: 'What are the main takeaways?', icon: 'pi pi-list' },
-    { text: 'Summarize the document', icon: 'pi pi-file' },
-    { text: 'Critique the document', icon: 'pi pi-comment' },
+    {
+      text: 'What are the main takeaways?',
+      icon: 'images/new/Option Icon2.svg',
+    },
+    { text: 'Summarize the document', icon: 'images/new/summrize.svg' },
+    { text: 'Critique the document', icon: 'images/new/File 2 Icon.svg' },
   ];
 
   onQuestionChange(value: string) {

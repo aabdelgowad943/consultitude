@@ -9,7 +9,7 @@
     <p>{{ error }}</p>
     <button
       routerLink="/documents"
-      class="mt-4 px-4 py-2 bg-[#7F56D9] text-white rounded-md hover:bg-[#a24af5]"
+      class="ipad:mt-4 px-4 py-2 bg-[#7F56D9] text-white rounded-md hover:bg-[#a24af5]"
     >
       Back to document Lounge
     </button>
@@ -27,7 +27,7 @@
     >
       <!-- Left side -->
       <div
-        class="col-span-12 md:pr-2 2xl:pr-6 border-r border-[#e0e2e6] md:col-span-4 w-full"
+        class="col-span-12 md:pr-2 2xl:pr-6 border-r border-[#e0e2e6] thousand:col-span-4 big:col-span-4 w-full"
       >
         <div>
           <a
@@ -95,7 +95,7 @@
       </div>
 
       <!-- Right side -->
-      <div class="col-span-12 md:col-span-8 mt-10 md:mt-0">
+      <div class="col-span-12 thousand:col-span-8 mt-10 md:mt-0">
         <div
           class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white md:max-w-[756px] h-[200px] md:h-[395px] py-8 px-5"
           [style.background-image]="'url(' + (template.images[0] || '') + ')'"

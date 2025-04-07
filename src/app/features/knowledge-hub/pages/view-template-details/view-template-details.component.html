@@ -9,7 +9,7 @@
     >
       <!-- Left side -->
       <div
-        class="col-span-12 md:pr-2 2xl:pr-6 md:border-r border-[#e0e2e6] md:col-span-4 w-full"
+        class="col-span-12 md:pr-2 2xl:pr-6 border-r border-[#e0e2e6] thousand:col-span-4 big:col-span-4 w-full"
       >
         <div class="">
           <a
@@ -44,7 +44,9 @@
                 </li>
               </ul>
               <!-- Buttons Section -->
-              <div class="flex w-full items-center mt-5 justify-center gap-4">
+              <div
+                class="flex w-full thousand:flex-col big:flex-row items-center mt-5 justify-center gap-4"
+              >
                 <button
                   *ngFor="let btn of buttons"
                   [class]="btn.classes"
@@ -74,7 +76,7 @@
       </div>
 
       <!-- Right side -->
-      <div class="col-span-12 md:col-span-8 mt-10 md:mt-0">
+      <div class="col-span-12 thousand:col-span-8 mt-10 md:mt-0">
         <div
           class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white md:max-w-[756px] h-[200px] md:h-[395px] py-8 px-5"
           [style.background-image]="'url(' + (template.images[0] || '') + ')'"
@@ -191,7 +193,7 @@
       </div>
 
       <!-- Updated related articles section to match product card design -->
-      <div class="flex flex-col lg:flex-row gap-6 lg:overflow-x-auto py-4">
+      <div class="flex flex-col ipad:flex-row gap-6 ipad:overflow-x-auto py-4">
         <div
           *ngFor="let product of relatedArticles"
           class="min-w-[300px] md:w-[467px] relative border border-[#d1d0d0] rounded-2xl bg-white flex-shrink-0"

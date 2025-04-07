@@ -1,4 +1,4 @@
-<div class="w-full max-w-[1600px] mx-auto pt-24 h-screen">
+<div class="w-full max-w-[1600px] h-full mx-auto pt-16 ipad:pt-24">
   <!-- ------------------title-------------------------- -->
   <div class="w-full my-6 flex px-2 md:px-6 justify-between items-center">
     <h1
@@ -117,11 +117,11 @@
   <!-- Original Content - only show when not loading -->
   <div
     *ngIf="!loading && userId"
-    class="grid grid-cols-1 gap-10 md:grid-cols-12 px-0 md:px-6"
+    class="grid grid-cols-1 gap-10 md:grid-cols-12 px-3 md:px-6"
   >
     <!-- --------------------------------------------left side----------------------------------- -->
     <div
-      class="md:col-span-5 col-span-7 bg-white h-[392px] w-full rounded-[20px] border border-[#EAECF0] overflow-hidden"
+      class="thousand:col-span-5 ipad:col-span-12 col-span-7 bg-white h-[392px] w-full rounded-[20px] border border-[#EAECF0] overflow-hidden"
     >
       <div
         class="relative bg-gradient-to-r h-[198px] from-[#A46EDE] to-[#380D5E]"
@@ -158,7 +158,7 @@
     </div>
 
     <!-- ------------------------------------------------right side--------------------------------------------- -->
-    <div class="col-span-7 rounded-[12px]">
+    <div class="thousand:col-span-7 ipad:col-span-12 col-span-7 rounded-[12px]">
       <div class="space-y-6">
         <!-- About Section -->
         <div class="bg-white px-4 py-5 rounded-xl border border-[#EAECF0]">
