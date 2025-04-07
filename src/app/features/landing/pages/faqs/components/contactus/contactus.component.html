@@ -1,21 +1,25 @@
-<div class="px-5">
+<div class="big:px-5">
   <div class="w-full relative mt-24 overflow-hidden rounded-xl">
     <!-- grid container -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-center p-5 md:p-10">
+    <div
+      class="grid grid-cols-1 big:grid-cols-2 gap-5 items-center p-5 big:p-10"
+    >
       <!--  left side -->
-      <div>
+      <div
+        class="ipad:text-center thousand:text-center big:text-left thousand:w-full"
+      >
         <h2 class="text-2xl md:text-4xl text-black w-full font-semibold">
           Can't find a document? <br />
           Tell us what to build next..
         </h2>
-        <p class="text-sm mt-5 md:w-[350px] text-black">
+        <p class="text-sm mt-5 big:w-[350px] text-black">
           We’re constantly adding new, comprehensive consulting templates and
           would love your input on where to focus next.
         </p>
       </div>
 
       <!--  right side -->
-      <div class="md:p-8 p-3 rounded-lg border border-[#DEE0E3]">
+      <div class="big:p-8 p-3 rounded-lg border border-[#DEE0E3]">
         <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
           <div class="mb-4">
             <label for="email" class="block text-black">E-mail</label>

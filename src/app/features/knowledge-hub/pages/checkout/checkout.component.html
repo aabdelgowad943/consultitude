@@ -1,10 +1,10 @@
 <div class="w-full bg-[#F9FAFB]">
   <div class="w-full max-w-[1600px] mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-2">
-      <div class="order-2 md:order-1">
+    <div class="grid grid-cols-1 big:grid-cols-2">
+      <div class="order-2 big:order-1">
         <app-payment [productPrice]="productPrice"></app-payment>
       </div>
-      <div class="order-1 md:order-2 bg-white">
+      <div class="order-1 big:order-2 bg-white">
         <app-product-details
           (priceChange)="productPrice = $event"
         ></app-product-details>

@@ -1,7 +1,9 @@
 <!-- browse-agents.component.html -->
 <div class="container mx-auto px-2 md:px-6 py-6 pt-28">
   <!-- Header -->
-  <div class="flex justify-between items-center mb-2">
+  <div
+    class="flex flex-col thousand:flex-row justify-between thousand:items-center mb-2"
+  >
     <div>
       <h1 class="text-[32px] font-bold text-[#14151A]">Browse Consultants</h1>
       <p class="text-[#0F132499] text-[16px] font-sans">
@@ -11,7 +13,7 @@
     </div>
     <button
       (click)="openDialog()"
-      class="bg-[#9241DC] hover:bg-[#7735b5] text-[14px] transition-colors text-white rounded-xl px-3 py-2.5 flex items-center gap-2 w-[97px] max-h-[40px] justify-center"
+      class="bg-[#9241DC] hover:bg-[#7735b5] mt-5 ipad:mt-5 thousand:mt-0 text-[14px] transition-colors text-white rounded-xl px-3 py-2.5 flex items-center gap-2 w-[97px] max-h-[40px] justify-center"
     >
       <i class="pi pi-plus text-[14px]"></i>
       Create
@@ -19,8 +21,10 @@
   </div>
 
   <!-- Filtering Tabs -->
-  <div class="flex items-center mt-6 mb-6 gap-4">
-    <div class="flex items-center bg-[#F2F4F7] rounded-xl p-0.5">
+  <div
+    class="flex flex-col big:flex-row thousand:flex-row thousand:items-center mt-6 mb-6 gap-4"
+  >
+    <div class="flex items-center max-w-[390px] bg-[#F2F4F7] rounded-xl p-0.5">
       <button
         (click)="filterAgents('all')"
         [class.active-tab]="activeFilter === 'all'"
@@ -45,7 +49,7 @@
     </div>
 
     <!-- Search Input -->
-    <div class="ml-auto relative flex-grow max-w-xs">
+    <div class="ml-auto relative flex-grow max-w-full w-full thousand:max-w-xs">
       <input
         type="text"
         placeholder="Search"
@@ -61,7 +65,7 @@
 
   <!-- Agents List -->
   <div
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 our:grid-cols-3 gap-4"
+    class="grid grid-cols-1 ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-4"
   >
     <div
       *ngFor="let agent of filteredAgents; let i = index"
