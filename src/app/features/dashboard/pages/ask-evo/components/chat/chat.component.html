@@ -1,8 +1,8 @@
 <div
-  class="chat-container px-10 big:px-[200px] w-full h-screen overflow-y-auto flex flex-col pt-24"
+  class="chat-container px-2 big:px-[200px] w-full h-screen overflow-y-auto flex flex-col pt-24"
 >
   <!-- Chat Messages -->
-  <div class="chat-messages flex-grow p-4">
+  <div class="chat-messages flex-grow p-2">
     <!-- Initial Summary -->
     <div *ngIf="summarySection" class="message mb-10">
       <div class="flex items-start">
@@ -129,7 +129,7 @@
     class="border-t p-4 flex justify-center space-x-4"
   >
     <div
-      class="flex items-center gap-2 mb-4 w-full"
+      class="flex flex-col ipad:flex-col thousand:flex-col big:flex-row items-center gap-2 mb-4 w-full"
       [@fadeUpStagger]="suggestions.length"
     >
       <button

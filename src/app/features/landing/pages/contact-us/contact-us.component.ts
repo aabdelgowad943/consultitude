@@ -1,4 +1,10 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FooterComponent } from '../../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 import { AuthService } from '../../../auth/services/auth.service';
@@ -12,6 +18,7 @@ import { ContactUsService } from '../../services/contact-us.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contact-us',
@@ -25,70 +32,108 @@ import { RouterModule } from '@angular/router';
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.scss',
 })
-export class ContactUsComponent implements OnInit, OnChanges {
-  userId: string = localStorage.getItem('userId')!;
+export class ContactUsComponent implements OnInit, OnChanges, OnDestroy {
+  userId: string = localStorage.getItem('userId') || '';
   firstName: string = '';
   lastName: string = '';
   email: string = '';
   phone: string = '';
 
   contactForm!: FormGroup;
+  errorMessage: string = '';
+  successMessage: string = '';
+  isSubmitting: boolean = false;
+
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private contactService: ContactUsService
   ) {
-    this.getUserData();
+    this.initForm();
+    if (this.userId) {
+      this.getUserData();
+    }
+  }
 
-    this.contactForm = this.fb.group({
-      firstName: [this.firstName, Validators.required],
-      lastName: [this.lastName, Validators.required],
-      email: [this.email, [Validators.required, Validators.email]],
-      phone: [
-        this.phone,
-        [Validators.required, Validators.pattern('^[0-9]*$')],
-      ],
-      message: ['', Validators.required],
-      agree: [, Validators.required],
-    });
-  }
   ngOnInit(): void {
-    this.getUserData();
+    if (this.userId && !this.firstName) {
+      this.getUserData();
+    }
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (
+      changes['userId'] &&
       changes['userId'].currentValue !== changes['userId'].previousValue &&
       changes['userId'].currentValue !== null
     ) {
       this.getUserData();
     }
   }
-  getUserData() {
-    this.authService.getUserDataByUserId(this.userId).subscribe({
-      next: (res: any) => {
-        this.firstName = res.data.firstName;
-        this.lastName = res.data.lastName;
-        this.email = res.data.user.email;
-        this.phone = res.data.phone;
 
-        // Update form values after getting user data
-        this.contactForm.patchValue({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          phone: this.phone,
-        });
-      },
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  initForm(): void {
+    this.contactForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [
+        '',
+        [Validators.required, Validators.pattern('^\\+?[0-9]+[0-9 ]*$')],
+      ],
+      message: ['', Validators.required],
+      agree: [false, Validators.requiredTrue],
     });
   }
 
-  errorMessage: string = '';
-  successMessage: string = '';
+  getUserData(): void {
+    if (!this.userId) return;
 
-  onSubmit() {
+    const subscription = this.authService
+      .getUserDataByUserId(this.userId)
+      .subscribe({
+        next: (res: any) => {
+          if (res && res.data) {
+            this.firstName = res.data.firstName || '';
+            this.lastName = res.data.lastName || '';
+            this.email = res.data.user?.email || '';
+            this.phone = res.data.phone || '';
+
+            // Update form values after getting user data
+            this.contactForm.patchValue({
+              firstName: this.firstName,
+              lastName: this.lastName,
+              email: this.email,
+              phone: this.phone,
+            });
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching user data:', err);
+        },
+      });
+
+    this.subscriptions.add(subscription);
+  }
+
+  onSubmit(): void {
+    if (this.contactForm.invalid || this.isSubmitting) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.contactForm.controls).forEach((key) => {
+        this.contactForm.get(key)?.markAsTouched();
+      });
+      return;
+    }
+
+    this.isSubmitting = true;
     const formValue = this.contactForm.value;
-    this.contactService
+
+    const subscription = this.contactService
       .createContactUs({
         name: `${formValue.firstName} ${formValue.lastName}`,
         email: formValue.email,
@@ -98,22 +143,45 @@ export class ContactUsComponent implements OnInit, OnChanges {
       .subscribe({
         next: (res: any) => {
           this.successMessage =
-            res.message || 'Contact us successfully created ';
-          // this.contactForm.reset();
+            res.message || 'Your message has been sent successfully!';
           this.errorMessage = '';
-          // clear the message after 2 sec
+          this.resetForm();
+
+          // clear the success message after 3 sec
           setTimeout(() => {
             this.successMessage = '';
-          }, 2000);
+          }, 3000);
         },
         error: (err: HttpErrorResponse) => {
           this.errorMessage =
-            err.message || 'Failed in creation, please try again!';
+            err.error?.message ||
+            'Failed to send message. Please try again later.';
           this.successMessage = '';
+
+          // clear the error message after 3 sec
           setTimeout(() => {
             this.errorMessage = '';
-          }, 2000);
+          }, 3000);
+        },
+        complete: () => {
+          this.isSubmitting = false;
         },
       });
+
+    this.subscriptions.add(subscription);
+  }
+
+  resetForm(): void {
+    // Reset form but keep user information
+    this.contactForm.patchValue({
+      message: '',
+      agree: false,
+    });
+
+    // Mark only these fields as untouched/pristine
+    this.contactForm.get('message')?.markAsUntouched();
+    this.contactForm.get('message')?.markAsPristine();
+    this.contactForm.get('agree')?.markAsUntouched();
+    this.contactForm.get('agree')?.markAsPristine();
   }
 }

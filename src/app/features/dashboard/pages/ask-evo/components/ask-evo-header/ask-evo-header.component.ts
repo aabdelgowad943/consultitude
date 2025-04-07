@@ -100,12 +100,24 @@ export class AskEvoHeaderComponent {
     return 'images/new/Frame.svg';
   }
 
+  getCreditTextColor(serviceName: string): string {
+    serviceName = serviceName.toLowerCase();
+    if (serviceName.includes('rapid')) {
+      return 'text-[#792EBA]';
+    } else if (serviceName.includes('analyze')) {
+      return 'text-[#D92D20]';
+    } else if (serviceName.includes('talk')) {
+      return 'text-[#DC6803]';
+    }
+    return 'text-[#792EBA]'; // default color
+  }
+
   getServiceDescription(serviceName: string): string {
     serviceName = serviceName.toLowerCase();
     if (serviceName.includes('rapid')) {
       return 'Quickly extract key insights, summaries, or action items.';
     } else if (serviceName.includes('analyze')) {
-      return ' Extra key takeaways & recommendations from your documents';
+      return 'Extra key takeaways & recommendations from your documents';
     } else if (serviceName.includes('talk')) {
       return 'Engage with specialized AI consultant';
     }
@@ -132,17 +144,29 @@ export class AskEvoHeaderComponent {
   }
 
   openRapidResponseDialog() {
+    // Check window width to determine dialog width
+    const isMobile = window.innerWidth < 768;
+    const dialogWidth = isMobile ? '300px' : '602px';
+
     const dialogRef = this.dialogService.open(RapidResponseDialogComponent, {
       header: '',
-      width: '600px',
+      width: dialogWidth,
+      height: 'auto',
       contentStyle: {
-        'border-radius': '20px',
+        'border-radius': '10px',
         padding: '0px',
         'overflow-y': 'auto',
         'scrollbar-width': 'none',
         '-ms-overflow-style': 'none',
       },
       showHeader: false,
+      breakpoints: {
+        '768px': '300px', // Set width to 200px for screen width <= 768px
+        '992px': '600px', // Optional: medium screens
+      },
+      style: {
+        'max-width': '90vw', // Prevents dialog from exceeding viewport width
+      },
     });
 
     dialogRef.onClose.subscribe((result) => {
@@ -152,6 +176,31 @@ export class AskEvoHeaderComponent {
       }
     });
   }
+
+  // openRapidResponseDialog() {
+  //   const dialogRef = this.dialogService.open(RapidResponseDialogComponent, {
+  //     header: '',
+  //     width: '602px',
+  //     // handle the width to be 200px in responsive mode
+
+  //     height: 'auto',
+  //     contentStyle: {
+  //       'border-radius': '10px',
+  //       padding: '0px',
+  //       'overflow-y': 'auto',
+  //       'scrollbar-width': 'none',
+  //       '-ms-overflow-style': 'none',
+  //     },
+  //     showHeader: false,
+  //   });
+
+  //   dialogRef.onClose.subscribe((result) => {
+  //     if (result && result.showStepper) {
+  //       // Emit an event to parent component to show stepper
+  //       this.showDocumentUploadStepper.emit(true);
+  //     }
+  //   });
+  // }
 
   private openDocumentAnalysisDialog() {
     // Implement Document Analysis specific dialog/action
@@ -176,5 +225,45 @@ export class AskEvoHeaderComponent {
     this.router.navigate(['dashboard/view-chat-details', chatId], {
       queryParams: { chatId: chatId },
     });
+  }
+
+  @Input() iconName: string = '';
+
+  // Mapping of icon names to asset paths
+  private iconMap: { [key: string]: string } = {
+    file: 'images/new/Icon-1.svg',
+    document: 'images/new/Icon-2.svg',
+    chart: 'images/new/Icon-3.svg',
+    user: 'images/new/Icon-4.svg',
+    settings: 'images/new/Icon-5.svg',
+    download: 'images/new/Icon-6.svg',
+    upload: 'images/new/Icon-7.svg',
+    search: 'images/new/Icon-8.svg',
+    email: 'images/new/Icon-9.svg',
+    calendar: 'images/new/Icon-10.svg',
+  };
+
+  // Available icon paths for randomization
+  private availableIcons: string[] = [
+    'images/new/Icon-1.svg',
+    'images/new/Icon-2.svg',
+    'images/new/Icon-3.svg',
+    'images/new/Icon-4.svg',
+  ];
+
+  getIconPath(iconName: string): string {
+    // Convert to lowercase for case-insensitive matching
+    const normalizedName = iconName?.toLowerCase() || '';
+
+    // Check if the icon name exists in the map
+    if (this.iconMap[normalizedName]) {
+      return this.iconMap[normalizedName];
+    }
+
+    // Generate a random index to pick a random icon
+    const randomIndex = Math.floor(Math.random() * this.availableIcons.length);
+
+    // Return a random icon if not found
+    return this.availableIcons[randomIndex];
   }
 }
