@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
   {
@@ -36,5 +37,10 @@ export const routes: Routes = [
         (m) => m.AiAgentsModule
       ),
     canActivate: [AuthGuard],
+  },
+
+  {
+    path: '**',
+    component: PageNotFoundComponent,
   },
 ];
