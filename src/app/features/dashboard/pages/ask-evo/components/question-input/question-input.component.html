@@ -1,7 +1,7 @@
 <div
   class="max-w-[500px] ipad:max-w-[700px] thousand:max-w-[700px] big:max-w-[700px] mx-auto"
 >
-  <div class="max-w-[700px] w-full absolute bottom-0">
+  <div class="max-w-[700px] hidden big:block w-full absolute bottom-0">
     <img
       src="images/new/Background Chat gradient.svg"
       class="absolute bottom-0"
@@ -31,9 +31,10 @@
         name=""
         id=""
         [(ngModel)]="userQuestion"
+        rows="6"
         (ngModelChange)="onQuestionChange($event)"
         placeholder="What do you want to ask about this document?"
-        class="w-full py-2.5 px-3 border max-h-[116px] border-[#DEE0E3] rounded-xl placeholder:text-[#0D112666]/40 text-black font-bold focus:outline-none focus:ring-2 focus:ring-[#792EBA] focus:border-transparent"
+        class="w-full py-2.5 px-3 border max-h-[116px] h-full border-[#DEE0E3] rounded-xl placeholder:text-[#0D112666]/40 text-black font-bold focus:outline-none focus:ring-2 focus:ring-[#792EBA] focus:border-transparent"
         (keydown)="onQuestionInputKeypress($event)"
       ></textarea>
     </div>
@@ -75,7 +76,7 @@
             alt="forward icon"
             class="w-5 h-5"
           />
-          press enter
+          Press Enter
         </button>
       </div>
     </div>
