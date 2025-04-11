@@ -61,10 +61,17 @@
       <div *ngIf="currentStep === 3">
         <app-consulting-suggestion
           [suggestedAgents]="suggestedAgentsData"
+          [selectionMap]="consultantSelectionMap"
           (continue)="continueToNextStep()"
           (previous)="goToPreviousStep()"
           (selectedConsultantsChange)="onSelectedConsultantsChange($event)"
         ></app-consulting-suggestion>
+        <!-- <app-consulting-suggestion
+          [suggestedAgents]="suggestedAgentsData"
+          (continue)="continueToNextStep()"
+          (previous)="goToPreviousStep()"
+          (selectedConsultantsChange)="onSelectedConsultantsChange($event)"
+        ></app-consulting-suggestion> -->
       </div>
 
       <!-- Step 4: Summary Details -->

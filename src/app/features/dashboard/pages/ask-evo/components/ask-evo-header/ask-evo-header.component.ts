@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+} from '@angular/core';
 import { HistoryComponent } from '../history/history.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CommonModule } from '@angular/common';
@@ -14,7 +21,7 @@ import { CustomDatePipe } from '../../../../../../../shared/pipes/custom-date.pi
   templateUrl: './ask-evo-header.component.html',
   styleUrl: './ask-evo-header.component.scss',
 })
-export class AskEvoHeaderComponent {
+export class AskEvoHeaderComponent implements OnInit {
   @Input() agents: any[] = [];
   @Input() conversations: any[] = [];
   @Output() showDocumentUploadStepper = new EventEmitter<boolean>();
@@ -28,6 +35,9 @@ export class AskEvoHeaderComponent {
 
   userId: string = localStorage.getItem('userId') || '';
 
+  // Add a cache for random icons to prevent regeneration
+  private randomIconCache: { [key: string]: string } = {};
+
   onQuestionChange(value: string) {
     this.serviceId = value;
     this.serviceIdChange.emit(value);
@@ -37,11 +47,33 @@ export class AskEvoHeaderComponent {
     private dialogService: DialogService,
     private evoService: EvoServicesService,
     private agentService: AgentsService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.getAllServices();
     this.getAllAgents();
     this.getChatsByUserId();
+  }
+
+  ngOnInit() {
+    // Pre-assign random icons to agents if needed
+    if (this.agents.length > 0) {
+      this.preAssignAgentIcons();
+    }
+  }
+
+  preAssignAgentIcons() {
+    // This ensures we generate random icons only once during initialization
+    const iconName = this.iconName;
+    const normalizedName = iconName?.toLowerCase() || '';
+
+    if (!this.iconMap[normalizedName]) {
+      // Generate a random icon once and cache it
+      const randomIndex = Math.floor(
+        Math.random() * this.availableIcons.length
+      );
+      this.randomIconCache[normalizedName] = this.availableIcons[randomIndex];
+    }
   }
 
   getAllServices() {
@@ -68,10 +100,11 @@ export class AskEvoHeaderComponent {
       next: (res: any) => {
         this.agents = res.data;
         this.totalItems = res.meta.totalItems;
-        // console.log('Agents:', this.agents);
+        // After getting agents, pre-assign icons
+        this.preAssignAgentIcons();
       },
       error: (err) => {
-        console.error('Error fetching agents', err);
+        // console.error('Error fetching agents', err);
       },
     });
   }
@@ -177,31 +210,6 @@ export class AskEvoHeaderComponent {
     });
   }
 
-  // openRapidResponseDialog() {
-  //   const dialogRef = this.dialogService.open(RapidResponseDialogComponent, {
-  //     header: '',
-  //     width: '602px',
-  //     // handle the width to be 200px in responsive mode
-
-  //     height: 'auto',
-  //     contentStyle: {
-  //       'border-radius': '10px',
-  //       padding: '0px',
-  //       'overflow-y': 'auto',
-  //       'scrollbar-width': 'none',
-  //       '-ms-overflow-style': 'none',
-  //     },
-  //     showHeader: false,
-  //   });
-
-  //   dialogRef.onClose.subscribe((result) => {
-  //     if (result && result.showStepper) {
-  //       // Emit an event to parent component to show stepper
-  //       this.showDocumentUploadStepper.emit(true);
-  //     }
-  //   });
-  // }
-
   private openDocumentAnalysisDialog() {
     // Implement Document Analysis specific dialog/action
     // console.log('Opening Document Analysis Dialog');
@@ -235,12 +243,12 @@ export class AskEvoHeaderComponent {
     document: 'images/new/Icon-2.svg',
     chart: 'images/new/Icon-3.svg',
     user: 'images/new/Icon-4.svg',
-    settings: 'images/new/Icon-5.svg',
-    download: 'images/new/Icon-6.svg',
-    upload: 'images/new/Icon-7.svg',
-    search: 'images/new/Icon-8.svg',
-    email: 'images/new/Icon-9.svg',
-    calendar: 'images/new/Icon-10.svg',
+    // settings: 'images/new/Icon-5.svg',
+    // download: 'images/new/Icon-6.svg',
+    // upload: 'images/new/Icon-7.svg',
+    // search: 'images/new/Icon-8.svg',
+    // email: 'images/new/Icon-9.svg',
+    // calendar: 'images/new/Icon-10.svg',
   };
 
   // Available icon paths for randomization
@@ -260,10 +268,16 @@ export class AskEvoHeaderComponent {
       return this.iconMap[normalizedName];
     }
 
-    // Generate a random index to pick a random icon
-    const randomIndex = Math.floor(Math.random() * this.availableIcons.length);
+    // Check if we already have a cached random icon for this name
+    if (this.randomIconCache[normalizedName]) {
+      return this.randomIconCache[normalizedName];
+    }
 
-    // Return a random icon if not found
-    return this.availableIcons[randomIndex];
+    // Generate a random index to pick a random icon (only happens once per name)
+    const randomIndex = Math.floor(Math.random() * this.availableIcons.length);
+    this.randomIconCache[normalizedName] = this.availableIcons[randomIndex];
+
+    // Return the cached random icon
+    return this.randomIconCache[normalizedName];
   }
 }
