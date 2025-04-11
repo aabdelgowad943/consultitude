@@ -113,27 +113,43 @@ export class AskEvoComponent {
 
   goToPreviousStep() {
     if (this.currentStep > 1) {
-      if (this.currentStep === 4) {
-        // When going back from summary to consulting suggestion
-        this.selectedConsultants = [...this.suggestedAgentsData]; // Restore the original data
-      }
+      // Don't do any reset when going back
       this.currentStep--;
     } else {
       this.showDocumentUploadStepper = false;
-      this.resetState(); // Only reset when completely exiting the stepper
+      this.resetState(); // Only reset when completely exiting
     }
   }
-
   // Process the user's question
   processUserQuestion() {
     this.currentStep = 3; // Move to a results step that we'll implement later
   }
 
   // Store selected consultants
+  // onSelectedConsultantsChange(consultants: Consultant[]) {
+  //   this.selectedConsultants = consultants;
+  // }
+
+  // In ask-evo.component.ts
+
+  // Create a map to track the selection state of all consultants
+  consultantSelectionMap: Map<string, boolean> = new Map();
+
+  // Modify onSelectedConsultantsChange
   onSelectedConsultantsChange(consultants: Consultant[]) {
+    // Clear previous selections
+    this.consultantSelectionMap.clear();
+
+    // Store the selection state of each consultant
+    consultants.forEach((consultant) => {
+      // Use a unique identifier like agentId
+      const key = consultant.agentId || consultant.id.toString();
+      this.consultantSelectionMap.set(key, true);
+    });
+
+    // Update selectedConsultants
     this.selectedConsultants = consultants;
   }
-
   // store selected service id
   onSelectedServiceIdChange(serviceId: string) {
     this.serviceId = serviceId;

@@ -52,11 +52,11 @@
     </div>
 
     <div
-      class="grid ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-4"
+      class="grid ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3"
     >
       <div
         *ngFor="let agent of agents; let i = index"
-        class="rounded-[20px] p-5 bg-white border border-[#EAECF0] ipad:max-w-full big:max-w-[352px] relative group"
+        class="rounded-[20px] p-5 bg-white border border-[#EAECF0] ipad:max-w-full big:max-w-[320px] big:max-h-[141px] relative group"
       >
         <div class="flex gap-5">
           <div
@@ -70,10 +70,12 @@
           </div>
           <div class="w-full">
             <div class="flex w-full justify-between items-center">
-              <h3 class="font-medium max-w-[207px]">{{ agent.name }}</h3>
+              <h3 class="font-medium max-w-[207px] line-clamp-1">
+                {{ agent.name }}
+              </h3>
             </div>
             <p
-              class="text-sm text-[#667085] mt-1 mb-3 line-clamp-2 max-w-[80%]"
+              class="text-sm text-[#667085] mt-1 mb-3 line-clamp-1 max-w-[216px]"
             >
               {{ agent.persona }}
             </p>
@@ -110,8 +112,13 @@
               </div>
 
               <div class="flex items-center text-gray-400">
-                <i class="pi pi-comment w-4 h-4"></i>
-                <span class="text-sm">{{ agent.comments }}</span>
+                <!-- <i class="pi pi-comment w-4 h-4"></i> -->
+                <img
+                  src="images/new/Comment Icon.svg"
+                  class="w-[35px] h-5"
+                  alt=""
+                />
+                <span class="text-sm">{{ agent.comments }} 1 </span>
               </div>
             </div>
           </div>
@@ -121,7 +128,7 @@
   </div>
 
   <!-- ------------------------------------History section---------------------------------------- -->
-  <div class="history-container">
+  <div class="history-container mb-10">
     <h1 class="page-title mb-5 text-[24px]">History</h1>
 
     <app-history

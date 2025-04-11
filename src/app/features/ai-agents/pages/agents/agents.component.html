@@ -28,21 +28,21 @@
       <button
         (click)="filterAgents('all')"
         [class.active-tab]="activeFilter === 'all'"
-        class="px-4 py-2 rounded-md text-sm transition-colors"
+        class="px-4 py-2 rounded-md text-sm transition-colors text-[#0F132499]"
       >
         All
       </button>
       <button
         (click)="filterAgents('byme')"
         [class.active-tab]="activeFilter === 'byme'"
-        class="px-4 py-2 rounded-md text-sm transition-colors"
+        class="px-4 py-2 rounded-md text-sm transition-colors text-[#0F132499]"
       >
         By me
       </button>
       <button
         (click)="filterAgents('consultitude')"
         [class.active-tab]="activeFilter === 'consultitude'"
-        class="px-4 py-2 rounded-md text-sm transition-colors"
+        class="px-4 py-2 rounded-md text-sm transition-colors text-[#0F132499]"
       >
         Consultitude
       </button>
@@ -65,7 +65,7 @@
 
   <!-- Agents List -->
   <div
-    class="grid grid-cols-1 ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-4"
+    class="grid grid-cols-1 ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3"
   >
     <div
       *ngFor="let agent of filteredAgents; let i = index"
@@ -80,7 +80,9 @@
 
         <div class="w-full">
           <div class="flex w-full justify-between items-center">
-            <h3 class="font-medium max-w-[207px]">{{ agent.name }}</h3>
+            <h3 class="font-medium max-w-[207px] line-clamp-1">
+              {{ agent.name }}
+            </h3>
             <div
               class="hidden group-hover:block"
               *ngIf="agent.profileId === profileId"
@@ -93,7 +95,7 @@
               </button>
             </div>
           </div>
-          <p class="text-sm text-[#667085] mt-1 mb-3 line-clamp-2 max-w-[80%]">
+          <p class="text-sm text-[#667085] mt-1 mb-3 line-clamp-1 max-w-[80%]">
             {{ agent.output }}
           </p>
 
@@ -130,8 +132,13 @@
             </div>
 
             <div class="flex items-center text-gray-400">
-              <i class="pi pi-comment w-4 h-4"></i>
-              <span class="text-sm">{{ agent.comments }}</span>
+              <!-- <i class="pi pi-comment w-4 h-4"></i> -->
+              <img
+                src="images/new/Comment Icon.svg"
+                class="w-[35px] h-5"
+                alt=""
+              />
+              <span class="text-sm">{{ agent.comments }} 1 </span>
             </div>
           </div>
         </div>

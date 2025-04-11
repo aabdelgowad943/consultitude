@@ -42,6 +42,7 @@ export class ConsultingSuggestionComponent implements OnInit {
   @Output() continue = new EventEmitter<void>();
   @Output() previous = new EventEmitter<void>();
   @Output() selectedConsultantsChange = new EventEmitter<Consultant[]>();
+  @Input() selectionMap: Map<string, boolean> = new Map();
 
   private readonly maxSelectedConsultants = 3;
 
@@ -61,24 +62,55 @@ export class ConsultingSuggestionComponent implements OnInit {
     this.fetchOtherConsultants();
   }
 
+  // private initializeSuggestedConsultants() {
+  //   if (this.suggestedAgents && this.suggestedAgents.length > 0) {
+  //     this.suggestedConsultants = this.suggestedAgents
+  //       .slice(0, 3)
+  //       .map((agent, index) => ({
+  //         id: index + 1,
+  //         type: agent.name || 'Consultant',
+  //         description: agent.persona,
+  //         creator: {
+  //           name: agent.name || 'Consultitude',
+  //           avatar: 'images/new/circle.svg',
+  //         },
+  //         likes: 1,
+  //         icon: this.getIconForIndex(index),
+  //         selected: true,
+  //         profileId: agent.profileId,
+  //         agentId: agent.agentId,
+  //       }));
+  //   }
+  // }
+
   private initializeSuggestedConsultants() {
     if (this.suggestedAgents && this.suggestedAgents.length > 0) {
       this.suggestedConsultants = this.suggestedAgents
         .slice(0, 3)
-        .map((agent, index) => ({
-          id: index + 1,
-          type: agent.name || 'Consultant',
-          description: agent.persona,
-          creator: {
-            name: agent.name || 'Consultitude',
-            avatar: 'images/new/circle.svg',
-          },
-          likes: 1,
-          icon: this.getIconForIndex(index),
-          selected: true,
-          profileId: agent.profileId,
-          agentId: agent.agentId,
-        }));
+        .map((agent, index) => {
+          const consultant = {
+            id: index + 1,
+            type: agent.name || 'Consultant',
+            description: agent.persona,
+            creator: {
+              name: agent.name || 'Consultitude',
+              avatar: 'images/new/circle.svg',
+            },
+            likes: 1,
+            icon: this.getIconForIndex(index),
+            selected: true, // Default to true
+            profileId: agent.profileId,
+            agentId: agent.agentId,
+          };
+
+          // Check if we have a stored selection state for this consultant
+          const key = consultant.agentId || consultant.id.toString();
+          if (this.selectionMap.has(key)) {
+            consultant.selected = this.selectionMap.get(key)!;
+          }
+
+          return consultant;
+        });
     }
   }
 
@@ -93,29 +125,35 @@ export class ConsultingSuggestionComponent implements OnInit {
 
     this.agentService.getAllAgents(params).subscribe({
       next: (response: any) => {
-        // console.log('res is siisisis', response);
-
-        // Type the response based on your API
-        // Assuming the response is { success: boolean, message: string, data: Agent[] }
         if (response.success && Array.isArray(response.data)) {
           this.otherConsultants = response.data.map(
-            (agent: any, index: number) => ({
-              id:
-                (response.meta.currentPage - 1) * response.meta.itemsPerPage +
-                index +
-                1,
-              type: agent.name || 'Consultant',
-              description: agent.persona,
-              creator: {
-                name: agent.owner || 'Unknown',
-                avatar: 'images/new/circle.svg',
-              },
-              likes: agent.usage || 0, // Using usage as likes, adjust as needed
-              icon: this.getIconForIndex(index),
-              selected: false,
-              profileId: agent.profileId,
-              agentId: agent.id,
-            })
+            (agent: any, index: number) => {
+              const consultant = {
+                id:
+                  (response.meta.currentPage - 1) * response.meta.itemsPerPage +
+                  index +
+                  1,
+                type: agent.name || 'Consultant',
+                description: agent.persona,
+                creator: {
+                  name: agent.owner || 'Unknown',
+                  avatar: 'images/new/circle.svg',
+                },
+                likes: agent.usage || 0,
+                icon: this.getIconForIndex(index),
+                selected: false, // Default to false
+                profileId: agent.profileId,
+                agentId: agent.id,
+              };
+
+              // Check if we have a stored selection state for this consultant
+              const key = consultant.agentId || consultant.id.toString();
+              if (this.selectionMap.has(key)) {
+                consultant.selected = this.selectionMap.get(key)!;
+              }
+
+              return consultant;
+            }
           );
 
           // Update pagination data from meta
