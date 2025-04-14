@@ -13,7 +13,7 @@
           like.
         </p>
         <div
-          class="w-[54px] h-[33px] rounded-full border text-[14px] border-[#F2F4F7] bg-[#F9FAFB] text-[#0F132499] flex justify-center items-center"
+          class="w-[54px] h-[33px] rounded-full border text-[14px] border-[#F2F4F7] bg-[#F9FAFB] text-[#0F132499]/60 flex justify-center items-center"
         >
           {{ selectedConsultantsCount }}/{{ suggestedConsultants.length }}
         </div>
@@ -184,8 +184,8 @@
             'cursor-not-allowed opacity-50':
               !consultant.selected && selectedConsultantsCount >= 3
           }"
-          (click)="toggleOtherSelection(consultant)"
         >
+          <!-- (click)="toggleOtherSelection(consultant)" -->
           <div class="flex items-start gap-5">
             <div class="mb-4">
               <div class="bg-purple-100 p-2 rounded-lg inline-block">
@@ -319,22 +319,95 @@
         </button>
       </div>
 
-      <!-- Search bar -->
-      <div class="mb-4 relative">
-        <input
-          type="text"
-          placeholder="Search consultants"
-          [(ngModel)]="selectorSearchTerm"
-          (input)="searchSelectorConsultants()"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg pl-10"
-        />
-        <i
-          class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-        ></i>
+      <!-- Filter and Search Section -->
+      <div
+        class="flex flex-col md:flex-row justify-between items-center mb-4 gap-3"
+      >
+        <!-- Filter Dropdown -->
+        <div class="relative">
+          <!-- Filter Button -->
+          <button
+            (click)="toggleSelectorFilterDropdown()"
+            class="selector-filter-dropdown-button w-10 h-10 flex items-center justify-center bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none"
+          >
+            <img src="images/new/Filter-icon.svg" alt="" />
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div
+            *ngIf="showSelectorFilterDropdown"
+            class="selector-filter-dropdown-content absolute left-0 mt-1 w-[160px] bg-white border border-gray-200 rounded-lg shadow-md z-10"
+          >
+            <div class="py-1">
+              <a
+                (click)="
+                  filterSelectorAgents('all'); toggleSelectorFilterDropdown()
+                "
+                class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+              >
+                All
+                <i
+                  *ngIf="selectorActiveFilter === 'all'"
+                  class="pi pi-check text-gray-500"
+                ></i>
+              </a>
+              <a
+                (click)="
+                  filterSelectorAgents('byme'); toggleSelectorFilterDropdown()
+                "
+                class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+              >
+                By me
+                <i
+                  *ngIf="selectorActiveFilter === 'byme'"
+                  class="pi pi-check text-gray-500"
+                ></i>
+              </a>
+              <a
+                (click)="
+                  filterSelectorAgents('consultitude');
+                  toggleSelectorFilterDropdown()
+                "
+                class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+              >
+                Consultitude
+                <i
+                  *ngIf="selectorActiveFilter === 'consultitude'"
+                  class="pi pi-check text-gray-500"
+                ></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search bar -->
+        <div class="relative flex-grow">
+          <input
+            type="text"
+            placeholder="Search consultants"
+            [(ngModel)]="selectorSearchTerm"
+            (input)="searchSelectorConsultants()"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg pl-10"
+          />
+          <i
+            class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Loading and Error States -->
+      <div *ngIf="selectorIsLoading" class="text-center text-gray-500 my-4">
+        Loading consultants...
+      </div>
+      <div *ngIf="selectorError" class="text-center text-red-500 my-4">
+        {{ selectorError }}
       </div>
 
       <!-- Consultants grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <div
+        *ngIf="!selectorIsLoading && !selectorError"
+        class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4"
+      >
         <div
           *ngFor="let consultant of filteredSelectorConsultants"
           class="border rounded-lg p-3 flex items-start gap-3 cursor-pointer hover:bg-gray-50"
@@ -348,14 +421,56 @@
             <p class="text-sm text-gray-500 line-clamp-2">
               {{ consultant.description }}
             </p>
+            <div class="flex gap-3 items-center mt-2">
+              <div class="flex items-center">
+                <ng-container *ngIf="consultant.creator.avatar">
+                  <img
+                    [src]="consultant.creator.avatar"
+                    class="w-5 h-5 rounded-full mr-1"
+                    [alt]="consultant.creator.name"
+                  />
+                </ng-container>
+                <span class="text-xs text-gray-500">{{
+                  consultant.creator.name
+                }}</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <img src="images/comments.png" class="w-4 h-4" alt="" />
+                <span class="text-xs">{{ consultant.likes }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="flex justify-end">
+      <!-- Pagination for modal -->
+      <div
+        class="flex justify-center items-center gap-4 mt-4 mb-2"
+        *ngIf="selectorTotalPages > 1"
+      >
+        <button
+          (click)="previousSelectorPage()"
+          [disabled]="selectorCurrentPage === 1"
+          class="px-3 py-1 rounded-lg border"
+          [class.opacity-50]="selectorCurrentPage === 1"
+        >
+          Previous
+        </button>
+        <span>Page {{ selectorCurrentPage }} of {{ selectorTotalPages }}</span>
+        <button
+          (click)="nextSelectorPage()"
+          [disabled]="selectorCurrentPage === selectorTotalPages"
+          class="px-3 py-1 rounded-lg border"
+          [class.opacity-50]="selectorCurrentPage === selectorTotalPages"
+        >
+          Next
+        </button>
+      </div>
+
+      <div class="flex justify-end mt-4">
         <button
           (click)="closeConsultantSelector()"
-          class="px-4 py-2 border border-gray-300 rounded-lg mr-2"
+          class="px-4 py-2 border border-gray-300 rounded-lg"
         >
           Cancel
         </button>

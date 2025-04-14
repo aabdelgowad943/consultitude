@@ -76,6 +76,16 @@ export class ConsultingSuggestionComponent implements OnInit {
   selectorSearchTerm: string = '';
   filteredSelectorConsultants: Consultant[] = [];
 
+  // New properties for modal filter and pagination
+  selectorCurrentPage = 1;
+  selectorTotalPages = 0;
+  selectorTotalItems = 0;
+  selectorItemsPerPage = 6;
+  selectorIsLoading = false;
+  selectorError: string | null = null;
+  selectorActiveFilter: 'all' | 'byme' | 'consultitude' = 'all';
+  showSelectorFilterDropdown = false;
+
   constructor(private agentService: AgentsService) {}
 
   ngOnInit() {
@@ -185,6 +195,78 @@ export class ConsultingSuggestionComponent implements OnInit {
     });
   }
 
+  // New method for fetching consultants in the modal
+  fetchSelectorConsultants() {
+    this.selectorIsLoading = true;
+    this.selectorError = null;
+
+    const params: AgentFilterParams = {
+      page: this.selectorCurrentPage,
+      limit: this.selectorItemsPerPage,
+      search: this.selectorSearchTerm || undefined,
+    };
+
+    // Add filter based on activeFilter
+    if (this.selectorActiveFilter === 'byme') {
+      params.profileId = localStorage.getItem('profileId') || '';
+    } else if (this.selectorActiveFilter === 'consultitude') {
+      params.type = ['EVO_USER'];
+    }
+
+    this.agentService.getAllAgents(params).subscribe({
+      next: (response: any) => {
+        if (response.success && Array.isArray(response.data)) {
+          this.filteredSelectorConsultants = response.data.map(
+            (agent: any, index: number) => {
+              const consultant = {
+                id:
+                  (response.meta.currentPage - 1) * response.meta.itemsPerPage +
+                  index +
+                  1,
+                type: agent.name || 'Consultant',
+                description: agent.persona,
+                creator: {
+                  name: agent.owner || 'Unknown',
+                  avatar: 'images/new/circle.svg',
+                },
+                likes: agent.usage || 0,
+                icon: this.getIconForIndex(index),
+                selected: false,
+                profileId: agent.profileId,
+                agentId: agent.id,
+              };
+
+              // Check if we have a stored selection state for this consultant
+              const key = consultant.agentId || consultant.id.toString();
+              if (this.selectionMap.has(key)) {
+                consultant.selected = this.selectionMap.get(key)!;
+              }
+
+              return consultant;
+            }
+          );
+
+          // Update pagination data from meta
+          if (response.meta) {
+            const meta: ApiResponseMeta = response.meta;
+            this.selectorTotalItems = meta.totalItems;
+            this.selectorItemsPerPage = meta.itemsPerPage;
+            this.selectorCurrentPage = meta.currentPage;
+            this.selectorTotalPages = meta.totalPages;
+          }
+        } else {
+          this.selectorError = 'Invalid response format from server';
+        }
+        this.selectorIsLoading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching agents for selector:', err);
+        this.selectorError = 'Failed to load consultants';
+        this.selectorIsLoading = false;
+      },
+    });
+  }
+
   private getIconForIndex(index: number): string {
     const icons = [
       'pi-comments',
@@ -215,6 +297,35 @@ export class ConsultingSuggestionComponent implements OnInit {
 
   getActiveFilterLabel(): string {
     switch (this.activeFilter) {
+      case 'all':
+        return 'All';
+      case 'byme':
+        return 'By me';
+      case 'consultitude':
+        return 'Consultitude';
+      default:
+        return 'All';
+    }
+  }
+
+  // New methods for modal filter and search
+  searchSelectorConsultants() {
+    this.selectorCurrentPage = 1; // Reset to first page when searching
+    this.fetchSelectorConsultants();
+  }
+
+  filterSelectorAgents(filter: 'all' | 'byme' | 'consultitude') {
+    this.selectorActiveFilter = filter;
+    this.selectorCurrentPage = 1; // Reset to first page when filtering
+    this.fetchSelectorConsultants();
+  }
+
+  toggleSelectorFilterDropdown() {
+    this.showSelectorFilterDropdown = !this.showSelectorFilterDropdown;
+  }
+
+  getSelectorActiveFilterLabel(): string {
+    switch (this.selectorActiveFilter) {
       case 'all':
         return 'All';
       case 'byme':
@@ -265,6 +376,21 @@ export class ConsultingSuggestionComponent implements OnInit {
     }
   }
 
+  // New pagination methods for modal
+  nextSelectorPage() {
+    if (this.selectorCurrentPage < this.selectorTotalPages) {
+      this.selectorCurrentPage++;
+      this.fetchSelectorConsultants();
+    }
+  }
+
+  previousSelectorPage() {
+    if (this.selectorCurrentPage > 1) {
+      this.selectorCurrentPage--;
+      this.fetchSelectorConsultants();
+    }
+  }
+
   // Navigation methods
   goToPreviousStep() {
     this.previous.emit();
@@ -297,6 +423,12 @@ export class ConsultingSuggestionComponent implements OnInit {
     const clickedElement = event.target as HTMLElement;
     const dropdownButton = document.querySelector('.filter-dropdown-button');
     const dropdownContent = document.querySelector('.filter-dropdown-content');
+    const selectorDropdownButton = document.querySelector(
+      '.selector-filter-dropdown-button'
+    );
+    const selectorDropdownContent = document.querySelector(
+      '.selector-filter-dropdown-content'
+    );
 
     // If we have a dropdown open and click is outside both the button and content
     if (
@@ -308,33 +440,32 @@ export class ConsultingSuggestionComponent implements OnInit {
     ) {
       this.showFilterDropdown = false;
     }
+
+    // Handle the selector filter dropdown
+    if (
+      this.showSelectorFilterDropdown &&
+      selectorDropdownButton &&
+      selectorDropdownContent &&
+      !selectorDropdownButton.contains(clickedElement) &&
+      !selectorDropdownContent.contains(clickedElement)
+    ) {
+      this.showSelectorFilterDropdown = false;
+    }
   }
 
   // Methods for consultant selection modal
   openConsultantSelector(slotIndex: number) {
     this.currentSlotIndex = slotIndex;
-    this.filteredSelectorConsultants = [...this.filteredAgents];
     this.selectorSearchTerm = '';
+    this.selectorActiveFilter = 'all';
+    this.selectorCurrentPage = 1;
     this.showConsultantSelector = true;
+    this.fetchSelectorConsultants(); // Fetch consultants when opening the modal
   }
 
   closeConsultantSelector() {
     this.showConsultantSelector = false;
     this.currentSlotIndex = null;
-  }
-
-  searchSelectorConsultants() {
-    if (!this.selectorSearchTerm) {
-      this.filteredSelectorConsultants = [...this.filteredAgents];
-      return;
-    }
-
-    const searchTerm = this.selectorSearchTerm.toLowerCase();
-    this.filteredSelectorConsultants = this.filteredAgents.filter(
-      (consultant) =>
-        consultant.type.toLowerCase().includes(searchTerm) ||
-        consultant.description.toLowerCase().includes(searchTerm)
-    );
   }
 
   selectConsultantForSlot(consultant: Consultant) {
