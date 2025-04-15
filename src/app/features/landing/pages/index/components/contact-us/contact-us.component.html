@@ -18,13 +18,13 @@
       <!--  left side -->
       <div class="w-full">
         <h2
-          class="text-[28px] md:text-[52px] md:leading-[62px] leading-[38px] text-white w-full font-semibold"
+          class="text-[28px] md:text-[52px] md:leading-[62px] leading-[38px] text-white w-full ipad:font-[500] big:font-[600]"
         >
           Can't find a document? <br />
           Tell us what to build <br class="block md:hidden" />
           next..
         </h2>
-        <p class="text-sm mt-5 font-sans text-[#E9D8FC]">
+        <p class="text-sm mt-5 text-[#E9D8FC]">
           We’re constantly adding new, comprehensive consulting
           <br class="md:block hidden" />
           templates and would love your input <br class="block md:hidden" />
@@ -39,15 +39,13 @@
         <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
           <!-- E-mail Field -->
           <div class="mb-4">
-            <label for="email" class="block text-sm font-sans text-white"
-              >E-mail</label
-            >
+            <label for="email" class="block text-sm text-white">E-mail</label>
             <input
               formControlName="email"
               type="email"
               id="email"
               placeholder="Enter your e-mail"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             <div
               *ngIf="
@@ -67,7 +65,7 @@
 
           <!-- Document Name Field -->
           <div class="mb-4">
-            <label for="name" class="block text-sm font-sans text-white"
+            <label for="name" class="block text-sm text-white"
               >Document Name</label
             >
             <input
@@ -75,7 +73,7 @@
               type="text"
               id="name"
               placeholder="Write a name"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             <div
               *ngIf="
@@ -90,15 +88,13 @@
 
           <!-- Document Type (Format) Field -->
           <div class="mb-4">
-            <label
-              for="documentFormatId"
-              class="block text-sm font-sans text-white"
+            <label for="documentFormatId" class="block text-sm text-white"
               >Document Type</label
             >
             <select
               formControlName="documentFormatId"
               id="documentFormatId"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option
                 class="bg-[#221139e1] text-white"
@@ -121,15 +117,13 @@
 
           <!-- Document Area of Focus Field -->
           <div class="mb-4">
-            <label
-              for="areaOfFocusId"
-              class="block text-sm font-sans text-white"
+            <label for="areaOfFocusId" class="block text-sm text-white"
               >Document Area of focus</label
             >
             <select
               formControlName="areaOfFocusId"
               id="areaOfFocusId"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option
                 class="bg-[#221139e1] text-white"
@@ -152,7 +146,7 @@
 
           <!-- Description Field -->
           <div class="mb-4">
-            <label for="description" class="block text-sm font-sans text-white"
+            <label for="description" class="block text-sm text-white"
               >Describe the document content</label
             >
             <textarea
@@ -160,7 +154,7 @@
               id="description"
               placeholder="Describe the document content..."
               rows="4"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             ></textarea>
             <div
               *ngIf="
@@ -175,9 +169,7 @@
 
           <!-- Language Field (Radio Buttons) -->
           <div class="mb-4">
-            <label class="block text-sm mb-2 font-sans text-white"
-              >Language</label
-            >
+            <label class="block text-sm mb-2 text-white">Language</label>
             <div class="flex items-center gap-5">
               <label class="flex items-center">
                 <input
@@ -186,7 +178,7 @@
                   value="Arabic"
                   class="w-4 h-4 text-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
                 />
-                <span class="ms-2 text-sm font-sans text-white">Arabic</span>
+                <span class="ms-2 text-sm text-white">Arabic</span>
               </label>
               <label class="flex items-center">
                 <input
@@ -195,7 +187,7 @@
                   value="English"
                   class="w-4 h-4 text-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
                 />
-                <span class="ms-2 text-sm font-sans text-white">English</span>
+                <span class="ms-2 text-sm text-white">English</span>
               </label>
               <label class="flex items-center">
                 <input
@@ -204,7 +196,7 @@
                   value="Other"
                   class="w-4 h-4 text-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
                 />
-                <span class="ms-2 text-sm font-sans text-white">Other</span>
+                <span class="ms-2 text-sm text-white">Other</span>
               </label>
             </div>
             <div

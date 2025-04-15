@@ -4,20 +4,22 @@
   [visible]="display"
   (onHide)="closeDialog()"
   [modal]="true"
-  styleClass="md:w-[480px] xss:w-[380px] xs:w-[340px] bg-white text-black"
+  styleClass="md:w-[480px] xss:w-[380px] xs:w-[340px] bg-white text-black ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]  "
   [closable]="false"
   header="Edit the about"
 >
   <!-- [style]="{ width: '480px' }" -->
   <div class="relative">
-    <label class="block text-[14px] font-[500] mb-2 text-[#14151A]">
+    <label
+      class="block text-[14px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] mb-2 text-[#14151A]"
+    >
       A brief about your consulting experience
     </label>
     <textarea
       [(ngModel)]="about"
       placeholder="Enter a brief about your experience..."
       maxlength="300"
-      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1 h-[200px]"
+      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] rounded-xl px-3 py-2.5 mt-1 h-[200px]"
     ></textarea>
     <div
       class="text-right text-sm text-[#0D112666]/60 absolute bottom-4 left-4"

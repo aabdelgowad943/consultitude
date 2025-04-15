@@ -9,12 +9,12 @@
       </p>
     </div>
     <h2
-      class="mb-6 lg:mb-8 text-3xl lg:text-[52px] font-semibold text-center text-[#101828] tracking-relaxed"
+      class="mb-6 lg:mb-8 text-3xl lg:text-[52px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-center text-[#101828] tracking-relaxed"
     >
       Frequently Asked Questions
     </h2>
 
-    <h2 class="mb-6 lg:mb-8 font-sans text-[17px] text-center text-[#344054e7]">
+    <h2 class="mb-6 lg:mb-8 text-[17px] text-center text-[#344054e7]">
       Find answers to your questions about Consultitide’s templates, features,
       pricing, and <br />
       support.
@@ -32,9 +32,10 @@
             (click)="toggleAccordion(i)"
           >
             <span>{{ faq.question }}</span>
-            <span class="text-4xl font-bold text-[#0F132499]/60">{{
-              isOpen(i) ? "-" : "+"
-            }}</span>
+            <span
+              class="text-4xl ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-[#0F132499]/60"
+              >{{ isOpen(i) ? "-" : "+" }}</span
+            >
           </button>
         </h2>
         <div [hidden]="!isOpen(i)">
@@ -65,12 +66,14 @@
     class="big:max-w-6xl ipad:max-w-2xl relative overflow-hidden flex justify-center items-center bg-gradient-to-l from-[#261536]/100 to-[#54148C]/100 rounded-md h-96 md:h-72 mx-auto pb-5"
   >
     <div class="flex flex-col space-y-6">
-      <h1 class="text-[36px] text-center w-full text-white font-semibold">
+      <h1
+        class="text-[36px] text-center w-full text-white ipad:font-[500] big:font-[600]"
+      >
         Need <br class="md:hidden" />
         additional <br class="md:hidden" />
         help?
       </h1>
-      <p class="text-[#E9D7FE] w-full text-center my-7 font-sans">
+      <p class="text-[#E9D7FE] w-full text-center my-7">
         Contact us <br class="md:hidden" />
         <a
           href="mailto:

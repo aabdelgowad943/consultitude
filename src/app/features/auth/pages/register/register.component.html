@@ -21,7 +21,7 @@
           <!-- Step 1: Email Entry -->
           <div *ngIf="currentStep === registrationStep.EmailEntry">
             <h2
-              class="thousand:text-[32px] text-[28px] text-black thousand:mb-3 font-[500] text-center"
+              class="thousand:text-[32px] text-[28px] text-black thousand:mb-3 ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-center"
             >
               Create your free account
             </h2>
@@ -34,7 +34,7 @@
 
             <div class="w-full flex justify-center mt-10 thousand:mt-0">
               <button
-                class="w-[329px] flex text-[16px] gap-2 thousand:w-[480px] h-[48px] font-[500] items-center justify-center py-2.5 px-5 text-sm text-white bg-[#0077B5] rounded-xl hover:bg-[#0076b5c7]"
+                class="w-[329px] flex text-[16px] gap-2 thousand:w-[480px] h-[48px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] items-center justify-center py-2.5 px-5 text-sm text-white bg-[#0077B5] rounded-xl hover:bg-[#0076b5c7]"
               >
                 <img src="/images/linkedin.svg" alt="" />
                 Continue with LinkedIn
@@ -97,7 +97,7 @@
           <!-- Step 2: User Profile -->
           <div *ngIf="currentStep === registrationStep.UserProfile">
             <h2
-              class="thousand:text-[32px] text-[28px] text-black thousand:mb-3 font-[500] text-center"
+              class="thousand:text-[32px] text-[28px] text-black thousand:mb-3 ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-center"
             >
               Tell us about yourself
             </h2>
@@ -191,7 +191,7 @@
           <!-- Step 3: Password Setup -->
           <div *ngIf="currentStep === registrationStep.PasswordSetup">
             <h2
-              class="thousand:text-[32px] text-[28px] text-black thousand:mb-3 font-[500] text-center"
+              class="thousand:text-[32px] text-[28px] text-black thousand:mb-3 ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-center"
             >
               Secure your account
             </h2>
@@ -292,7 +292,7 @@
           <!-- Step 4: Code Verification -->
           <div *ngIf="currentStep === registrationStep.CodeVerification">
             <h2
-              class="thousand:text-[32px] text-[28px] text-black thousand:mb-3 font-[500] text-center"
+              class="thousand:text-[32px] text-[28px] text-black thousand:mb-3 ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-center"
             >
               Verify your email
             </h2>
@@ -376,7 +376,9 @@
             *ngIf="currentStep === registrationStep.Completion"
             class="text-center"
           >
-            <h3 class="text-[24px] font-[500] text-black mb-4">
+            <h3
+              class="text-[24px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-black mb-4"
+            >
               Hello, {{ name }}!
             </h3>
             <p class="text-[#475467] text-[16px] thousand:w-[480px] font-[400]">
@@ -385,7 +387,7 @@
 
             <a
               routerLink="/auth/login"
-              class="text-[#9241DC] cursor-pointer mt-5 text-[16px] font-[500]"
+              class="text-[#9241DC] cursor-pointer mt-5 text-[16px] ipad:font-[500] big:font-[600]"
             >
               Go to login
             </a>

@@ -12,7 +12,7 @@
       <img class="w-20" src="/images/Logo.svg" />
       <h1
         *ngIf="template.featured"
-        class="font-semibold flex items-center justify-center w-[74px] h-[28px] text-[#AE590A] bg-[#FDEAD8] rounded-lg py-1 px-1.5"
+        class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] flex items-center justify-center w-[74px] h-[28px] text-[#AE590A] bg-[#FDEAD8] rounded-lg py-1 px-1.5"
       >
         Featured
       </h1>
@@ -21,11 +21,13 @@
     <div
       class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-10 text-white rounded-t-2xl"
     >
-      <h3 class="text-2xl mb-1 w-[50%] font-semibold">
-        <h3 class="text-3xl mb-1 w-[50%] font-[700]">{{ template.name }}</h3>
+      <h3 class="text-2xl mb-1 w-[50%] ipad:font-[500] big:font-[600]">
+        <h3 class="text-3xl mb-1 w-[50%] ipad:font-[500] big:font-[600]">
+          {{ template.name }}
+        </h3>
         <!-- Business & Consulting toolkit -->
       </h3>
-      <p class="text-[12px] font-sans">
+      <p class="text-[12px]">
         {{ template.description }}
       </p>
     </div>
@@ -36,11 +38,13 @@
     <!-- Price -->
     <div class="flex items-center justify-between mb-4">
       <!-- Title -->
-      <h3 class="text-[#171717] flex flex-col text-[24px] font-extrabold">
+      <h3
+        class="text-[#171717] flex flex-col text-[24px] ipad:font-[500] big:font-[600]"
+      >
         {{ template.name }}
         <!-- <span class="text-sm">{{ template.description }}</span> -->
       </h3>
-      <span class="text-[#101828] text-2xl font-extrabold">
+      <span class="text-[#101828] text-2xl ipad:font-[500] big:font-[600]">
         ${{ template.price }}
       </span>
       <!-- {{ template.price ? "Free" : "$" + template.discountedPrice }} -->
@@ -51,7 +55,7 @@
       <div class="flex gap-1 items-center w-full">
         <h1
           *ngFor="let tag of tags"
-          class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+          class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
           [class.opacity-50]="isTagDisabled(tag.id)"
           [class.cursor-not-allowed]="isTagDisabled(tag.id)"
           (click)="onTagClick(tag)"
@@ -67,7 +71,7 @@
 
     <!-- View Button -->
     <button
-      class="w-full flex text-[14px] font-sans items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-[#ffffffd1] font-medium rounded-xl border border-[#6E2FA5] transition-colors"
+      class="w-full flex text-[14px] items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-[#ffffffd1] font-medium rounded-xl border border-[#6E2FA5] transition-colors"
       (click)="viewTemplateDetails()"
     >
       <i class="pi pi-eye"></i>

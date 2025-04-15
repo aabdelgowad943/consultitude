@@ -53,7 +53,7 @@
 >
   <div class="bg-white w-[90%] max-h-[90%] rounded-lg p-6 overflow-y-auto">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg font-bold">Filter Templates</h3>
+      <h3 class="text-lg ipad:font-[500] big:font-[600]">Filter Templates</h3>
       <button
         class="text-gray-500 hover:text-gray-700"
         (click)="closeSidebar()"
@@ -64,7 +64,10 @@
 
     <!-- Search Bar -->
     <div class="mb-4">
-      <label class="block mb-3 font-bold text-sm">Search Templates</label>
+      <label
+        class="block mb-3 ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-sm"
+        >Search Templates</label
+      >
       <input
         type="text"
         class="w-full p-2 text-sm border text-[#14151A] border-gray-300 bg-white rounded-xl"
@@ -84,7 +87,11 @@
           class="flex items-center justify-between cursor-pointer p-2 hover:bg-gray-100"
           (click)="toggleSection(section)"
         >
-          <h3 class="font-bold text-gray-700 text-sm">{{ section.name }}</h3>
+          <h3
+            class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-gray-700 text-sm"
+          >
+            {{ section.name }}
+          </h3>
         </div>
         <div *ngIf="section.isOpen" class="ml-4">
           <!-- Special handling for price range -->
@@ -122,7 +129,7 @@
                   [(ngModel)]="item.checked"
                   (ngModelChange)="onFilterChange()"
                 />
-                <span class="ml-2 text-[#171717] font-sans text-[13px]">{{
+                <span class="ml-2 text-[#171717] text-[13px]">{{
                   item.name
                 }}</span>
               </label>
@@ -134,7 +141,7 @@
 
     <!-- Apply Button -->
     <button
-      class="mt-6 w-full px-4 py-2 bg-[#7F56D9] text-white rounded-lg font-semibold"
+      class="mt-6 w-full px-4 py-2 bg-[#7F56D9] text-white rounded-lg ipad:font-[500] big:font-[600]"
       (click)="closeSidebar()"
     >
       Apply Filters

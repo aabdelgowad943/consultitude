@@ -14,7 +14,7 @@
         <div class="">
           <a
             routerLink="/knowledge"
-            class="flex items-center gap-2 text-[#0F132499] text-[14px] font-bold mb-[32px]"
+            class="flex items-center gap-2 text-[#0F132499] text-[14px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] mb-[32px]"
           >
             <i class="pi pi-arrow-left"></i> {{ backButtonText }}
           </a>
@@ -25,7 +25,7 @@
               >
                 <div class="flex-1">
                   <h1
-                    class="text-2xl md:text-4xl w-full md:w-[70%] font-bold mb-4 text-[#101828]"
+                    class="text-2xl md:text-4xl w-full md:w-[70%] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] mb-4 text-[#101828]"
                   >
                     {{ template.name }}
                   </h1>
@@ -91,7 +91,9 @@
           <div
             class="absolute z-10 flex flex-col bottom-10 justify-end items-start h-24 md:h-48"
           >
-            <h1 class="text-2xl md:text-4xl font-bold mb-2 w-full md:w-[40%]">
+            <h1
+              class="text-2xl md:text-4xl ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] mb-2 w-full md:w-[40%]"
+            >
               {{ template.name }}
             </h1>
             <p class="text-base md:text-lg text-gray-300">
@@ -131,7 +133,9 @@
         </div>
 
         <div class="pt-10">
-          <h2 class="text-xl md:text-2xl font-[500] mb-4 text-[#101828]">
+          <h2
+            class="text-xl md:text-2xl ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] mb-4 text-[#101828]"
+          >
             {{ overviewTitle }}
           </h2>
           <p
@@ -143,13 +147,15 @@
           <!-- Tags Section -->
 
           <h1
-            class="text-[24px] font-[500] leading-[28.8px] text-[#101828] mb-6"
+            class="text-[24px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] leading-[28.8px] text-[#101828] mb-6"
           >
             Tags
           </h1>
           <div class="mt-6">
             <div *ngFor="let tagGroup of tags" class="mb-4">
-              <h4 class="font-[500] text-[14px] md:text-[16px] text-black">
+              <h4
+                class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-[14px] md:text-[16px] text-black"
+              >
                 {{ tagGroup.title }}
               </h4>
               <div class="flex flex-wrap gap-2 mt-2">
@@ -178,7 +184,7 @@
             Done by Expert Consultants
           </p>
           <h2
-            class="md:text-[44px] text-[36px] w-full font-bold text-[#101828]"
+            class="md:text-[44px] text-[36px] w-full ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-[#101828]"
           >
             Similar Documents
           </h2>
@@ -211,7 +217,7 @@
               <img class="w-20" src="/images/Logo.svg" />
               <h1
                 *ngIf="product.featured"
-                class="font-semibold flex items-center justify-center w-[74px] h-[28px] text-[#AE590A] bg-[#FDEAD8] rounded-lg py-1 px-1.5"
+                class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] flex items-center justify-center w-[74px] h-[28px] text-[#AE590A] bg-[#FDEAD8] rounded-lg py-1 px-1.5"
               >
                 Featured
               </h1>
@@ -219,10 +225,10 @@
             <div
               class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-10 text-white rounded-t-2xl"
             >
-              <h3 class="text-3xl mb-1 w-[50%] font-[700]">
+              <h3 class="text-3xl mb-1 w-[50%] ipad:font-[500] big:font-[600]">
                 {{ product.name }}
               </h3>
-              <p class="text-[12px] font-sans">
+              <p class="text-[12px]">
                 {{ product.description }}
               </p>
             </div>
@@ -234,11 +240,13 @@
             <div class="flex items-center justify-between mb-4">
               <!-- Title -->
               <h3
-                class="text-[#171717] flex flex-col text-[24px] font-extrabold"
+                class="text-[#171717] flex flex-col text-[24px] ipad:font-[500] big:font-[600]"
               >
                 {{ product.name }}
               </h3>
-              <span class="text-[#101828] text-2xl font-extrabold">
+              <span
+                class="text-[#101828] text-2xl ipad:font-[500] big:font-[600]"
+              >
                 ${{ product.price }}
               </span>
             </div>
@@ -248,13 +256,13 @@
               <div class="flex gap-1 items-center w-full">
                 <h1
                   *ngFor="let domain of product.domains?.slice(0, 2)"
-                  class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+                  class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
                 >
                   {{ domain }}
                 </h1>
                 <h1
                   *ngFor="let areaOfFocus of product.areaOfFocus?.slice(0, 2)"
-                  class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+                  class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
                 >
                   {{ areaOfFocus }}
                 </h1>
@@ -268,7 +276,7 @@
             <!-- View Button -->
             <button
               (click)="viewDetail(product.id)"
-              class="w-full flex text-[14px] font-sans items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-[#ffffffd1] font-medium rounded-xl border border-[#6E2FA5] transition-colors"
+              class="w-full flex text-[14px] items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-[#ffffffd1] font-medium rounded-xl border border-[#6E2FA5] transition-colors"
             >
               <i class="pi pi-eye"></i>
               View

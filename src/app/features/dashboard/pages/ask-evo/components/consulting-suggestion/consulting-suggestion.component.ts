@@ -603,10 +603,8 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
     }
 
     // Force the call to be deferred to ensure all inputs are initialized
-    setTimeout(() => {
-      this.initializeSuggestedConsultants();
-      this.fetchConsultants();
-    }, 0);
+    this.initializeSuggestedConsultants();
+    this.fetchConsultants();
   }
 
   ngOnChanges(changes: SimpleChanges) {
