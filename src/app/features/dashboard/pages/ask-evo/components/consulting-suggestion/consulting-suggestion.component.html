@@ -15,7 +15,7 @@
         <div
           class="w-[54px] h-[33px] rounded-full border text-[14px] border-[#F2F4F7] bg-[#F9FAFB] text-[#0F132499]/60 flex justify-center items-center"
         >
-          {{ selectedConsultantsCount }}/{{ suggestedConsultants.length }}
+          {{ selectedConsultantsCount }}/{{ maxSelectedConsultants }}
         </div>
       </div>
 
@@ -79,7 +79,6 @@
               >
                 <i class="pi pi-plus text-gray-400 text-sm"></i>
               </div>
-              <!-- <p class="text-sm text-gray-500">Add Consultant</p> -->
             </div>
           </div>
         </ng-container>
@@ -180,12 +179,14 @@
             'border-[#9241DC] border-2': consultant.selected,
             'border-[#EAECF0]': !consultant.selected,
             'cursor-pointer':
-              consultant.selected || selectedConsultantsCount < 3,
+              consultant.selected ||
+              selectedConsultantsCount < maxSelectedConsultants,
             'cursor-not-allowed opacity-50':
-              !consultant.selected && selectedConsultantsCount >= 3
+              !consultant.selected &&
+              selectedConsultantsCount >= maxSelectedConsultants
           }"
+          (click)="toggleOtherSelection(consultant)"
         >
-          <!-- (click)="toggleOtherSelection(consultant)" -->
           <div class="flex items-start gap-5">
             <div class="mb-4">
               <div class="bg-purple-100 p-2 rounded-lg inline-block">
@@ -410,7 +411,13 @@
       >
         <div
           *ngFor="let consultant of filteredSelectorConsultants"
-          class="border rounded-lg p-3 flex items-start gap-3 cursor-pointer hover:bg-gray-50"
+          class="border rounded-lg p-3 flex items-start gap-3 transition-all duration-200"
+          [ngClass]="{
+            'cursor-pointer hover:bg-gray-50':
+              !isConsultantAlreadySelected(consultant),
+            'cursor-not-allowed opacity-50':
+              isConsultantAlreadySelected(consultant)
+          }"
           (click)="selectConsultantForSlot(consultant)"
         >
           <div class="bg-purple-100 p-2 rounded-lg">
