@@ -37,7 +37,7 @@ export class LinkedinCallbackComponent implements OnInit {
 
         try {
           // Store the token and user info
-          localStorage.setItem('token', token);
+          localStorage.setItem('token', `Bearer ${token}`);
           localStorage.setItem('name', name);
           localStorage.setItem('email', email);
 
