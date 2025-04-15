@@ -17,10 +17,14 @@
 
 @font-face {
   font-family: "Neue Montreal";
-  src: url("/fonts/PPNeueMontreal-Medium.otf") format("woff2"),
-    url("/fonts/PPNeueMontreal-Bold.otf") format("woff2");
-  font-weight: 500 700;
-  font-display: swap;
+  src: url("/fonts/NeueMontreal-Medium.otf") format("woff2");
+  // url("/fonts/PPNeueMontreal-Bold.otf") format("woff2");
+  font-weight: 500;
+  // font-display: swap;
+}
+
+.font-bold {
+  font-weight: 500;
 }
 
 /* Custom scrollbar styles */

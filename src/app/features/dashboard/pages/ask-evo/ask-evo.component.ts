@@ -15,10 +15,10 @@ import { ConsultingSuggestionComponent } from './components/consulting-suggestio
 import { AskEvoHeaderComponent } from './components/ask-evo-header/ask-evo-header.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { SummaryDetailsComponent } from './components/summary-details/summary-details.component';
-import { Consultant } from './components/consulting-suggestion/consulting-suggestion.component';
 import { EvoServicesService } from '../../services/evo-services.service';
 import { finalize } from 'rxjs';
 import { Chat, ChatTest } from '../../models/chat';
+import { Consultant } from '../../models/consultant';
 
 export interface Agent {
   id: number;
@@ -113,24 +113,17 @@ export class AskEvoComponent {
 
   goToPreviousStep() {
     if (this.currentStep > 1) {
-      // Don't do any reset when going back
       this.currentStep--;
     } else {
       this.showDocumentUploadStepper = false;
-      this.resetState(); // Only reset when completely exiting
+      this.resetState();
     }
   }
+
   // Process the user's question
   processUserQuestion() {
     this.currentStep = 3; // Move to a results step that we'll implement later
   }
-
-  // Store selected consultants
-  // onSelectedConsultantsChange(consultants: Consultant[]) {
-  //   this.selectedConsultants = consultants;
-  // }
-
-  // In ask-evo.component.ts
 
   // Create a map to track the selection state of all consultants
   consultantSelectionMap: Map<string, boolean> = new Map();
@@ -163,6 +156,45 @@ export class AskEvoComponent {
     }
   }
 
+  // analyzeDocument() {
+  //   // Reset analysis state
+  //   this.isAnalyzing = true;
+  //   this.analysisComplete = false;
+  //   this.errorMessage = '';
+
+  //   this.evoService
+  //     .suggestAgents({
+  //       ask: this.userQuestion,
+  //       documents: [this.documentUrl],
+  //     })
+  //     .pipe(
+  //       // Add RxJS operators to handle the flow
+  //       finalize(() => {
+  //         // This will run whether the observable completes successfully or errors out
+  //         this.isAnalyzing = false;
+  //         this.analysisComplete = true;
+
+  //         // Move to next step after analysis
+  //         this.currentStep = 3;
+  //       })
+  //     )
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.suggestedAgentsData = res.data.suggested_agents; // Store the original data
+  //         this.selectedConsultants = res.data.suggested_agents;
+  //       },
+  //       error: (err) => {
+  //         // console.error('Document analysis error:', err);
+  //         this.errorMessage = 'An error occurred while analyzing the document';
+  //         // Optionally reset analysis state more explicitly on error
+  //         this.isAnalyzing = false;
+  //         this.analysisComplete = false;
+  //       },
+  //     });
+  // }
+
+  // Relevant part of ask-evo.component.ts to fix
+
   analyzeDocument() {
     // Reset analysis state
     this.isAnalyzing = true;
@@ -187,11 +219,49 @@ export class AskEvoComponent {
       )
       .subscribe({
         next: (res) => {
-          this.suggestedAgentsData = res.data.suggested_agents; // Store the original data
-          this.selectedConsultants = res.data.suggested_agents;
+          console.log('API response:', JSON.stringify(res, null, 2));
+
+          if (res?.data?.suggested_agents) {
+            // Store the original data
+            this.suggestedAgentsData = res.data.suggested_agents.map(
+              (agent: any) => {
+                // Create a properly structured agent object with all required fields
+                const mappedAgent = {
+                  name: agent.name || 'Consultant',
+                  persona: agent.persona || '',
+                  profileId: agent.profileId || '',
+                  agentId: agent.agentId || '',
+                  // Include other properties if needed
+                  domains: agent.domains || [],
+                  sectors: agent.sectors || [],
+                  location: agent.location || '',
+                  output: agent.output || '',
+                  selected: true, // Set all agents to selected by default
+                };
+
+                console.log(
+                  'Mapped agent:',
+                  JSON.stringify(mappedAgent, null, 2)
+                );
+                return mappedAgent;
+              }
+            );
+
+            console.log(
+              'Mapped suggested agents:',
+              JSON.stringify(this.suggestedAgentsData, null, 2)
+            );
+
+            // Set the selected consultants (all suggested agents are selected by default)
+            this.selectedConsultants = [...this.suggestedAgentsData];
+          } else {
+            console.error('Invalid API response structure:', res);
+            this.suggestedAgentsData = [];
+            this.selectedConsultants = [];
+          }
         },
         error: (err) => {
-          // console.error('Document analysis error:', err);
+          console.error('Document analysis error:', err);
           this.errorMessage = 'An error occurred while analyzing the document';
           // Optionally reset analysis state more explicitly on error
           this.isAnalyzing = false;

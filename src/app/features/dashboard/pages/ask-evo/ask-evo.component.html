@@ -62,16 +62,11 @@
         <app-consulting-suggestion
           [suggestedAgents]="suggestedAgentsData"
           [selectionMap]="consultantSelectionMap"
+          [selectedConsultants]="selectedConsultants"
           (continue)="continueToNextStep()"
           (previous)="goToPreviousStep()"
           (selectedConsultantsChange)="onSelectedConsultantsChange($event)"
         ></app-consulting-suggestion>
-        <!-- <app-consulting-suggestion
-          [suggestedAgents]="suggestedAgentsData"
-          (continue)="continueToNextStep()"
-          (previous)="goToPreviousStep()"
-          (selectedConsultantsChange)="onSelectedConsultantsChange($event)"
-        ></app-consulting-suggestion> -->
       </div>
 
       <!-- Step 4: Summary Details -->

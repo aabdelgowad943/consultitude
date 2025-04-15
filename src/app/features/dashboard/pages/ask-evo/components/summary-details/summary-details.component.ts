@@ -29,18 +29,13 @@ export class SummaryDetailsComponent implements OnInit {
   @Input() userQuestion: string = '';
   @Input() serviceId: string = '';
   @Input() selectedConsultants: any[] = [];
-  // @Input() documentUrl: string = '';
   @Input() documentUrl: any;
 
   @Output() continue = new EventEmitter<void>();
   @Output() previous = new EventEmitter<void>();
   @Output() startChat = new EventEmitter<any>();
 
-  ngOnInit(): void {
-    // console.log(this.userQuestion);
-    // console.log(this.serviceId);
-    // console.log(this.selectedConsultants);
-  }
+  ngOnInit(): void {}
 
   goToPreviousStep() {
     this.previous.emit();
@@ -58,22 +53,4 @@ export class SummaryDetailsComponent implements OnInit {
     this.startChat.emit(chatData);
     this.continue.emit();
   }
-  // ===============================================================
-  // continueToNextStep() {
-  //   const chatData: ChatTest = {
-  //     agents: [
-  //       {
-  //         agentId: this.selectedConsultants[0]?.agentId.toString() || '',
-  //         domain: this.selectedConsultants[0]?.domain || 'domain',
-  //         location: this.selectedConsultants[0]?.location || 'location',
-  //         name: this.selectedConsultants[0]?.name || 'name',
-  //         output: this.selectedConsultants[0]?.output || 'output',
-  //         persona: this.selectedConsultants[0]?.persona || 'persona',
-  //       },
-  //     ],
-  //     docs: [this.documentUrl],
-  //   };
-  //   this.startChat.emit(chatData);
-  //   this.continue.emit();
-  // }
 }
