@@ -219,7 +219,7 @@ export class AskEvoComponent {
       )
       .subscribe({
         next: (res) => {
-          console.log('API response:', JSON.stringify(res, null, 2));
+          // console.log('API response:', JSON.stringify(res, null, 2));
 
           if (res?.data?.suggested_agents) {
             // Store the original data
@@ -239,18 +239,18 @@ export class AskEvoComponent {
                   selected: true, // Set all agents to selected by default
                 };
 
-                console.log(
-                  'Mapped agent:',
-                  JSON.stringify(mappedAgent, null, 2)
-                );
+                // console.log(
+                //   'Mapped agent:',
+                //   JSON.stringify(mappedAgent, null, 2)
+                // );
                 return mappedAgent;
               }
             );
 
-            console.log(
-              'Mapped suggested agents:',
-              JSON.stringify(this.suggestedAgentsData, null, 2)
-            );
+            // console.log(
+            //   'Mapped suggested agents:',
+            //   JSON.stringify(this.suggestedAgentsData, null, 2)
+            // );
 
             // Set the selected consultants (all suggested agents are selected by default)
             this.selectedConsultants = [...this.suggestedAgentsData];

@@ -2,7 +2,7 @@
   <!-- ------------------title-------------------------- -->
   <div class="w-full my-6 flex px-2 md:px-6 justify-between items-center">
     <h1
-      class="md:text-[32px] text-[24px] font-[500] leading-[38.5px] text-[#14151A]"
+      class="md:text-[32px] text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] leading-[38.5px] text-[#14151A]"
     >
       My Profile
     </h1>
@@ -143,7 +143,11 @@
         </div>
       </div>
       <div class="p-6 mt-10 text-center">
-        <h2 class="text-[24px] font-[500] text-gray-900">{{ name }}</h2>
+        <h2
+          class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-900"
+        >
+          {{ name }}
+        </h2>
         <p class="text-[#667085] text-sm">{{ title }}</p>
         <!-- top skills -->
         <div class="mt-4 space-x-2">
@@ -163,7 +167,11 @@
         <!-- About Section -->
         <div class="bg-white px-4 py-5 rounded-xl border border-[#EAECF0]">
           <div class="flex justify-between items-center">
-            <h2 class="text-[24px] font-[500] text-[#14151A]">About</h2>
+            <h2
+              class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#14151A]"
+            >
+              About
+            </h2>
             <div
               (click)="openEditAbout()"
               class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
@@ -181,7 +189,11 @@
         <!-- Skills Section -->
         <div class="bg-white px-4 py-5 rounded-xl border border-[#EAECF0]">
           <div class="flex justify-between items-center">
-            <h2 class="text-[24px] font-[500] text-[#14151A]">Skills</h2>
+            <h2
+              class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#14151A]"
+            >
+              Skills
+            </h2>
             <div
               (click)="openEditSkills()"
               class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"

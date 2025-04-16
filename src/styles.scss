@@ -18,13 +18,6 @@
 @font-face {
   font-family: "Neue Montreal";
   src: url("/fonts/NeueMontreal-Medium.otf") format("woff2");
-  // url("/fonts/PPNeueMontreal-Bold.otf") format("woff2");
-  font-weight: 500;
-  // font-display: swap;
-}
-
-.font-bold {
-  font-weight: 500;
 }
 
 /* Custom scrollbar styles */
@@ -46,7 +39,7 @@
 }
 
 body {
-  font-family: "Neue Montreal", sans-serif;
+  font-family: "Neue Montreal";
 }
 
 .p-carousel-indicator-active .p-carousel-indicator-button {
@@ -65,15 +58,13 @@ body {
   background: gray;
 }
 
-/* In your component SCSS file or global styles */
-
 /* Base styles for both themes */
 .p-multiselect-theme-aware {
   border: 1px solid #dee0e3;
   border-radius: 0.75rem;
 
   .p-multiselect-label {
-    font-weight: 700;
+    // font-weight: 500;
     padding: 0.5rem 0.75rem;
   }
 

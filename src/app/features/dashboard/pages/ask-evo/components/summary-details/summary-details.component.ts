@@ -35,7 +35,9 @@ export class SummaryDetailsComponent implements OnInit {
   @Output() previous = new EventEmitter<void>();
   @Output() startChat = new EventEmitter<any>();
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // console.log('cccc', this.selectedConsultants);
+  }
 
   goToPreviousStep() {
     this.previous.emit();

@@ -8,9 +8,10 @@ module.exports = {
         xs: "375px", // تعريف breakpoint مخصص للشاشات التي عرضها 375px وأقل
         xss: "393px",
         ipad: "768px",
-        big: "1440px",
-        our: "1440px",
         thousand: "1000px",
+        our: "1440px",
+        big: "1440px",
+        bigger: "1600px",
       },
       colors: {
         primary: {

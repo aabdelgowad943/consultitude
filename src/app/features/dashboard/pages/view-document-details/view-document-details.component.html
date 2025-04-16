@@ -32,7 +32,7 @@
         <div>
           <a
             routerLink="/dashboard/documents"
-            class="flex items-center gap-2 text-[#0F132499] text-[14px] font-bold mb-[32px]"
+            class="flex items-center gap-2 text-[#0F132499] text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-[32px]"
           >
             <i class="pi pi-arrow-left"></i> {{ backButtonText }}
           </a>
@@ -43,7 +43,7 @@
               >
                 <div class="flex-1">
                   <h1
-                    class="text-2xl md:text-4xl w-full md:w-[70%] font-bold mb-4 text-[#101828]"
+                    class="text-2xl md:text-4xl w-full md:w-[70%] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-4 text-[#101828]"
                   >
                     {{ template.name }}
                   </h1>
@@ -110,7 +110,9 @@
           <div
             class="absolute z-10 flex flex-col bottom-10 justify-end items-start h-24 md:h-48"
           >
-            <h1 class="text-2xl md:text-4xl font-bold mb-2 w-full md:w-[40%]">
+            <h1
+              class="text-2xl md:text-4xl ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 w-full md:w-[40%]"
+            >
               {{ template.name }}
             </h1>
             <p class="text-base md:text-lg text-gray-300">
@@ -150,7 +152,9 @@
         </div>
 
         <div class="pt-10">
-          <h2 class="text-xl md:text-2xl font-[500] mb-4 text-[#14151A]">
+          <h2
+            class="text-xl md:text-2xl ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-4 text-[#14151A]"
+          >
             {{ overviewTitle }}
           </h2>
           <p
@@ -162,13 +166,15 @@
           <!-- Tags Section -->
 
           <h1
-            class="text-[24px] font-[500] leading-[28.8px] text-[#101828] mb-6"
+            class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] leading-[28.8px] text-[#101828] mb-6"
           >
             Tags
           </h1>
           <div class="mt-6">
             <div *ngFor="let tagGroup of tags" class="mb-4">
-              <h4 class="font-[500] text-[14px] md:text-[16px] text-black">
+              <h4
+                class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px] md:text-[16px] text-black"
+              >
                 {{ tagGroup.title }}
               </h4>
               <div class="flex flex-wrap gap-2 mt-2">

@@ -4,7 +4,8 @@
   class="hidden w-full md:block md:sticky md:top-16 h-auto md:h-filter border-t md:border-none"
 >
   <div class="mb-4">
-    <label class="block mb-3 font-extrabold text-[20px] text-[#000000]"
+    <label
+      class="block mb-3 ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[20px] text-[#000000]"
       >Filter Template</label
     >
     <div class="flex items-center">
@@ -24,7 +25,7 @@
           [ngModel]="searchText"
           (ngModelChange)="searchTextChange.emit($event)"
           id="simple-search"
-          class="block w-full p-2 pl-8 font-sans text-sm text-[#14151A] placeholder:text-[#0D112666] border border-gray-300 rounded-xl bg-white focus:ring-gray-500 focus:border-gray-500"
+          class="block w-full p-2 pl-8 text-sm text-[#14151A] placeholder:text-[#0D112666] border border-gray-300 rounded-xl bg-white focus:ring-gray-500 focus:border-gray-500"
           placeholder="Search..."
           required=""
         />
@@ -41,7 +42,7 @@
         (click)="toggleSection.emit(section)"
       >
         <h3
-          class="font-[500] text-black text-[18px] leading-[21.6px] md:text-base"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-black text-[18px] leading-[21.6px] md:text-base"
         >
           {{ section.name }}
         </h3>
@@ -74,7 +75,7 @@
           </div>
           <div *ngIf="shouldShowMoreButton(filters[section.key])" class="mt-2">
             <button
-              class="text-[#792EBA] -ms-2 text-[16px] mt-0 font-bold"
+              class="text-[#792EBA] -ms-2 text-[16px] mt-0 ipad:font-[500] big:font-[600]"
               (click)="toggleExpand(section.key)"
             >
               {{ expandedSections[section.key] ? "See Less" : "See More" }}
@@ -106,13 +107,16 @@
           </div>
         </div>
 
-        <!-- <button class="text-[#792EBA] -ms-2 text-[16px] mt-5 font-bold">
+        <!-- <button class="text-[#792EBA] -ms-2 text-[16px] mt-5 ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]  ">
           See more
         </button> -->
       </div>
     </div>
     <div class="mt-4">
-      <label class="block mb-3 font-bold text-sm text-black">Language</label>
+      <label
+        class="block mb-3 ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-sm text-black"
+        >Language</label
+      >
       <select
         [(ngModel)]="filters.language"
         (ngModelChange)="onFilterChange()"

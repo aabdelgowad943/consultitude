@@ -8,7 +8,10 @@
     <div class="flex items-center w-full justify-between gap-10">
       <div class="md:hidden block">
         <div class="flex lg:flex-1">
-          <a href="/index" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a
+            href="/index"
+            class="-m-1.5 p-1.5 text-xl ipad:font-[500] big:font-[600]"
+          >
             <span class="sr-only">Logo</span>
 
             <img src="/images/new_logo.svg" alt="Logo" />
@@ -17,18 +20,37 @@
       </div>
       <nav class="space-x-4 hidden md:flex items-center gap-2">
         <div class="flex lg:flex-1">
-          <a href="/index" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a
+            href="/index"
+            class="-m-1.5 p-1.5 text-xl ipad:font-[500] big:font-[600]"
+          >
             <span class="sr-only">Logo</span>
 
             <img src="/images/new_logo.svg" alt="Logo" />
           </a>
         </div>
 
-        <a routerLink="/knowledge" class="font-sans">Knowledge Lounge</a>
-        <a [routerLink]="'/about-us'" class="font-sans">About us</a>
-        <a [routerLink]="'/faqs'" class="font-sans">FAQs</a>
-        <a [routerLink]="'/contact-us'" class="font-sans">Contact us</a>
-        <!-- <a [routerLink]="'/become-expert'" class="font-sans"
+        <a
+          routerLink="/knowledge"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px]"
+          >Knowledge Lounge</a
+        >
+        <a
+          [routerLink]="'/about-us'"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px]"
+          >About us</a
+        >
+        <a
+          [routerLink]="'/faqs'"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px]"
+          >FAQs</a
+        >
+        <a
+          [routerLink]="'/contact-us'"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px]"
+          >Contact us</a
+        >
+        <!-- <a [routerLink]="'/become-expert'" class=""
           >Become An Expert</a
         > -->
       </nav>
@@ -62,9 +84,10 @@
                 alt="User avatar"
               />
               <div *ngIf="userId">
-                <span class="block text-sm font-semibold text-gray-900">{{
-                  name
-                }}</span>
+                <span
+                  class="block text-sm ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-900"
+                  >{{ name }}</span
+                >
                 <span class="block text-sm text-gray-500 truncate">{{
                   email
                 }}</span>
@@ -86,9 +109,10 @@
               <a
                 *ngIf="userId"
                 (click)="logout()"
-                class="flex cursor-pointer items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
+                class="flex cursor-pointer items-center p-2 text-base ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
               >
-                <span class="ml-2 text-[14px] font-[500] text-red-600"
+                <span
+                  class="ml-2 text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-red-600"
                   >Logout</span
                 >
               </a>
@@ -97,9 +121,10 @@
               <a
                 *ngIf="!userId"
                 routerLink="/auth/login"
-                class="flex cursor-pointer items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
+                class="flex cursor-pointer items-center p-2 text-base ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
               >
-                <span class="ml-2 text-[14px] font-[500] text-gray-500"
+                <span
+                  class="ml-2 text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-500"
                   >Login</span
                 >
               </a>
@@ -123,7 +148,10 @@
     >
       <div class="mb-5 flex w-full justify-between items-center">
         <div class="flex lg:flex-1">
-          <a href="/index" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a
+            href="/index"
+            class="-m-1.5 p-1.5 text-xl ipad:font-[500] big:font-[600]"
+          >
             <span class="sr-only">Logo</span>
 
             <img src="/images/white_logo_for_nav.svg" alt="Logo" />

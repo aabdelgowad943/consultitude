@@ -13,7 +13,7 @@
         />
 
         <div class="message-content max-w-3xl text-[#344054] text-[14px]">
-          <div class="whitespace-pre-line">
+          <div class="whitespace-pre-line ipad:font-[500] big:font-[600]">
             <p>Here's my summary before we move forward:</p>
             <ul class="list-disc pl-5 mt-2">
               <li>
@@ -47,7 +47,11 @@
             alt=""
           />
           <div class="message-content w-[80%]">
-            <div class="font-semibold mb-2 text-[#19213D]">Evo</div>
+            <div
+              class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
+            >
+              Evo
+            </div>
             <div class="whitespace-pre-line text-[#344054] text-sm">
               <div [innerHTML]="message.displayHtml"></div>
               <span *ngIf="message.isTyping" class="typing-cursor"></span>
@@ -64,7 +68,9 @@
             <img src="images/Frame.svg" class="w-full h-full block" alt="" />
           </div>
           <div class="message-content w-[80%] ml-4">
-            <div class="font-semibold mb-2 text-[#19213D]">
+            <div
+              class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
+            >
               Consultant {{ message.consultantInfo?.name || "Unknown" }}
               <span *ngIf="message.consultantInfo?.description">
                 ({{ message.consultantInfo.description }})
@@ -100,7 +106,11 @@
           alt=""
         />
         <div class="message-content max-w-3xl">
-          <div class="font-semibold mb-2 text-[#19213D]">Evo</div>
+          <div
+            class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
+          >
+            Evo
+          </div>
           <div class="whitespace-pre-line text-[#101828] text-sm">
             <p>Here's the final report based on our conversation:</p>
             <div [innerHTML]="finalReportHtml"></div>
@@ -134,7 +144,7 @@
     >
       <button
         *ngFor="let suggestion of suggestions"
-        class="px-4 py-3 border border-[#EAECF0] text-sm rounded-full w-fit font-sans flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="px-4 py-3 border border-[#EAECF0] text-sm rounded-full w-fit flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         [disabled]="suggestion.soon"
         (click)="suggestion.action ? suggestion.action() : null"
       >
