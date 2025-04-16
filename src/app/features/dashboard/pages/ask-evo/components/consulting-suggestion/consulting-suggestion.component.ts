@@ -33,16 +33,18 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
   @Input() selectionMap: Map<string, boolean> = new Map();
   @Input() selectedConsultants: Consultant[] = [];
 
+  // New array to store all selected consultants regardless of their source
+  theSelectedAgentsFromSuggestedOrOtherOrBoth: Consultant[] = [];
+
   readonly maxSelectedConsultants = 3;
 
   suggestedConsultants: Consultant[] = [];
-  filteredAgents: Consultant[] = []; // Use this as the single source of truth for displayed consultants
+
+  // Use this as the single source of truth for displayed consultants
+  filteredAgents: Consultant[] = [];
 
   // Track if component has been initialized
   private initialized = false;
-
-  // Store the IDs of consultants that were originally suggested
-  private originalSuggestedAgentIds: string[] = [];
 
   // Pagination
   currentPage = 1;
@@ -65,33 +67,46 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.initialized = true;
+    // if (this.suggestedAgents && this.suggestedAgents.length > 0) {
+    // } else {
+    //   console.log('No suggested agents available');
+    // }
 
-    // Log the structure of suggestedAgents for debugging
-    if (this.suggestedAgents && this.suggestedAgents.length > 0) {
-      console.log(
-        'Suggested agents structure:',
-        JSON.stringify(this.suggestedAgents[0], null, 2)
-      );
-    } else {
-      console.log('No suggested agents available');
-    }
+    // Initialize the combined array with any existing selected consultants
+    this.theSelectedAgentsFromSuggestedOrOtherOrBoth = [
+      ...this.selectedConsultants,
+    ];
 
     // Force the call to be deferred to ensure all inputs are initialized
     this.initializeSuggestedConsultants();
     this.fetchConsultants();
+
+    // If we already have selected consultants (when returning from another view),
+    // ensure they are all properly displayed in the suggested section
+    if (this.selectedConsultants && this.selectedConsultants.length > 0) {
+      this.redistributeConsultants();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // Only process changes after component has been initialized
     if (!this.initialized) return;
-
     if (changes['selectedConsultants']) {
       // When selectedConsultants changes, correctly distribute them across the UI
       this.redistributeConsultants();
+      // Update our combined array when selectedConsultants changes
+      // Make sure we keep all original properties from the consultants
+      this.theSelectedAgentsFromSuggestedOrOtherOrBoth =
+        this.selectedConsultants.map((consultant) => ({ ...consultant }));
     }
   }
 
   private redistributeConsultants() {
+    // Update the combined array with all selected consultants
+    this.theSelectedAgentsFromSuggestedOrOtherOrBoth = [
+      ...this.selectedConsultants,
+    ];
+
     // Update the suggestedConsultants array to match the current selected consultants
     this.updateSuggestedConsultantsFromSelection();
 
@@ -100,12 +115,121 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
   }
 
   private updateSuggestedConsultantsFromSelection() {
-    // Ensure we have enough slots (should be 3 slots)
-    if (this.suggestedConsultants.length < this.maxSelectedConsultants) {
-      // Add empty slots if needed
-      const slotsToAdd =
-        this.maxSelectedConsultants - this.suggestedConsultants.length;
-      for (let i = 0; i < slotsToAdd; i++) {
+    // Clear existing suggested consultants and create a fresh array
+    this.suggestedConsultants = [];
+
+    // Create slots - either filled with selected consultants or empty slots
+    // We'll prioritize adding all selected consultants from theSelectedAgentsFromSuggestedOrOtherOrBoth
+    for (let i = 0; i < this.maxSelectedConsultants; i++) {
+      if (i < this.theSelectedAgentsFromSuggestedOrOtherOrBoth.length) {
+        // There's a selected consultant to place in this slot
+        const selectedConsultant: any =
+          this.theSelectedAgentsFromSuggestedOrOtherOrBoth[i];
+
+        // Ensure the consultant has all required properties with defaults
+        const validConsultant = {
+          id: i + 1, // Use simple sequential numbering for id
+          type:
+            selectedConsultant.name || selectedConsultant.type || 'Consultant',
+          description:
+            selectedConsultant.persona || selectedConsultant.description || '',
+          creator: {
+            name: 'Consultitude',
+            avatar: 'images/new/circle.svg',
+          },
+          likes: selectedConsultant.likes || 1,
+          icon: selectedConsultant.icon || this.getIconForIndex(i),
+          selected: true, // It's a selected consultant
+          profileId: selectedConsultant.profileId || '',
+          agentId: selectedConsultant.agentId || '',
+        };
+        this.suggestedConsultants.push(validConsultant);
+      } else {
+        // Create an empty slot
+        this.suggestedConsultants.push({
+          id: i + 1,
+          type: 'Consultant',
+          description: '',
+          creator: {
+            name: 'Consultitude',
+            avatar: 'images/new/circle.svg',
+          },
+          likes: 1,
+          icon: this.getIconForIndex(i),
+          selected: false,
+          profileId: '',
+          agentId: '',
+        });
+      }
+    }
+  }
+
+  private updateFilteredAgentsFromSelection() {
+    // Mark consultants in filteredAgents as selected/unselected based on their presence in selectedConsultants
+    this.filteredAgents.forEach((agent) => {
+      agent.selected = this.selectedConsultants.some(
+        (selected) => selected.agentId === agent.agentId
+      );
+    });
+  }
+
+  private initializeSuggestedConsultants() {
+    // First, collect all suggested agents from the API
+    const apiSuggestedConsultants = [];
+    if (this.suggestedAgents && this.suggestedAgents.length > 0) {
+      for (const agent of this.suggestedAgents) {
+        // Copy all properties to ensure we don't lose any data
+        const consultant: any = {
+          id: apiSuggestedConsultants.length + 1,
+          type: agent.name || 'Consultant', // Use name from API
+          name: agent.name || 'Consultant', // Store original name
+          description: agent.persona || '',
+          persona: agent.persona || '', // Store original persona
+          creator: {
+            name: 'Consultitude',
+            avatar: 'images/new/circle.svg',
+          },
+          likes: 1,
+          icon: this.getIconForIndex(apiSuggestedConsultants.length),
+          selected: false, // Default to false
+          profileId: agent.profileId || '',
+          agentId: agent.agentId || '',
+          // Store other properties for use later
+          domains: agent.domains || [],
+          sectors: agent.sectors || [],
+          location: agent.location || '',
+          output: agent.output || '',
+        };
+
+        // Check if the consultant is in the selectedConsultants list
+        const isSelected = this.selectedConsultants.some(
+          (selected) => selected.agentId === consultant.agentId
+        );
+        consultant.selected = isSelected;
+
+        // If this consultant is selected, also add it to our combined array if not already there
+        if (
+          isSelected &&
+          !this.theSelectedAgentsFromSuggestedOrOtherOrBoth.some(
+            (c) => c.agentId === consultant.agentId
+          )
+        ) {
+          this.theSelectedAgentsFromSuggestedOrOtherOrBoth.push(consultant);
+        }
+
+        apiSuggestedConsultants.push(consultant);
+      }
+    }
+
+    // Now decide what to show in the suggested section
+    if (this.selectedConsultants.length > 0) {
+      // If we already have selections (coming back from next page), show all selections
+      this.updateSuggestedConsultantsFromSelection();
+    } else {
+      // Otherwise, use the API suggested consultants
+      this.suggestedConsultants = apiSuggestedConsultants;
+      // Make sure we have the required number of slots
+      while (this.suggestedConsultants.length < this.maxSelectedConsultants) {
         this.suggestedConsultants.push({
           id: this.suggestedConsultants.length + 1,
           type: 'Consultant',
@@ -122,88 +246,11 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
         });
       }
     }
-
-    // First, reset all slots to unselected
-    this.suggestedConsultants.forEach((consultant) => {
-      consultant.selected = false;
-    });
-
-    // Then place the selected consultants in the slots
-    this.selectedConsultants.forEach((selectedConsultant, index) => {
-      if (index < this.maxSelectedConsultants) {
-        // Ensure the consultant has all required properties with defaults
-        const validConsultant = {
-          ...selectedConsultant,
-          type: selectedConsultant.type || 'Consultant',
-          description: selectedConsultant.description || '',
-          creator: {
-            name:
-              (selectedConsultant.creator && selectedConsultant.creator.name) ||
-              'Consultitude',
-            avatar:
-              (selectedConsultant.creator &&
-                selectedConsultant.creator.avatar) ||
-              'images/new/circle.svg',
-          },
-          likes: selectedConsultant.likes || 1,
-          icon: selectedConsultant.icon || this.getIconForIndex(index),
-          profileId: selectedConsultant.profileId || '',
-          agentId: selectedConsultant.agentId || '',
-        };
-
-        // Copy data to the slot, maintaining the slot's ID
-        const slotId = this.suggestedConsultants[index].id;
-        this.suggestedConsultants[index] = {
-          ...validConsultant,
-          id: slotId,
-          selected: true,
-        };
-      }
-    });
-  }
-
-  private updateFilteredAgentsFromSelection() {
-    // Mark consultants in filteredAgents as selected/unselected based on their presence in selectedConsultants
-    this.filteredAgents.forEach((agent) => {
-      agent.selected = this.selectedConsultants.some(
-        (selected) => selected.agentId === agent.agentId
-      );
-    });
-  }
-
-  private initializeSuggestedConsultants() {
-    if (this.suggestedAgents && this.suggestedAgents.length > 0) {
-      this.suggestedConsultants = this.suggestedAgents.map((agent, index) => {
-        const consultant = {
-          id: index + 1,
-          type: agent.name || 'Consultant',
-          description: agent.persona,
-          creator: {
-            name: agent.name || 'Consultitude',
-            avatar: 'images/new/circle.svg',
-          },
-          likes: 1,
-          icon: this.getIconForIndex(index),
-          selected: false, // Default to false
-          profileId: agent.profileId,
-          agentId: agent.agentId,
-        };
-
-        // Check if the consultant is in the selectedConsultants list
-        const isSelected = this.selectedConsultants.some(
-          (selected) => selected.agentId === consultant.agentId
-        );
-        consultant.selected = isSelected;
-
-        return consultant;
-      });
-    }
   }
 
   fetchConsultants() {
     this.isLoading = true;
     this.error = null;
-
     const params: AgentFilterParams = {
       page: this.currentPage,
       limit: this.itemsPerPage,
@@ -222,13 +269,16 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
         if (response.success && Array.isArray(response.data)) {
           this.filteredAgents = response.data.map(
             (agent: any, index: number) => {
+              // Combine domains and sectors for a richer description if persona is empty
+              const description = agent.persona;
+
               const consultant = {
                 id:
                   (response.meta.currentPage - 1) * response.meta.itemsPerPage +
                   index +
                   1,
                 type: agent.name || 'Consultant',
-                description: agent.persona || '',
+                description: description,
                 creator: {
                   name: agent.owner || 'Unknown',
                   avatar: 'images/new/circle.svg',
@@ -237,7 +287,7 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
                 icon: this.getIconForIndex(index),
                 selected: false,
                 profileId: agent.profileId || '',
-                agentId: agent.id || '',
+                agentId: agent.id || '', // For "other consultants", the ID is in agent.id
               };
 
               // Check if we have a stored selection state for this consultant
@@ -273,7 +323,6 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching agents:', err);
         this.error = 'Failed to load consultants';
         this.isLoading = false;
       },
@@ -337,6 +386,25 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
         matchingConsultant.selected = false;
         this.updateSelectionMap(matchingConsultant);
       }
+
+      // Remove from our combined array
+      this.theSelectedAgentsFromSuggestedOrOtherOrBoth =
+        this.theSelectedAgentsFromSuggestedOrOtherOrBoth.filter(
+          (c) => c.agentId !== consultant.agentId
+        );
+    } else {
+      // Add to our combined array if it was selected
+      // Make sure to preserve all original data from the consultant
+      const fullConsultant = { ...consultant };
+
+      // Ensure we're not creating duplicates
+      if (
+        !this.theSelectedAgentsFromSuggestedOrOtherOrBoth.some(
+          (c) => c.agentId === consultant.agentId
+        )
+      ) {
+        this.theSelectedAgentsFromSuggestedOrOtherOrBoth.push(fullConsultant);
+      }
     }
 
     this.updateSelectedConsultantsList();
@@ -361,12 +429,24 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
         (c) => !c.selected
       );
       if (emptySlotIndex !== -1) {
-        // Create a copy of the consultant for the slot
+        // Create a copy of the consultant for the slot, preserving all properties
         const slotConsultant = {
           ...consultant,
           id: this.suggestedConsultants[emptySlotIndex].id,
         };
         this.suggestedConsultants[emptySlotIndex] = slotConsultant;
+      }
+
+      // Add to our combined array, preserving all original properties
+      const fullConsultant = { ...consultant };
+
+      // Ensure we're not creating duplicates
+      if (
+        !this.theSelectedAgentsFromSuggestedOrOtherOrBoth.some(
+          (c) => c.agentId === consultant.agentId
+        )
+      ) {
+        this.theSelectedAgentsFromSuggestedOrOtherOrBoth.push(fullConsultant);
       }
     } else {
       // If deselected, find and clear the consultant from the suggested slots
@@ -376,6 +456,12 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
       if (slotIndex !== -1) {
         this.suggestedConsultants[slotIndex].selected = false;
       }
+
+      // Remove from our combined array
+      this.theSelectedAgentsFromSuggestedOrOtherOrBoth =
+        this.theSelectedAgentsFromSuggestedOrOtherOrBoth.filter(
+          (c) => c.agentId !== consultant.agentId
+        );
     }
 
     this.updateSelectedConsultantsList();
@@ -397,6 +483,9 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
       ),
     ];
 
+    // Ensure our combined array is up-to-date
+    this.theSelectedAgentsFromSuggestedOrOtherOrBoth = [...selectedConsultants];
+
     this.selectedConsultantsChange.emit(selectedConsultants);
   }
 
@@ -417,32 +506,27 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
 
   // Navigation methods
   goToPreviousStep() {
+    // Make sure our combined array is up-to-date before navigating back
+    this.updateSelectedConsultantsList();
     this.previous.emit();
   }
 
   continueToNextStep() {
-    this.selectedConsultantsChange.emit(this.allSelectedConsultants); // Emit only the currently selected consultants
+    // Use our combined array to ensure we always have the correct state
+    this.selectedConsultantsChange.emit(
+      this.theSelectedAgentsFromSuggestedOrOtherOrBoth
+    );
     this.continue.emit();
   }
 
   // Computed properties
   get selectedConsultantsCount(): number {
-    return this.allSelectedConsultants.length;
+    return this.theSelectedAgentsFromSuggestedOrOtherOrBoth.length;
   }
 
   get allSelectedConsultants(): Consultant[] {
-    // Get unique selected consultants from both lists
-    const selectedFromSuggested = this.suggestedConsultants.filter(
-      (c) => c.selected
-    );
-    const selectedIds = new Set(selectedFromSuggested.map((c) => c.agentId));
-
-    // Add selected from filtered list only if not already in suggested
-    const selectedFromFiltered = this.filteredAgents.filter(
-      (c) => c.selected && !selectedIds.has(c.agentId)
-    );
-
-    return [...selectedFromSuggested, ...selectedFromFiltered];
+    // Just return our combined array which already has all selected consultants
+    return this.theSelectedAgentsFromSuggestedOrOtherOrBoth;
   }
 
   // Close dropdown when clicking outside
@@ -494,6 +578,12 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
         matchingConsultant.selected = false;
         this.updateSelectionMap(matchingConsultant);
       }
+
+      // Remove previous consultant from combined array if it exists
+      this.theSelectedAgentsFromSuggestedOrOtherOrBoth =
+        this.theSelectedAgentsFromSuggestedOrOtherOrBoth.filter(
+          (c) => c.agentId !== previousConsultant.agentId
+        );
     }
 
     // Mark the new consultant as selected in the filteredAgents list
@@ -528,6 +618,11 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
       selected: true,
       id: previousConsultant.id, // Keep the UI ID for the slot
     };
+
+    // Add new consultant to our combined array
+    this.theSelectedAgentsFromSuggestedOrOtherOrBoth.push(
+      this.suggestedConsultants[slotIndex]
+    );
 
     this.updateSelectionMap(this.suggestedConsultants[slotIndex]);
     this.updateSelectedConsultantsList();

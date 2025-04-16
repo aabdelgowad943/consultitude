@@ -12,7 +12,7 @@
       <img class="w-20" src="/images/Logo.svg" />
       <h1
         *ngIf="template.featured"
-        class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] flex items-center justify-center w-[74px] h-[28px] text-[#AE590A] bg-[#FDEAD8] rounded-lg py-1 px-1.5"
+        class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] flex items-center justify-center w-[74px] h-[28px] text-[#AE590A] bg-[#FDEAD8] rounded-lg py-1 px-1.5"
       >
         Featured
       </h1>
@@ -55,7 +55,7 @@
       <div class="flex gap-1 items-center w-full">
         <h1
           *ngFor="let tag of tags"
-          class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
+          class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
           [class.opacity-50]="isTagDisabled(tag.id)"
           [class.cursor-not-allowed]="isTagDisabled(tag.id)"
           (click)="onTagClick(tag)"

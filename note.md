@@ -215,7 +215,7 @@ timestamp: new Date(),
 <div class="chat-container h-screen flex flex-col">
   <!-- Chat Header -->
   <div class="chat-header p-4 border-b">
-    <h2 class="text-xl ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]  ">Ask Evo</h2>
+    <h2 class="text-xl ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]  ">Ask Evo</h2>
     <div class="text-sm text-gray-500" *ngIf="selectedFile">
       Document: {{ selectedFile.name }}
     </div>
@@ -232,7 +232,7 @@ timestamp: new Date(),
           <span>E</span>
         </div>
         <div class="message-content max-w-3xl">
-          <div class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]   mb-1">Evo</div>
+          <div class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   mb-1">Evo</div>
           <div class="bg-gray-100 rounded-lg p-3 whitespace-pre-line">
             {{ message.text }}
           </div>
@@ -248,7 +248,7 @@ timestamp: new Date(),
         class="flex items-start justify-end"
       >
         <div class="message-content max-w-3xl text-right">
-          <div class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]   mb-1">You</div>
+          <div class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   mb-1">You</div>
           <div class="bg-blue-100 rounded-lg p-3 inline-block text-left">
             {{ message.text }}
           </div>
@@ -269,7 +269,7 @@ timestamp: new Date(),
           <span>{{ message.consultantInfo?.name!.charAt(0) }}</span>
         </div>
         <div class="message-content max-w-3xl">
-          <div class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]   mb-1">
+          <div class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   mb-1">
             Consultant {{ message.consultantInfo?.name }} ({{
               message.consultantInfo?.role
             }})
@@ -326,7 +326,7 @@ timestamp: new Date(),
   <div class="mb-6 px-10">
     <div class="flex items-center gap-5">
       <img src="images/new/circle.svg" alt="" />
-      <h1 class="text-2xl ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]   mb-2">Summary of Your Request</h1>
+      <h1 class="text-2xl ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   mb-2">Summary of Your Request</h1>
     </div>
 
     <div class="mb-6 ms-12">
@@ -337,7 +337,7 @@ timestamp: new Date(),
 
       <!-- File Details -->
       <div class="mb-6 p-4 border border-[#EAECF0] rounded-lg">
-        <h3 class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]   text-lg mb-2">Uploaded Document</h3>
+        <h3 class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   text-lg mb-2">Uploaded Document</h3>
         <div class="flex items-center gap-2">
           <i class="pi pi-file text-[#9241DC]"></i>
           <span>{{ fileName || "No file selected" }}</span>
@@ -349,7 +349,7 @@ timestamp: new Date(),
 
       <!-- Question -->
       <div class="mb-6 p-4 border border-[#EAECF0] rounded-lg">
-        <h3 class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]   text-lg mb-2">Your Question</h3>
+        <h3 class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   text-lg mb-2">Your Question</h3>
         <p class="text-[#101828]">
           {{ userQuestion || "No question provided" }}
         </p>
@@ -357,7 +357,7 @@ timestamp: new Date(),
 
       <!-- Selected Consultants -->
       <div class="p-4 border border-[#EAECF0] rounded-lg">
-        <h3 class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]   text-lg mb-4">
+        <h3 class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   text-lg mb-4">
           Selected Consultants ({{ selectedConsultants.length }})
         </h3>
 
@@ -372,7 +372,7 @@ timestamp: new Date(),
               <i class="pi {{ consultant.icon }} text-white"></i>
             </div>
             <div>
-              <h4 class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]  ">{{ consultant.type }}</h4>
+              <h4 class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]  ">{{ consultant.type }}</h4>
               <p class="text-sm text-[#667085] line-clamp-1">
                 {{ consultant.description }}
               </p>
@@ -1016,7 +1016,7 @@ const pageHeight = doc.internal.pageSize.getHeight();
             <span>E</span>
           </div>
           <div class="message-content w-[80%]">
-            <div class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]   mb-2 text-[#19213D]">Evo</div>
+            <div class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   mb-2 text-[#19213D]">Evo</div>
             <div class="whitespace-pre-line text-[#344054] text-sm">
               <div [innerHTML]="message.displayHtml"></div>
               <span *ngIf="message.isTyping" class="typing-cursor"></span>
@@ -1033,7 +1033,7 @@ const pageHeight = doc.internal.pageSize.getHeight();
             <img src="images/Frame.svg" class="w-full h-full block" alt="" />
           </div>
           <div class="message-content w-[80%] ml-4">
-            <div class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]   mb-2 text-[#19213D]">
+            <div class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   mb-2 text-[#19213D]">
               Consultant {{ message.consultantInfo?.name || "Unknown" }}
               <span *ngIf="message.consultantInfo?.description">
                 ({{ message.consultantInfo.description }})
@@ -2386,4 +2386,4 @@ const pageHeight = doc.internal.pageSize.getHeight();
 
 input document == name of the file
 
-ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px]
+ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]

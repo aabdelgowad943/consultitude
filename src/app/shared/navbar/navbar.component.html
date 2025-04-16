@@ -32,22 +32,22 @@
 
         <a
           routerLink="/knowledge"
-          class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-[14px]"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px]"
           >Knowledge Lounge</a
         >
         <a
           [routerLink]="'/about-us'"
-          class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-[14px]"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px]"
           >About us</a
         >
         <a
           [routerLink]="'/faqs'"
-          class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-[14px]"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px]"
           >FAQs</a
         >
         <a
           [routerLink]="'/contact-us'"
-          class="ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-[14px]"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px]"
           >Contact us</a
         >
         <!-- <a [routerLink]="'/become-expert'" class=""
@@ -85,7 +85,7 @@
               />
               <div *ngIf="userId">
                 <span
-                  class="block text-sm ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-gray-900"
+                  class="block text-sm ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-900"
                   >{{ name }}</span
                 >
                 <span class="block text-sm text-gray-500 truncate">{{
@@ -109,10 +109,10 @@
               <a
                 *ngIf="userId"
                 (click)="logout()"
-                class="flex cursor-pointer items-center p-2 text-base ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
+                class="flex cursor-pointer items-center p-2 text-base ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
               >
                 <span
-                  class="ml-2 text-[14px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-red-600"
+                  class="ml-2 text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-red-600"
                   >Logout</span
                 >
               </a>
@@ -121,10 +121,10 @@
               <a
                 *ngIf="!userId"
                 routerLink="/auth/login"
-                class="flex cursor-pointer items-center p-2 text-base ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
+                class="flex cursor-pointer items-center p-2 text-base ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-900 rounded-lg hover:bg-[#0A0F290A]"
               >
                 <span
-                  class="ml-2 text-[14px] ipad:font-[500] bigger:font-[600] big:text-[16] bigger:text-[17px] text-gray-500"
+                  class="ml-2 text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-500"
                   >Login</span
                 >
               </a>
