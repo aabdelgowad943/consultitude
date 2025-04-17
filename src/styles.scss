@@ -15,9 +15,15 @@
 
 @import "primeicons/primeicons.css";
 
+body {
+  font-family: "Neue Montreal";
+}
+
 @font-face {
   font-family: "Neue Montreal";
-  src: url("/fonts/NeueMontreal-Medium.otf") format("woff2");
+  src: url("/fonts/NeueMontreal-Medium.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 /* Custom scrollbar styles */
@@ -36,10 +42,6 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #aeaeae;
-}
-
-body {
-  font-family: "Neue Montreal";
 }
 
 .p-carousel-indicator-active .p-carousel-indicator-button {

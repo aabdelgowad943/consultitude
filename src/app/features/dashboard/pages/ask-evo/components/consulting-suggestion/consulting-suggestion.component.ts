@@ -67,11 +67,6 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.initialized = true;
-    // if (this.suggestedAgents && this.suggestedAgents.length > 0) {
-    // } else {
-    //   console.log('No suggested agents available');
-    // }
-
     // Initialize the combined array with any existing selected consultants
     this.theSelectedAgentsFromSuggestedOrOtherOrBoth = [
       ...this.selectedConsultants,
@@ -125,8 +120,6 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
         // There's a selected consultant to place in this slot
         const selectedConsultant: any =
           this.theSelectedAgentsFromSuggestedOrOtherOrBoth[i];
-
-        // Ensure the consultant has all required properties with defaults
         const validConsultant = {
           id: i + 1, // Use simple sequential numbering for id
           type:
@@ -448,21 +441,22 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
       ) {
         this.theSelectedAgentsFromSuggestedOrOtherOrBoth.push(fullConsultant);
       }
-    } else {
-      // If deselected, find and clear the consultant from the suggested slots
-      const slotIndex = this.suggestedConsultants.findIndex(
-        (c) => c.agentId === consultant.agentId
-      );
-      if (slotIndex !== -1) {
-        this.suggestedConsultants[slotIndex].selected = false;
-      }
-
-      // Remove from our combined array
-      this.theSelectedAgentsFromSuggestedOrOtherOrBoth =
-        this.theSelectedAgentsFromSuggestedOrOtherOrBoth.filter(
-          (c) => c.agentId !== consultant.agentId
-        );
     }
+    // else {
+    //   // If deselected, find and clear the consultant from the suggested slots
+    //   const slotIndex = this.suggestedConsultants.findIndex(
+    //     (c) => c.agentId === consultant.agentId
+    //   );
+    //   if (slotIndex !== -1) {
+    //     this.suggestedConsultants[slotIndex].selected = false;
+    //   }
+
+    //   // Remove from our combined array
+    //   this.theSelectedAgentsFromSuggestedOrOtherOrBoth =
+    //     this.theSelectedAgentsFromSuggestedOrOtherOrBoth.filter(
+    //       (c) => c.agentId !== consultant.agentId
+    //     );
+    // }
 
     this.updateSelectedConsultantsList();
   }
