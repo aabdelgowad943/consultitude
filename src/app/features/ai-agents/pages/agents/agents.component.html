@@ -67,11 +67,13 @@
 
   <!-- Agents List -->
   <div
-    class="grid grid-cols-1 ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3"
+    class="grid grid-cols-1 ipad:grid-cols-1 thousand:grid-cols-3 big:grid-cols-3 gap-3"
   >
+    <!-- max-w-[355px] -->
+    <!--  -->
     <div
       *ngFor="let agent of filteredAgents; let i = index"
-      class="rounded-[20px] p-5 bg-white border border-[#EAECF0] max-w-[355px] relative group"
+      class="rounded-[20px] p-5 bg-white border border-[#EAECF0] relative group"
     >
       <div class="flex gap-5">
         <div

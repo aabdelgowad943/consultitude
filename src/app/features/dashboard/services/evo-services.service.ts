@@ -86,6 +86,6 @@ export class EvoServicesService {
   }
 
   getChatById(chatId: string): Observable<Chat> {
-    return this.apiService.get<Chat>(`/chats/${chatId}`);
+    return this.apiService.get<Chat>(`/chats/conversation-history/${chatId}`);
   }
 }

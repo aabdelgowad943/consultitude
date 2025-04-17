@@ -2387,3 +2387,9 @@ const pageHeight = doc.internal.pageSize.getHeight();
 input document == name of the file
 
 ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]
+
+<!--  -->
+
+1- design the history chats
+2- tooltip
+2- hide the selected active from the other consulats ()

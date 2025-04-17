@@ -56,9 +56,10 @@
     <div
       class="grid ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3"
     >
+      <!-- big:max-w-[320px] -->
       <div
         *ngFor="let agent of agents; let i = index"
-        class="rounded-[20px] p-5 bg-white border border-[#EAECF0] ipad:max-w-full big:max-w-[320px] big:max-h-[141px] relative group"
+        class="rounded-[20px] p-5 bg-white border border-[#EAECF0] ipad:max-w-full big:max-h-[141px] relative group"
       >
         <div class="flex gap-5">
           <div
@@ -146,7 +147,7 @@
         <!-- <p class="text-[#667085] text-[16px] mb-6">11 Apr</p> -->
         <div
           *ngFor="let item of conversations"
-          (click)="viewChatHistory(item.id)"
+          (click)="viewChatHistory(item.conversationId)"
           class="flex justify-between items-start w-full mb-5 cursor-pointer hover:bg-gray-100 transition-all py-2 px-4 rounded-lg"
         >
           <div class="flex flex-col">
