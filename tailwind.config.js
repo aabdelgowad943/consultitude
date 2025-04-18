@@ -3,6 +3,14 @@ module.exports = {
   content: ["./src/**/*.{html,ts}", "./node_modules/flowbite/**/*.js"],
   theme: {
     extend: {
+      screens: {
+        xsm: "393px",
+        sm: "480px",
+        ipad: "768px",
+        laptop: "1024px",
+        desktop: "1366px",
+        big: "1440px",
+      },
       colors: {
         primary: {
           50: "#f5f3ff",

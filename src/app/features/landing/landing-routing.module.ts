@@ -11,19 +11,26 @@ import { IndexComponent } from './pages/index/index.component';
 import { AlreadySubscribedComponent } from './pages/already-subscribed/already-subscribed.component';
 import { FaqsComponent } from './pages/faqs/faqs.component';
 import { PageNotFoundComponent } from '../../../shared/pages/page-not-found/page-not-found.component';
+import { WaitingListComponent } from './pages/waiting-list/waiting-list.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingComponent,
     children: [
+      // {
+      //   path: 'home',
+      //   component: HomeComponent,
+      // },
+
       {
-        path: 'home',
-        component: HomeComponent,
+        path: 'waiting-list',
+        component: WaitingListComponent,
       },
+
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'waiting-list',
         pathMatch: 'full',
       },
 

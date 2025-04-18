@@ -1,0 +1,71 @@
+<!-- waiting-list.component.html with subscribe form -->
+<div
+  class="min-h-screen relative bg-[#110F0F] text-white flex flex-col items-center justify-center overflow-hidden max-w-[1600px] mx-auto"
+>
+  <div class="absolute bottom-0">
+    <img src="images/new/Back gradient.svg" alt="" />
+  </div>
+
+  <!-- Background elements -->
+  <div class="absolute left-0 top-10 z-50">
+    <img
+      src="images/new/Left circle.svg"
+      class="xsm:hidden ipad:block"
+      alt=""
+    />
+  </div>
+
+  <div class="absolute right-0 bottom-40 z-50">
+    <img src="images/new/right circle.svg" alt="" />
+  </div>
+
+  <!-- Star element -->
+  <div class="absolute ipad:hidden desktop:block right-[230px] bottom-20 z-50">
+    <img src="images/new/Star.svg" alt="" />
+  </div>
+
+  <!-- Pattern/stars -->
+  <div class="absolute left-5 h-full">
+    <img src="images/new/pattern.svg" alt="" class="h-full" />
+  </div>
+
+  <!-- Main content -->
+  <div
+    class="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-3xl"
+  >
+    <!-- Logo -->
+    <a class="mb-10">
+      <span class="sr-only">Logo</span>
+      <img
+        src="images/Cnslt Logo.svg"
+        class="xsm:w-96 ipad:w-full"
+        alt="Logo"
+      />
+    </a>
+
+    <!-- Consultitude title is removed as per your implementation -->
+
+    <!-- Subtitle -->
+    <h2 class="desktop:text-[52px] xsm:text-[40px] mb-5">
+      Your AI-Powered Consultant
+    </h2>
+
+    <!-- Description -->
+    <p class="desktop:text-[18px] xsm:text-[16px] text-[#909090] mb-8">
+      Consultitude brings top-tier AI consulting power to your workflow
+    </p>
+
+    <!-- Subscription form component -->
+    <app-subscribe-form
+      (errorOccurred)="showError($event)"
+    ></app-subscribe-form>
+
+    <!-- Flex Logo -->
+    <div class="md:block hidden w-full ipad:mt-20 big:mt-32 relative">
+      <app-flex-logo></app-flex-logo>
+      <div class="absolute">
+        <img src="images/new/circle (Evo).svg" class="h-[200px]" alt="" />
+      </div>
+    </div>
+  </div>
+</div>
