@@ -34,36 +34,54 @@ export class EditAboutComponent implements OnInit {
     }
   }
 
+  /** Helper: returns true if the string is all whitespace (or empty) */
+  private isOnlyWhitespace(value: string): boolean {
+    return !value || value.trim().length === 0;
+  }
+
   saveChanges() {
-    const updatedProfile: Profile = {
-      about: this.about,
-    };
+    // 1) Trim once up front
+    const trimmed = this.about.trim();
+
+    // 2) Reject if nothing left after trimming
+    if (this.isOnlyWhitespace(trimmed)) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Invalid input',
+        detail: 'About section cannot be blank or contain only spaces.',
+        life: 3000,
+      });
+      return;
+    }
+
+    // 3) Build your payload with the trimmed value
+    const updatedProfile: Profile = { about: trimmed };
+
+    // 4) Call service
     this.profileService
       .editIdentification(this.profileId, updatedProfile)
       .subscribe({
-        next: (res: any) => {
-          this.saveChangesEvent.emit(res);
+        next: () => {
+          this.saveChangesEvent.emit(trimmed);
           this.closeDialog();
           this.messageService.add({
             severity: 'success',
             summary: 'Profile updated',
-            contentStyleClass: 'text-white bg-green-900 ',
+            detail: 'Your “About” section has been saved.',
+            contentStyleClass: 'text-white bg-green-900',
             closeIcon: 'pi pi-check text-white',
-            // detail: 'Your profile has been updated successfully.',
           });
         },
-        error: (err) => {
+        error: () => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            contentStyleClass: 'text-white bg-red-900 ',
+            detail: 'Failed to update your profile. Please try again.',
+            contentStyleClass: 'text-white bg-red-900',
             closeIcon: 'pi pi-times text-white',
           });
         },
       });
-    this.saveChangesEvent.emit(this.about);
-
-    this.closeDialog();
   }
 
   userData: any;

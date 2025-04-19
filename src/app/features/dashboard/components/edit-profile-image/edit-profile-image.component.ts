@@ -31,7 +31,7 @@ import { ProfileServiceService } from '../../services/profile-service.service';
             file:rounded-full file:border-0
             file:text-sm file:ipad:font-[500] big:font-[600]
             file:bg-violet-50 file:text-violet-700
-            hover:file:bg-violet-100 bg-white"
+            hover:file:bg-violet-100 bg-white px-4"
         />
 
         <!-- Image Preview -->
@@ -49,11 +49,11 @@ import { ProfileServiceService } from '../../services/profile-service.service';
           <p-button
             label="Cancel"
             (click)="onCancel()"
-            styleClass="p-button-text"
+            styleClass="border border-[#EAECF0] rounded-lg text-gray-800 bg-transparent outline-none "
           ></p-button>
           <p-button
             label="Save"
-            styleClass="text-white"
+            styleClass="bg-[#7F56D9] hover:bg-[#a24af5] text-white rounded-lg outline-none border border-none"
             (click)="onSave()"
             [loading]="loading"
           ></p-button>
@@ -104,7 +104,7 @@ export class EditProfileImageComponent {
     }
 
     // Create a new URL for the selected file
-    this.imagePreviewUrl = URL.createObjectURL(file);
+    this.imagePreviewUrl = URL.createObjectURL(file) || 'images/profile.png';
   }
 
   onCancel() {

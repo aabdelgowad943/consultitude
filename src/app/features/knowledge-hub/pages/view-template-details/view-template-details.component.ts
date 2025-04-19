@@ -6,6 +6,8 @@ import { ProductServiceService } from '../../services/product-service.service';
 import { GlobalStateService } from '../../../../../shared/services/global-state.service';
 import { Subscription } from 'rxjs';
 import { ViewTemplateLoaderComponent } from '../../../../shared/loaders/view-template-loader/view-template-loader.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ShouldLoginFirstComponent } from '../../../../../shared/components/should-login-first/should-login-first.component';
 
 @Component({
   selector: 'app-view-template-details',
@@ -17,6 +19,7 @@ import { ViewTemplateLoaderComponent } from '../../../../shared/loaders/view-tem
     CarouselModule,
     ViewTemplateLoaderComponent,
   ],
+  providers: [DialogService],
 })
 export class ViewTemplateDetailsComponent implements OnInit, OnDestroy {
   template: any;
@@ -64,7 +67,8 @@ export class ViewTemplateDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private productService: ProductServiceService,
     private router: Router,
-    private globalStateService: GlobalStateService
+    private globalStateService: GlobalStateService,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -186,8 +190,13 @@ export class ViewTemplateDetailsComponent implements OnInit, OnDestroy {
       this.router.navigate(['/knowledge/checkout', this.template.id]);
     } else {
       this.globalStateService.setPendingPurchase(this.template?.id);
-      alert('You should login first');
-      this.router.navigate(['/auth/login']);
+      // alert('You should login first');
+      this.dialogService.open(ShouldLoginFirstComponent, {
+        width: '600px',
+        height: 'auto',
+        closeOnEscape: true,
+      });
+      // this.router.navigate(['/auth/login']);
     }
   }
 
