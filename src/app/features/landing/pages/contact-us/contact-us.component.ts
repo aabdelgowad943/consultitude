@@ -78,15 +78,30 @@ export class ContactUsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   initForm(): void {
+    // New validator that rejects any string containing whitespace
+    const noWhitespace = Validators.pattern(/^[^\s]+$/);
+
+    // Alternative validator that rejects strings that are only whitespace
+    // Use this for fields where spaces are allowed within the text, like names
+    const notOnlyWhitespace = Validators.pattern(/^(?!\s*$).+/);
+
     this.contactForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      // For name fields, we probably want to allow spaces (like "John Doe")
+      firstName: ['', [Validators.required, notOnlyWhitespace]],
+      lastName: ['', [Validators.required, notOnlyWhitespace]],
+      // Email shouldn't contain spaces
+      email: ['', [Validators.required, Validators.email, noWhitespace]],
+      // Phone might have spaces for formatting
       phone: [
         '',
-        [Validators.required, Validators.pattern('^\\+?[0-9]+[0-9 ]*$')],
+        [
+          Validators.required,
+          Validators.pattern('^\\+?[0-9]+[0-9 ]*$'),
+          notOnlyWhitespace,
+        ],
       ],
-      message: ['', Validators.required],
+      // Message can contain spaces but shouldn't be empty
+      message: ['', [Validators.required, notOnlyWhitespace]],
       agree: [false, Validators.requiredTrue],
     });
   }

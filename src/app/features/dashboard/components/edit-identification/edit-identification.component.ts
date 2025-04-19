@@ -85,11 +85,19 @@ export class EditIdentificationComponent implements OnInit {
   }
 
   private initForm() {
+    const noWhitespace = Validators.pattern(/\S.*/);
+
     this.identificationForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      title: ['', [Validators.required, Validators.minLength(2)]],
-      country: ['', [Validators.required]],
+      firstName: [
+        '',
+        [Validators.required, Validators.minLength(2), noWhitespace],
+      ],
+      lastName: [
+        '',
+        [Validators.required, Validators.minLength(2), noWhitespace],
+      ],
+      title: ['', [Validators.required, Validators.minLength(2), noWhitespace]],
+      country: ['', [Validators.required, noWhitespace]],
       nationality: ['', [Validators.required]],
       selectedSkills: [[], [Validators.required, Validators.minLength(1)]],
     });
