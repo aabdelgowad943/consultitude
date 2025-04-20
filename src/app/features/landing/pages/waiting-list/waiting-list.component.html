@@ -1,7 +1,12 @@
-<!-- waiting-list.component.html with subscribe form -->
 <div
-  class="min-h-screen relative bg-[#110F0F] text-white flex flex-col items-center justify-center overflow-hidden max-w-[1600px] mx-auto"
+  class="min-h-screen relative bg-[#110F0F] text-white flex flex-col items-center justify-center overflow-hidden mx-auto"
 >
+  <!-- style="
+max-width: 1600px;
+box-shadow: 10px 100px 1500px -5px #9241dc, -10px 1000px 1500px -5px #9241dc;
+z-index: 1444;
+position: relative;
+" -->
   <div class="absolute bottom-0">
     <img src="images/new/Back gradient.svg" alt="" />
   </div>
@@ -20,7 +25,9 @@
   </div>
 
   <!-- Star element -->
-  <div class="absolute ipad:hidden desktop:block right-[230px] bottom-20 z-50">
+  <div
+    class="absolute ipad:hidden xsm:hidden desktop:block right-[230px] bottom-20 z-50"
+  >
     <img src="images/new/Star.svg" alt="" />
   </div>
 
@@ -46,7 +53,7 @@
     <!-- Consultitude title is removed as per your implementation -->
 
     <!-- Subtitle -->
-    <h2 class="desktop:text-[52px] xsm:text-[40px] mb-5">
+    <h2 class="desktop:text-[52px] xsm:text-[25px] w-full mb-5">
       Your AI-Powered Consultant
     </h2>
 
