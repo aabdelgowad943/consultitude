@@ -172,7 +172,7 @@ export class AskEvoHeaderComponent implements OnInit {
         this.openConsultantBookingDialog();
         break;
       default:
-        console.log('Unknown service');
+      // console.log('Unknown service');
     }
   }
 
@@ -229,10 +229,26 @@ export class AskEvoHeaderComponent implements OnInit {
     });
   }
 
+  // viewChatHistory(chatId: string) {
+  //   this.router.navigate(['dashboard/view-chat-details', chatId], {
+  //     queryParams: { chatId: chatId },
+  //   });
+  // }
+
   viewChatHistory(chatId: string) {
-    this.router.navigate(['dashboard/view-chat-details', chatId], {
-      queryParams: { chatId: chatId },
-    });
+    // Make sure chatId is not null or undefined
+    if (!chatId) {
+      console.error('Invalid chatId:', chatId);
+      return;
+    }
+
+    // Option 1: Using path segments correctly
+    this.router.navigate(['dashboard', 'view-chat-details', chatId]);
+
+    // OR Option 2: If you prefer using queryParams only
+    // this.router.navigate(['dashboard/view-chat-details'], {
+    //   queryParams: { chatId: chatId }
+    // });
   }
 
   @Input() iconName: string = '';

@@ -69,7 +69,7 @@ export class AgentsComponent implements OnInit {
       next: (res: any) => {
         this.allAgents = res.data;
         this.filteredAgents = res.data;
-        console.log('ssss', this.filteredAgents);
+        // console.log('ssss', this.filteredAgents);
 
         this.totalRecords = res.meta.totalItems;
       },

@@ -138,7 +138,7 @@ export class CreateAiConsultantComponent {
         this.display = false;
       },
       error: (err) => {
-        console.log(err);
+        // console.log(err);
 
         this.messageService.add({
           severity: 'error',

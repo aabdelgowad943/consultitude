@@ -67,7 +67,7 @@ export class EditAiConsultantComponent implements OnChanges {
     this.getAllDomains();
     this.getAllIndustries();
     this.initForm();
-    console.log('Agent data:', this.agentData);
+    // console.log('Agent data:', this.agentData);
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['agentData'] && changes['agentData'].currentValue) {
@@ -108,7 +108,7 @@ export class EditAiConsultantComponent implements OnChanges {
         persona: this.agentData.persona,
       });
 
-      console.log('Form values:', this.consultantForm.value);
+      // console.log('Form values:', this.consultantForm.value);
     }
   }
 

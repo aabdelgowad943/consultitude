@@ -47,7 +47,7 @@
 
               <div>
                 <h3
-                  class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-black text-[16px] line-clamp-1"
+                  class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-black text-[16px] line-clamp-2"
                 >
                   {{ consultant.type }}
                 </h3>
@@ -191,6 +191,14 @@
           *ngFor="let consultant of filteredAgents"
           class="border rounded-[20px] p-4 flex flex-col transition-all duration-200 cursor-pointer"
           (click)="toggleOtherSelection(consultant)"
+          [ngClass]="{
+            'border-[#EAECF0]': !consultant.selected,
+            'cursor-pointer': selectedConsultantsCount < maxSelectedConsultants,
+            'cursor-not-allowed opacity-50':
+              consultant.selected ||
+              (!consultant.selected &&
+                selectedConsultantsCount >= maxSelectedConsultants)
+          }"
         >
           <!-- [ngClass]="{
             'border-[#9241DC] border-2': consultant.selected,
@@ -211,7 +219,7 @@
             </div>
             <div>
               <h3
-                class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-black text-[16px] line-clamp-1"
+                class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-black text-[16px] line-clamp-2"
               >
                 {{ consultant.type }}
               </h3>

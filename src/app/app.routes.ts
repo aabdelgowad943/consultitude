@@ -8,13 +8,13 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/landing/landing.module').then((m) => m.LandingModule),
   },
-  {
-    path: 'knowledge',
-    loadChildren: () =>
-      import('./features/knowledge-hub/knowledge-hub.module').then(
-        (m) => m.KnowledgeHubModule
-      ),
-  },
+  // {
+  //   path: 'knowledge',
+  //   loadChildren: () =>
+  //     import('./features/knowledge-hub/knowledge-hub.module').then(
+  //       (m) => m.KnowledgeHubModule
+  //     ),
+  // },
   {
     path: 'auth',
     loadChildren: () =>
