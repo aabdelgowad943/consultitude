@@ -12,12 +12,11 @@ import { CommonModule } from '@angular/common';
 import { RapidResponseDialogComponent } from '../../../../components/rapid-response-dialog/rapid-response-dialog.component';
 import { EvoServicesService } from '../../../../services/evo-services.service';
 import { AgentsService } from '../../../../services/agents.service';
-import { Route, Router, RouterModule } from '@angular/router';
-import { CustomDatePipe } from '../../../../../../../shared/pipes/custom-date.pipe';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-ask-evo-header',
-  imports: [HistoryComponent, CommonModule, RouterModule, CustomDatePipe],
+  imports: [HistoryComponent, CommonModule, RouterModule],
   templateUrl: './ask-evo-header.component.html',
   styleUrl: './ask-evo-header.component.scss',
 })
