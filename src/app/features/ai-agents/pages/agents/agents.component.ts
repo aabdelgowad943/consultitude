@@ -6,6 +6,7 @@ import { CreateAiConsultantComponent } from '../../components/create-ai-consulta
 import { EditAiConsultantComponent } from '../../components/edit-ai-consultant/edit-ai-consultant.component';
 import { AgentsService } from '../../../dashboard/services/agents.service';
 import { FormsModule } from '@angular/forms';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-agents',
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
     CreateAiConsultantComponent,
     EditAiConsultantComponent,
     FormsModule,
+    ProgressSpinnerModule,
   ],
   templateUrl: './agents.component.html',
   styleUrl: './agents.component.scss',
@@ -24,6 +26,8 @@ export class AgentsComponent implements OnInit {
   constructor(private agentService: AgentsService) {}
 
   profileId: string = localStorage.getItem('profileId') || '';
+
+  loading: boolean = false;
 
   // PrimeNG Pagination properties
   first: number = 0;
@@ -46,6 +50,7 @@ export class AgentsComponent implements OnInit {
   }
 
   getAllAgents(params: any = {}) {
+    this.loading = true;
     const currentPage = Math.floor(this.first / this.pageSize) + 1;
 
     // Prepare filter parameters
@@ -67,6 +72,7 @@ export class AgentsComponent implements OnInit {
 
     this.agentService.getAllAgents(filterParams).subscribe({
       next: (res: any) => {
+        this.loading = false;
         this.allAgents = res.data;
         this.filteredAgents = res.data;
         // console.log('ssss', this.filteredAgents);

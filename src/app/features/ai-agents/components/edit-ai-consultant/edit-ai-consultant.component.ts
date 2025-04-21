@@ -205,6 +205,7 @@ export class EditAiConsultantComponent implements OnChanges {
             summary: 'Success',
             detail: 'Agent updated successfully',
             key: 'br',
+            closable: false,
           });
           this.closeDialog();
           this.onModalChange.emit(true);
@@ -215,6 +216,7 @@ export class EditAiConsultantComponent implements OnChanges {
             summary: 'Error',
             detail: 'Agent updated Failed',
             key: 'br',
+            closable: false,
           });
         },
       });

@@ -46,10 +46,11 @@ export class EditAboutComponent implements OnInit {
     // 2) Reject if nothing left after trimming
     if (this.isOnlyWhitespace(trimmed)) {
       this.messageService.add({
-        severity: 'warn',
+        severity: 'error',
         summary: 'Invalid input',
         detail: 'About section cannot be blank or contain only spaces.',
         life: 3000,
+        closable: false,
       });
       return;
     }

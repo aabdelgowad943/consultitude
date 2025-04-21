@@ -224,6 +224,8 @@ export class AskEvoHeaderComponent implements OnInit {
     this.evoService.getChatsByUserId(this.userId, 1, 5).subscribe({
       next: (res: any) => {
         this.conversations = res.data;
+        console.log(this.conversations);
+
         // console.log('convvver', this.conversations);
       },
     });
