@@ -45,7 +45,7 @@
               type="email"
               id="email"
               placeholder="Enter your e-mail"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#b2b1b1] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             <div
               *ngIf="
@@ -73,7 +73,7 @@
               type="text"
               id="name"
               placeholder="Write a name"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#b2b1b1] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             <div
               *ngIf="
@@ -94,8 +94,12 @@
             <select
               formControlName="documentFormatId"
               id="documentFormatId"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#b2b1b1] focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
+              <option value="" disabled hidden selected>
+                Chose a document type
+              </option>
+
               <option
                 class="bg-[#221139e1] text-white"
                 *ngFor="let document of documentsList"
@@ -123,8 +127,12 @@
             <select
               formControlName="areaOfFocusId"
               id="areaOfFocusId"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#b2b1b1] focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
+              <option value="" disabled hidden selected>
+                Chose an area of focus
+              </option>
+
               <option
                 class="bg-[#221139e1] text-white"
                 *ngFor="let area of areaOfFocusList"
@@ -154,7 +162,7 @@
               id="description"
               placeholder="Describe the document content..."
               rows="4"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#b2b1b1] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             ></textarea>
             <div
               *ngIf="

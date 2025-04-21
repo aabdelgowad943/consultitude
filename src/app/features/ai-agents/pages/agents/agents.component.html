@@ -65,8 +65,13 @@
     </div>
   </div>
 
+  <div *ngIf="loading" class="flex justify-center items-center h-64">
+    <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+  </div>
+
   <!-- Agents List -->
   <div
+    *ngIf="!loading"
     class="grid grid-cols-1 ipad:grid-cols-1 thousand:grid-cols-3 big:grid-cols-3 gap-3"
   >
     <!-- max-w-[355px] -->
@@ -142,7 +147,7 @@
                 class="w-[35px] h-5"
                 alt=""
               />
-              <span class="text-sm">{{ agent.comments }} 1 </span>
+              <span class="text-sm tect-[#667085]">{{ agent.usage }} </span>
             </div>
           </div>
         </div>
@@ -182,7 +187,7 @@
     </div>
   </div>
 
-  <div *ngIf="filteredAgents.length == 0">
+  <div *ngIf="filteredAgents.length == 0" [ngClass]="{ hidden: loading }">
     <div
       class="flex flex-col items-center justify-center mt-[24px] min-h-[400px] bg-white rounded-2xl border border-[#EAECF0] text-center py-12 px-4"
     >
@@ -202,7 +207,7 @@
             (click)="openDialog()"
             class="px-4 py-2.5 text-[16px] md:w-[181px] w-[209px] h-[44px] bg-[#7F56D9] hover:bg-[#a24af5] text-white rounded-lg ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] transition-colors"
           >
-            Create your own agent
+            Create your agent
           </button>
         </div>
       </div>
