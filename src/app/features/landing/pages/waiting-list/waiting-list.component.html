@@ -1,18 +1,12 @@
 <div
-  class="min-h-screen relative bg-[#110F0F] text-white flex flex-col items-center justify-center overflow-hidden mx-auto"
+  class="min-h-screen relative bg-[#110F0F] text-white flex flex-col items-center justify-between overflow-hidden mx-auto"
 >
-  <!-- style="
-max-width: 1600px;
-box-shadow: 10px 100px 1500px -5px #9241dc, -10px 1000px 1500px -5px #9241dc;
-z-index: 1444;
-position: relative;
-" -->
-  <div class="absolute bottom-0">
-    <img src="images/new/Back gradient.svg" alt="" />
+  <div class="absolute top-[400px] right-32 rounded-full">
+    <img src="images/new/bg gradient .svg" alt="" />
   </div>
 
   <!-- Background elements -->
-  <div class="absolute left-0 top-10 z-50">
+  <div class="absolute hidden xsm:block left-0 top-10 z-50">
     <img
       src="images/new/Left circle.svg"
       class="xsm:hidden ipad:block"
@@ -38,7 +32,7 @@ position: relative;
 
   <!-- Main content -->
   <div
-    class="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-3xl"
+    class="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-3xl mt-10 xsm:mt-20 ipad:mt-40 laptop:mt-40 big:pt-32 res:pt-20"
   >
     <!-- Logo -->
     <a class="mb-10">
@@ -66,14 +60,21 @@ position: relative;
     <app-subscribe-form
       (errorOccurred)="showError($event)"
     ></app-subscribe-form>
+  </div>
 
-    <!-- Flex Logo -->
-    <div
-      class="md:block w-full ipad:mt-40 laptop:mt-10 xsm:mt-20 big:mt-32 relative"
-    >
-      <app-flex-logo></app-flex-logo>
-      <div class="absolute">
-        <img src="images/new/circle (Evo).svg" class="h-[200px]" alt="" />
+  <!-- Flex Logo with ball - now positioned inside the ball -->
+  <div class="w-full relative z-10 mt-auto flex flex-col items-center">
+    <h1 class="xsm:mb-5 ipad:mb-10">Crafted by alumni of</h1>
+    <!-- Ball with logos inside -->
+    <div class="relative">
+      <img
+        src="images/new/circle (Evo).svg"
+        class="xsm:h-[100px] ipad:h-[200px]"
+        alt=""
+      />
+      <!-- Logos centered inside the ball -->
+      <div class="absolute inset-0 flex items-center justify-center">
+        <app-flex-logo></app-flex-logo>
       </div>
     </div>
   </div>

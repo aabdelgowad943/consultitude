@@ -10,6 +10,7 @@ module.exports = {
         laptop: "1024px",
         desktop: "1366px",
         big: "1440px",
+        res: "1920px",
       },
       colors: {
         primary: {
