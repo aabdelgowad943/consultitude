@@ -10,20 +10,22 @@ import { AnimationCardsComponent } from './components/animation-cards/animation-
 import { PartnersComponent } from './components/partners/partners.component';
 import { EffortlessComponent } from './components/effortless/effortless.component';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
+import { WaitingListComponent } from './components/waiting-list/waiting-list.component';
 
 @Component({
   selector: 'app-index',
   imports: [
-    HeroSectionComponent,
+    // HeroSectionComponent,
     ConsultitudeTemplatesComponent,
     FooterComponent,
     FaqsComponent,
-    ContactUsComponent,
+    // ContactUsComponent,
     ConsultingNeedsComponent,
-    AnimationCardsComponent,
-    PartnersComponent,
+    // AnimationCardsComponent,
+    // PartnersComponent,
     EffortlessComponent,
     NavbarComponent,
+    WaitingListComponent,
   ],
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],

@@ -1,0 +1,81 @@
+<div
+  class="min-h-screen relative bg-[#110F0F] text-white flex flex-col items-center justify-between overflow-hidden mx-auto xss:pt-5 ipad:pt-20"
+>
+  <div class="absolute bottom-0 right-32 rounded-full">
+    <img src="images/new/bg gradient .svg" alt="" />
+  </div>
+
+  <!-- Background elements -->
+  <div class="absolute hidden xss:block left-0 ipad:top-14 desktop:top-32 z-50">
+    <img
+      src="images/new/Left circle.svg"
+      class="xss:hidden ipad:block"
+      alt=""
+    />
+  </div>
+
+  <div class="absolute right-0 bottom-40 z-50">
+    <img src="images/new/right circle.svg" alt="" />
+  </div>
+
+  <!-- Star element -->
+  <div
+    class="absolute ipad:hidden xss:hidden desktop:block right-[230px] bottom-20 z-50"
+  >
+    <img src="images/new/Star.svg" alt="" />
+  </div>
+
+  <!-- Pattern/stars -->
+  <div class="absolute left-5 h-full">
+    <img src="images/new/pattern.svg" alt="" class="h-full" />
+  </div>
+
+  <!-- Main content -->
+  <div
+    class="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-3xl mt-10 xss:mt-20 ipad:mt-40 laptop:mt-40 big:pt-10 res:pt-20"
+  >
+    <!-- Logo -->
+    <a class="mb-10">
+      <span class="sr-only">Logo</span>
+      <img
+        src="images/new/Cnslt Logo.svg"
+        class="xss:w-96 ipad:w-full"
+        alt="Logo"
+      />
+    </a>
+
+    <!-- Consultitude title is removed as per your implementation -->
+
+    <!-- Subtitle -->
+    <h2 class="desktop:text-[52px] xss:text-[25px] w-full mb-5">
+      Your AI-Powered Consultant
+    </h2>
+
+    <!-- Description -->
+    <p class="desktop:text-[18px] xss:text-[16px] text-[#E9D8FC] mb-8">
+      Consultitude brings top-tier AI consulting power to your workflow
+    </p>
+
+    <!-- Subscription form component -->
+    <app-subscribe-form
+      (errorOccurred)="showError($event)"
+    ></app-subscribe-form>
+  </div>
+
+  <!-- Flex Logo with ball - now positioned inside the ball -->
+  <div class="w-full relative z-10 mt-10 flex flex-col items-center">
+    <!-- Ball with logos inside -->
+    <div class="relative">
+      <img
+        src="images/new/circle (Evo).svg"
+        class="xss:h-[100px] ipad:h-[200px]"
+        alt=""
+      />
+      <!-- Logos centered inside the ball -->
+      <div class="absolute inset-0 flex flex-col items-center justify-center">
+        <h1 class="xss:mb-1 ipad:mb-1">Crafted by alumni of</h1>
+        <app-flex-logo></app-flex-logo>
+      </div>
+    </div>
+  </div>
+</div>

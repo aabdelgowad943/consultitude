@@ -17,10 +17,10 @@ const routes: Routes = [
     path: '',
     component: LandingComponent,
     children: [
-      {
-        path: 'home',
-        component: HomeComponent,
-      },
+      // {
+      //   path: 'home',
+      //   component: HomeComponent,
+      // },
       {
         path: '',
         redirectTo: 'index',
