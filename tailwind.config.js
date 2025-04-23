@@ -9,10 +9,20 @@ module.exports = {
         xss: "393px",
         ipad: "768px",
         thousand: "1000px",
+        laptop: "1024px",
+        desktop: "1366px",
         our: "1440px",
         big: "1440px",
         bigger: "1600px",
+        res: "1920px",
       },
+
+      // screens: {
+      //   xsm: "393px",
+      //   sm: "480px",
+      //   ipad: "768px",
+      //   big: "1440px",
+      // },
       colors: {
         primary: {
           50: "#f5f3ff",
