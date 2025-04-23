@@ -11,6 +11,8 @@ import { PartnersComponent } from './components/partners/partners.component';
 import { EffortlessComponent } from './components/effortless/effortless.component';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 import { WaitingListComponent } from './components/waiting-list/waiting-list.component';
+import { FooterCardComponent } from '../about-us/components/footer-card/footer-card.component';
+import { FeaturesComponent } from './components/features/features.component';
 
 @Component({
   selector: 'app-index',
@@ -20,12 +22,14 @@ import { WaitingListComponent } from './components/waiting-list/waiting-list.com
     FooterComponent,
     FaqsComponent,
     // ContactUsComponent,
-    ConsultingNeedsComponent,
+    // ConsultingNeedsComponent,
     // AnimationCardsComponent,
     // PartnersComponent,
-    EffortlessComponent,
+    // EffortlessComponent,
     NavbarComponent,
     WaitingListComponent,
+    FooterCardComponent,
+    FeaturesComponent,
   ],
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
