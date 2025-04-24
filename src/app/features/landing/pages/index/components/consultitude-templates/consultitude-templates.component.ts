@@ -20,7 +20,7 @@ export class ConsultitudeTemplatesComponent {
       width: '340',
       height: '210',
       class:
-        'absolute w-[297px] md:w-[340px] md:h-52 md:-bottom-4 -bottom-20 -right-20 md:-right-10',
+        'absolute w-[297px] md:w-[340px] md:h-52 md:-bottom-0 -bottom-20 -right-20 md:-right-20',
     },
     {
       id: 2,
@@ -42,7 +42,7 @@ export class ConsultitudeTemplatesComponent {
       href: '/',
       width: '220',
       class:
-        'absolute md:w-[330px] w-[297px] h-[131px] md:h-52 md:-bottom-4 -bottom-0 -right-[80px] md:right-0 md:-right-20',
+        'absolute md:w-[330px] w-[297px] h-[131px] md:h-52 md:-bottom-4 -bottom-0 -right-[80px] md:-right-[70px]',
     },
   ];
 }
