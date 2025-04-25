@@ -12,7 +12,7 @@ export class ConsultitudeTemplatesComponent {
   cards = [
     {
       id: 1,
-      title: 'Consulting Companies',
+      title: 'Consulting Firms',
       description:
         'Accelerate delivery, scale expertise, and boost team performance with AI-powered consulting workflows',
       backgroundImage: '/images/new/Group 12.svg',
@@ -24,10 +24,10 @@ export class ConsultitudeTemplatesComponent {
     },
     {
       id: 2,
-      title: 'Management Consultant',
+      title: 'Consulting Professionals',
       description:
         'Accelerate your workflow, build smarter decks, and deliver your best presentations with powerful AI support.',
-      backgroundImage: '/images/new/Group 12-1.svg',
+      backgroundImage: '/images/new/Group 15.svg',
       href: '/',
       width: '250',
       class:
@@ -35,9 +35,9 @@ export class ConsultitudeTemplatesComponent {
     },
     {
       id: 3,
-      title: 'Clients Seeking Consulting',
+      title: 'Consulting Clients',
       description:
-        'Upload consulting deliverables for deep analysis. Chat with pretrained AI consultants to get new perspectives. Or create your own structured presentations.',
+        'Upload deliverables for AI analysis, chat with pre-trained agents, or generate structured presentations instantly',
       backgroundImage: '/images/new/Group 13.svg',
       href: '/',
       width: '220',
