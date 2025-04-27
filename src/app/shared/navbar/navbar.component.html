@@ -121,7 +121,10 @@
               >
             </a>
 
-            <div class="mx-5 my-1.5 border-t border-gray-100"></div>
+            <div
+              *ngIf="userId"
+              class="mx-5 my-1.5 border-t border-gray-100"
+            ></div>
 
             <a
               *ngIf="userId"
@@ -142,14 +145,14 @@
             <a
               *ngIf="!userId"
               routerLink="/auth/login"
-              class="flex items-center px-5 py-2 text-sm hover:bg-blue-50 transition-colors duration-200 group cursor-pointer"
+              class="flex items-center px-5 py-2 text-sm hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
             >
               <div
-                class="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center mr-3 group-hover:bg-blue-200 transition-colors duration-200"
+                class="w-5 h-5 rounded-full flex items-center justify-center mr-3 transition-colors duration-200"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600"
+                  class="h-[1.5rem] w-[1.5rem] text-gray-500"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -161,7 +164,7 @@
                 </svg>
               </div>
               <span
-                class="font-medium text-blue-600 group-hover:text-blue-700 transition-colors duration-200"
+                class="font-medium text-lg text-black transition-colors duration-200"
                 >Login</span
               >
             </a>

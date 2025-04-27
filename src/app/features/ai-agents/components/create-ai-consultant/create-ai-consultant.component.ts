@@ -51,6 +51,8 @@ export class CreateAiConsultantComponent {
 
   maxOutputLength: number = 5000;
 
+  formSubmitted: boolean = false; // Add this flag to track form submission
+
   // =================Options for multiSelect============================
   industryFocusOptions = [];
 
@@ -106,23 +108,27 @@ export class CreateAiConsultantComponent {
   }
 
   onSubmit(): void {
+    this.formSubmitted = true; // Set the flag to true when save is clicked
+
     if (this.consultantForm.invalid) {
       this.markFormGroupTouched(this.consultantForm);
-      this.messageService.add({
-        severity: 'warn', // changed from 'error' to 'warn' to match orange icon
-        summary: 'Something Went Wrong',
-        detail:
-          "We couldn't create your AI Agent. Please check your inputs or try again later. If the issue persists, contact support for assistance.",
-        key: 'br',
-        life: 5000,
-        styleClass: 'custom-toast',
-      });
+      // this.messageService.add({
+      //   severity: 'warn', // changed from 'error' to 'warn' to match orange icon
+      //   summary: 'Something Went Wrong',
+      //   detail:
+      //     "We couldn't create your AI Agent. Please check your inputs or try again later. If the issue persists, contact support for assistance.",
+      //   key: 'br',
+      //   life: 5000,
+      //   styleClass: 'custom-toast',
+      // });
 
       return;
     }
     const consultantData = this.consultantForm.value;
     this.agentService.createAgent(consultantData).subscribe({
       next: (res: any) => {
+        this.formSubmitted = false; // Reset after successful submission
+
         // console.log(res);
         this.messageService.add({
           severity: 'success',
@@ -153,6 +159,7 @@ export class CreateAiConsultantComponent {
 
   closeDialog(): void {
     this.display = false;
+    this.formSubmitted = false; // Reset submission state when closing
     this.displayChange.emit(false);
     this.consultantForm.reset();
   }

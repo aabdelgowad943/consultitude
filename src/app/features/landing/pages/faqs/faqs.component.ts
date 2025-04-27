@@ -20,28 +20,33 @@ import { RouterModule } from '@angular/router';
 export class FaqsComponent {
   faqData = [
     {
-      question: 'Why should I use Consultitide templates?',
-      answer: `You can purchase them directly through our website on the Templates & Playbooks page.`,
+      question: 'What does “Talk to an AI Consultant” mean?',
+      answer: `This feature allows you to interact with specialized AI agents pre-trained on different consulting logic, frameworks, and domains. Use it to get feedback, brainstorm, or refine your work—instantly.
+`,
     },
     {
-      question: 'Where can I purchase Consultitide templates and playbooks?',
-      answer: `You can purchase them directly through our website on the Templates & Playbooks page.`,
+      question:
+        'How does Consultitude ensure the quality of AI-generated content?',
+      answer: `We use pretrained models specifically fine-tuned on consulting deliverables and frameworks, ensuring outputs are structured, relevant, and aligned with industry standards.
+`,
     },
     {
-      question: 'What updates are included with Consultitide templates?',
-      answer: `The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
+      question: 'Can I upload confidential materials?',
+      answer: `
+Yes. We take data security seriously. All uploaded documents are encrypted, and access is restricted to your user session.
+      `,
     },
     {
-      question: 'How do I customize the templates for my brand?',
-      answer: `The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
+      question: 'Do I need to install anything to use Consultitude?',
+      answer: `No installation is required. Consultitude is entirely cloud-based and accessible through your browser on desktop, tablet, or mobile.`,
     },
     {
-      question: 'Can I use Consultitide templates for commercial projects?',
-      answer: `The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
+      question: 'What formats are supported when uploading deliverables?',
+      answer: `You can upload PowerPoint decks, PDFs, Word docs, and other common formats. The AI parses the content to offer insights, summaries, or structure new outputs from it.`,
     },
     {
-      question: 'How often are your templates updated?',
-      answer: `Flowbite supports modern browsers including Chrome, Firefox, Safari, and Edge. For older versions of Internet Explorer, limited support may apply depending on the components used.`,
+      question: 'Can I export the generated content to my existing tools?',
+      answer: `Yes. Presentations, insights, and templates created on Consultitude can be downloaded or exported to formats compatible with PowerPoint, Google Slides, and PDF.`,
     },
   ];
 

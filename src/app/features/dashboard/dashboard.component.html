@@ -69,83 +69,114 @@
             >Contact us</a
           >
         </div>
+
         <div class="flex items-center lg:order-2">
           <!-- Dropdown menu -->
           <button
             type="button"
-            class="flex mx-3 text-sm items-center gap-3 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
-            id="dashboard-menu-button"
+            class="flex mx-3 text-sm items-center gap-3 rounded-full md:mr-0"
+            id="user-menu-button"
             (click)="toggleDropdown($event)"
           >
             <span class="sr-only">Open user menu</span>
             <img
-              class="w-10 h-10 rounded-full"
-              src="/images/profile.png"
-              alt="user photo"
-            />
-            <img
-              src="/images/arrow-down-sign-to-navigate (1).png"
-              class="w-4 h-4"
+              src="/images/profile-user.png"
+              class="w-10 md:mt-2 h-10"
               alt=""
             />
           </button>
-          <!-- Dropdown user menu menu -->
+          <!-- Dropdown user menu -->
           <div
-            class="z-50 my-4 w-64 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl absolute top-12 right-0"
-            id="dashboard-dropdown"
+            class="z-50 my-4 w-80 text-base shadow-xl rounded-2xl absolute top-14 right-2 overflow-hidden"
+            id="dropdown"
             [class.hidden]="!isDropdownOpen"
           >
+            <!-- User Profile Section with Gradient Background -->
             <div
-              routerLink="profile"
-              class="py-3 px-4 flex justify-between cursor-pointer items-center space-x-3"
+              *ngIf="userId"
+              routerLink="/dashboard/profile"
+              class="px-5 py-3 flex justify-between cursor-pointer items-center relative overflow-hidden"
+              style="background: linear-gradient(to left, #380d5e, #60358e)"
             >
-              <div class="flex items-center gap-2">
-                <img
-                  class="w-10 h-10 rounded-full"
-                  src="/images/profile.png"
-                  alt="User avatar"
-                />
-                <div *ngIf="userId">
-                  <span
-                    class="block text-sm ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-900"
-                    >{{ name }}</span
-                  >
-                  <span class="block text-sm text-gray-500 truncate">{{
-                    email
+              <div
+                class="absolute inset-0 opacity-10"
+                style="background-image: url('')"
+              ></div>
+
+              <div class="flex items-center gap-4 relative z-10">
+                <div
+                  class="w-[45px] h-[45px] rounded-full overflow-hidden flex-shrink-0 p-0.5 ring-2 ring-white/30"
+                >
+                  <img
+                    class="w-full h-full object-cover rounded-full"
+                    src="/images/profile.png"
+                    alt="User avatar"
+                  />
+                </div>
+                <div class="overflow-hidden">
+                  <span class="block text-base text-[#d2d1d2] mb-0.5">{{
+                    name
                   }}</span>
+                  <span
+                    class="block text-sm text-white truncate max-w-[180px]"
+                    >{{ email }}</span
+                  >
                 </div>
               </div>
-              <img src="/images/next.png" class="w-5 h-5" alt="" />
-              <!-- <span class="ml-auto text-gray-400">&rarr;</span> -->
             </div>
-            <ul class="py-2">
-              <li>
-                <a
-                  routerLink="documents"
-                  class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
-                  >My Documents</a
-                >
-              </li>
-              <li
-                routerLink="settings"
-                class="flex items-center cursor-pointer px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
-              >
-                <span>Settings</span>
-              </li>
 
-              <li>
-                <a
-                  *ngIf="userId"
-                  (click)="logout()"
-                  class="flex items-center p-2 cursor-pointer text-base font-medium text-gray-900 rounded-lg hover:bg-[#0A0F290A] group"
+            <!-- Menu Options with Subtle Hover Effects -->
+            <div class="py-2 bg-white">
+              <a
+                *ngIf="userId"
+                routerLink="documents"
+                class="flex items-center gap-5 px-5 py-2 text-sm text-black hover:bg-gray-100 transition-colors duration-200 group"
+              >
+                <i
+                  class="pi pi-file-o"
+                  style="font-size: 1.5rem; color: gray"
+                ></i>
+                <span class="font-medium text-lg transition-colors duration-200"
+                  >My Documents</span
                 >
-                  <span
-                    class="ml-2 text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-red-600"
-                    >Logout</span
-                  >
-                </a>
-              </li>
-            </ul>
+              </a>
+
+              <div
+                *ngIf="userId"
+                class="mx-5 my-1.5 border-t border-gray-100"
+              ></div>
+              <a
+                *ngIf="userId"
+                routerLink="settings"
+                class="flex items-center gap-5 px-5 py-2 text-sm text-black hover:bg-gray-100 transition-colors duration-200 group"
+              >
+                <i class="pi pi-cog" style="font-size: 1.5rem; color: gray"></i>
+                <span class="font-medium text-lg transition-colors duration-200"
+                  >Settings</span
+                >
+              </a>
+
+              <div
+                *ngIf="userId"
+                class="mx-5 my-1.5 border-t border-gray-100"
+              ></div>
+
+              <a
+                *ngIf="userId"
+                (click)="logout()"
+                class="flex items-center px-5 py-2 gap-5 text-black text-sm hover:bg-gray-100 transition-colors duration-200 group cursor-pointer"
+              >
+                <i
+                  class="pi pi-sign-out"
+                  style="font-size: 1.5rem; color: gray"
+                ></i>
+
+                <span
+                  class="font-medium text-lg text-black transition-colors duration-200"
+                  >Logout</span
+                >
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -294,7 +325,7 @@
 
     <!-- Sidebar -->
     <aside
-      class="fixed top-5 z-40 w-[280px] bigger:w-[290px] max-h-[1070px] h-screen pt-14 transition-transform -translate-x-full bg-[#f9fafc] md:translate-x-0"
+      class="fixed top-5 z-40 w-[280px] bigger:w-[290px] max-h-[1070px] h-screen pt-14 transition-transform -translate-x-full bg-white md:translate-x-0"
       aria-label="Sidenav"
       id="drawer-navigation"
     >
@@ -458,7 +489,7 @@
     </aside>
 
     <div class="w-full bg-white max-w-[1600px] mx-auto">
-      <main class="bg-white md:bg-[#f9fafc] md:pl-72 rounded-2xl text-black">
+      <main class="bg-white h-full md:pl-72 rounded-2xl text-black">
         <div
           class="bg-white w-full h-full rounded-[10px] border-none md:border border-[#EAECF0] p-0"
         >

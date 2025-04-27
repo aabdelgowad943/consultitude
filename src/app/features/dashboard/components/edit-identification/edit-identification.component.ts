@@ -45,6 +45,7 @@ export class EditIdentificationComponent implements OnInit {
   @Output() saveChangesEvent: EventEmitter<Profile> = new EventEmitter();
 
   identificationForm!: FormGroup;
+  formSubmitted: boolean = false; // Add this flag to track form submission
 
   skills: any[] = [];
   fullSkillsData: any[] = [];
@@ -162,6 +163,7 @@ export class EditIdentificationComponent implements OnInit {
 
   closeDialog() {
     this.display = false;
+    this.formSubmitted = false; // Reset submission state when closing
     this.displayChange.emit(this.display);
   }
 
@@ -177,6 +179,8 @@ export class EditIdentificationComponent implements OnInit {
   }
 
   saveChanges() {
+    this.formSubmitted = true; // Set the flag to true when save is clicked
+
     if (this.identificationForm.invalid) {
       Object.keys(this.identificationForm.controls).forEach((key) => {
         const control = this.identificationForm.get(key);
@@ -184,13 +188,7 @@ export class EditIdentificationComponent implements OnInit {
           control.markAsTouched();
         }
       });
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Validation Error',
-        detail: 'Please fill all required fields correctly',
-        contentStyleClass: 'text-white bg-red-900',
-        closeIcon: 'pi pi-times text-white',
-      });
+
       return;
     }
 
@@ -208,6 +206,7 @@ export class EditIdentificationComponent implements OnInit {
       .editIdentification(this.profileId, updatedProfile)
       .subscribe({
         next: (res: any) => {
+          this.formSubmitted = false; // Reset after successful submission
           this.saveChangesEvent.emit(res);
           this.closeDialog();
           this.messageService.add({
