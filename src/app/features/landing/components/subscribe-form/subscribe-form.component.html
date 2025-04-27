@@ -6,10 +6,10 @@
         type="email"
         id="helper-text"
         aria-describedby="helper-text-explanation"
-        class="bg-gray-50 border w-[360px] xsm:[370px] ipad:w-[443px] border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block py-2.5 px-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        class="bg-gray-50 border w-[360px] xsm:[370px] h-10 ipad:w-[443px] placeholder:text-[#0D1126]/40 font-sans border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block py-2.5 px-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="name@yahoo.com"
       />
-      <div
+      <!-- <div
         class="md:hidden block"
         *ngIf="
           subscribeForm.get('email')?.invalid &&
@@ -19,13 +19,13 @@
         <p class="text-red-500 text-sm ps-2 text-left pt-1">
           Please enter a valid email address
         </p>
-      </div>
+      </div> -->
     </div>
 
     <button
       [disabled]="!subscribeForm.valid"
       type="submit"
-      class="bg-[#873de6] text-[16px] flex justify-center font-sans mt-5 md:mt-0 gap-2 items-center hover:bg-[#7936d1] transition-colors text-white text-center py-2.5 px-3 rounded-xl"
+      class="bg-[#9241DC] text-[14px] flex justify-center h-10 font-sans mt-5 md:mt-0 gap-2 items-center hover:bg-[#7936d1] transition-colors text-white text-center py-2.5 px-3 rounded-xl"
     >
       <svg
         *ngIf="loading"
@@ -48,7 +48,7 @@
       Join Waiting List
     </button>
   </div>
-  <div
+  <!-- <div
     class="hidden md:block"
     *ngIf="
       subscribeForm.get('email')?.invalid && subscribeForm.get('email')?.touched
@@ -57,5 +57,5 @@
     <p class="text-red-500 text-sm ps-2 pt-1 text-left">
       Please enter a valid email address
     </p>
-  </div>
+  </div> -->
 </form>

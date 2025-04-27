@@ -1,5 +1,5 @@
 <div
-  class="min-h-screen relative bg-[#110F0F] text-white flex flex-col items-center justify-between overflow-hidden mx-auto"
+  class="min-h-screen relative bg-[#11061A] text-white flex flex-col items-center justify-between overflow-hidden mx-auto"
 >
   <div class="absolute bottom-0 right-32 rounded-full">
     <img src="images/new/bg gradient .svg" alt="" />
@@ -19,9 +19,7 @@
   </div>
 
   <!-- Star element -->
-  <div
-    class="absolute ipad:hidden xsm:hidden desktop:block right-[230px] bottom-20 z-50"
-  >
+  <div class="absolute big:right-[230px] right-14 bottom-32 big:bottom-20 z-50">
     <img src="images/new/Star.svg" alt="" />
   </div>
 
@@ -32,19 +30,17 @@
 
   <!-- Main content -->
   <div
-    class="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-3xl mt-10 xsm:mt-20 ipad:mt-40 laptop:mt-40 big:pt-32 res:pt-20"
+    class="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-3xl mt-10 xsm:mt-20 ipad:mt-40 laptop:mt-40 big:pt-10 res:pt-20"
   >
     <!-- Logo -->
     <a class="mb-10">
       <span class="sr-only">Logo</span>
       <img
         src="images/Cnslt Logo.svg"
-        class="xsm:w-96 ipad:w-full"
+        class="xsm:w-80 w-72 ipad:w-full"
         alt="Logo"
       />
     </a>
-
-    <!-- Consultitude title is removed as per your implementation -->
 
     <!-- Subtitle -->
     <h2 class="desktop:text-[52px] xsm:text-[25px] w-full mb-5">
@@ -52,7 +48,9 @@
     </h2>
 
     <!-- Description -->
-    <p class="desktop:text-[18px] xsm:text-[16px] text-[#909090] mb-8">
+    <p
+      class="desktop:text-[18px] xsm:text-[16px] text-[#E9D8FC] font-sans mb-8"
+    >
       Consultitude brings top-tier AI consulting power to your workflow
     </p>
 
@@ -68,12 +66,14 @@
     <div class="relative">
       <img
         src="images/new/circle (Evo).svg"
-        class="xsm:h-[100px] ipad:h-[200px]"
+        class="xss:h-[100px] ipad:h-[250px]"
         alt=""
       />
       <!-- Logos centered inside the ball -->
       <div class="absolute inset-0 flex flex-col items-center justify-center">
-        <h1 class="xsm:mb-5 ipad:mb-10">Crafted by alumni of</h1>
+        <h1 class="xss:mb-[1rem] ipad:mb-[1rem] font-sans">
+          Crafted by alumni of
+        </h1>
         <app-flex-logo></app-flex-logo>
       </div>
     </div>
