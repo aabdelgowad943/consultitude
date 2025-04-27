@@ -126,11 +126,12 @@
       <div
         class="relative bg-gradient-to-r h-[198px] from-[#A46EDE] to-[#380D5E]"
       >
+        <!-- Profile Image with Placeholder -->
         <img
           (click)="openEditImage()"
-          class="absolute left-1/2 z-10 transform -translate-x-1/2 -bottom-14 w-[120px] h-[120px] rounded-full object-cover"
-          src="{{ profileUrl }}"
-          alt=""
+          class="absolute left-1/2 z-10 transform -translate-x-1/2 -bottom-14 w-[120px] h-[120px] rounded-full object-cover border-2 border-white"
+          [src]="profileUrl ? profileUrl : 'https://placehold.co/400'"
+          [alt]="profileUrl ? 'Profile Image' : 'Profile Placeholder'"
         />
 
         <div class="absolute right-5 top-5">
@@ -138,7 +139,6 @@
             (click)="openEditDialog()"
             class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
           >
-            <!-- <i class="pi pi-pencil"></i> -->
             <img src="images/new/edit-fill.svg" alt="" />
           </div>
         </div>
@@ -150,7 +150,6 @@
           {{ name }}
         </h2>
         <p class="text-[#667085] text-sm">{{ title }}</p>
-        <!-- top skills -->
         <div class="mt-4 space-x-2">
           <span
             *ngFor="let skill of topSkillsList"
@@ -181,9 +180,13 @@
             </div>
           </div>
           <p
+            *ngIf="about.length > 0"
             class="mt-2 text-[#475467] font-[400] text-[16px] max-w-[560px] break-words"
           >
             {{ about }}
+          </p>
+          <p *ngIf="about.length === 0" class="text-sm text-red-500 font-sans">
+            No about information available.
           </p>
         </div>
 
@@ -205,57 +208,63 @@
           <!-- Skill Categories -->
           <div class="mt-4 space-y-4">
             <!-- Industry Focus -->
-            <div *ngIf="profile?.skills?.industryFocus?.length">
-              <div>
-                <h3 class="text-[16px] font-medium text-[#101828]">
-                  Industry Focus
-                </h3>
-                <div class="mt-2 flex flex-wrap gap-2">
-                  <ng-container
-                    *ngFor="
-                      let skill of getIndustrySkillsToShow();
-                      let i = index
-                    "
-                  >
-                    <span
-                      class="px-3 py-1 text-sm leading-5 font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                    >
-                      {{
-                        skill.areaOfFocus.translations[0].name ??
-                          skill.areaOfFocus.id
-                      }}
-                    </span>
-                  </ng-container>
+            <div>
+              <h3 class="text-[16px] font-medium text-[#101828]">
+                Industry Focus
+              </h3>
+              <div
+                *ngIf="profile?.skills?.industryFocus?.length"
+                class="mt-2 flex flex-wrap gap-2"
+              >
+                <ng-container
+                  *ngFor="let skill of getIndustrySkillsToShow(); let i = index"
+                >
                   <span
-                    *ngIf="
-                      !showAllIndustrySkills &&
-                      profile.skills.industryFocus.length > 4
-                    "
-                    class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
-                    (click)="toggleShowMoreIndustry()"
+                    class="px-3 py-1 text-sm leading-5 font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
                   >
-                    +{{ profile.skills.industryFocus.length - 4 }}
+                    {{
+                      skill.areaOfFocus.translations[0].name ??
+                        skill.areaOfFocus.id
+                    }}
                   </span>
-                  <span
-                    *ngIf="
-                      showAllIndustrySkills &&
-                      profile.skills.industryFocus.length > 4
-                    "
-                    class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
-                    (click)="toggleShowMoreIndustry()"
-                  >
-                    Show less
-                  </span>
-                </div>
+                </ng-container>
+                <span
+                  *ngIf="
+                    !showAllIndustrySkills &&
+                    profile.skills.industryFocus.length > 4
+                  "
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreIndustry()"
+                >
+                  +{{ profile.skills.industryFocus.length - 4 }}
+                </span>
+                <span
+                  *ngIf="
+                    showAllIndustrySkills &&
+                    profile.skills.industryFocus.length > 4
+                  "
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreIndustry()"
+                >
+                  Show less
+                </span>
+              </div>
+              <div *ngIf="!profile?.skills?.industryFocus?.length" class="mt-2">
+                <span class="text-sm text-red-500 font-sans"
+                  >No industry focus skills to show</span
+                >
               </div>
             </div>
 
             <!-- Domain Focus -->
-            <div *ngIf="profile?.skills?.domainFocus?.length">
+            <div>
               <h3 class="text-[16px] font-medium text-[#101828]">
                 Domain Focus
               </h3>
-              <div class="mt-2 flex flex-wrap gap-2">
+              <div
+                *ngIf="profile?.skills?.domainFocus?.length"
+                class="mt-2 flex flex-wrap gap-2"
+              >
                 <ng-container
                   *ngFor="let skill of getDomainSkillsToShow(); let i = index"
                 >
@@ -285,14 +294,22 @@
                   Show less
                 </span>
               </div>
+              <div *ngIf="!profile?.skills?.domainFocus?.length" class="mt-2">
+                <span class="text-sm text-red-500 font-sans"
+                  >No domain focus skills to show</span
+                >
+              </div>
             </div>
 
             <!-- Regional Focus -->
-            <div *ngIf="profile?.skills?.regionalFocus?.length">
+            <div>
               <h3 class="text-[16px] font-medium text-[#101828]">
                 Regional Focus
               </h3>
-              <div class="mt-2 flex flex-wrap gap-2">
+              <div
+                *ngIf="profile?.skills?.regionalFocus?.length"
+                class="mt-2 flex flex-wrap gap-2"
+              >
                 <ng-container
                   *ngFor="let skill of getRegionalSkillsToShow(); let i = index"
                 >
@@ -322,6 +339,11 @@
                 >
                   Show less
                 </span>
+              </div>
+              <div *ngIf="!profile?.skills?.regionalFocus?.length" class="mt-2">
+                <span class="text-sm text-red-500 font-sans"
+                  >No regional focus skills to show</span
+                >
               </div>
             </div>
           </div>

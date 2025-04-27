@@ -13,7 +13,7 @@ export class WaitingListComponent {
 
   onSubmit() {
     // Handle the join waiting list submission
-    console.log('Submitted email:', this.email);
+    // console.log('Submitted email:', this.email);
     // Add your API call logic here
   }
 
