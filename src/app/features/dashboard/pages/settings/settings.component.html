@@ -47,10 +47,10 @@
             placeholder="amamdouh@mail.com"
             class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
-          <!-- Email validation errors -->
+          <!-- Email validation errors - Only show when form is submitted -->
           <div
             class="mt-1 text-xs text-red-500"
-            *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+            *ngIf="formSubmitted && email?.invalid"
           >
             <div *ngIf="email?.errors?.['required']">Email is required.</div>
             <div *ngIf="email?.errors?.['email']">
@@ -90,10 +90,7 @@
           />
           <div
             class="mt-1 text-xs text-red-500"
-            *ngIf="
-              oldPassword?.invalid &&
-              (oldPassword?.dirty || oldPassword?.touched)
-            "
+            *ngIf="formSubmitted && oldPassword?.invalid"
           >
             <div *ngIf="oldPassword?.errors?.['required']">
               Old Password is required.
@@ -117,10 +114,7 @@
           />
           <div
             class="mt-1 text-xs text-red-500"
-            *ngIf="
-              newPassword?.invalid &&
-              (newPassword?.dirty || newPassword?.touched)
-            "
+            *ngIf="formSubmitted && newPassword?.invalid"
           >
             <div *ngIf="newPassword?.errors?.['required']">
               New Password is required.
@@ -149,10 +143,7 @@
           />
           <div
             class="mt-1 text-xs text-red-500"
-            *ngIf="
-              repeatNewPassword?.invalid &&
-              (repeatNewPassword?.dirty || repeatNewPassword?.touched)
-            "
+            *ngIf="formSubmitted && repeatNewPassword?.invalid"
           >
             <div *ngIf="repeatNewPassword?.errors?.['required']">
               Please confirm your new password.
@@ -170,13 +161,14 @@
           type="button"
           class="mr-3 rounded-lg border border-gray-300 bg-white px-[32px] py-2.5 text-gray-700 hover:bg-gray-50"
           [disabled]="isSubmitting"
+          (click)="resetForm()"
         >
           Cancel
         </button>
         <button
           type="submit"
           class="rounded-lg border border-transparent bg-[#9241DC] px-[32px] py-2.5 text-white hover:bg-[#9141dce1] disabled:opacity-50"
-          [disabled]="isSubmitting || settingsForm.invalid"
+          [disabled]="isSubmitting"
         >
           <!-- Show a spinner or text when submitting -->
           <span *ngIf="!isSubmitting">Save</span>

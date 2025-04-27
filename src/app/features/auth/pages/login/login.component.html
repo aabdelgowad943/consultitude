@@ -109,6 +109,7 @@
                 >Forgot your password?</a
               >
               <button
+                [disabled]="!email || !password"
                 type="button"
                 (click)="login()"
                 class="block w-[329px] mt-4 bg-[#9241DC] thousand:w-[480px] h-[48px] py-2.5 px-3 border border-[#DEE0E3] text-white rounded-xl"

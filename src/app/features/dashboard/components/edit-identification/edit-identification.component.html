@@ -25,8 +25,7 @@
           />
           <div
             *ngIf="
-              identificationForm.get('firstName')?.invalid &&
-              identificationForm.get('firstName')?.touched
+              formSubmitted && identificationForm.get('firstName')?.invalid
             "
             class="text-red-500 text-xs mt-1"
           >
@@ -48,10 +47,7 @@
             class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-[#14151A] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] rounded-xl px-3 py-2.5 mt-1"
           />
           <div
-            *ngIf="
-              identificationForm.get('lastName')?.invalid &&
-              identificationForm.get('lastName')?.touched
-            "
+            *ngIf="formSubmitted && identificationForm.get('lastName')?.invalid"
             class="text-red-500 text-xs mt-1"
           >
             Last name is required
@@ -73,10 +69,7 @@
           class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-[#14151A] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] rounded-xl px-3 py-2.5 mt-1"
         />
         <div
-          *ngIf="
-            identificationForm.get('title')?.invalid &&
-            identificationForm.get('title')?.touched
-          "
+          *ngIf="formSubmitted && identificationForm.get('title')?.invalid"
           class="text-red-500 text-xs mt-1"
         >
           Job title is required
@@ -97,10 +90,7 @@
           class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-[#14151A] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] rounded-xl px-3 py-2.5 mt-1"
         />
         <div
-          *ngIf="
-            identificationForm.get('country')?.invalid &&
-            identificationForm.get('country')?.touched
-          "
+          *ngIf="formSubmitted && identificationForm.get('country')?.invalid"
           class="text-red-500 text-xs mt-1"
         >
           Company name is required
@@ -128,8 +118,7 @@
         </select>
         <div
           *ngIf="
-            identificationForm.get('nationality')?.invalid &&
-            identificationForm.get('nationality')?.touched
+            formSubmitted && identificationForm.get('nationality')?.invalid
           "
           class="text-red-500 text-xs mt-1"
         >
@@ -156,8 +145,7 @@
         ></p-multiSelect>
         <div
           *ngIf="
-            identificationForm.get('selectedSkills')?.invalid &&
-            identificationForm.get('selectedSkills')?.touched
+            formSubmitted && identificationForm.get('selectedSkills')?.invalid
           "
           class="text-red-500 text-xs mt-1"
         >
@@ -192,7 +180,6 @@
         (click)="closeDialog()"
       ></button>
       <button
-        [disabled]="identificationForm.invalid"
         pButton
         label="Save"
         class="bg-[#9241DC] border border-[#7F56D9] rounded-[8px] py-2.5 px-[32px] text-white font-[600] text-[16px]"

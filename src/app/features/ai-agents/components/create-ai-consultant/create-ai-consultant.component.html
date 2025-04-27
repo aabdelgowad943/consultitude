@@ -29,17 +29,13 @@
             class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-black placeholder:text-[#0F132499]/60 text-[14px] py-2 px-2.5"
             [ngClass]="{
               'border-red-500':
-                consultantForm.get('name')?.invalid &&
-                consultantForm.get('name')?.touched
+                consultantForm.get('name')?.invalid && formSubmitted
             }"
           />
         </div>
         <small
           class="text-red-500"
-          *ngIf="
-            consultantForm.get('name')?.invalid &&
-            consultantForm.get('name')?.touched
-          "
+          *ngIf="formSubmitted && consultantForm.get('name')?.invalid"
         >
           Name is required (minimum 3 characters)
         </small>
@@ -58,16 +54,12 @@
           class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-black placeholder:text-[#0F132499]/60 text-[14px] py-2 px-2.5"
           [ngClass]="{
             'border-red-500':
-              consultantForm.get('persona')?.invalid &&
-              consultantForm.get('persona')?.touched
+              consultantForm.get('persona')?.invalid && formSubmitted
           }"
         />
         <small
           class="text-red-500"
-          *ngIf="
-            consultantForm.get('persona')?.invalid &&
-            consultantForm.get('persona')?.touched
-          "
+          *ngIf="consultantForm.get('persona')?.invalid && formSubmitted"
         >
           Persona is required
         </small>
@@ -92,10 +84,7 @@
         ></p-multiSelect>
         <small
           class="text-red-500"
-          *ngIf="
-            consultantForm.get('domains')?.invalid &&
-            consultantForm.get('domains')?.touched
-          "
+          *ngIf="consultantForm.get('domains')?.invalid && formSubmitted"
         >
           Domain is required
         </small>
@@ -119,10 +108,7 @@
         ></p-multiSelect>
         <small
           class="text-red-500"
-          *ngIf="
-            consultantForm.get('sectors')?.invalid &&
-            consultantForm.get('sectors')?.touched
-          "
+          *ngIf="consultantForm.get('sectors')?.invalid && formSubmitted"
         >
           Sector is required
         </small>
@@ -198,17 +184,13 @@
           class="border w-full border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-black placeholder:text-[#0F132499]/60 text-[14px] py-2 px-2.5"
           [ngClass]="{
             'border-red-500':
-              consultantForm.get('output')?.invalid &&
-              consultantForm.get('output')?.touched
+              consultantForm.get('output')?.invalid && formSubmitted
           }"
         ></textarea>
         <div class="flex justify-between items-center mt-1">
           <small
             class="text-red-500"
-            *ngIf="
-              consultantForm.get('output')?.invalid &&
-              consultantForm.get('output')?.touched
-            "
+            *ngIf="consultantForm.get('output')?.invalid && formSubmitted"
           >
             Output is required
           </small>

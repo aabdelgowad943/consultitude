@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { Profile } from '../../models/profile';
@@ -7,10 +6,23 @@ import { ProfileServiceService } from '../../services/profile-service.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-about',
-  imports: [DialogModule, FormsModule, ButtonModule, ToastModule],
+  imports: [
+    DialogModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    ToastModule,
+    CommonModule,
+  ],
   templateUrl: './edit-about.component.html',
   styleUrl: './edit-about.component.scss',
   providers: [MessageService],
@@ -18,58 +30,79 @@ import { ToastModule } from 'primeng/toast';
 export class EditAboutComponent implements OnInit {
   @Input() display: boolean = false;
   @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Input() about: string = ''; // Initialize with empty string
+  @Input() set about(value: string) {
+    if (this.aboutForm) {
+      this.aboutForm.patchValue({ about: value || '' });
+    }
+    this._about = value || '';
+  }
+  get about(): string {
+    return this._about;
+  }
+  private _about: string = '';
+
   @Output() saveChangesEvent: EventEmitter<string> = new EventEmitter();
+
+  aboutForm!: FormGroup;
+  formSubmitted: boolean = false;
 
   constructor(
     private profileService: ProfileServiceService,
     private authService: AuthService,
-    private messageService: MessageService
-  ) {}
-  ngOnInit(): void {
-    this.getUserDataByUserId();
-    // Ensure about is never null
-    if (!this.about) {
-      this.about = '';
-    }
+    private messageService: MessageService,
+    private fb: FormBuilder
+  ) {
+    this.initForm();
   }
 
-  /** Helper: returns true if the string is all whitespace (or empty) */
-  private isOnlyWhitespace(value: string): boolean {
-    return !value || value.trim().length === 0;
+  ngOnInit(): void {
+    this.getUserDataByUserId();
+  }
+
+  private initForm() {
+    // Custom validator for whitespace-only text
+    const noWhitespaceValidator = (control: { value: string }) => {
+      const isWhitespace = control.value && control.value.trim().length === 0;
+      return !isWhitespace ? null : { whitespace: true };
+    };
+
+    this.aboutForm = this.fb.group({
+      about: [
+        this._about || '',
+        [Validators.required, Validators.maxLength(300), noWhitespaceValidator],
+      ],
+    });
+  }
+
+  get aboutControl() {
+    return this.aboutForm.get('about');
+  }
+
+  getCharCount(): number {
+    return this.aboutControl?.value?.length || 0;
   }
 
   saveChanges() {
-    // 1) Trim once up front
-    const trimmed = this.about.trim();
+    this.formSubmitted = true;
 
-    // 2) Reject if nothing left after trimming
-    if (this.isOnlyWhitespace(trimmed)) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Invalid input',
-        detail: 'About section cannot be blank or contain only spaces.',
-        life: 3000,
-        closable: false,
-      });
+    if (this.aboutForm.invalid) {
       return;
     }
 
-    // 3) Build your payload with the trimmed value
-    const updatedProfile: Profile = { about: trimmed };
+    const trimmedAbout = this.aboutControl?.value.trim();
+    const updatedProfile: Profile = { about: trimmedAbout };
 
-    // 4) Call service
     this.profileService
       .editIdentification(this.profileId, updatedProfile)
       .subscribe({
         next: () => {
-          this.saveChangesEvent.emit(trimmed);
+          this.saveChangesEvent.emit(trimmedAbout);
           this.closeDialog();
           this.messageService.add({
             severity: 'success',
             summary: 'Profile updated',
-            detail: 'Your “About” section has been saved.',
-            contentStyleClass: 'text-white bg-green-900',
+            // detail: 'Your "About" section has been saved.',
+            // contentStyleClass: 'text-white bg-green-900',
             closeIcon: 'pi pi-check text-white',
           });
         },
@@ -92,9 +125,13 @@ export class EditAboutComponent implements OnInit {
       .getUserDataByUserId(localStorage.getItem('userId')!)
       .subscribe({
         next: (res: any) => {
-          // console.log(res.data);
           this.profileId = res.data.id;
           this.userData = res.data;
+
+          // Initialize the form with the user data
+          if (this.userData && this.userData.about) {
+            this.aboutForm.patchValue({ about: this.userData.about });
+          }
         },
         complete: () => {},
       });
@@ -102,6 +139,7 @@ export class EditAboutComponent implements OnInit {
 
   closeDialog() {
     this.display = false;
+    this.formSubmitted = false;
     this.displayChange.emit(this.display);
   }
 }

@@ -33,22 +33,6 @@ export class DashboardComponent implements OnInit {
 
   menuVisible: boolean = false;
 
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
-    const dropdown = document.getElementById('dashboard-dropdown');
-    const menuButton = document.getElementById('dashboard-menu-button');
-
-    if (
-      this.isDropdownOpen &&
-      dropdown &&
-      menuButton &&
-      !dropdown.contains(event.target as Node) &&
-      !menuButton.contains(event.target as Node)
-    ) {
-      this.isDropdownOpen = false;
-    }
-  }
-
   toggleDropdown(event: Event) {
     event.stopPropagation();
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -83,5 +67,21 @@ export class DashboardComponent implements OnInit {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100);
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: Event) {
+    const dropdown = document.getElementById('dropdown');
+    const menuButton = document.getElementById('user-menu-button');
+
+    if (
+      this.isDropdownOpen &&
+      dropdown &&
+      menuButton &&
+      !dropdown.contains(event.target as Node) &&
+      !menuButton.contains(event.target as Node)
+    ) {
+      this.isDropdownOpen = false;
+    }
   }
 }

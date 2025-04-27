@@ -25,6 +25,7 @@ export class SettingsComponent {
   errorMessage = '';
   successMessage = '';
   userEmail: string = '';
+  formSubmitted = false; // Add flag to track form submission
 
   constructor(
     private fb: FormBuilder,
@@ -106,6 +107,7 @@ export class SettingsComponent {
   onSubmit(): void {
     this.errorMessage = '';
     this.successMessage = '';
+    this.formSubmitted = true; // Set flag to true when form is submitted
 
     // Stop if form is invalid
     if (this.settingsForm.invalid) {
@@ -126,7 +128,7 @@ export class SettingsComponent {
       next: () => {
         this.successMessage = 'Password changed successfully!';
         this.isSubmitting = false;
-        // this.showLogoutPopup = true;
+        this.showLogoutPopup = true;
       },
       error: (err) => {
         this.errorMessage =
@@ -134,6 +136,16 @@ export class SettingsComponent {
         this.isSubmitting = false;
       },
     });
+  }
+
+  // Reset the form and form submission state
+  resetForm(): void {
+    this.formSubmitted = false;
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.settingsForm.get('oldPassword')?.setValue('');
+    this.settingsForm.get('newPassword')?.setValue('');
+    this.settingsForm.get('repeatNewPassword')?.setValue('');
   }
 
   showLogoutPopup = false; // Flag for displaying logout popup
