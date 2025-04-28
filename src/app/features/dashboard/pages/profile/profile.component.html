@@ -128,12 +128,10 @@
       <div
         class="relative bg-gradient-to-r h-[198px] from-[#A46EDE] to-[#380D5E]"
       >
-        <!-- Profile Image with Placeholder -->
         <img
           (click)="openEditImage()"
           class="absolute left-1/2 z-10 transform -translate-x-1/2 -bottom-14 w-[120px] h-[120px] rounded-full object-cover border-2 border-white"
-          [src]="profileUrl ? profileUrl : 'https://placehold.co/400'"
-          [alt]="profileUrl ? 'Profile Image' : 'Profile Placeholder'"
+          [src]="profileUrl ? profileUrl : 'images/profile.png'"
         />
 
         <div class="absolute right-5 top-5">
@@ -187,8 +185,11 @@
           >
             {{ about }}
           </p>
-          <p *ngIf="about.length === 0" class="text-sm text-red-500 font-sans">
-            No about information available.
+          <p
+            *ngIf="about.length === 0"
+            class="text-sm ms-4 text-gray-500 font-sans"
+          >
+            No about information available!
           </p>
         </div>
 
@@ -252,8 +253,8 @@
                 </span>
               </div>
               <div *ngIf="!profile?.skills?.industryFocus?.length" class="mt-2">
-                <span class="text-sm text-red-500 font-sans"
-                  >No industry focus skills to show</span
+                <span class="text-sm text-gray-500 ms-4 font-sans"
+                  >No industry focus skills to show!</span
                 >
               </div>
             </div>
@@ -297,8 +298,8 @@
                 </span>
               </div>
               <div *ngIf="!profile?.skills?.domainFocus?.length" class="mt-2">
-                <span class="text-sm text-red-500 font-sans"
-                  >No domain focus skills to show</span
+                <span class="text-sm text-gray-500 ms-4 font-sans"
+                  >No domain focus skills to show!</span
                 >
               </div>
             </div>
@@ -343,8 +344,8 @@
                 </span>
               </div>
               <div *ngIf="!profile?.skills?.regionalFocus?.length" class="mt-2">
-                <span class="text-sm text-red-500 font-sans"
-                  >No regional focus skills to show</span
+                <span class="text-sm text-gray-500 ms-4 font-sans"
+                  >No regional focus skills to show!</span
                 >
               </div>
             </div>
