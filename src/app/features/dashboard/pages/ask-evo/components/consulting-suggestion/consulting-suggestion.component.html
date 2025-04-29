@@ -51,7 +51,7 @@
                 >
                   {{ consultant.type }}
                 </h3>
-                <p class="text-sm text-[#667085] mb-4 line-clamp-2">
+                <p class="text-sm text-[#667085] mb-4 line-clamp-1">
                   {{ consultant.description }}
                 </p>
                 <div class="flex gap-5 items-center mt-auto">
@@ -184,7 +184,20 @@
         Loading consultants...
       </div>
       <div *ngIf="error" class="text-center text-red-500">{{ error }}</div>
-
+      <div
+        *ngIf="!isLoading && !error && filteredAgents.length === 0"
+        class="text-center py-8 text-[#667085]"
+      >
+        <div class="flex flex-col items-center justify-center">
+          <!-- <img
+            src="images/new/empty-state-icon.svg"
+            alt="No consultants found"
+            class="mb-4 w-16 h-16"
+          /> -->
+          <h3 class="text-lg font-semibold mb-2">No consultants found</h3>
+          <p class="text-sm">Try adjusting your search or filter</p>
+        </div>
+      </div>
       <div
         *ngIf="!isLoading && !error"
         class="grid grid-cols-1 ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3"
@@ -225,7 +238,7 @@
               >
                 {{ consultant.type }}
               </h3>
-              <p class="text-sm text-[#667085] mb-4 line-clamp-2">
+              <p class="text-sm text-[#667085] mb-4 line-clamp-1">
                 {{ consultant.description }}
               </p>
               <div class="flex gap-5 items-center mt-auto">

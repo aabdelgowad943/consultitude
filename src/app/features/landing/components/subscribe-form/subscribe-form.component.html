@@ -9,6 +9,21 @@
         class="bg-gray-50 border w-[360px] xsm:[370px] h-10 ipad:w-[443px] placeholder:text-[#0D1126]/40 font-sans border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block py-2.5 px-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="name@yahoo.com"
       />
+
+      <div class="block ipad:hidden">
+        <div
+          *ngIf="showEmailError"
+          class="text-red-500 text-sm ps-2 text-left pt-1"
+        >
+          <p *ngIf="subscribeForm.get('email')?.errors?.['required']">
+            Email is required
+          </p>
+          <p *ngIf="subscribeForm.get('email')?.errors?.['email']">
+            Please enter a valid email address
+          </p>
+        </div>
+      </div>
+
       <!-- <div
         class="md:hidden block"
         *ngIf="
@@ -47,13 +62,17 @@
       Join Waiting List
     </button>
   </div>
-
-  <div *ngIf="showEmailError" class="text-red-500 text-sm ps-2 text-left pt-1">
-    <p *ngIf="subscribeForm.get('email')?.errors?.['required']">
-      Email is required
-    </p>
-    <p *ngIf="subscribeForm.get('email')?.errors?.['email']">
-      Please enter a valid email address
-    </p>
+  <div class="hidden ipad:block">
+    <div
+      *ngIf="showEmailError"
+      class="text-red-500 text-sm ps-2 text-left pt-1"
+    >
+      <p *ngIf="subscribeForm.get('email')?.errors?.['required']">
+        Email is required
+      </p>
+      <p *ngIf="subscribeForm.get('email')?.errors?.['email']">
+        Please enter a valid email address
+      </p>
+    </div>
   </div>
 </form>
