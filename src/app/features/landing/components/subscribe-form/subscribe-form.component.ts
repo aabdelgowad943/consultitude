@@ -14,11 +14,13 @@ import { CommonModule } from '@angular/common';
   selector: 'app-subscribe-form',
   templateUrl: './subscribe-form.component.html',
   styleUrl: './subscribe-form.component.scss',
+  standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
 })
 export class SubscribeFormComponent implements OnInit {
   @Output() errorOccurred = new EventEmitter<string>(); // Emit errors to parent
   loading = false;
+  showEmailError = false;
   subscribeForm!: FormGroup;
 
   constructor(
@@ -34,6 +36,20 @@ export class SubscribeFormComponent implements OnInit {
   }
 
   onSubmit() {
+    // Reset error visibility
+    this.showEmailError = false;
+
+    // Mark the form as touched to trigger validation
+    this.subscribeForm.markAllAsTouched();
+
+    // Check if the form is valid
+    if (this.subscribeForm.invalid) {
+      // Show errors if form is invalid
+      this.showEmailError = true;
+      return;
+    }
+
+    // If form is valid, proceed with submission
     this.loading = true;
     this.subscribeService.subscribe(this.subscribeForm.value.email).subscribe({
       next: (res: any) => {

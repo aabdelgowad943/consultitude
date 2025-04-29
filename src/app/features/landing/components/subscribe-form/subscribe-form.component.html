@@ -23,7 +23,6 @@
     </div>
 
     <button
-      [disabled]="!subscribeForm.valid"
       type="submit"
       class="bg-[#9241DC] text-[14px] flex justify-center h-10 font-sans mt-5 md:mt-0 gap-2 items-center hover:bg-[#7936d1] transition-colors text-white text-center py-2.5 px-3 rounded-xl"
     >
@@ -48,14 +47,13 @@
       Join Waiting List
     </button>
   </div>
-  <!-- <div
-    class="hidden md:block"
-    *ngIf="
-      subscribeForm.get('email')?.invalid && subscribeForm.get('email')?.touched
-    "
-  >
-    <p class="text-red-500 text-sm ps-2 pt-1 text-left">
+
+  <div *ngIf="showEmailError" class="text-red-500 text-sm ps-2 text-left pt-1">
+    <p *ngIf="subscribeForm.get('email')?.errors?.['required']">
+      Email is required
+    </p>
+    <p *ngIf="subscribeForm.get('email')?.errors?.['email']">
       Please enter a valid email address
     </p>
-  </div> -->
+  </div>
 </form>
