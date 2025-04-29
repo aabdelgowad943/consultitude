@@ -1,99 +1,103 @@
-<div class="w-full max-w-[1600px] h-full ipad:h-screen overflow-y-auto mx-auto">
-  <!---------------------------------------- Skeleton Loader-------------------------------------------- -->
-  <app-ask-evo-loader *ngIf="isLoading"></app-ask-evo-loader>
-
-  <!----------------------------------------First page-------------------------------------------- -->
-  <app-ask-evo-header
-    *ngIf="!isLoading && !showDocumentUploadStepper && !showChatInterface"
-    [agents]="agents"
-    [serviceId]="serviceId"
-    (serviceIdChange)="onSelectedServiceIdChange($event)"
-    [conversations]="conversations"
-    (showDocumentUploadStepper)="onShowDocumentUploadStepper($event)"
-  ></app-ask-evo-header>
-
-  <!----------------------------------------Stepper Skeleton-------------------------------------------- -->
-  <app-stepper-loader
-    *ngIf="isLoading && showDocumentUploadStepper"
-  ></app-stepper-loader>
-
-  <!----------------------------------------Actual Stepper -------------------------------------------- -->
+<div class="">
   <div
-    *ngIf="!isLoading && showDocumentUploadStepper && !showChatInterface"
-    class="w-full h-screen p-6 ipad:p-6 thousand:p-6 big:p-6 flex justify-center items-center"
+    class="w-full max-w-[1600px] h-full ipad:h-screen overflow-y-auto mx-auto"
   >
-    <div class="bg-white rounded-lg w-full">
-      <!-- Step 1: File Upload -->
-      <div *ngIf="currentStep === 1">
-        <app-file-upload
-          [selectedFile]="selectedFile"
-          [isUploading]="isUploading"
-          [isDragging]="isDragging"
-          [uploadProgress]="uploadProgress"
-          [errorMessage]="errorMessage"
-          (fileSelected)="onFileSelected($event)"
-          (uploadComplete)="onFileUploadComplete($event)"
-          (uploadError)="onFileUploadError($event)"
-          (continue)="continueToNextStep()"
-          (previous)="goToPreviousStep()"
-        ></app-file-upload>
-      </div>
+    <!---------------------------------------- Skeleton Loader-------------------------------------------- -->
+    <app-ask-evo-loader *ngIf="isLoading"></app-ask-evo-loader>
 
-      <!-- Step 2: Ask Question -->
-      <div *ngIf="currentStep === 2 && !isAnalyzing">
-        <app-question-input
-          [userQuestion]="userQuestion"
-          (questionChange)="onQuestionChange($event)"
-          (continue)="continueToNextStep()"
-          (previous)="goToPreviousStep()"
-          (keypress)="onQuestionInputKeypress($event)"
-        ></app-question-input>
-      </div>
+    <!----------------------------------------First page-------------------------------------------- -->
+    <app-ask-evo-header
+      *ngIf="!isLoading && !showDocumentUploadStepper && !showChatInterface"
+      [agents]="agents"
+      [serviceId]="serviceId"
+      (serviceIdChange)="onSelectedServiceIdChange($event)"
+      [conversations]="conversations"
+      (showDocumentUploadStepper)="onShowDocumentUploadStepper($event)"
+    ></app-ask-evo-header>
 
-      <!-- Analyzing Document Step -->
-      <app-analyzing-document
-        *ngIf="isAnalyzing"
-        [isAnalyzing]="isAnalyzing"
-        [analysisComplete]="analysisComplete"
-      ></app-analyzing-document>
+    <!----------------------------------------Stepper Skeleton-------------------------------------------- -->
+    <app-stepper-loader
+      *ngIf="isLoading && showDocumentUploadStepper"
+    ></app-stepper-loader>
 
-      <!-- Step 3: Consultant Suggestions -->
-      <div *ngIf="currentStep === 3">
-        <app-consulting-suggestion
-          [suggestedAgents]="suggestedAgentsData"
-          [selectionMap]="consultantSelectionMap"
-          [selectedConsultants]="selectedConsultants"
-          (continue)="continueToNextStep()"
-          (previous)="goToPreviousStep()"
-          (selectedConsultantsChange)="onSelectedConsultantsChange($event)"
-        ></app-consulting-suggestion>
-      </div>
+    <!----------------------------------------Actual Stepper -------------------------------------------- -->
+    <div
+      *ngIf="!isLoading && showDocumentUploadStepper && !showChatInterface"
+      class="w-full h-screen p-6 ipad:p-6 thousand:p-6 big:p-6 flex justify-center items-center"
+    >
+      <div class="bg-white rounded-lg w-full">
+        <!-- Step 1: File Upload -->
+        <div *ngIf="currentStep === 1">
+          <app-file-upload
+            [selectedFile]="selectedFile"
+            [isUploading]="isUploading"
+            [isDragging]="isDragging"
+            [uploadProgress]="uploadProgress"
+            [errorMessage]="errorMessage"
+            (fileSelected)="onFileSelected($event)"
+            (uploadComplete)="onFileUploadComplete($event)"
+            (uploadError)="onFileUploadError($event)"
+            (continue)="continueToNextStep()"
+            (previous)="goToPreviousStep()"
+          ></app-file-upload>
+        </div>
 
-      <!-- Step 4: Summary Details -->
-      <div *ngIf="currentStep === 4">
-        <app-summary-details
-          [fileName]="selectedFile?.name || ''"
-          [fileSize]="getReadableFileSize()"
-          [userQuestion]="userQuestion"
-          [serviceId]="serviceId"
-          [selectedConsultants]="selectedConsultants"
-          [documentUrl]="documentUrl"
-          (continue)="continueToNextStep()"
-          (previous)="goToPreviousStep()"
-          (startChat)="onStartChat($event)"
-        ></app-summary-details>
+        <!-- Step 2: Ask Question -->
+        <div *ngIf="currentStep === 2 && !isAnalyzing">
+          <app-question-input
+            [userQuestion]="userQuestion"
+            (questionChange)="onQuestionChange($event)"
+            (continue)="continueToNextStep()"
+            (previous)="goToPreviousStep()"
+            (keypress)="onQuestionInputKeypress($event)"
+          ></app-question-input>
+        </div>
+
+        <!-- Analyzing Document Step -->
+        <app-analyzing-document
+          *ngIf="isAnalyzing"
+          [isAnalyzing]="isAnalyzing"
+          [analysisComplete]="analysisComplete"
+        ></app-analyzing-document>
+
+        <!-- Step 3: Consultant Suggestions -->
+        <div *ngIf="currentStep === 3">
+          <app-consulting-suggestion
+            [suggestedAgents]="suggestedAgentsData"
+            [selectionMap]="consultantSelectionMap"
+            [selectedConsultants]="selectedConsultants"
+            (continue)="continueToNextStep()"
+            (previous)="goToPreviousStep()"
+            (selectedConsultantsChange)="onSelectedConsultantsChange($event)"
+          ></app-consulting-suggestion>
+        </div>
+
+        <!-- Step 4: Summary Details -->
+        <div *ngIf="currentStep === 4">
+          <app-summary-details
+            [fileName]="selectedFile?.name || ''"
+            [fileSize]="getReadableFileSize()"
+            [userQuestion]="userQuestion"
+            [serviceId]="serviceId"
+            [selectedConsultants]="selectedConsultants"
+            [documentUrl]="documentUrl"
+            (continue)="continueToNextStep()"
+            (previous)="goToPreviousStep()"
+            (startChat)="onStartChat($event)"
+          ></app-summary-details>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!----------------------------------------Chat Interface-------------------------------------------- -->
-  <app-chat
-    *ngIf="!isLoading && showChatInterface"
-    [selectedFile]="selectedFile"
-    [userQuestion]="userQuestion"
-    [imageUrl]="imageUrl"
-    [selectedConsultants]="selectedConsultants"
-    [serviceId]="serviceId"
-    [chatResponse]="chatResponse"
-  ></app-chat>
+    <!----------------------------------------Chat Interface-------------------------------------------- -->
+    <app-chat
+      *ngIf="!isLoading && showChatInterface"
+      [selectedFile]="selectedFile"
+      [userQuestion]="userQuestion"
+      [imageUrl]="imageUrl"
+      [selectedConsultants]="selectedConsultants"
+      [serviceId]="serviceId"
+      [chatResponse]="chatResponse"
+    ></app-chat>
+  </div>
 </div>
