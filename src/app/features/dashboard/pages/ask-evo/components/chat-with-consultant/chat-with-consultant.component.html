@@ -1,0 +1,138 @@
+<div
+  class="h-full w-full ipad:max-w-[700px] thousand:max-w-[700px] big:max-w-[700px] mx-auto"
+>
+  <div class="w-full">
+    <!-- Consultant Header -->
+    <div class="mb-6">
+      <h2 class="text-xl font-medium text-black">Meet Marketing Consultant,</h2>
+      <p class="text-[#667085] text-xl font-medium">
+        Ready to tackle your consulting challenge? Ask me anything, and I'll
+        provide tailored insights, strategies, and recommendations
+      </p>
+    </div>
+
+    <!-- Selected Consultants Display -->
+    <div *ngIf="selectedConsultants.length > 0" class="mb-4">
+      <div class="flex flex-wrap gap-2">
+        <div
+          *ngFor="let consultant of selectedConsultants"
+          class="flex items-center gap-2 bg-purple-100 rounded-full px-3 py-1"
+        >
+          <i class="pi {{ consultant.icon }} text-purple-600"></i>
+          <span class="text-sm font-medium">{{ consultant.type }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- File attachment display (only shows when a file is selected) -->
+    <div
+      *ngIf="selectedFile"
+      class="mb-3 rounded-[20px] border border-[#E9EAEB] p-4 w-[60%]"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="pi pi-file text-[#A4A7AE]"></i>
+          <div>
+            <p class="text-sm font-medium text-[#414651] truncate max-w-[70%]">
+              {{ selectedFile.name }}
+            </p>
+            <p class="text-xs text-[#667085]">
+              {{ (selectedFile.size / 1024).toFixed(0) }} KB -
+              <span *ngIf="isUploading">{{ uploadProgress }}% uploaded</span>
+              <span *ngIf="!isUploading && selectedFile">100% Uploaded</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Spinner or Remove button -->
+        <div
+          *ngIf="isUploading"
+          class="w-6 h-6 rounded-full border-2 border-[#E9EAEB] border-t-[#792EBA] animate-spin"
+        ></div>
+        <button
+          *ngIf="!isUploading && selectedFile"
+          class="text-[#667085] bg-white p-2 rounded-xl w-8 h-8 flex-shrink-0 flex justify-center items-center border border-[#DEE0E3] hover:text-red-500 transition-colors"
+          (click)="removeFile()"
+        >
+          <img src="images/new/delete-icon.svg" alt="" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="errorMessage" class="text-red-500 text-sm my-2">
+      {{ errorMessage }}
+    </div>
+
+    <div class="border border-[#E9EAEB] bg-white rounded-[24px] p-4 mb-4">
+      <textarea
+        [(ngModel)]="userInput"
+        placeholder="What would you like to ask today?"
+        class="flex-grow border-none resize-none focus:outline-none focus:ring-0 focus:border-transparent focus:shadow-none placeholder:text-[#344054] text-black placeholder:font-sans font-[400] text-[14px] leading-tight rounded-md pt-2 pb-4 w-full mb-2"
+        rows="1"
+      ></textarea>
+      <div class="flex justify-between items-center">
+        <!-- File attachment button -->
+        <button
+          class="text-[#667085] mx-2 bg-[#F2F4F7] rounded-full w-[32px] h-[32px] flex items-center justify-center hover:bg-[#E9EAEB] transition-colors"
+          (click)="fileInput.click()"
+        >
+          <img src="images/new/attachment-2.svg" alt="" />
+        </button>
+
+        <div class="flex items-center gap-2">
+          <!-- Consultant selection button -->
+          <button
+            class="text-[#667085] mx-2 bg-[#F2F4F7] rounded-full w-[32px] h-[32px] flex items-center justify-center hover:bg-[#E9EAEB] transition-colors"
+            (click)="openConsultantSelector()"
+          >
+            <i class="pi pi-users"></i>
+          </button>
+          <!-- Send button -->
+          <button
+            [disabled]="!userInput"
+            class="bg-[#9241DC] text-white rounded-full w-10 h-10 flex items-center justify-center"
+            (click)="sendMessage()"
+            [class.opacity-50]="!userInput"
+          >
+            <i class="pi pi-arrow-up"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Hidden file input -->
+      <input
+        type="file"
+        #fileInput
+        (change)="onFileSelected($event)"
+        style="display: none"
+        accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain"
+      />
+    </div>
+
+    <!-- Quick suggestion buttons -->
+    <div class="flex flex-wrap gap-3 mb-6">
+      <button
+        class="px-4 py-3 border border-[#EAECF0] text-[#101828] font-[400] rounded-full flex items-center gap-2 hover:bg-[#F9F7FC]"
+        (click)="handleSuggestion('Inspire me with ideas!')"
+      >
+        <img src="images/new/first ask icon.svg" />
+        <span>Inspire me with ideas!</span>
+      </button>
+      <button
+        class="px-4 py-3 border border-[#EAECF0] text-[#101828] font-[400] rounded-full flex items-center gap-2 hover:bg-[#F9F7FC]"
+        (click)="handleSuggestion('Shape an initiative')"
+      >
+        <img src="images/new/second ask Icon.svg" />
+        <span>Shape an initiative</span>
+      </button>
+      <button
+        class="px-4 py-3 border border-[#EAECF0] text-[#101828] font-[400] rounded-full flex items-center gap-2 hover:bg-[#F9F7FC]"
+        (click)="handleSuggestion('Develop a strategy')"
+      >
+        <img src="images/new/third ask Icon.svg" />
+        <span>Develop a strategy</span>
+      </button>
+    </div>
+  </div>
+</div>

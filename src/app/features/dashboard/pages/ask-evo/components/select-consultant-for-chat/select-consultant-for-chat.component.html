@@ -1,0 +1,159 @@
+<div
+  class="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+>
+  <!-- Filtering Section -->
+  <div class="flex justify-between items-center mb-4 gap-4">
+    <!-- Filter Dropdown -->
+    <div class="relative">
+      <button
+        (click)="toggleFilterDropdown()"
+        class="filter-dropdown-button w-10 h-10 flex items-center justify-center bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none"
+      >
+        <img src="images/new/Filter-icon.svg" alt="Filter" />
+      </button>
+
+      <!-- Dropdown Menu -->
+      <div
+        *ngIf="showFilterDropdown"
+        class="filter-dropdown-content absolute left-0 mt-1 w-[160px] bg-white border border-gray-200 rounded-lg shadow-md z-10"
+      >
+        <div class="py-1">
+          <a
+            (click)="filterAgents('all'); toggleFilterDropdown()"
+            class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+          >
+            All
+            <i
+              *ngIf="activeFilter === 'all'"
+              class="pi pi-check text-gray-500"
+            ></i>
+          </a>
+          <a
+            (click)="filterAgents('byme'); toggleFilterDropdown()"
+            class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+          >
+            By me
+            <i
+              *ngIf="activeFilter === 'byme'"
+              class="pi pi-check text-gray-500"
+            ></i>
+          </a>
+          <a
+            (click)="filterAgents('consultitude'); toggleFilterDropdown()"
+            class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+          >
+            Consultitude
+            <i
+              *ngIf="activeFilter === 'consultitude'"
+              class="pi pi-check text-gray-500"
+            ></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search bar -->
+    <div class="relative flex-grow">
+      <input
+        type="text"
+        placeholder="Search consultants"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="searchConsultants()"
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg pl-10"
+      />
+      <span
+        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+        (click)="searchConsultants()"
+      >
+        <i class="pi pi-search"></i>
+      </span>
+      <i
+        class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+      ></i>
+    </div>
+  </div>
+
+  <!-- Consultants grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+    <div
+      *ngFor="let consultant of getPaginatedConsultants()"
+      class="border rounded-lg p-3 flex items-start gap-3 cursor-pointer hover:bg-gray-50"
+      (click)="selectConsultant(consultant)"
+      [class.border-purple-500]="consultant.selected"
+      [class.bg-purple-50]="consultant.selected"
+    >
+      <div class="bg-purple-100 p-2 rounded-lg">
+        <i class="pi {{ consultant.icon }} text-purple-600"></i>
+      </div>
+      <div>
+        <p class="text-sm text-[#667085] mb-4 line-clamp-2">
+          {{ consultant.type }}
+        </p>
+        <p
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-black text-[16px] line-clamp-2"
+        >
+          {{ consultant.description }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- No results message -->
+  <div
+    *ngIf="getPaginatedConsultants().length === 0 && !isLoading"
+    class="text-center py-4"
+  >
+    <p>No consultants found matching your criteria.</p>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="isLoading" class="text-center py-4">
+    <div class="flex justify-center items-center">
+      <div
+        class="w-6 h-6 rounded-full border-2 border-gray-200 border-t-purple-600 animate-spin"
+      ></div>
+      <p class="ml-2">Loading consultants...</p>
+    </div>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="text-center py-4 text-red-500">
+    <p>{{ error }}</p>
+    <button class="mt-2 text-purple-600" (click)="fetchConsultants()">
+      Try Again
+    </button>
+  </div>
+
+  <!-- Pagination -->
+  <div
+    *ngIf="totalPages > 1"
+    class="flex justify-center w-full items-center gap-4 mt-4"
+  >
+    <button
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+      class="px-3 py-1 rounded-lg border"
+      [class.opacity-50]="currentPage === 1"
+    >
+      Previous
+    </button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+      class="px-3 py-1 rounded-lg border"
+      [class.opacity-50]="currentPage === totalPages"
+    >
+      Next
+    </button>
+  </div>
+
+  <div class="flex justify-end mt-4">
+    <button
+      (click)="closeDialog()"
+      class="px-4 py-2 border border-gray-300 rounded-lg mr-2"
+    >
+      Cancel
+    </button>
+  </div>
+</div>

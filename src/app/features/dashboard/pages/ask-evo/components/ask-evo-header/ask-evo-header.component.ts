@@ -13,6 +13,7 @@ import { RapidResponseDialogComponent } from '../../../../components/rapid-respo
 import { EvoServicesService } from '../../../../services/evo-services.service';
 import { AgentsService } from '../../../../services/agents.service';
 import { Router, RouterModule } from '@angular/router';
+import { TalkToConsultantComponent } from '../../../../components/talk-to-consultant/talk-to-consultant.component';
 
 @Component({
   selector: 'app-ask-evo-header',
@@ -209,14 +210,42 @@ export class AskEvoHeaderComponent implements OnInit {
     });
   }
 
-  private openDocumentAnalysisDialog() {
-    // Implement Document Analysis specific dialog/action
-    // console.log('Opening Document Analysis Dialog');
+  private openConsultantBookingDialog() {
+    // Check window width to determine dialog width
+    const isMobile = window.innerWidth < 768;
+    const dialogWidth = isMobile ? '300px' : '602px';
+
+    const dialogRef = this.dialogService.open(TalkToConsultantComponent, {
+      header: '',
+      width: dialogWidth,
+      height: 'auto',
+      contentStyle: {
+        'border-radius': '10px',
+        padding: '0px',
+        'overflow-y': 'auto',
+        'scrollbar-width': 'none',
+        '-ms-overflow-style': 'none',
+      },
+      showHeader: false,
+      breakpoints: {
+        '768px': '300px',
+        '992px': '600px',
+      },
+      style: {
+        'max-width': '90vw',
+      },
+    });
+
+    dialogRef.onClose.subscribe((result) => {
+      if (result && result.showStepper) {
+        // Navigate to TalkToAiConsultantComponent instead of showing stepper here
+        this.router.navigate(['dashboard', 'talk-to-ai-consultant']);
+      }
+    });
   }
 
-  private openConsultantBookingDialog() {
-    // Implement Consultant Booking specific dialog/action
-    // console.log('Opening Consultant Booking Dialog');
+  private openDocumentAnalysisDialog() {
+    // console.log('Opening Document Analysis Dialog');
   }
 
   getChatsByUserId() {
@@ -229,12 +258,6 @@ export class AskEvoHeaderComponent implements OnInit {
       },
     });
   }
-
-  // viewChatHistory(chatId: string) {
-  //   this.router.navigate(['dashboard/view-chat-details', chatId], {
-  //     queryParams: { chatId: chatId },
-  //   });
-  // }
 
   viewChatHistory(chatId: string) {
     // Make sure chatId is not null or undefined

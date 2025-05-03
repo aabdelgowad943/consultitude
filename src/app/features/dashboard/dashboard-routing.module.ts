@@ -9,6 +9,7 @@ import { AiAgentsComponent } from '../ai-agents/ai-agents.component';
 import { AgentsComponent } from '../ai-agents/pages/agents/agents.component';
 import { AskEvoComponent } from './pages/ask-evo/ask-evo.component';
 import { ShowChatComponent } from './pages/show-chat/show-chat.component';
+import { TalkToAiConsultantComponent } from './pages/talk-to-ai-consultant/talk-to-ai-consultant.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,11 @@ const routes: Routes = [
       {
         path: 'view-chat-details/:id',
         component: ShowChatComponent,
+      },
+
+      {
+        path: 'talk-to-ai-consultant',
+        component: TalkToAiConsultantComponent,
       },
 
       {
