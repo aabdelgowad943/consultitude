@@ -12,14 +12,13 @@
     </div>
 
     <!-- Selected Consultants Display -->
-    <div *ngIf="selectedConsultants.length > 0" class="mb-4">
+    <div *ngIf="selectedConsultant" class="mb-4">
       <div class="flex flex-wrap gap-2">
         <div
-          *ngFor="let consultant of selectedConsultants"
           class="flex items-center gap-2 bg-purple-100 rounded-full px-3 py-1"
         >
-          <i class="pi {{ consultant.icon }} text-purple-600"></i>
-          <span class="text-sm font-medium">{{ consultant.type }}</span>
+          <i class="pi {{ selectedConsultant.icon }} text-purple-600"></i>
+          <span class="text-sm font-medium">{{ selectedConsultant.type }}</span>
         </div>
       </div>
     </div>
@@ -90,14 +89,10 @@
           </button>
           <!-- Send button -->
           <button
-            [disabled]="
-              selectedConsultants.length === 0 || userInput.trim() === ''
-            "
+            [disabled]="!selectedConsultant || userInput.trim() === ''"
             class="bg-[#9241DC] text-white rounded-full w-10 h-10 flex items-center justify-center"
             (click)="sendMessage()"
-            [class.opacity-50]="
-              selectedConsultants.length === 0 || userInput.trim() === ''
-            "
+            [class.opacity-50]="!selectedConsultant || userInput.trim() === ''"
           >
             <i class="pi pi-arrow-up"></i>
           </button>

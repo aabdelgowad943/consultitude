@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 interface ConsultantFeature {
@@ -14,7 +14,7 @@ interface ConsultantFeature {
   templateUrl: './talk-to-consultant.component.html',
   styleUrl: './talk-to-consultant.component.scss',
 })
-export class TalkToConsultantComponent {
+export class TalkToConsultantComponent implements OnInit {
   features: ConsultantFeature[] = [
     {
       icon: 'images/new/persona-icon.svg',
@@ -36,10 +36,18 @@ export class TalkToConsultantComponent {
     },
   ];
 
+  data: any;
+  serviceId: string = '';
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig
   ) {}
+
+  ngOnInit(): void {
+    this.data = this.config.data;
+    this.serviceId = this.data.serviceId;
+    console.log('service id================', this.serviceId);
+  }
 
   close() {
     this.ref.close();

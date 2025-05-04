@@ -14,6 +14,7 @@ import { EvoServicesService } from '../../../../services/evo-services.service';
 import { AgentsService } from '../../../../services/agents.service';
 import { Router, RouterModule } from '@angular/router';
 import { TalkToConsultantComponent } from '../../../../components/talk-to-consultant/talk-to-consultant.component';
+import { SelectConsultantForChatComponent } from '../select-consultant-for-chat/select-consultant-for-chat.component';
 
 @Component({
   selector: 'app-ask-evo-header',
@@ -235,6 +236,9 @@ export class AskEvoHeaderComponent implements OnInit {
       style: {
         'max-width': '90vw',
       },
+      data: {
+        serviceId: this.serviceId,
+      },
     });
 
     dialogRef.onClose.subscribe((result) => {
@@ -244,7 +248,7 @@ export class AskEvoHeaderComponent implements OnInit {
       }
     });
 
-    localStorage.setItem('serviceId', this.serviceId);
+    // localStorage.setItem('serviceId', this.serviceId);
   }
 
   private openDocumentAnalysisDialog() {
