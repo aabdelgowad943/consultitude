@@ -159,6 +159,7 @@ export class SettingsComponent {
     localStorage.removeItem('lastName');
     localStorage.removeItem('profileUrl');
     localStorage.removeItem('name');
+    localStorage.removeItem('serviceId');
 
     // Optionally, you can navigate the user to the login page or home page after logout
     this.router.navigate(['/auth/login']);

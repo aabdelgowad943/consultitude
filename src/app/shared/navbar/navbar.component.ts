@@ -101,6 +101,7 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('lastName');
     localStorage.removeItem('profileUrl');
     localStorage.removeItem('name');
+    localStorage.removeItem('serviceId');
     this.router.navigate(['/auth/login']);
   }
 }

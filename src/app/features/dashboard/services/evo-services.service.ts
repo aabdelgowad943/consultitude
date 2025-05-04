@@ -88,4 +88,8 @@ export class EvoServicesService {
   getChatById(chatId: string): Observable<Chat> {
     return this.apiService.get<Chat>(`/chats/conversation-history/${chatId}`);
   }
+
+  makeConversation(conversation: any): Observable<any> {
+    return this.apiService.post('/chats/conversation', conversation);
+  }
 }
