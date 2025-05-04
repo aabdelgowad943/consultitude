@@ -78,9 +78,9 @@
     <div
       *ngFor="let consultant of getPaginatedConsultants()"
       class="border rounded-lg p-3 flex items-start gap-3 cursor-pointer hover:bg-gray-50"
-      (click)="selectConsultant(consultant)"
       [class.border-purple-500]="consultant.selected"
       [class.bg-purple-50]="consultant.selected"
+      (click)="toggleConsultantSelection(consultant)"
     >
       <div class="bg-purple-100 p-2 rounded-lg">
         <i class="pi {{ consultant.icon }} text-purple-600"></i>
@@ -154,6 +154,15 @@
       class="px-4 py-2 border border-gray-300 rounded-lg mr-2"
     >
       Cancel
+    </button>
+
+    <button
+      (click)="confirmSelection()"
+      class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+      [class.opacity-50]="!selectedConsultant"
+      [disabled]="!selectedConsultant"
+    >
+      Done
     </button>
   </div>
 </div>

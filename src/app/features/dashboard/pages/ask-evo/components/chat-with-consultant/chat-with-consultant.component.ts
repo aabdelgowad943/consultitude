@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -10,7 +11,11 @@ import { finalize } from 'rxjs';
 import { ProfileServiceService } from '../../../../services/profile-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import {
+  DialogService,
+  DynamicDialogConfig,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
 import { SelectConsultantForChatComponent } from '../select-consultant-for-chat/select-consultant-for-chat.component';
 import { Consultant } from '../../../../models/consultant';
 import { EvoServicesService } from '../../../../services/evo-services.service';
@@ -22,7 +27,7 @@ import { EvoServicesService } from '../../../../services/evo-services.service';
   styleUrl: './chat-with-consultant.component.scss',
   providers: [DialogService, DynamicDialogRef],
 })
-export class ChatWithConsultantComponent {
+export class ChatWithConsultantComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   @Input() selectedFile: File | null = null;
   @Input() isUploading = false;
@@ -57,10 +62,10 @@ export class ChatWithConsultantComponent {
     attachments?: Array<{ name: string; url: string; size: number }>;
   }>();
   @Output() suggestionClicked = new EventEmitter<string>();
-  @Output() consultantSelected = new EventEmitter<Consultant[]>();
+  @Output() consultantSelected = new EventEmitter<Consultant>();
 
-  // Selected consultants list
-  selectedConsultants: Consultant[] = [];
+  // Selected consultant
+  selectedConsultant: Consultant | null = null;
 
   constructor(
     private profileService: ProfileServiceService,
@@ -69,9 +74,14 @@ export class ChatWithConsultantComponent {
     public dialogRef: DynamicDialogRef
   ) {}
 
+  ngOnInit(): void {
+    this.openConsultantSelector();
+  }
+
   // ------------------------------------------Chat Functionality------------------------------------------
   sendMessage(text: string = this.userInput) {
     if (!text.trim() && !this.selectedFile) return;
+    if (!this.selectedConsultant) return; // Ensure a consultant is selected
 
     let attachments:
       | Array<{ name: string; url: string; size: number }>
@@ -101,7 +111,7 @@ export class ChatWithConsultantComponent {
 
     const requestBody = {
       title: text,
-      agents: [this.selectedConsultants[0].agentId],
+      agents: [this.selectedConsultant?.agentId], // Use single consultant
       documents: [attachments?.[0]?.url ?? ''],
       ask: text,
       serviceId: localStorage.getItem('serviceId'),
@@ -141,25 +151,29 @@ export class ChatWithConsultantComponent {
       contentStyle: { 'max-height': '80vh', overflow: 'auto' },
       baseZIndex: 10000,
       data: {
-        selectedConsultants: this.selectedConsultants,
+        selectedConsultant: this.selectedConsultant, // Pass single consultant
       },
       height: 'auto',
     });
 
-    ref.onClose.subscribe((selectedConsultant: Consultant | null) => {
-      if (selectedConsultant) {
-        // Check if consultant is already selected
-        const existingIndex = this.selectedConsultants.findIndex(
-          (c) => c.agentId === selectedConsultant.agentId
-        );
+    // ref.onClose.subscribe((newConsultant: Consultant | null) => {
+    //   if (newConsultant) {
+    //     // Simply replace the current selection
+    //     this.selectedConsultant = newConsultant;
 
-        if (existingIndex === -1) {
-          // Add to selected consultants if not already there
-          this.selectedConsultants.push(selectedConsultant);
+    //     // Emit event to notify parent components
+    //     this.consultantSelected.emit(this.selectedConsultant);
+    //   }
+    // });
 
-          // Emit event to notify parent components
-          this.consultantSelected.emit(this.selectedConsultants);
-        }
+    ref.onClose.subscribe((newConsultant: Consultant | null) => {
+      // The user might have clicked Cancel, in which case we keep the current selection
+      // Otherwise, update to the new selection (which could be null if they deselected)
+      if (newConsultant !== undefined) {
+        this.selectedConsultant = newConsultant;
+
+        // Emit event to notify parent components
+        this.consultantSelected.emit(this.selectedConsultant!);
       }
     });
   }

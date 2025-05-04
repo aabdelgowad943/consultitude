@@ -17,6 +17,8 @@ import { ApiResponseMeta } from '../../../../models/api-response-meta';
   styleUrl: './select-consultant-for-chat.component.scss',
 })
 export class SelectConsultantForChatComponent implements OnInit {
+  hasSelectedConsultant = false;
+
   // UI states
   isLoading = false;
   error: string | null = null;
@@ -33,7 +35,7 @@ export class SelectConsultantForChatComponent implements OnInit {
   // Data
   filteredAgents: Consultant[] = [];
   selectedConsultant: Consultant | null = null;
-  selectedConsultants: Consultant[] = [];
+  // selectedConsultants: Consultant[] = [];
 
   constructor(
     public ref: DynamicDialogRef,
@@ -43,8 +45,8 @@ export class SelectConsultantForChatComponent implements OnInit {
 
   ngOnInit() {
     // Get initially selected consultants from dialog config
-    if (this.config.data && this.config.data.selectedConsultants) {
-      this.selectedConsultants = this.config.data.selectedConsultants;
+    if (this.config.data && this.config.data.selectedConsultant) {
+      this.selectedConsultant = this.config.data.selectedConsultant;
     }
 
     // Initialize with backend fetch
@@ -109,11 +111,10 @@ export class SelectConsultantForChatComponent implements OnInit {
                 agentId: agent.id || '',
               };
 
-              // Check if this consultant is already in the selectedConsultants list
+              // Check if this consultant is the selected one
               if (
-                this.selectedConsultants.some(
-                  (selected) => selected.agentId === consultant.agentId
-                )
+                this.selectedConsultant &&
+                this.selectedConsultant.agentId === consultant.agentId
               ) {
                 consultant.selected = true;
               }
@@ -173,11 +174,75 @@ export class SelectConsultantForChatComponent implements OnInit {
   }
 
   selectConsultant(consultant: Consultant) {
+    // If we already have a selection and it's not the same as the new one, deselect it
+    if (
+      this.selectedConsultant &&
+      this.selectedConsultant.agentId !== consultant.agentId
+    ) {
+      // Find the old consultant in the filteredAgents array and deselect it
+      const oldConsultantIndex = this.filteredAgents.findIndex(
+        (c) => c.agentId === this.selectedConsultant?.agentId
+      );
+
+      if (oldConsultantIndex >= 0) {
+        this.filteredAgents[oldConsultantIndex].selected = false;
+      }
+    }
+
+    // Set the new selection
     this.selectedConsultant = consultant;
+
+    // Find the consultant in the array and update its selected state
+    const consultantIndex = this.filteredAgents.findIndex(
+      (c) => c.agentId === consultant.agentId
+    );
+
+    if (consultantIndex >= 0) {
+      this.filteredAgents[consultantIndex].selected = true;
+    }
+
+    // Close the dialog with the selected consultant
     this.ref.close(consultant);
   }
 
+  toggleConsultantSelection(consultant: Consultant) {
+    // If clicking on the already selected consultant, deselect it
+    if (
+      this.selectedConsultant &&
+      this.selectedConsultant.agentId === consultant.agentId
+    ) {
+      // Deselect current consultant
+      consultant.selected = false;
+      this.selectedConsultant = null;
+    } else {
+      // Deselect the previously selected consultant if any
+      if (this.selectedConsultant) {
+        // Find the old consultant in the filteredAgents array and deselect it
+        const oldConsultantIndex = this.filteredAgents.findIndex(
+          (c) => c.agentId === this.selectedConsultant?.agentId
+        );
+
+        if (oldConsultantIndex >= 0) {
+          this.filteredAgents[oldConsultantIndex].selected = false;
+        }
+      }
+
+      // Select the new consultant
+      consultant.selected = true;
+      this.selectedConsultant = consultant;
+    }
+  }
+
+  // Modify the selectConsultant method to handle confirm selection
+  confirmSelection() {
+    // Close the dialog with the selected consultant (or null if none selected)
+    this.ref.close(this.selectedConsultant);
+  }
+
   closeDialog() {
-    this.ref.close(null);
+    this.ref.close(
+      // the selected consultant or null if none selected
+      this.selectedConsultant ? this.selectedConsultant : null
+    );
   }
 }
