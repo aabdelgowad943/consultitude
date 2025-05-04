@@ -3,7 +3,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -12,14 +11,9 @@ import { ProfileServiceService } from '../../../../services/profile-service.serv
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ConsultantSelectorDialogComponent } from '../consultant-selector-dialog/consultant-selector-dialog.component';
 import { SelectConsultantForChatComponent } from '../select-consultant-for-chat/select-consultant-for-chat.component';
-import {
-  AgentFilterParams,
-  AgentsService,
-} from '../../../../services/agents.service';
 import { Consultant } from '../../../../models/consultant';
-import { ApiResponseMeta } from '../../../../models/api-response-meta';
+import { EvoServicesService } from '../../../../services/evo-services.service';
 
 @Component({
   selector: 'app-chat-with-consultant',
@@ -28,13 +22,14 @@ import { ApiResponseMeta } from '../../../../models/api-response-meta';
   styleUrl: './chat-with-consultant.component.scss',
   providers: [DialogService, DynamicDialogRef],
 })
-export class ChatWithConsultantComponent implements OnInit {
+export class ChatWithConsultantComponent {
   @ViewChild('fileInput') fileInput!: ElementRef;
   @Input() selectedFile: File | null = null;
   @Input() isUploading = false;
   @Input() isDragging = false;
   @Input() uploadProgress = 0;
   @Input() errorMessage: string | null = null;
+  @Input() fileUrl: string | null = null;
 
   // Chat functionality properties
   @Input() messages: Array<{
@@ -70,14 +65,107 @@ export class ChatWithConsultantComponent implements OnInit {
   constructor(
     private profileService: ProfileServiceService,
     private dialogService: DialogService,
-    private agentService: AgentsService,
+    private evoService: EvoServicesService,
     public dialogRef: DynamicDialogRef
   ) {}
 
-  ngOnInit(): void {
-    // Initialize any necessary data or state here
-  }
+  // ------------------------------------------Chat Functionality------------------------------------------
+  sendMessage(text: string = this.userInput) {
+    if (!text.trim() && !this.selectedFile) return;
 
+    let attachments:
+      | Array<{ name: string; url: string; size: number }>
+      | undefined;
+
+    if (this.selectedFile) {
+      attachments = [
+        {
+          name: this.selectedFile.name,
+          url: this.fileUrl || '', // Use the stored URL from upload response
+          size: this.selectedFile.size,
+        },
+      ];
+    }
+
+    this.messageSent.emit({
+      text,
+      attachments,
+    });
+
+    this.userInput = ''; // Clear input after sending
+
+    // If there was a file attached, remove it after sending
+    if (this.selectedFile) {
+      this.removeFile();
+    }
+
+    const requestBody = {
+      title: text,
+      agents: [this.selectedConsultants[0].agentId],
+      documents: [attachments?.[0]?.url ?? ''],
+      ask: text,
+      serviceId: localStorage.getItem('serviceId'),
+      conversationId: 'conversationId22222222',
+      ownerId: localStorage.getItem('profileId') || '',
+    };
+    console.log('request body is==========', requestBody);
+
+    this.evoService.makeConversation(requestBody).subscribe({
+      next: (res: any) => {
+        console.log('res is =====', res);
+      },
+    });
+  }
+  // ------------------------------------------Chat Functionality--------------------------------------------
+
+  // ---------------------------------------Put text in the text area----------------------------------------
+  handleSuggestion(suggestion: string) {
+    this.suggestionClicked.emit(suggestion);
+    this.userInput = suggestion;
+
+    // Optional: focus on the textarea after setting the suggestion
+    setTimeout(() => {
+      const textareaElement = document.querySelector('textarea');
+      if (textareaElement) {
+        textareaElement.focus();
+      }
+    }, 0);
+  }
+  // ---------------------------------------Put text in the text area------------------------------------------
+
+  // ---------------------------------------Open Dialog--------------------------------------------------------
+  openConsultantSelector() {
+    const ref = this.dialogService.open(SelectConsultantForChatComponent, {
+      header: 'Select a Consultant',
+      width: 'auto',
+      contentStyle: { 'max-height': '80vh', overflow: 'auto' },
+      baseZIndex: 10000,
+      data: {
+        selectedConsultants: this.selectedConsultants,
+      },
+      height: 'auto',
+    });
+
+    ref.onClose.subscribe((selectedConsultant: Consultant | null) => {
+      if (selectedConsultant) {
+        // Check if consultant is already selected
+        const existingIndex = this.selectedConsultants.findIndex(
+          (c) => c.agentId === selectedConsultant.agentId
+        );
+
+        if (existingIndex === -1) {
+          // Add to selected consultants if not already there
+          this.selectedConsultants.push(selectedConsultant);
+
+          // Emit event to notify parent components
+          this.consultantSelected.emit(this.selectedConsultants);
+        }
+      }
+    });
+  }
+  // ---------------------------------------Open Dialog-----------------------------------------------------------
+
+  // ------------------------------------------Upload File Functionality------------------------------------------
   onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -134,6 +222,7 @@ export class ChatWithConsultantComponent implements OnInit {
     this.isUploading = true;
     this.errorMessage = null;
     this.uploadProgress = 0;
+    this.fileUrl = null;
 
     const formData = new FormData();
     formData.append('file', file);
@@ -153,6 +242,7 @@ export class ChatWithConsultantComponent implements OnInit {
             this.uploadProgress = response.progress;
           } else {
             this.uploadProgress = 100;
+            this.fileUrl = response.Location;
             setTimeout(() => {
               this.isUploading = false;
               this.uploadComplete.emit(response.Location);
@@ -164,108 +254,18 @@ export class ChatWithConsultantComponent implements OnInit {
             error.error.message || 'Failed to upload file. Please try again.';
           this.uploadError.emit(errorMessage);
           this.selectedFile = null;
+          this.fileUrl = null; // Clear URL on error
         },
       });
   }
 
   removeFile() {
     this.selectedFile = null;
+    this.fileUrl = null; // Clear URL when removing file
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
     }
     this.fileRemove.emit();
   }
-
-  // Chat functionality methods
-  sendMessage(text: string = this.userInput) {
-    if (!text.trim() && !this.selectedFile) return;
-
-    let attachments:
-      | Array<{ name: string; url: string; size: number }>
-      | undefined;
-
-    if (this.selectedFile) {
-      attachments = [
-        {
-          name: this.selectedFile.name,
-          url: '',
-          size: this.selectedFile.size,
-        },
-      ];
-    }
-
-    this.messageSent.emit({
-      text,
-      attachments,
-    });
-
-    this.userInput = ''; // Clear input after sending
-
-    // If there was a file attached, file will be removed after upload completes
-    if (!this.selectedFile) {
-      this.removeFile();
-    }
-  }
-
-  handleSuggestion(suggestion: string) {
-    this.suggestionClicked.emit(suggestion);
-    this.userInput = suggestion;
-
-    // Optional: focus on the textarea after setting the suggestion
-    setTimeout(() => {
-      const textareaElement = document.querySelector('textarea');
-      if (textareaElement) {
-        textareaElement.focus();
-      }
-    }, 0);
-  }
-
-  openConsultantSelector() {
-    // Open the dialog with currently selected consultants
-    const ref = this.dialogService.open(SelectConsultantForChatComponent, {
-      header: 'Select a Consultant',
-      width: 'auto',
-      contentStyle: { 'max-height': '80vh', overflow: 'auto' },
-      baseZIndex: 10000,
-      data: {
-        selectedConsultants: this.selectedConsultants,
-      },
-    });
-
-    ref.onClose.subscribe((selectedConsultant: Consultant | null) => {
-      if (selectedConsultant) {
-        // Check if consultant is already selected
-        const existingIndex = this.selectedConsultants.findIndex(
-          (c) => c.agentId === selectedConsultant.agentId
-        );
-
-        if (existingIndex === -1) {
-          // Add to selected consultants if not already there
-          this.selectedConsultants.push(selectedConsultant);
-
-          // Emit event to notify parent components
-          this.consultantSelected.emit(this.selectedConsultants);
-
-          // Use the selected consultant's suggestion if available
-          if (selectedConsultant.type && this.userInput.trim() === '') {
-            this.userInput = `I'd like to consult with ${selectedConsultant.type} about: `;
-
-            // Focus on the textarea
-            setTimeout(() => {
-              const textareaElement = document.querySelector('textarea');
-              if (textareaElement) {
-                textareaElement.focus();
-              }
-            }, 0);
-          }
-
-          console.log('Selected Consultant:', selectedConsultant);
-          console.log(
-            'Updated Selected Consultants:',
-            this.selectedConsultants
-          );
-        }
-      }
-    });
-  }
+  // ------------------------------------------Upload File Functionality------------------------------------------
 }

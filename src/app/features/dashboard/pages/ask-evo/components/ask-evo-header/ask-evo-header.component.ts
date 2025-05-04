@@ -160,6 +160,7 @@ export class AskEvoHeaderComponent implements OnInit {
   handleServiceClick(service: any) {
     this.serviceId = service.id;
     this.serviceIdChange.emit(service.id);
+    // console.log('service id', service.id);
 
     switch (service.name.toLowerCase()) {
       case 'rapid response':
@@ -242,6 +243,8 @@ export class AskEvoHeaderComponent implements OnInit {
         this.router.navigate(['dashboard', 'talk-to-ai-consultant']);
       }
     });
+
+    localStorage.setItem('serviceId', this.serviceId);
   }
 
   private openDocumentAnalysisDialog() {
