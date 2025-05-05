@@ -46,3 +46,18 @@ textarea {
     animation: fadeIn 0.3s ease-out;
   }
 }
+
+.error-message {
+  background-color: #fee2e2;
+  border-left: 4px solid #ef4444;
+  color: #b91c1c;
+  padding: 1rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+  transition: all 0.3s ease;
+}

@@ -19,6 +19,7 @@ import {
 import { SelectConsultantForChatComponent } from '../select-consultant-for-chat/select-consultant-for-chat.component';
 import { Consultant } from '../../../../models/consultant';
 import { EvoServicesService } from '../../../../services/evo-services.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-chat-with-consultant',
@@ -26,6 +27,23 @@ import { EvoServicesService } from '../../../../services/evo-services.service';
   templateUrl: './chat-with-consultant.component.html',
   styleUrl: './chat-with-consultant.component.scss',
   providers: [DialogService, DynamicDialogRef],
+  animations: [
+    trigger('errorAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-10px)' }),
+        animate(
+          '300ms ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' })
+        ),
+      ]),
+      transition(':leave', [
+        animate(
+          '300ms ease-in',
+          style({ opacity: 0, transform: 'translateY(-10px)' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class ChatWithConsultantComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -35,6 +53,8 @@ export class ChatWithConsultantComponent implements OnInit {
   @Input() uploadProgress = 0;
   @Input() errorMessage: string | null = null;
   @Input() fileUrl: string | null = null;
+
+  private errorTimeout: any; // To store the timeout reference
 
   // Chat functionality properties
   @Input() messages: Array<{
@@ -147,28 +167,16 @@ export class ChatWithConsultantComponent implements OnInit {
   openConsultantSelector() {
     const ref = this.dialogService.open(SelectConsultantForChatComponent, {
       header: 'Select a Consultant',
-      width: 'auto',
+      width: '50%',
       contentStyle: { 'max-height': '80vh', overflow: 'auto' },
       baseZIndex: 10000,
       data: {
         selectedConsultant: this.selectedConsultant, // Pass single consultant
       },
-      height: 'auto',
+      height: '90%',
     });
 
-    // ref.onClose.subscribe((newConsultant: Consultant | null) => {
-    //   if (newConsultant) {
-    //     // Simply replace the current selection
-    //     this.selectedConsultant = newConsultant;
-
-    //     // Emit event to notify parent components
-    //     this.consultantSelected.emit(this.selectedConsultant);
-    //   }
-    // });
-
     ref.onClose.subscribe((newConsultant: Consultant | null) => {
-      // The user might have clicked Cancel, in which case we keep the current selection
-      // Otherwise, update to the new selection (which could be null if they deselected)
       if (newConsultant !== undefined) {
         this.selectedConsultant = newConsultant;
 
@@ -238,6 +246,11 @@ export class ChatWithConsultantComponent implements OnInit {
     this.uploadProgress = 0;
     this.fileUrl = null;
 
+    // Clear any existing timeout to prevent multiple timeouts
+    if (this.errorTimeout) {
+      clearTimeout(this.errorTimeout);
+    }
+
     const formData = new FormData();
     formData.append('file', file);
 
@@ -266,11 +279,29 @@ export class ChatWithConsultantComponent implements OnInit {
         error: (error) => {
           const errorMessage =
             error.error.message || 'Failed to upload file. Please try again.';
-          this.uploadError.emit(errorMessage);
+          // this.uploadError.emit(errorMessage);
+          this.showError(errorMessage);
+
           this.selectedFile = null;
           this.fileUrl = null; // Clear URL on error
         },
       });
+  }
+
+  private showError(message: string) {
+    this.errorMessage = message;
+    this.uploadError.emit(message);
+
+    // Clear any existing timeout
+    if (this.errorTimeout) {
+      clearTimeout(this.errorTimeout);
+    }
+
+    // Set timeout to hide error after 2 seconds
+    this.errorTimeout = setTimeout(() => {
+      this.errorMessage = null;
+      this.errorTimeout = null;
+    }, 2000);
   }
 
   removeFile() {

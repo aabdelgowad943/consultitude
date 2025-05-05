@@ -239,6 +239,12 @@ export class SelectConsultantForChatComponent implements OnInit {
     this.ref.close(this.selectedConsultant);
   }
 
+  resetFilters() {
+    this.searchTerm = '';
+    this.activeFilter = 'all';
+    this.fetchConsultants();
+  }
+
   closeDialog() {
     this.ref.close(
       // the selected consultant or null if none selected

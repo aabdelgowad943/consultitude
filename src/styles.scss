@@ -17,6 +17,7 @@
 
 body {
   font-family: "Neue Montreal";
+  color-scheme: light !important;
 }
 
 @font-face {
@@ -175,4 +176,17 @@ body {
 .p-dialog-mask {
   backdrop-filter: blur(4px) !important;
   // background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+html {
+  color-scheme: light !important;
+}
+
+/* Target specific Flowbite components */
+[data-theme="dark"] {
+  --flowbite-dark: var(--flowbite-light) !important;
+}
+
+.my-app-dark {
+  color-scheme: light !important;
 }
