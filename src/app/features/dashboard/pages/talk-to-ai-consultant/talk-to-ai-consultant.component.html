@@ -24,12 +24,12 @@
 
         <!-- Chat started interface (appears when message is sent) -->
         <div *ngIf="showChatInterface" class="max-h-[500px] overflow-y-auto">
+          <!-- [errorMessage]="errorMessage" -->
           <app-chat-to-con-started
             [messages]="messages"
             [selectedFile]="selectedFile"
             [isUploading]="isUploading"
             [uploadProgress]="uploadProgress"
-            [errorMessage]="errorMessage"
             (sendMessage)="onMessageSent($event)"
             (fileSelected)="onFileSelected($event)"
             (uploadComplete)="onFileUploadComplete($event)"

@@ -19,6 +19,8 @@ export class AppComponent {
           name: 'primeng',
           order: 'tailwind-base, primeng, tailwind-utilities',
         },
+        dark: false,
+        darkModeSelector: '.my-app-dark',
       },
     });
   }
