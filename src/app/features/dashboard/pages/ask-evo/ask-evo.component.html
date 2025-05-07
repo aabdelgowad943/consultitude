@@ -53,6 +53,17 @@
           ></app-question-input>
         </div>
 
+        <!-- Step 3: Response Depth Selection (NEW STEP) -->
+        <div *ngIf="currentStep === 3 && !isAnalyzing">
+          <!-- <div *ngIf="currentStep === 1"> -->
+          <app-response-depth
+            [selectedDepthId]="responseDepthId"
+            (depthSelected)="onResponseDepthChange($event)"
+            (continue)="continueToNextStep()"
+            (previous)="goToPreviousStep()"
+          ></app-response-depth>
+        </div>
+
         <!-- Analyzing Document Step -->
         <app-analyzing-document
           *ngIf="isAnalyzing"
@@ -60,8 +71,8 @@
           [analysisComplete]="analysisComplete"
         ></app-analyzing-document>
 
-        <!-- Step 3: Consultant Suggestions -->
-        <div *ngIf="currentStep === 3">
+        <!-- Step 4: Consultant Suggestions -->
+        <div *ngIf="currentStep === 4">
           <app-consulting-suggestion
             [suggestedAgents]="suggestedAgentsData"
             [selectionMap]="consultantSelectionMap"
@@ -72,9 +83,10 @@
           ></app-consulting-suggestion>
         </div>
 
-        <!-- Step 4: Summary Details -->
-        <div *ngIf="currentStep === 4">
+        <!-- Step 5: Summary Details -->
+        <div *ngIf="currentStep === 5">
           <app-summary-details
+            [responseDepthId]="responseDepthId"
             [fileName]="selectedFile?.name || ''"
             [fileSize]="getReadableFileSize()"
             [userQuestion]="userQuestion"
@@ -97,6 +109,7 @@
       [imageUrl]="imageUrl"
       [selectedConsultants]="selectedConsultants"
       [serviceId]="serviceId"
+      [responseDepthId]="responseDepthId"
       [chatResponse]="chatResponse"
     ></app-chat>
   </div>

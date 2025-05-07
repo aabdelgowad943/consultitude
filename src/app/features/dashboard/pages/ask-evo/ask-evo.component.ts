@@ -15,6 +15,7 @@ import { ConsultingSuggestionComponent } from './components/consulting-suggestio
 import { AskEvoHeaderComponent } from './components/ask-evo-header/ask-evo-header.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { SummaryDetailsComponent } from './components/summary-details/summary-details.component';
+import { ResponseDepthComponent } from './components/response-depth/response-depth.component';
 import { EvoServicesService } from '../../services/evo-services.service';
 import { finalize } from 'rxjs';
 import { Chat, ChatTest } from '../../models/chat';
@@ -47,6 +48,7 @@ export interface Agent {
     AskEvoHeaderComponent,
     ChatComponent,
     SummaryDetailsComponent,
+    ResponseDepthComponent,
   ],
   templateUrl: './ask-evo.component.html',
   styleUrl: './ask-evo.component.scss',
@@ -74,6 +76,7 @@ export class AskEvoComponent {
   uploadProgress = 0;
 
   serviceId: string = '';
+  responseDepthId: string = 'advanced'; // Default to advanced
 
   // Store selected consultants
   selectedConsultants: Consultant[] = [];
@@ -148,6 +151,11 @@ export class AskEvoComponent {
     this.serviceId = serviceId;
   }
 
+  // Handle selected response depth
+  onResponseDepthChange(depthId: string) {
+    this.responseDepthId = depthId;
+  }
+
   // Handle Enter key press in the question input
   onQuestionInputKeypress(event: KeyboardEvent) {
     if (event.key === 'Enter' && this.userQuestion.trim() && !event.shiftKey) {
@@ -155,45 +163,6 @@ export class AskEvoComponent {
       this.continueToNextStep();
     }
   }
-
-  // analyzeDocument() {
-  //   // Reset analysis state
-  //   this.isAnalyzing = true;
-  //   this.analysisComplete = false;
-  //   this.errorMessage = '';
-
-  //   this.evoService
-  //     .suggestAgents({
-  //       ask: this.userQuestion,
-  //       documents: [this.documentUrl],
-  //     })
-  //     .pipe(
-  //       // Add RxJS operators to handle the flow
-  //       finalize(() => {
-  //         // This will run whether the observable completes successfully or errors out
-  //         this.isAnalyzing = false;
-  //         this.analysisComplete = true;
-
-  //         // Move to next step after analysis
-  //         this.currentStep = 3;
-  //       })
-  //     )
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.suggestedAgentsData = res.data.suggested_agents; // Store the original data
-  //         this.selectedConsultants = res.data.suggested_agents;
-  //       },
-  //       error: (err) => {
-  //         // console.error('Document analysis error:', err);
-  //         this.errorMessage = 'An error occurred while analyzing the document';
-  //         // Optionally reset analysis state more explicitly on error
-  //         this.isAnalyzing = false;
-  //         this.analysisComplete = false;
-  //       },
-  //     });
-  // }
-
-  // Relevant part of ask-evo.component.ts to fix
 
   analyzeDocument() {
     // Reset analysis state
@@ -205,6 +174,7 @@ export class AskEvoComponent {
       .suggestAgents({
         ask: this.userQuestion,
         documents: [this.documentUrl],
+        responseDepth: this.responseDepthId, // Include the response depth ID
       })
       .pipe(
         // Add RxJS operators to handle the flow
@@ -214,7 +184,7 @@ export class AskEvoComponent {
           this.analysisComplete = true;
 
           // Move to next step after analysis
-          this.currentStep = 3;
+          this.currentStep = 4;
         })
       )
       .subscribe({
@@ -274,10 +244,12 @@ export class AskEvoComponent {
     if (this.currentStep === 1) {
       this.currentStep = 2;
     } else if (this.currentStep === 2) {
-      this.analyzeDocument();
+      this.currentStep = 3; // Go to response depth selection
     } else if (this.currentStep === 3) {
-      this.currentStep = 4; // Move to the new summary step
+      this.analyzeDocument(); // Now analyze document after depth selection
     } else if (this.currentStep === 4) {
+      this.currentStep = 5; // Move to the summary step
+    } else if (this.currentStep === 5) {
       // Show the chat interface
       this.showDocumentUploadStepper = false;
       this.showChatInterface = true;
@@ -299,6 +271,7 @@ export class AskEvoComponent {
     this.showChatInterface = false;
     this.selectedConsultants = []; // Reset selected consultants
     this.suggestedAgentsData = []; // Add this line
+    this.responseDepthId = 'advanced'; // Reset to default
   }
 
   onQuestionChange(question: string) {
@@ -324,7 +297,13 @@ export class AskEvoComponent {
 
   // =================================================
   onStartChat(chatData: any) {
-    this.evoService.startChat(chatData).subscribe({
+    // Add response depth to chat data
+    const enhancedChatData = {
+      ...chatData,
+      // responseDepth: this.responseDepthId,
+    };
+
+    this.evoService.startChat(enhancedChatData).subscribe({
       next: (response: any) => {
         this.chatResponse = response;
 

@@ -91,6 +91,7 @@ export class ChatComponent implements OnInit, OnChanges {
   @Input() imageUrl: string = '';
   @Input() serviceId: string = '';
   @Input() chatResponse: any = null;
+  @Input() responseDepthId: string = 'advanced'; // Add this input
 
   summarySection: boolean = true;
   conversationStarted: boolean = false;

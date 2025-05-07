@@ -1,0 +1,246 @@
+<div class="w-full h-full pt-32 mt-40 ipad:pt-5 ipad:mt-5">
+  <!-- <div class="max-w-[700px] hidden big:block w-full absolute bottom-0">
+    <img
+      src="images/new/Background Chat gradient.svg"
+      class="absolute bottom-0"
+      alt=""
+    />
+  </div> -->
+  <div
+    class="ipad:max-w-[900px] thousand:max-w-[900px] big:max-w-[900px] mx-auto"
+  >
+    <!-- Header Section -->
+    <div class="text-left">
+      <h1 class="text-2xl font-medium mb-4 text-black">
+        Choose the Depth of Your AI Consultant's Response
+      </h1>
+      <p class="text-gray-500 text-sm">
+        Tailor the level of detail based on your needs, available time, and
+        credit usage.
+      </p>
+    </div>
+
+    <!-- Response Depth Options -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 my-8">
+      <!-- Basic Option -->
+      <div
+        (click)="selectDepth('basic')"
+        [ngClass]="{
+          'bg-gradient-to-t from-[#261536] to-[#54148C]':
+            selectedDepthId === 'basic',
+          'border-gray-200': selectedDepthId !== 'basic'
+        }"
+        id="basic-card"
+        class="border border-[#F2F4F7] bg-[#F9FAFB] hover:border-purple-300 rounded-xl p-5 flex flex-col cursor-pointer transition-all"
+      >
+        <div class="flex justify-between items-start mb-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-[#F2F4F7] flex items-center justify-center"
+          >
+            <img src="images/new/first card.svg" alt="" />
+          </div>
+          <div
+            class="flex items-center gap-1 bg-[#F3EAFD] text-[#57247F] px-2 py-1 rounded-[4px]"
+          >
+            <div class="text-xs font-medium">10 credits</div>
+
+            <img src="images/new/credit10.svg" alt="" />
+          </div>
+        </div>
+        <h3
+          [ngClass]="{
+          'text-white':
+            selectedDepthId === 'basic',
+        }"
+          class="text-[16px] font-[500] text-black mb-2"
+        >
+          Basic
+        </h3>
+        <p
+          [ngClass]="{
+          'text-white font-sans':
+            selectedDepthId === 'basic',
+        }"
+          class="text-[12px] text-[#667085] mb-2"
+        >
+          Quick, high-level advice. Great for initial direction.
+        </p>
+        <div
+          [ngClass]="{
+          'text-white':
+            selectedDepthId === 'basic',
+        }"
+          class="flex items-center text-gray-500 text-sm gap-2"
+        >
+          <img src="images/new/time-line.svg" alt="" />
+          <span
+            [ngClass]="{
+          'text-white':
+            selectedDepthId === 'basic',
+        }"
+            >~30 seconds</span
+          >
+        </div>
+      </div>
+
+      <!-- Advanced Option -->
+      <div
+        (click)="selectDepth('advanced')"
+        [ngClass]="{
+          'bg-gradient-to-t from-[#261536] to-[#54148C]':
+            selectedDepthId === 'advanced',
+          'border-gray-200': selectedDepthId !== 'advanced'
+        }"
+        id="advanced-card"
+        class="border border-[#F2F4F7] bg-[#F9FAFB] hover:border-purple-300 rounded-xl p-5 flex flex-col cursor-pointer transition-all"
+      >
+        <div class="flex justify-between items-start mb-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-[#F2F4F7] flex items-center justify-center"
+          >
+            <img src="images/new/second-card.svg" alt="" />
+          </div>
+          <div
+            class="flex items-center gap-1 bg-[#F3EAFD] text-[#57247F] px-2 py-1 rounded-[4px]"
+          >
+            <div class="text-xs font-medium">25 credits</div>
+
+            <img src="images/new/credit10.svg" alt="" />
+          </div>
+        </div>
+        <h3
+          [ngClass]="{
+          'text-white':
+            selectedDepthId === 'advanced',
+        }"
+          class="text-lg font-medium mb-2"
+        >
+          Advanced
+        </h3>
+        <p
+          [ngClass]="{
+          'text-white font-sans':
+            selectedDepthId === 'advanced',
+        }"
+          class="text-sm text-gray-600 mb-2"
+        >
+          In-depth analysis with examples and strategic recommendations.
+        </p>
+        <div
+          [ngClass]="{
+          'text-white':
+            selectedDepthId === 'advanced',
+        }"
+          class="flex items-center text-gray-500 text-sm gap-2"
+        >
+          <img src="images/new/time-line.svg" alt="" />
+          <span
+            [ngClass]="{
+          'text-white':
+            selectedDepthId === 'advanced',
+        }"
+            >~1-2 minutes</span
+          >
+        </div>
+      </div>
+
+      <!-- Expert Option -->
+      <div
+        (click)="selectDepth('expert')"
+        [ngClass]="{
+          'bg-gradient-to-t from-[#261536] to-[#54148C]':
+            selectedDepthId === 'expert',
+          'border-gray-200': selectedDepthId !== 'expert'
+        }"
+        id="expert-card"
+        class="border border-[#F2F4F7] bg-[#F9FAFB] hover:border-purple-300 rounded-xl p-5 flex flex-col cursor-pointer transition-all"
+      >
+        <div class="flex justify-between items-start mb-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-[#F2F4F7] flex items-center justify-center"
+          >
+            <img src="images/new/third card.svg" alt="" />
+          </div>
+          <div
+            class="flex items-center gap-1 bg-[#F3EAFD] text-[#57247F] px-2 py-1 rounded-[4px]"
+          >
+            <div class="text-xs font-medium">50 credits</div>
+
+            <img src="images/new/credit10.svg" alt="" />
+          </div>
+        </div>
+        <h3
+          [ngClass]="{
+          'text-white':
+            selectedDepthId === 'expert',
+        }"
+          class="text-lg font-medium mb-2"
+        >
+          Expert
+        </h3>
+        <p
+          [ngClass]="{
+          'text-white font-sans':
+            selectedDepthId === 'expert',
+        }"
+          class="text-sm text-gray-600 mb-2"
+        >
+          Consultant-grade deep-dive with frameworks, models, and insights.
+        </p>
+        <div
+          [ngClass]="{
+          'text-white':
+            selectedDepthId === 'advanced',
+        }"
+          class="flex items-center text-gray-500 text-sm gap-2"
+        >
+          <img src="images/new/time-line.svg" alt="" />
+          <span
+            [ngClass]="{
+          'text-white':
+            selectedDepthId === 'expert',
+        }"
+            >~3-5 minutes</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Navigation Buttons -->
+    <div class="flex justify-between mt-8 p-6">
+      <button
+        (click)="goToPreviousStep()"
+        id="back-button"
+        class="flex items-center text-gray-500"
+      >
+        <i class="fa-solid fa-arrow-left mr-2"></i>
+        Back
+      </button>
+
+      <div class="flex items-center gap-4">
+        <button
+          (click)="continueToNextStep()"
+          [disabled]="!selectedDepthId"
+          id="continue-button"
+          class="px-4 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700"
+        >
+          Continue
+        </button>
+
+        <div class="flex gap-2 items-start text-gray-400 cursor-default">
+          <button
+            class="flex gap-2 items-start text-[#0F132499]/60 cursor-default"
+          >
+            <img
+              src="images/new/tail-icon.svg"
+              alt="forward icon"
+              class="w-5 h-5"
+            />
+
+            Press Enter
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
