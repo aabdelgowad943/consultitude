@@ -85,6 +85,39 @@
           No consultants selected
         </div>
       </div>
+
+      <div class="my-6">
+        <h3 class="text-gray-500 mb-2">Response Depth</h3>
+        <div class="flex items-center">
+          <!-- Icon based on depth -->
+          <div
+            class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3"
+          >
+            <i
+              class="pi"
+              [ngClass]="{
+                'pi-bolt': responseDepthId === 'basic',
+                'pi-chart-line': responseDepthId === 'advanced',
+                'pi-star': responseDepthId === 'expert'
+              }"
+            ></i>
+          </div>
+          <div>
+            <p class="font-medium">{{ responseDepthId | titlecase }}</p>
+            <p class="text-sm text-gray-500">
+              <ng-container *ngIf="responseDepthId === 'basic'"
+                >Quick, high-level advice</ng-container
+              >
+              <ng-container *ngIf="responseDepthId === 'advanced'"
+                >In-depth analysis with examples</ng-container
+              >
+              <ng-container *ngIf="responseDepthId === 'expert'"
+                >Consultant-grade deep-dive</ng-container
+              >
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

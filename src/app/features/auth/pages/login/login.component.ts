@@ -54,6 +54,7 @@ export class LoginComponent {
 
         // Set token and user id
         localStorage.setItem('token', token);
+
         const userId = this.authService.getTokenData();
         if (!userId) {
           this.errorMessage = 'Invalid token data';
@@ -71,7 +72,7 @@ export class LoginComponent {
               this.router.navigate(['/knowledge/checkout', pendingId]);
               this.globalStateService.clearPendingPurchase();
             } else {
-              this.router.navigate(['/dashboard/profile']);
+              this.router.navigate(['/dashboard/ask-evo']);
             }
           });
       },
