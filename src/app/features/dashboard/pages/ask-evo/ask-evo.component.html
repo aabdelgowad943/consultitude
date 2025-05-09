@@ -59,6 +59,7 @@
           <app-response-depth
             [selectedDepthId]="responseDepthId"
             (depthSelected)="onResponseDepthChange($event)"
+            (depthValueSelected)="onResponseDepthValueChange($event)"
             (continue)="continueToNextStep()"
             (previous)="goToPreviousStep()"
           ></app-response-depth>
@@ -87,6 +88,7 @@
         <div *ngIf="currentStep === 5">
           <app-summary-details
             [responseDepthId]="responseDepthId"
+            [responseDepthValue]="responseDepthValue"
             [fileName]="selectedFile?.name || ''"
             [fileSize]="getReadableFileSize()"
             [userQuestion]="userQuestion"
