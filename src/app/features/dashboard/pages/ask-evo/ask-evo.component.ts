@@ -20,6 +20,10 @@ import { EvoServicesService } from '../../services/evo-services.service';
 import { finalize } from 'rxjs';
 import { Chat, ChatTest } from '../../models/chat';
 import { Consultant } from '../../models/consultant';
+import {
+  getResponseDepthValue,
+  ResponseDepth,
+} from '../../models/response-depth.enum';
 
 export interface Agent {
   id: number;
@@ -55,6 +59,9 @@ export interface Agent {
   providers: [DialogService, DynamicDialogRef],
 })
 export class AskEvoComponent {
+  responseDepthId: string = 'advanced'; // String representation for UI
+  responseDepthValue: ResponseDepth = ResponseDepth.Advanced;
+
   @ViewChild('fileInput') fileInput!: ElementRef;
   title = 'evo-dashboard';
   isLoading = false;
@@ -76,7 +83,6 @@ export class AskEvoComponent {
   uploadProgress = 0;
 
   serviceId: string = '';
-  responseDepthId: string = 'advanced'; // Default to advanced
 
   // Store selected consultants
   selectedConsultants: Consultant[] = [];
@@ -154,8 +160,12 @@ export class AskEvoComponent {
   // Handle selected response depth
   onResponseDepthChange(depthId: string) {
     this.responseDepthId = depthId;
+    this.responseDepthValue = getResponseDepthValue(depthId);
   }
 
+  onResponseDepthValueChange(depthValue: ResponseDepth) {
+    this.responseDepthValue = depthValue;
+  }
   // Handle Enter key press in the question input
   onQuestionInputKeypress(event: KeyboardEvent) {
     if (event.key === 'Enter' && this.userQuestion.trim() && !event.shiftKey) {
@@ -174,7 +184,7 @@ export class AskEvoComponent {
       .suggestAgents({
         ask: this.userQuestion,
         documents: [this.documentUrl],
-        responseDepth: this.responseDepthId, // Include the response depth ID
+        responseDepth: this.responseDepthValue, // Use the enum value instead of string
       })
       .pipe(
         // Add RxJS operators to handle the flow
@@ -300,7 +310,7 @@ export class AskEvoComponent {
     // Add response depth to chat data
     const enhancedChatData = {
       ...chatData,
-      // responseDepth: this.responseDepthId,
+      // responseDepth: this.responseDepthValue, // Use the enum value
     };
 
     this.evoService.startChat(enhancedChatData).subscribe({
