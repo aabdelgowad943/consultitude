@@ -184,7 +184,7 @@ export class AskEvoComponent {
       .suggestAgents({
         ask: this.userQuestion,
         documents: [this.documentUrl],
-        responseDepth: this.responseDepthValue, // Use the enum value instead of string
+        // responseDepth: this.responseDepthValue, // Use the enum value instead of string
       })
       .pipe(
         // Add RxJS operators to handle the flow
