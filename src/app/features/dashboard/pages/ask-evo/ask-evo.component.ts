@@ -310,7 +310,7 @@ export class AskEvoComponent {
     // Add response depth to chat data
     const enhancedChatData = {
       ...chatData,
-      // responseDepth: this.responseDepthValue, // Use the enum value
+      responseDepth: this.responseDepthValue, // Use the enum value
     };
 
     this.evoService.startChat(enhancedChatData).subscribe({

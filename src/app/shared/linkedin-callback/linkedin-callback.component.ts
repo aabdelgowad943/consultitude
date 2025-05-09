@@ -46,7 +46,7 @@ export class LinkedinCallbackComponent implements OnInit {
           if (decodedToken && decodedToken.id) {
             localStorage.setItem('userId', decodedToken.id);
             this.localStorageStoring(decodedToken.id);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/dashboard/ask-evo']);
           } else {
             console.error('No user ID found in decoded token');
           }
