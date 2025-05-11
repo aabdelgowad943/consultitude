@@ -160,7 +160,7 @@
       >
         <button
           class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-black"
-          (click)="editAgent(agent)"
+          (click)="openEditDialog(agent)"
         >
           Edit
         </button>
@@ -226,16 +226,9 @@
   </div>
 </div>
 
-<!-- Modal components remain the same -->
+<!-- Keep only the Create modal, remove the Edit modal since we're using DialogService now -->
 <app-create-ai-consultant
   [(display)]="displayEditDialog"
   (displayChange)="onDisplayChange($event)"
   (onModalChange)="getAllAgents()"
 ></app-create-ai-consultant>
-
-<app-edit-ai-consultant
-  [(display)]="displayEditConsultantDialog"
-  (displayChange)="onEditDisplayChange($event)"
-  [agentData]="selectedAgent"
-  (onModalChange)="getAllAgents()"
-></app-edit-ai-consultant>

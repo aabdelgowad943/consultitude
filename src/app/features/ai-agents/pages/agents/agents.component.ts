@@ -7,6 +7,7 @@ import { EditAiConsultantComponent } from '../../components/edit-ai-consultant/e
 import { AgentsService } from '../../../dashboard/services/agents.service';
 import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-agents',
@@ -15,19 +16,26 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     RouterModule,
     PaginatorModule,
     CreateAiConsultantComponent,
-    EditAiConsultantComponent,
+    // EditAiConsultantComponent,
     FormsModule,
     ProgressSpinnerModule,
   ],
   templateUrl: './agents.component.html',
   styleUrl: './agents.component.scss',
+  providers: [DialogService],
 })
 export class AgentsComponent implements OnInit {
-  constructor(private agentService: AgentsService) {}
+  constructor(
+    private agentService: AgentsService,
+    private dialogService: DialogService
+  ) {}
 
   profileId: string = localStorage.getItem('profileId') || '';
 
   loading: boolean = false;
+
+  // DialogRef for managing dialog references
+  dialogRef: DynamicDialogRef | undefined;
 
   // PrimeNG Pagination properties
   first: number = 0;
@@ -75,8 +83,6 @@ export class AgentsComponent implements OnInit {
         this.loading = false;
         this.allAgents = res.data;
         this.filteredAgents = res.data;
-        // console.log('ssss', this.filteredAgents);
-
         this.totalRecords = res.meta.totalItems;
       },
       error: (err) => {
@@ -125,9 +131,9 @@ export class AgentsComponent implements OnInit {
   }
 
   editAgent(agent: any): void {
-    this.displayEditConsultantDialog = true;
     this.selectedAgent = agent;
     this.openDropdownIndex = null;
+    this.openEditDialog(agent);
   }
 
   toggleActivation(agent: any, event: Event): void {
@@ -138,6 +144,34 @@ export class AgentsComponent implements OnInit {
       next: (res: any) => {
         this.getAllAgents();
       },
+    });
+  }
+
+  openEditDialog(agent: any) {
+    this.selectedAgent = agent;
+
+    // Close any existing dialogs
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
+
+    // Open the dialog with the EditAiConsultantComponent
+    this.dialogRef = this.dialogService.open(EditAiConsultantComponent, {
+      header: 'Edit AI Consultant',
+      width: '600px',
+      height: '600px',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: agent, // Pass the selected agent data to the dialog
+    });
+
+    // Subscribe to the dialog close event
+    this.dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        // If dialog returns a result (e.g., agent was updated)
+        this.getAllAgents();
+      }
     });
   }
 
@@ -154,6 +188,13 @@ export class AgentsComponent implements OnInit {
 
     if (!clickedInside) {
       this.openDropdownIndex = null;
+    }
+  }
+
+  ngOnDestroy() {
+    // Ensure all dialogs are closed when the component is destroyed
+    if (this.dialogRef) {
+      this.dialogRef.close();
     }
   }
 }
