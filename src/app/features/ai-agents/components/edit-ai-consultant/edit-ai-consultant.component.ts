@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -17,11 +10,11 @@ import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
-import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { ToastModule } from 'primeng/toast';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ProfileServiceService } from '../../../dashboard/services/profile-service.service';
 import { AgentsService } from '../../../dashboard/services/agents.service';
 
@@ -29,7 +22,6 @@ import { AgentsService } from '../../../dashboard/services/agents.service';
   selector: 'app-edit-ai-consultant',
   standalone: true,
   imports: [
-    DialogModule,
     FormsModule,
     DropdownModule,
     MultiSelectModule,
@@ -43,50 +35,62 @@ import { AgentsService } from '../../../dashboard/services/agents.service';
   templateUrl: './edit-ai-consultant.component.html',
   providers: [MessageService],
 })
-export class EditAiConsultantComponent implements OnChanges {
-  @Input() display: boolean = false;
-  @Input() agentData!: any;
-  @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() onModalChange = new EventEmitter<boolean>();
-
+export class EditAiConsultantComponent implements OnInit {
+  loading = false;
   consultantForm!: FormGroup;
   maxOutputLength: number = 5000;
+  agentData: any;
 
   industryFocusOptions = [];
   domainFocusOptions = [];
   regionalFocusOptions = [];
 
+  // Pattern for non-whitespace validation
+  private nonWhitespacePattern = /^(?!\s*$).+/;
+
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
     private profileService: ProfileServiceService,
-    private agentService: AgentsService
-  ) {}
+    private agentService: AgentsService,
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig
+  ) {
+    // Get the agent data passed from the dialog service
+    this.agentData = this.config.data;
+  }
 
   ngOnInit(): void {
     this.getAllDomains();
     this.getAllIndustries();
     this.initForm();
-    // console.log('Agent data:', this.agentData);
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['agentData'] && changes['agentData'].currentValue) {
-      this.initForm();
-    }
   }
 
   initForm(): void {
     this.consultantForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern(this.nonWhitespacePattern), // Prevents only spaces
+        ],
+      ],
       domains: ['', Validators.required],
       sectors: ['', Validators.required],
-      persona: ['', Validators.required],
+      persona: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.nonWhitespacePattern), // Prevents only spaces
+        ],
+      ],
       output: [
         '',
         [
           Validators.required,
           Validators.maxLength(this.maxOutputLength),
-          Validators.pattern(/^(?!\s*$).+/), // Prevents only spaces
+          Validators.pattern(this.nonWhitespacePattern), // Prevents only spaces
         ],
       ],
     });
@@ -107,8 +111,6 @@ export class EditAiConsultantComponent implements OnChanges {
         output: this.agentData.output,
         persona: this.agentData.persona,
       });
-
-      // console.log('Form values:', this.consultantForm.value);
     }
   }
 
@@ -128,15 +130,14 @@ export class EditAiConsultantComponent implements OnChanges {
         });
       },
       error: (err: any) => {
-        // console.error('Error fetching domains', err);
+        console.error('Error fetching domains', err);
       },
     });
   }
+
   getAllIndustries() {
     this.profileService.getAllAraFocus(1, 100).subscribe({
       next: (res: any) => {
-        // console.log('Industries:', res.data);
-        // Map each item from the industryFocus array
         this.industryFocusOptions = res.data.map((item: any) => {
           const areaOfFocus = item;
           const name =
@@ -158,16 +159,14 @@ export class EditAiConsultantComponent implements OnChanges {
   getAllRegions() {
     this.profileService.getAllRegions(1, 100).subscribe({
       next: (res: any) => {
-        // console.log('reg', res.data);
         this.regionalFocusOptions = res.data.map((regionsFocus: any) => {
           const name =
             regionsFocus.translations && regionsFocus.translations.length
               ? regionsFocus.translations[0].name
               : 'No Name';
-          // console.log('name', name);
 
           return {
-            regionId: regionsFocus.id, // or you can use domain.translations[0].domainId if preferred
+            regionId: regionsFocus.id,
             name: name,
           };
         });
@@ -180,14 +179,17 @@ export class EditAiConsultantComponent implements OnChanges {
   // =======================================get all skills=================================
 
   closeDialog(): void {
-    this.display = false;
-    this.displayChange.emit(false);
+    this.ref.close(false);
   }
 
   onSubmit(): void {
+    this.loading = true;
     if (this.consultantForm.invalid) {
+      this.markFormGroupTouched(this.consultantForm);
+      this.loading = false;
       return;
     }
+
     const formValue = this.consultantForm.value;
     this.agentService
       .updateAgent(this.agentData.id, {
@@ -199,7 +201,7 @@ export class EditAiConsultantComponent implements OnChanges {
       })
       .subscribe({
         next: (res: any) => {
-          // Implement update logic here
+          this.loading = false;
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -207,19 +209,27 @@ export class EditAiConsultantComponent implements OnChanges {
             key: 'br',
             closable: false,
           });
-          this.closeDialog();
-          this.onModalChange.emit(true);
+          // Return true to indicate successful update
+          this.ref.close(true);
         },
         error: (err) => {
+          this.loading = false;
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Agent updated Failed',
+            detail: 'Agent update failed',
             key: 'br',
             closable: false,
           });
         },
       });
+  }
+
+  // Helper method to mark all controls as touched
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+    });
   }
 
   get remainingChars(): number {

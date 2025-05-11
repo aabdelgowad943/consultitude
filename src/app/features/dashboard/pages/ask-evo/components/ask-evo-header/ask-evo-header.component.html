@@ -57,6 +57,7 @@
       class="grid ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3"
     >
       <!-- big:max-w-[320px] -->
+
       <div
         *ngFor="let agent of agents; let i = index"
         class="rounded-[20px] p-5 bg-white border border-[#EAECF0] ipad:max-w-full big:max-h-[141px] relative group"
@@ -127,6 +128,38 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- no agent found design -->
+    <div
+      *ngIf="agents.length === 0"
+      class="flex flex-col items-center justify-center py-10 px-6 bg-white rounded-lg border border-gray-100 shadow-sm"
+    >
+      <!-- Illustration -->
+      <div class="relative w-24 h-24 mb-4">
+        <!-- Search icon with animated pulse -->
+        <div
+          class="absolute inset-0 bg-purple-100 rounded-full flex items-center justify-center animate-pulse-slow"
+        >
+          <i class="pi pi-search text-purple-500 text-3xl"></i>
+        </div>
+
+        <!-- Animated circles -->
+        <div
+          class="absolute top-0 right-0 w-8 h-8 bg-purple-200 rounded-full opacity-70 animate-float-small"
+        ></div>
+        <div
+          class="absolute bottom-0 left-0 w-6 h-6 bg-purple-300 rounded-full opacity-70 animate-float-small delay-300"
+        ></div>
+      </div>
+
+      <!-- Message text -->
+      <h3 class="text-lg font-semibold text-gray-800 mb-1">
+        No consultants found
+      </h3>
+      <p class="text-gray-500 text-center max-w-md mb-6">
+        We couldn't find any consultants.
+      </p>
     </div>
   </div>
 
