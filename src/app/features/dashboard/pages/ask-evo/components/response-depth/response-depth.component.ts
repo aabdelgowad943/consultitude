@@ -26,7 +26,7 @@ export class ResponseDepthComponent {
   @Output() previous = new EventEmitter<void>();
   @Output() depthSelected = new EventEmitter<string>();
   @Output() depthValueSelected = new EventEmitter<ResponseDepth>();
-  @Input() selectedDepthId: string = 'advanced';
+  @Input() selectedDepthId: string = 'basic';
 
   selectDepth(depthId: string): void {
     this.selectedDepthId = depthId;

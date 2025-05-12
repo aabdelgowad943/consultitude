@@ -56,6 +56,7 @@ export class LoginComponent {
         localStorage.setItem('token', token);
 
         const userId = this.authService.getTokenData();
+
         if (!userId) {
           this.errorMessage = 'Invalid token data';
           return;

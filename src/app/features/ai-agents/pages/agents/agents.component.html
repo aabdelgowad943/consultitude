@@ -148,6 +148,12 @@
                 alt=""
               />
               <span class="text-sm tect-[#667085]">{{ agent.usage }} </span>
+              <div
+                *ngIf="agent.isActive == false"
+                class="ml-4 text-sm text-red-500 bg-red-100 px-[6px] text-[10px] rounded-md"
+              >
+                <p>Deactivate</p>
+              </div>
             </div>
           </div>
         </div>

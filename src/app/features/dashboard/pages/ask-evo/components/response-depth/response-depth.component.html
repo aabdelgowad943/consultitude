@@ -1,20 +1,11 @@
-<div class="w-full h-full pt-32 mt-40 ipad:pt-5 ipad:mt-5">
-  <!-- <div class="max-w-[700px] hidden big:block w-full absolute bottom-0">
-    <img
-      src="images/new/Background Chat gradient.svg"
-      class="absolute bottom-0"
-      alt=""
-    />
-  </div> -->
-  <div
-    class="ipad:max-w-[900px] thousand:max-w-[900px] big:max-w-[900px] mx-auto"
-  >
+<div class="w-full h-screen mt-10 pt-24 thousand:pt-40">
+  <div class="mb-6 px-2 big:px-10">
     <!-- Header Section -->
-    <div class="text-left">
+    <div class="text-center">
       <h1 class="text-2xl font-medium mb-4 text-black">
         Choose the Depth of Your AI Consultant's Response
       </h1>
-      <p class="text-gray-500 text-sm">
+      <p class="text-gray-500 text-sm font-sans">
         Tailor the level of detail based on your needs, available time, and
         credit usage.
       </p>
@@ -113,7 +104,7 @@
           'text-white':
             selectedDepthId === 'advanced',
         }"
-          class="text-lg font-medium mb-2"
+          class="text-[16px] font-medium mb-2"
         >
           Advanced
         </h3>
@@ -122,7 +113,7 @@
           'text-white font-sans':
             selectedDepthId === 'advanced',
         }"
-          class="text-sm text-gray-600 mb-2"
+          class="text-[12px] text-gray-600 mb-2"
         >
           In-depth analysis with examples and strategic recommendations.
         </p>
@@ -174,7 +165,7 @@
           'text-white':
             selectedDepthId === 'expert',
         }"
-          class="text-lg font-medium mb-2"
+          class="text-[16px] font-medium mb-2"
         >
           Expert
         </h3>
@@ -183,14 +174,14 @@
           'text-white font-sans':
             selectedDepthId === 'expert',
         }"
-          class="text-sm text-gray-600 mb-2"
+          class="text-[12px] text-gray-600 mb-2"
         >
           Consultant-grade deep-dive with frameworks, models, and insights.
         </p>
         <div
           [ngClass]="{
           'text-white':
-            selectedDepthId === 'advanced',
+            selectedDepthId === 'expert',
         }"
           class="flex items-center text-gray-500 text-sm gap-2"
         >
@@ -208,13 +199,8 @@
 
     <!-- Footer Navigation Buttons -->
     <div class="flex justify-between mt-8 p-6">
-      <button
-        (click)="goToPreviousStep()"
-        id="back-button"
-        class="flex items-center text-gray-500"
-      >
-        <i class="fa-solid fa-arrow-left mr-2"></i>
-        Back
+      <button (click)="goToPreviousStep()">
+        <i class="pi pi-arrow-left w-6 text-[#0F132499]/60"></i>
       </button>
 
       <div class="flex items-center gap-4">
@@ -222,7 +208,7 @@
           (click)="continueToNextStep()"
           [disabled]="!selectedDepthId"
           id="continue-button"
-          class="px-4 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700"
+          class="px-4 py-3 bg-[#9241DC] text-white rounded-xl hover:bg-purple-700"
         >
           Continue
         </button>

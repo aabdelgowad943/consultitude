@@ -59,8 +59,8 @@ export interface Agent {
   providers: [DialogService, DynamicDialogRef],
 })
 export class AskEvoComponent {
-  responseDepthId: string = 'advanced'; // String representation for UI
-  responseDepthValue: ResponseDepth = ResponseDepth.Advanced;
+  responseDepthId: string = 'basic'; // String representation for UI
+  responseDepthValue: ResponseDepth = ResponseDepth.Basic;
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   title = 'evo-dashboard';
@@ -322,7 +322,7 @@ export class AskEvoComponent {
         this.showChatInterface = true;
       },
       complete: () => {
-        console.log('Chat stream completed');
+        // console.log('Chat stream completed');
         // Optionally handle completion logic here
         this.showDocumentUploadStepper = false;
       },

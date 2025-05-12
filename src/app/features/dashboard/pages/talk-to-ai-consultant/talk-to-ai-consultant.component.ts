@@ -199,7 +199,7 @@ export class TalkToAiConsultantComponent {
         this.showChatInterface = true;
       },
       complete: () => {
-        console.log('Chat stream completed');
+        // console.log('Chat stream completed');
         this.showDocumentUploadStepper = false;
       },
       error: (error) => {
