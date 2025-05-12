@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   userId: string = localStorage.getItem('userId')!;
   name: string = '';
   email: string = '';
+  profileImage: string = '';
   isDropdownOpen: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -27,6 +28,7 @@ export class DashboardComponent implements OnInit {
       next: (res: any) => {
         this.name = res.data.firstName;
         this.email = res.data.user?.email;
+        this.profileImage = res.data.profileUrl;
       },
     });
   }
@@ -43,19 +45,7 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    // Clear the token and user id from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('profileId');
-    localStorage.removeItem('email');
-    localStorage.removeItem('firstName');
-    localStorage.removeItem('lastName');
-    localStorage.removeItem('profileUrl');
-    localStorage.removeItem('name');
-    localStorage.removeItem('serviceId');
-
-    // Optionally, you can navigate the user to the login page or home page after logout
-    this.router.navigate(['/auth/login']);
+    this.authService.logout();
   }
 
   navigateToRequestDocument() {

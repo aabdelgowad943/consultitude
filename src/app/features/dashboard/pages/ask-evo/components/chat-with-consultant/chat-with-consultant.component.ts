@@ -138,11 +138,11 @@ export class ChatWithConsultantComponent implements OnInit {
       conversationId: 'conversationId22222222',
       ownerId: localStorage.getItem('profileId') || '',
     };
-    console.log('request body is==========', requestBody);
+    // console.log('request body is==========', requestBody);
 
     this.evoService.makeConversation(requestBody).subscribe({
       next: (res: any) => {
-        console.log('res is =====', res);
+        // console.log('res is =====', res);
       },
     });
   }

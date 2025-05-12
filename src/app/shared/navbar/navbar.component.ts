@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { initFlowbite } from 'flowbite';
 import { AuthService } from '../../features/auth/services/auth.service';
 
 @Component({
@@ -21,6 +20,7 @@ export class NavbarComponent implements OnInit {
   userId: string = localStorage.getItem('userId')!;
   name: string = '';
   email: string = '';
+  profileImage: string = '';
   isDropdownOpen: boolean = false;
 
   @HostListener('document:click', ['$event'])
@@ -51,6 +51,7 @@ export class NavbarComponent implements OnInit {
       next: (res: any) => {
         this.name = res.data.firstName;
         this.email = res.data.user?.email;
+        this.profileImage = res.data.profileUrl;
       },
     });
   }
@@ -93,15 +94,6 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('profileId');
-    localStorage.removeItem('email');
-    localStorage.removeItem('firstName');
-    localStorage.removeItem('lastName');
-    localStorage.removeItem('profileUrl');
-    localStorage.removeItem('name');
-    localStorage.removeItem('serviceId');
-    this.router.navigate(['/auth/login']);
+    this.authService.logout();
   }
 }

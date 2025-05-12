@@ -151,19 +151,7 @@ export class SettingsComponent {
   showLogoutPopup = false; // Flag for displaying logout popup
 
   onLogout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('profileId');
-    localStorage.removeItem('email');
-    localStorage.removeItem('firstName');
-    localStorage.removeItem('lastName');
-    localStorage.removeItem('profileUrl');
-    localStorage.removeItem('name');
-    localStorage.removeItem('serviceId');
-
-    // Optionally, you can navigate the user to the login page or home page after logout
-    this.router.navigate(['/auth/login']);
-    // Navigate to the login page
+    this.authService.logout();
   }
 
   // Close the popup (optional, if you want to allow dismissing the modal)
