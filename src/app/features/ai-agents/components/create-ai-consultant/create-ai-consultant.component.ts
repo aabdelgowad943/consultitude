@@ -112,16 +112,6 @@ export class CreateAiConsultantComponent {
 
     if (this.consultantForm.invalid) {
       this.markFormGroupTouched(this.consultantForm);
-      // this.messageService.add({
-      //   severity: 'warn', // changed from 'error' to 'warn' to match orange icon
-      //   summary: 'Something Went Wrong',
-      //   detail:
-      //     "We couldn't create your AI Agent. Please check your inputs or try again later. If the issue persists, contact support for assistance.",
-      //   key: 'br',
-      //   life: 5000,
-      //   styleClass: 'custom-toast',
-      // });
-
       return;
     }
     const consultantData = this.consultantForm.value;

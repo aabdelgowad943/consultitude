@@ -31,7 +31,7 @@ export class AppComponent {
 
   ngOnInit() {
     // // Check token expiration every minute
-    this.authService.checkTokenAndLogout();
+    // this.authService.checkTokenAndLogout();
   }
 
   // ngOnDestroy() {
