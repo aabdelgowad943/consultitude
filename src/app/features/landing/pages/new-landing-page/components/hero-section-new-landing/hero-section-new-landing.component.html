@@ -1,0 +1,84 @@
+<div
+  class="relative text-white flex flex-col items-center justify-between overflow-hidden mx-auto pt-5 ipad:pt-5"
+>
+  <!-- Main content -->
+  <img
+    class="absolute w-full top-0"
+    src="images/landing/Mask group.png"
+    alt=""
+  />
+  <div
+    class="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-3xl mt-10 xss:mt-20 ipad:mt-40 laptop:mt-40 big:pt-10 res:pt-20"
+  >
+    <!-- Logo -->
+    <a class="mb-10">
+      <span class="sr-only">Logo</span>
+      <img
+        src="images/new/Cnslt Logo.svg"
+        class="xss:w-80 w-72 ipad:w-full"
+        alt="Logo"
+      />
+    </a>
+
+    <!-- Consultitude title is removed as per your implementation -->
+
+    <!-- Subtitle -->
+    <h2 class="desktop:text-[52px] xss:text-[25px] w-full mb-5">
+      Your AI-Powered Consultant
+    </h2>
+
+    <!-- Description -->
+    <p
+      class="desktop:text-[18px] xss:text-[16px] font-sans text-[#E9D8FC] mb-8"
+    >
+      Bring the power of elite consulting to your workflow
+    </p>
+
+    <!-- Subscription form component -->
+    <app-subscribe-form
+      (errorOccurred)="showError($event)"
+    ></app-subscribe-form>
+
+    <div class="flex flex-col items-center mt-10 justify-center">
+      <h1 class="xss:mb-[1rem] ipad:mb-[1rem] font-sans">
+        Crafted by alumni of
+      </h1>
+      <app-flex-logo></app-flex-logo>
+    </div>
+  </div>
+  <div class="w-full relative -top-40 ipad:-top-60 z-0">
+    <img class="w-full" src="images/landing/2.png" alt="" />
+    <div class="bg-[#10082A] border-none">
+      <h1 class="relative text-[52px] z-10 w-full text-center bottom-40">
+        Consultitude AI for Every <br />
+        Consulting Need
+      </h1>
+      <h1
+        class="relative text-[16px] text-[#E9D8FC] mt-9 z-10 w-full text-center bottom-40"
+      >
+        From solo consultants to agile consulting teams and the clients <br />
+        they support
+      </h1>
+    </div>
+    <img
+      class="-top-96 relative w-full"
+      src="images/backgroundiconstar.svg"
+      alt=""
+    />
+    <div class="relative -top-[550px]">
+      <app-three-cards></app-three-cards>
+    </div>
+
+    <div class="relative -top-[550px]">
+      <app-card></app-card>
+    </div>
+
+    <div class="relative -top-[550px]">
+      <app-features></app-features>
+    </div>
+
+    <div class="relative -top-[550px]">
+      <app-faqs></app-faqs>
+    </div>
+  </div>
+</div>

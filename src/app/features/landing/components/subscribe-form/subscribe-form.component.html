@@ -1,5 +1,5 @@
 <form [formGroup]="subscribeForm" (ngSubmit)="onSubmit()">
-  <div class="flex flex-col md:flex-row gap-2 ipad:gap-4 items-center">
+  <div class="flex flex-col md:flex-row gap-2 ipad:gap-2 items-center">
     <div class="">
       <input
         formControlName="email"
@@ -7,7 +7,7 @@
         id="helper-text"
         aria-describedby="helper-text-explanation"
         class="bg-gray-50 border w-[360px] xsm:[370px] h-10 ipad:w-[443px] placeholder:text-[#0D1126]/40 font-sans border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block py-2.5 px-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="name@yahoo.com"
+        placeholder="Enter work email address"
       />
 
       <div class="block ipad:hidden">
@@ -23,23 +23,12 @@
           </p>
         </div>
       </div>
-
-      <!-- <div
-        class="md:hidden block"
-        *ngIf="
-          subscribeForm.get('email')?.invalid &&
-          subscribeForm.get('email')?.touched
-        "
-      >
-        <p class="text-red-500 text-sm ps-2 text-left pt-1">
-          Please enter a valid email address
-        </p>
-      </div> -->
     </div>
 
     <button
       type="submit"
-      class="bg-[#9241DC] text-[14px] flex justify-center h-10 font-sans mt-5 md:mt-0 gap-2 items-center hover:bg-[#7936d1] transition-colors text-white text-center py-2.5 px-3 rounded-xl"
+      class="rounded-[10px] py-2 px-5 text-white text-center font-sans bg-[#8C45FF66]/40 hover:bg-[#8C45FF66]/80 transition-colors"
+      style="box-shadow: inset 0px 1px 8px -1px #ffffff9e"
     >
       <svg
         *ngIf="loading"
@@ -59,7 +48,7 @@
         />
       </svg>
 
-      Join Waiting List
+      Get Started
     </button>
   </div>
   <div class="hidden ipad:block">
