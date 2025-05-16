@@ -11,6 +11,7 @@ import { IndexComponent } from './pages/index/index.component';
 import { AlreadySubscribedComponent } from './pages/already-subscribed/already-subscribed.component';
 import { FaqsComponent } from './pages/faqs/faqs.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { NewLandingPageComponent } from './pages/new-landing-page/new-landing-page.component';
 
 const routes: Routes = [
   {
@@ -54,7 +55,7 @@ const routes: Routes = [
   },
   {
     path: 'index',
-    component: IndexComponent,
+    component: NewLandingPageComponent,
   },
   {
     path: 'subscribed',

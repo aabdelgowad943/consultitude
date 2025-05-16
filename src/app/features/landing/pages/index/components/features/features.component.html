@@ -1,20 +1,15 @@
 <!-- features.component.html -->
-<div class="bg-[#11061A] py-20 ipad:py-40 px-4 ipad:px-20">
+<div class="px-4 ipad:px-20 max-w-[1600px] mx-auto">
   <div class="max-w-[1600px] w-full mx-auto px-1 md:px-8">
     <!-- Header -->
     <div class="text-center mb-16">
-      <div
-        class="inline-flex items-center justify-center gap-1 bg-[#873DE6]/30 border border-[#FFFFFF]/15 pl-2 pr-2.5 py-1 rounded-full mb-4"
-      >
-        <img
-          src="images/new/Left circle.svg"
-          class="absolute xs:hidden xss:hidden ipad:block left-0"
-          alt=""
-        />
+      <div class="text-center flex justify-center mb-4 items-center w-full">
+        <div
+          class="text-white flex items-center gap-2 text-center w-[175px] h-[53px] justify-center font-sans bg-gradient-to-tr from-[#493582]/30 to-[#472F8C66]/40 text-sm border border-[#FFFFFF24]/20 px-6 py-3 rounded-full"
+        >
+          <img src="/images/landing/Frame.png" class="w-6 h-6" />
 
-        <div class="flex items-center gap-1">
-          <img src="images/new/lead-icon.svg" alt="" />
-          <span class="text-white font-sans text-sm">Features</span>
+          <p class="text-[24px]">Features</p>
         </div>
       </div>
       <h2
@@ -24,7 +19,7 @@
 
         <img
           src="images/new/Star.svg"
-          class="absolute -top-5 ipad:right-64 -z-10"
+          class="absolute top-10 left-0 -z-10"
           alt=""
         />
       </h2>
@@ -39,126 +34,115 @@
     <!-- Features Grid -->
     <div class="grid grid-cols-1 gap-[72px] mt-[70px] ipad:mt-[160px]">
       <!-- Feature 1: Rapid Response -->
-      <div class="flex flex-col thousand:flex-row items-center bg-[#11061A]">
-        <div class="thousand:w-1/2 text-center thousand:text-left mb-8 md:mb-0">
+      <div
+        class="flex flex-col justify-between w-full thousand:flex-row items-center"
+      >
+        <div class="text-center relative thousand:text-left mb-8 md:mb-0">
           <h3
             class="text-white text-[40px] big:text-[52px] relative leading-tight font-medium mb-2"
           >
             Rapid <br />
             Response
-            <img
-              src="images/new/Star.svg"
-              class="absolute -top-20 ipad:-left-20"
-              alt=""
-            />
           </h3>
           <p class="text-[#FFFFFF] text-[16px] ipad:text-[20px] mb-4">
             AI-Powered Reviews & Deep Document Analysis
           </p>
           <ul
-            class="text-[#D0D5DD]/80 font-sans text-sm ipad:text-[16px] big:text-[18px] leading-tight max-w-[560px]"
+            class="text-[#D0D5DD]/80 font-sans text-sm ipad:text-[16px] big:text-[18px] leading-tight max-w-[471px]"
           >
             <li>
               AI-led Rapid Response managed by EVO, our orchestration engine.
-            </li>
-            <li>
               Multiple specialized agents collaborate, moderated in one
               intelligent flow, so your final deliverable is clean, relevant,
               and client-ready.
             </li>
           </ul>
-        </div>
-        <div
-          class="thousand:w-1/2 ipad:mt-10 thousand:mt-0 pr-10 py-10 rounded-lg"
-        >
           <img
-            src="images/new/RR.png"
+            src="images/new/Star.svg"
+            class="absolute hidden thousand:block z-50 top-40 -right-52"
+            alt=""
+          />
+        </div>
+        <div class="ipad:mt-10 thousand:mt-0">
+          <img
+            src="images/landing/holo-star2.png"
             alt="Rapid Response Interface"
-            class="rounded-lg shadow-lg"
           />
         </div>
       </div>
 
       <!-- Feature 2: Talk to AI Consultant -->
-      <div class="flex flex-col thousand:flex-row-reverse gap-20 items-center">
-        <div class="thousand:w-1/2 text-center thousand:text-left mb-8 md:mb-0">
+      <div
+        class="flex flex-col justify-between w-full thousand:flex-row-reverse gap-20 items-center"
+      >
+        <div class="text-center thousand:text-left mb-8 md:mb-0">
           <h3
             class="text-white text-[40px] big:text-[52px] relative leading-tight font-medium mb-2"
           >
             Talk to AI <br />
             Consultant
-            <img
-              src="images/new/Star.svg"
-              class="absolute -top-24 ipad:-left-12"
-              alt=""
-            />
           </h3>
           <p class="text-[#FFFFFF] text-[16px] ipad:text-[20px] mb-4">
             One-on-One Conversations with Pretrained Domain Experts
           </p>
           <ul
-            class="text-[#D0D5DD]/80 font-sans text-sm ipad:text-[16px] big:text-[18px] leading-tight max-w-[560px]"
+            class="text-[#D0D5DD]/80 font-sans text-sm ipad:text-[16px] big:text-[18px] leading-tight max-w-[471px]"
           >
-            <li>Pick the right virtual expert and explore your challenge.</li>
             <li>
-              Whether it’s go-to-market, operations, digital, public sector, or
-              more, It’s like having a rotating bench of top-tier consultants,
-              always on
+              Pick the right virtual expert and explore your challenge. Whether
+              it’s go-to-market, operations, digital, public sector, or more,
+              It’s like having a rotating bench of top-tier consultants, always
+              on
             </li>
+            <li></li>
           </ul>
         </div>
-        <div class="thousand:w-1/2 ipad:mt-10 thousand:mt-0">
-          <img
-            src="images/new/Talk Ai.png"
-            alt="AI Consultant Interface"
-            class="rounded-lg shadow-lg"
-          />
-        </div>
-      </div>
-
-      <!-- Feature 3: Build a Presentation -->
-      <div class="flex flex-col thousand:flex-row items-center">
-        <div class="thousand:w-1/2 text-center thousand:text-left mb-8 md:mb-0">
-          <h3
-            class="text-white relative text-[40px] big:text-[52px] leading-tight font-medium mb-2"
-          >
-            Build <br />
-            a Presentation
-
-            <img
-              src="images/new/Star.svg"
-              class="absolute -top-20 ipad:-left-20"
-              alt=""
-            />
-          </h3>
-          <p class="text-[#FFFFFF] text-[16px] ipad:text-[20px] mb-4">
-            From Raw Thinking to Slide Decks
-          </p>
-          <ul
-            class="text-[#D0D5DD]/80 font-sans text-sm ipad:text-[16px] big:text-[18px] leading-tight max-w-[560px]"
-          >
-            <li>
-              Generate a Dot-Dash from your own ideas, from a Rapid Response
-              analysis, or after chatting with an AI Consultant. Then watch it
-              come to life as a structured, editable Slides.
-            </li>
-            <li>
-              Whether it's a client proposal, bench-marking study, or strategy
-              framework pack — you’ll get a clear, structured deck that’s ready
-              to present or refine.
-            </li>
-          </ul>
-        </div>
-        <div class="thousand:w-1/2 ipad:mt-10 thousand:mt-0">
+        <div class="ipad:mt-10 thousand:mt-0">
           <img
             src="images/new/Ellipse 41.svg"
             class="absolute right-0 z-0 hidden w-48 big:w-[140px] res:w-[160px] ipad:block"
             alt=""
           />
           <img
-            src="images/new/bp.png"
+            src="images/landing/purple-cube.png"
+            alt="AI Consultant Interface"
+          />
+        </div>
+      </div>
+
+      <!-- Feature 3: Build a Presentation -->
+      <div
+        class="flex flex-col justify-between w-full thousand:flex-row items-center"
+      >
+        <div class="text-center thousand:text-left mb-8 md:mb-0">
+          <h3
+            class="text-white relative text-[40px] big:text-[52px] leading-tight font-medium mb-2"
+          >
+            Build <br />
+            a Perspective
+          </h3>
+          <p class="text-[#FFFFFF] text-[16px] ipad:text-[20px] mb-4">
+            From Raw Thinking to Slide Decks
+          </p>
+          <ul
+            class="text-[#D0D5DD]/80 font-sans text-sm ipad:text-[16px] big:text-[18px] leading-tight max-w-[471px]"
+          >
+            <li>
+              Generate a Dot-Dash from your own ideas, from a Rapid Response
+              analysis, or after chatting with an AI Consultant. Then watch it
+              come to life as a structured, editable Slides. Whether it's a
+              client proposal, bench-marking study, or strategy framework pack —
+              you’ll get a clear, structured deck that’s ready to present or
+              refine.
+            </li>
+            <li></li>
+          </ul>
+        </div>
+        <div class="ipad:mt-10 thousand:mt-0">
+          <img
+            src="images/landing/holo-abstract-shape 1.png"
             alt="Presentation Builder Interface"
-            class="rounded-lg z-50 shadow-lg"
+            style="mix-blend-mode: hard-light"
           />
         </div>
       </div>

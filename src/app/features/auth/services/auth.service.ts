@@ -90,6 +90,10 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
+  // note for solve linked in issue
+  // ---check if no token ==> leave it
+  // ---check put it in interceptor
+
   isTokenExpired(): boolean {
     const token = localStorage.getItem('token');
     if (!token) {
