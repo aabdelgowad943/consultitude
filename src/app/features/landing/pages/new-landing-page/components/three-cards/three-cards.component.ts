@@ -24,9 +24,9 @@ export class ThreeCardsComponent {
     },
     {
       id: 2,
-      title: 'Consulting Professionals',
+      title: 'Consulting Firms',
       description:
-        'Accelerate your workflow, build smarter decks, and deliver your best presentations with powerful AI support.',
+        'Boost delivery speed, build internal IP, and scale your consulting products with AI-powered workflows.',
       backgroundImage: 'images/landing/Pattern 2.svg',
       href: '/',
       width: '250',
@@ -35,7 +35,7 @@ export class ThreeCardsComponent {
     },
     {
       id: 3,
-      title: 'Consulting Clients',
+      title: 'Clients Seeking Consulting',
       description:
         'Upload deliverables for AI analysis, chat with pre-trained agents, or generate structured presentations instantly',
       backgroundImage: 'images/landing/Pattern 3.svg',
