@@ -2408,3 +2408,119 @@ ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]
 3- dialog ==> no agents found ....
 
 6- sign up email (send grid) ....
+
+<!-- agents in evo header  -->
+
+ <!-- ------------------------------------AI consultant cards---------------------------------------- -->
+  <!-- <div class="mb-10">
+    <div class="w-full flex justify-between items-center mb-5">
+      <h2 class="text-[24px] text-black font-medium">AI Consultant</h2>
+      <button
+        routerLink="/dashboard/agents"
+        class="w-[74px] h-[29px] py-1.5 px-2.5 rounded-lg border border-[#DEE0E3] text-[#14151A] text-sm flex items-center justify-center"
+      >
+        View all
+      </button>
+    </div>
+
+    <div
+      class="grid ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3"
+    >
+      <div
+        *ngFor="let agent of agents; let i = index"
+        class="rounded-[20px] p-5 bg-white border border-[#EAECF0] ipad:max-w-full big:max-h-[141px] relative group"
+      >
+        <div class="flex gap-5">
+          <div
+            class="bg-[#F2F4F7] h-[44px] rounded-[12px] mb-3 w-[44px] flex justify-center items-center p-3"
+          >
+            <img
+              [src]="getIconPath(iconName)"
+              [alt]="iconName + ' icon'"
+              class="w-full h-full object-contain"
+            />
+          </div>
+          <div class="w-full">
+            <div class="flex w-full justify-between items-center">
+              <h3 class="font-medium max-w-[207px] line-clamp-2">
+                {{ agent.name }}
+              </h3>
+            </div>
+            <p
+              class="text-sm text-[#667085] mt-1 mb-3 line-clamp-1 max-w-[216px]"
+            >
+              {{ agent.persona }}
+            </p>
+
+            <div class="flex gap-5 items-center">
+              <div
+                *ngIf="agent.owner.toLowerCase() === 'system'"
+                class="w-6 h-6 bg-[#F2F4F7] rounded-md flex items-center justify-center text-xs text-[#9241DC] font-medium"
+              >
+                {{ agent.owner.charAt(0) }}
+              </div>
+              <div
+                *ngIf="agent.owner.toLowerCase() !== 'system'"
+                class="w-6 h-6 bg-[#F2F4F7] rounded-md flex items-center justify-center text-xs text-[#9241DC] font-medium"
+              >
+                <img
+                  src="images/new/circle.svg"
+                  alt="Owner Icon"
+                  class="w-full h-full object-cover rounded-md"
+                />
+              </div>
+
+              <div
+                *ngIf="agent.owner.toLowerCase() === 'system'"
+                class="flex items-center justify-center text-sm font-medium text-[#667085]"
+              >
+                {{ agent.owner }}
+              </div>
+              <div
+                *ngIf="agent.owner.toLowerCase() !== 'system'"
+                class="flex items-center justify-center text-sm font-medium text-[#667085]"
+              >
+                Consultitude
+              </div>
+
+              <div class="flex items-center text-gray-400">
+                <img
+                  src="images/new/Comment Icon.svg"
+                  class="w-[35px] h-5"
+                  alt=""
+                />
+                <span class="text-sm tect-[#667085]">{{ agent.usage }} </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="agents.length === 0"
+      class="flex flex-col items-center justify-center py-10 px-6 bg-white rounded-lg border border-gray-100 shadow-sm"
+    >
+      <div class="relative w-24 h-24 mb-4">
+        <div
+          class="absolute inset-0 bg-purple-100 rounded-full flex items-center justify-center animate-pulse-slow"
+        >
+          <i class="pi pi-search text-purple-500 text-3xl"></i>
+        </div>
+
+        <div
+          class="absolute top-0 right-0 w-8 h-8 bg-purple-200 rounded-full opacity-70 animate-float-small"
+        ></div>
+        <div
+          class="absolute bottom-0 left-0 w-6 h-6 bg-purple-300 rounded-full opacity-70 animate-float-small delay-300"
+        ></div>
+      </div>
+
+      <h3 class="text-lg font-semibold text-gray-800 mb-1">
+        No consultants found
+      </h3>
+      <p class="text-gray-500 text-center max-w-md mb-6">
+        We couldn't find any consultants.
+      </p>
+    </div>
+  </div> -->

@@ -1,165 +1,144 @@
 <div class="mx-auto pt-20 ipad:pt-28 big:pt-28 px-6 ipad:px-6 big:px-6">
-  <div class="mb-5 ipad:ml-2">
-    <img src="images/new/circle.svg" class="mb-3 w-[32px] h-[32px]" alt="" />
-    <h1 class="text-2xl ipad:font-[500] bigger:font-[500] text-black">
-      Meet Evo,
-    </h1>
-    <p class="text-[#667085] text-2xl">How can i help you today?</p>
-  </div>
-
-  <!-- ------------------------------------header cards---------------------------------------- -->
+  <!-- ++++++++++++++++++++++++++++header chat+++++++++++++++++++++++++++++++++++++++++++++ -->
   <div
-    class="flex xss:flex-col ipad:flex-col thousand:flex-col big:flex-row gap-4 mb-10"
+    class="mb-5 ipad:ml-2 w-full bg-gradient-to-tr from-[#54148C] to-[#512178] rounded-[20px] h-[400px] relative"
   >
-    <!-- three cards -->
-    <div
-      *ngFor="let service of services"
-      (click)="handleServiceClick(service)"
-      class="ipad:max-w-full big:max-w-[300px] relative max-h-[157px] border border-[#F2F4F7] w-full rounded-[20px] cursor-pointer shadow-sm hover:shadow-md transition-all p-5 overflow-hidden"
-    >
-      <div class="absolute top-0 right-0 z-0">
-        <img
-          [src]="getBackgroundImage(service.name)"
-          alt="Service Background"
-        />
-      </div>
-      <div class="flex relative z-40 w-full justify-between items-center">
-        <img [src]="getIcons(service.name)" class="w-5 h-5" alt="" />
-        <!-- <div
-          [ngClass]="getCreditTextColor(service.name)"
-          class="bg-white shadow-sm max-w-[141px] max-h-[29px] rounded-[10px] py-1.5 px-2.5 text-sm"
-        >
-          30 credit / request
-        </div> -->
-      </div>
-      <h3 class="font-medium text-lg mb-1 text-[18px] mt-5 text-[#101828]">
-        {{ service.name }}
-      </h3>
-      <p class="text-[14px] w-full text-[#667085] mb-5">
-        {{ getServiceDescription(service.name) }}
+    <img
+      src="images/landing/Visual Container.png"
+      class="absolute right-0 top-0"
+      alt=""
+    />
+
+    <div class="w-full text-center">
+      <h1 class="pt-10 text-white text-[36px]">Hello {{ name }} ! 👋</h1>
+      <p class="text-[24px] text-white font-sans font-[300]">
+        Let's get started
       </p>
+
+      <p class="text-[14px] text-white font-sans pt-6 font-[300]">
+        Need expert support fast? <br />
+        Talk to an AI Consultant trained across multiple domains
+      </p>
+    </div>
+
+    <!----------------------------------- text area ----------------------------------------->
+    <div
+      class="border border-[#E9EAEB] bg-[#F9FAFB33]/20 rounded-[24px] pt-6 mt-6 mx-5"
+    >
+      <textarea
+        [(ngModel)]="userInput"
+        placeholder="What would you like to ask today?"
+        class="flex-grow border-none resize-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent focus:shadow-none placeholder:text-white text-white placeholder:font-sans font-sans font-[400] text-[14px] leading-tight rounded-md pt-2 pb-4 w-full mb-2"
+        rows="1"
+      ></textarea>
+      <div class="flex justify-between px-5 py-4 items-center">
+        <!-- ----------------------------------- fetching agents --------------------------------------- -->
+
+        <div class="grid gap-2 grid-cols-1 thousand:grid-cols-4">
+          <div
+            *ngFor="let agent of agents"
+            (click)="selectAgent(agent)"
+            class="rounded-full bg-gradient-to-tr w-[181px] from-[#ffff]/20 to-[#fff0] border cursor-pointer font-sans text-white px-5 py-3 shadow-md"
+            [ngClass]="{
+              'border-r-[#FFCCF2] border-l-[#FFCCF2] border-t-[#FFCCF2] border-b-[#FFCCF2]':
+                selectedAgentId !== agent.id,
+              'border-r-[#FFCCF2] border-l-[#FFCCF2] border-t-[#FFCCF2] border-b-[#FFCCF2] bg-gradient-to-tr from-[#370762] to-[#59218A]':
+                selectedAgentId === agent.id
+            }"
+          >
+            <div class="flex items-center gap-3">
+              <img
+                [src]="getIconPath(agent.iconName)"
+                [alt]="agent.iconName + ' icon'"
+                class="w-6 h-6 object-contain text-white"
+              />
+              <span class="font-medium line-clamp-1 font-sans">{{
+                agent.name
+              }}</span>
+            </div>
+          </div>
+
+          <div
+            class="rounded-full w-[181px] bg-gradient-to-tr from-[#ffff]/20 to-[#fff0] border border-r-[#FFCCF2] cursor-pointer border-l-[#FFCCF2] border-t-[#FFCCF2] border-b-[#FFCCF2] font-sans text-white px-5 py-3 shadow-md"
+          >
+            <button
+              (click)="openAiConsultantDialog()"
+              class="flex items-center gap-3"
+            >
+              <img
+                src="images/landing/Option Icon4.svg"
+                class="w-4 h-4"
+                alt=""
+              />
+              <span class="text-[14px] font-sans">More agents</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ---------------------------------- send message button and attachment -------------------- -->
+        <div class="flex items-center gap-2">
+          <button
+            class="text-[#667085] mx-2 bg-[#F2F4F7] rounded-full w-[32px] h-[32px] flex items-center justify-center hover:bg-[#E9EAEB] transition-colors"
+            (click)="fileInput.click()"
+          >
+            <img src="images/new/attachment-2.svg" alt="" />
+          </button>
+          <button
+            [disabled]="
+              (!selectedConsultant && !selectedAgentId) ||
+              userInput.trim() === ''
+            "
+            (click)="sendMessage()"
+            [class.opacity-50]="
+              (!selectedConsultant && !selectedAgentId) ||
+              userInput.trim() === ''
+            "
+            class="bg-[#9241DC] text-white rounded-full w-10 h-10 flex items-center justify-center"
+          >
+            <i class="pi pi-arrow-up"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Hidden file input -->
+      <input
+        type="file"
+        #fileInput
+        style="display: none"
+        accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain"
+      />
     </div>
   </div>
 
-  <!-- ------------------------------------AI consultant cards---------------------------------------- -->
-  <div class="mb-10">
-    <div class="w-full flex justify-between items-center mb-5">
-      <h2 class="text-[24px] text-black font-medium">AI Consultant</h2>
-      <button
-        routerLink="/dashboard/agents"
-        class="w-[74px] h-[29px] py-1.5 px-2.5 rounded-lg border border-[#DEE0E3] text-[#14151A] text-sm flex items-center justify-center"
-      >
-        View all
-      </button>
-    </div>
-
+  <!-- Rest of the component remains the same -->
+  <!-- ------------------------------------services cards---------------------------------------- -->
+  <div class="border rounded-[20px] border-[#DEE0E3] pt-10 px-5 mb-[44px] mt-6">
+    <h1 class="text-[#54148C] mb-5 text-[24px] font-sans">Quick Prompts</h1>
     <div
-      class="grid ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3"
+      class="flex xss:flex-col ipad:flex-col thousand:flex-col big:flex-row gap-4 mb-10"
     >
-      <!-- big:max-w-[320px] -->
-
+      <!-- three cards -->
       <div
-        *ngFor="let agent of agents; let i = index"
-        class="rounded-[20px] p-5 bg-white border border-[#EAECF0] ipad:max-w-full big:max-h-[141px] relative group"
+        *ngFor="let service of services"
+        (click)="handleServiceClick(service)"
+        class="ipad:max-w-full big:max-w-[300px] relative max-h-[157px] border border-[#F2F4F7] w-full rounded-[20px] cursor-pointer shadow-sm hover:shadow-md transition-all p-5 overflow-hidden"
       >
-        <div class="flex gap-5">
-          <div
-            class="bg-[#F2F4F7] h-[44px] rounded-[12px] mb-3 w-[44px] flex justify-center items-center p-3"
-          >
-            <img
-              [src]="getIconPath(iconName)"
-              [alt]="iconName + ' icon'"
-              class="w-full h-full object-contain"
-            />
-          </div>
-          <div class="w-full">
-            <div class="flex w-full justify-between items-center">
-              <h3 class="font-medium max-w-[207px] line-clamp-2">
-                {{ agent.name }}
-              </h3>
-            </div>
-            <p
-              class="text-sm text-[#667085] mt-1 mb-3 line-clamp-1 max-w-[216px]"
-            >
-              {{ agent.persona }}
-            </p>
-
-            <div class="flex gap-5 items-center">
-              <div
-                *ngIf="agent.owner.toLowerCase() === 'system'"
-                class="w-6 h-6 bg-[#F2F4F7] rounded-md flex items-center justify-center text-xs text-[#9241DC] font-medium"
-              >
-                {{ agent.owner.charAt(0) }}
-              </div>
-              <div
-                *ngIf="agent.owner.toLowerCase() !== 'system'"
-                class="w-6 h-6 bg-[#F2F4F7] rounded-md flex items-center justify-center text-xs text-[#9241DC] font-medium"
-              >
-                <img
-                  src="images/new/circle.svg"
-                  alt="Owner Icon"
-                  class="w-full h-full object-cover rounded-md"
-                />
-              </div>
-
-              <div
-                *ngIf="agent.owner.toLowerCase() === 'system'"
-                class="flex items-center justify-center text-sm font-medium text-[#667085]"
-              >
-                {{ agent.owner }}
-              </div>
-              <div
-                *ngIf="agent.owner.toLowerCase() !== 'system'"
-                class="flex items-center justify-center text-sm font-medium text-[#667085]"
-              >
-                Consultitude
-              </div>
-
-              <div class="flex items-center text-gray-400">
-                <!-- <i class="pi pi-comment w-4 h-4"></i> -->
-                <img
-                  src="images/new/Comment Icon.svg"
-                  class="w-[35px] h-5"
-                  alt=""
-                />
-                <span class="text-sm tect-[#667085]">{{ agent.usage }} </span>
-              </div>
-            </div>
-          </div>
+        <div class="absolute top-0 right-0 z-0">
+          <img
+            [src]="getBackgroundImage(service.name)"
+            alt="Service Background"
+          />
         </div>
-      </div>
-    </div>
-
-    <!-- no agent found design -->
-    <div
-      *ngIf="agents.length === 0"
-      class="flex flex-col items-center justify-center py-10 px-6 bg-white rounded-lg border border-gray-100 shadow-sm"
-    >
-      <!-- Illustration -->
-      <div class="relative w-24 h-24 mb-4">
-        <!-- Search icon with animated pulse -->
-        <div
-          class="absolute inset-0 bg-purple-100 rounded-full flex items-center justify-center animate-pulse-slow"
-        >
-          <i class="pi pi-search text-purple-500 text-3xl"></i>
+        <div class="flex relative z-40 w-full justify-between items-center">
+          <img [src]="getIcons(service.name)" class="w-5 h-5" alt="" />
         </div>
-
-        <!-- Animated circles -->
-        <div
-          class="absolute top-0 right-0 w-8 h-8 bg-purple-200 rounded-full opacity-70 animate-float-small"
-        ></div>
-        <div
-          class="absolute bottom-0 left-0 w-6 h-6 bg-purple-300 rounded-full opacity-70 animate-float-small delay-300"
-        ></div>
+        <h3 class="font-medium text-lg mb-1 text-[18px] mt-5 text-[#101828]">
+          {{ service.name }}
+        </h3>
+        <p class="text-[14px] w-full text-[#667085] mb-5">
+          {{ getServiceDescription(service.name) }}
+        </p>
       </div>
-
-      <!-- Message text -->
-      <h3 class="text-lg font-semibold text-gray-800 mb-1">
-        No consultants found
-      </h3>
-      <p class="text-gray-500 text-center max-w-md mb-6">
-        We couldn't find any consultants.
-      </p>
     </div>
   </div>
 
@@ -177,7 +156,6 @@
 
     <div *ngIf="conversations.length > 0" class="conversation-list">
       <div class="border text-left border-[#F2F4F7] rounded-[16px] p-5">
-        <!-- <p class="text-[#667085] text-[16px] mb-6">11 Apr</p> -->
         <div
           *ngFor="let item of conversations"
           (click)="viewChatHistory(item.conversationId)"
@@ -186,15 +164,7 @@
           <div class="flex flex-col">
             <p class="text-black text-[16px]">{{ item.ask }}</p>
             <p class="text-black text-[16px]">{{ item.title }}</p>
-            <!-- <p class="text-[#667085] text-[14px] mt-2">
-              {{ item.updatedAt | customDate }}
-            </p> -->
           </div>
-          <!-- <button
-            class="p-1 rounded-lg w-[32px] h-[32px] flex justify-center items-center"
-          >
-            <i class="pi pi-ellipsis-v text-[#667085]"></i>
-          </button> -->
         </div>
       </div>
     </div>
