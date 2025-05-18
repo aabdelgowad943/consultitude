@@ -64,7 +64,10 @@ export class ChatToConStartedComponent {
 
   private errorTimeout: any; // To store the timeout reference
 
-  constructor(private profileService: ProfileServiceService) {}
+  constructor(private profileService: ProfileServiceService) {
+    // console.log(localStorage.getItem('serviceId'));
+    localStorage.removeItem('serviceId');
+  }
 
   onSendMessage() {
     if (!this.userInput.trim() && !this.selectedFile) return;

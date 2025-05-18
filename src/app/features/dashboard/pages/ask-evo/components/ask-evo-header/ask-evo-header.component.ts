@@ -15,10 +15,13 @@ import { AgentsService } from '../../../../services/agents.service';
 import { Router, RouterModule } from '@angular/router';
 import { TalkToConsultantComponent } from '../../../../components/talk-to-consultant/talk-to-consultant.component';
 import { SelectConsultantForChatComponent } from '../select-consultant-for-chat/select-consultant-for-chat.component';
+import { Consultant } from '../../../../models/consultant';
+import { FormsModule } from '@angular/forms';
+import { PassDataForChatService } from '../../../../services/pass-data-for-chat.service';
 
 @Component({
   selector: 'app-ask-evo-header',
-  imports: [HistoryComponent, CommonModule, RouterModule],
+  imports: [HistoryComponent, CommonModule, RouterModule, FormsModule],
   templateUrl: './ask-evo-header.component.html',
   styleUrl: './ask-evo-header.component.scss',
 })
@@ -29,6 +32,10 @@ export class AskEvoHeaderComponent implements OnInit {
   @Input() serviceId: string = '';
   @Output() serviceIdChange = new EventEmitter<string>();
 
+  @Input() userInput: string = '';
+
+  name: string = '';
+
   services: any;
   totalItems: number = 0;
   first: number = 0;
@@ -36,11 +43,15 @@ export class AskEvoHeaderComponent implements OnInit {
 
   userId: string = localStorage.getItem('userId') || '';
 
+  selectedAgentId: string | null = null;
+
   // Add a cache for random icons to prevent regeneration
   private randomIconCache: { [key: string]: string } = {};
 
   onQuestionChange(value: string) {
     this.serviceId = value;
+    console.log('ser', this.serviceId);
+
     this.serviceIdChange.emit(value);
   }
 
@@ -49,7 +60,8 @@ export class AskEvoHeaderComponent implements OnInit {
     private evoService: EvoServicesService,
     private agentService: AgentsService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private passDataForChatService: PassDataForChatService
   ) {
     this.getAllServices();
     this.getAllAgents();
@@ -57,6 +69,13 @@ export class AskEvoHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.name =
+        localStorage.getItem('firstName') +
+        ' ' +
+        localStorage.getItem('lastName');
+    }, 400);
+
     // Pre-assign random icons to agents if needed
     if (this.agents.length > 0) {
       this.preAssignAgentIcons();
@@ -161,7 +180,7 @@ export class AskEvoHeaderComponent implements OnInit {
   handleServiceClick(service: any) {
     this.serviceId = service.id;
     this.serviceIdChange.emit(service.id);
-    // console.log('service id', service.id);
+    console.log('service id', this.serviceId);
 
     switch (service.name.toLowerCase()) {
       case 'rapid response':
@@ -249,6 +268,7 @@ export class AskEvoHeaderComponent implements OnInit {
     });
 
     // localStorage.setItem('serviceId', this.serviceId);
+    // console.log(this.serviceId);
   }
 
   private openDocumentAnalysisDialog() {
@@ -273,13 +293,7 @@ export class AskEvoHeaderComponent implements OnInit {
       return;
     }
 
-    // Option 1: Using path segments correctly
     this.router.navigate(['dashboard', 'view-chat-details', chatId]);
-
-    // OR Option 2: If you prefer using queryParams only
-    // this.router.navigate(['dashboard/view-chat-details'], {
-    //   queryParams: { chatId: chatId }
-    // });
   }
 
   @Input() iconName: string = '';
@@ -290,20 +304,14 @@ export class AskEvoHeaderComponent implements OnInit {
     document: 'images/new/Icon-2.svg',
     chart: 'images/new/Icon-3.svg',
     user: 'images/new/Icon-4.svg',
-    // settings: 'images/new/Icon-5.svg',
-    // download: 'images/new/Icon-6.svg',
-    // upload: 'images/new/Icon-7.svg',
-    // search: 'images/new/Icon-8.svg',
-    // email: 'images/new/Icon-9.svg',
-    // calendar: 'images/new/Icon-10.svg',
   };
 
   // Available icon paths for randomization
   private availableIcons: string[] = [
-    'images/new/Icon-1.svg',
-    'images/new/Icon-2.svg',
-    'images/new/Icon-3.svg',
-    'images/new/Icon-4.svg',
+    'images/landing/Option Icon.svg',
+    'images/landing/Option Icon2.svg',
+    'images/landing/Option Icon.svg',
+    'images/landing/Option Icon2.svg',
   ];
 
   getIconPath(iconName: string): string {
@@ -326,5 +334,65 @@ export class AskEvoHeaderComponent implements OnInit {
 
     // Return the cached random icon
     return this.randomIconCache[normalizedName];
+  }
+
+  selectedConsultant: Consultant | null = null;
+
+  openAiConsultantDialog() {
+    const ref = this.dialogService.open(SelectConsultantForChatComponent, {
+      header: 'Select a Consultant',
+      width: '50%',
+      contentStyle: { 'max-height': '80vh', overflow: 'auto' },
+      baseZIndex: 10000,
+      data: {
+        selectedConsultant: this.selectedConsultant,
+      },
+      height: '90%',
+    });
+
+    ref.onClose.subscribe((newConsultant: Consultant | null) => {
+      if (newConsultant !== undefined) {
+        this.selectedConsultant = newConsultant;
+      }
+    });
+  }
+
+  selectAgent(agent: any) {
+    // If clicking the same agent, deselect it
+    if (this.selectedAgentId === agent.id) {
+      this.selectedAgentId = null;
+      this.selectedConsultant = null;
+    } else {
+      this.selectedAgentId = agent.id;
+
+      // Set the selected consultant based on the agent
+      this.selectedConsultant = {
+        agentId: agent.id,
+        name: agent.name,
+      } as any;
+    }
+    // console.log('Selected agent:', agent);
+  }
+
+  // Method to handle sending message with the selected consultant
+  sendMessage() {
+    if (
+      (this.selectedConsultant || this.selectedAgentId) &&
+      this.userInput.trim() !== ''
+    ) {
+      const consultantToUse = this.selectedConsultant || {
+        agentId: this.selectedAgentId,
+      };
+
+      // Store data in the service before navigating
+      this.passDataForChatService.setChatData({
+        consultantAgentId: consultantToUse.agentId,
+        userQuestion: this.userInput.trim(),
+        selectedConsultant: consultantToUse,
+      });
+
+      // Navigate to the talk-to-agent component
+      this.router.navigate(['dashboard', 'talk-to-agent']);
+    }
   }
 }

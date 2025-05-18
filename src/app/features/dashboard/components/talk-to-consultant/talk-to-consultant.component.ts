@@ -46,7 +46,8 @@ export class TalkToConsultantComponent implements OnInit {
   ngOnInit(): void {
     this.data = this.config.data;
     this.serviceId = this.data.serviceId;
-    // console.log('service id================', this.serviceId);
+    console.log('service id================', this.serviceId);
+    localStorage.setItem('serviceId', this.serviceId);
   }
 
   close() {

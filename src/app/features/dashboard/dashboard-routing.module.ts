@@ -10,6 +10,7 @@ import { AgentsComponent } from '../ai-agents/pages/agents/agents.component';
 import { AskEvoComponent } from './pages/ask-evo/ask-evo.component';
 import { ShowChatComponent } from './pages/show-chat/show-chat.component';
 import { TalkToAiConsultantComponent } from './pages/talk-to-ai-consultant/talk-to-ai-consultant.component';
+import { TalkToConsultantFromEvoHomeComponent } from './pages/talk-to-consultant-from-evo-home/talk-to-consultant-from-evo-home.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,11 @@ const routes: Routes = [
       {
         path: 'talk-to-ai-consultant',
         component: TalkToAiConsultantComponent,
+      },
+
+      {
+        path: 'talk-to-agent',
+        component: TalkToConsultantFromEvoHomeComponent,
       },
 
       {
