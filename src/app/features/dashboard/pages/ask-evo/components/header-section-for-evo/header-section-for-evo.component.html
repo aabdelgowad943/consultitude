@@ -1,13 +1,17 @@
 <!-- header-section-for-evo.component.html -->
 <!-- ++++++++++++++++++++++++++ Header chat ++++++++++++++++++++++++++++++++++++++++++++++ -->
 <div
-  class="mb-5 ipad:ml-2 pb-4 w-full bg-gradient-to-tr from-[#54148C] to-[#512178] rounded-[20px] relative overflow-hidden"
+  class="mb-5 ipad:ml-2 pb-4 w-full rounded-[20px] relative overflow-hidden"
+  style="
+    background-image: url('images/landing/Heared.png');
+    background-size: cover;
+  "
 >
-  <img
+  <!-- <img
     src="images/landing/Visual Container.png"
     class="absolute right-0 top-0"
     alt=""
-  />
+  /> -->
 
   <div class="w-full text-center">
     <h1 class="pt-10 text-white text-[36px]">Hello {{ name }} ! 👋</h1>
@@ -32,10 +36,10 @@
         <div class="flex items-center gap-2">
           <i class="pi pi-file text-white"></i>
           <div>
-            <p class="text-sm font-medium text-white truncate">
+            <p class="text-sm font-sans text-white truncate">
               {{ selectedFile.name }}
             </p>
-            <p class="text-xs text-white">
+            <p class="text-xs text-white font-sans">
               {{ (selectedFile.size / 1024).toFixed(0) }} KB -
               <span *ngIf="isUploading">{{ uploadProgress }}% uploaded</span>
               <span *ngIf="!isUploading && selectedFile">100% Uploaded</span>
@@ -60,7 +64,7 @@
     <textarea
       [(ngModel)]="userInput"
       placeholder="What would you like to ask today?"
-      class="flex-grow border-none resize-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent focus:shadow-none placeholder:text-white text-white placeholder:font-sans font-sans font-[400] text-[14px] leading-tight rounded-md pt-2 pb-4 w-full mb-2"
+      class="flex-grow border-none resize-none bg-transparent pl-7 focus:outline-none focus:ring-0 focus:border-transparent focus:shadow-none placeholder:text-gray-300 text-white placeholder:font-sans font-sans font-[400] text-[14px] leading-tight rounded-md pt-2 pb-4 w-full mb-2"
       rows="1"
     ></textarea>
     <div
@@ -68,7 +72,7 @@
     >
       <!-- ----------------------------------- fetching agents --------------------------------------- -->
 
-      <div class="grid gap-2 grid-cols-1 thousand:grid-cols-4">
+      <div class="grid gap-2 grid-cols-1 thousand:grid-cols-2 big:grid-cols-4">
         <div
           *ngFor="let agent of agents"
           (click)="selectAgent(agent, $event)"
