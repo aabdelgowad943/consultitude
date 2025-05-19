@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
-import { FormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormGroup,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Login } from '../../models/login';
@@ -12,35 +18,54 @@ import { ProfileServiceService } from '../../../dashboard/services/profile-servi
 
 @Component({
   selector: 'app-login',
-  imports: [NavbarComponent, FormsModule, CommonModule, RouterModule],
+  imports: [
+    NavbarComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
-  emailExists: boolean = false;
-  showPasswordInput: boolean = false;
+  loginForm!: FormGroup;
   passwordFieldType: string = 'password';
   errorMessage: string = '';
+  formSubmitted: boolean = false;
 
   constructor(
+    private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private globalStateService: GlobalStateService,
     private profileService: ProfileServiceService
-  ) {}
+  ) {
+    this.createForm();
+  }
+
+  createForm() {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
 
   login() {
+    this.formSubmitted = true;
+
+    // Stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
+    }
+
     const loginData: Login = {
-      email: this.email,
-      password: this.password,
+      email: this.loginForm.get('email')?.value,
+      password: this.loginForm.get('password')?.value,
     };
 
     this.authService.login(loginData).subscribe({
       next: (res: any) => {
-        // console.log('data', res);
-
         if (!res.data.token) {
           this.errorMessage = 'Login failed: No token received';
           return;
@@ -79,13 +104,16 @@ export class LoginComponent {
       },
       error: (err: HttpErrorResponse) => {
         if (err.error.isLogin === false) {
-          localStorage.setItem('email', this.email);
+          localStorage.setItem('email', this.loginForm.get('email')?.value);
           this.router.navigate(['/auth/active-email']);
-          // console.log('email', this.email);
         }
 
         this.errorMessage =
           err.error?.errors?.[0]?.message || 'An error occurred during login';
+
+        setTimeout(() => {
+          this.errorMessage = '';
+        }, 3000);
       },
     });
   }
@@ -93,24 +121,20 @@ export class LoginComponent {
   localStorageStoring(userId: string) {
     this.authService.getUserDataByUserId(userId).subscribe({
       next: (res: any) => {
-        // console.log('profile data is', res.data);
-        const profileId = localStorage.setItem('profileId', res.data.id);
-        const email = localStorage.setItem('email', res.data.user.email);
-        const firstName = localStorage.setItem('firstName', res.data.firstName);
-        const lastName = localStorage.setItem('lastName', res.data.lastName);
-        const profileUrl = localStorage.setItem(
-          'profileUrl',
-          res.data.profileUrl
-        );
+        localStorage.setItem('profileId', res.data.id);
+        localStorage.setItem('email', res.data.user.email);
+        localStorage.setItem('firstName', res.data.firstName);
+        localStorage.setItem('lastName', res.data.lastName);
+        localStorage.setItem('profileUrl', res.data.profileUrl);
       },
       complete: () => {},
     });
   }
+
   goBack() {
-    this.showPasswordInput = false;
-    this.emailExists = false;
-    this.email = '';
-    this.password = '';
+    this.loginForm.reset();
+    this.formSubmitted = false;
+    this.errorMessage = '';
   }
 
   togglePasswordVisibility() {
@@ -120,5 +144,43 @@ export class LoginComponent {
 
   loginWithLinkedIn() {
     window.location.href = 'http://13.51.183.148:3000/auth/linkedin';
+  }
+
+  // Form field getters
+  get emailControl() {
+    return this.loginForm.get('email');
+  }
+  get passwordControl() {
+    return this.loginForm.get('password');
+  }
+
+  // Field validation methods
+  isFieldInvalid(fieldName: string): boolean {
+    const control = this.loginForm.get(fieldName);
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || this.formSubmitted)
+    );
+  }
+
+  getEmailErrorMessage(): string {
+    if (this.emailControl?.hasError('required')) {
+      return 'Email is required';
+    }
+    if (this.emailControl?.hasError('email')) {
+      return 'Please enter a valid email address';
+    }
+    return '';
+  }
+
+  getPasswordErrorMessage(): string {
+    if (this.passwordControl?.hasError('required')) {
+      return 'Password is required';
+    }
+    if (this.passwordControl?.hasError('minlength')) {
+      return 'Password must be at least 6 characters';
+    }
+    return '';
   }
 }

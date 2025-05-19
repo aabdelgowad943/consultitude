@@ -6,9 +6,9 @@
     <app-ask-evo-loader *ngIf="isLoading"></app-ask-evo-loader>
 
     <!----------------------------------------First page-------------------------------------------- -->
+    <!-- [agents]="agents" -->
     <app-ask-evo-header
       *ngIf="!isLoading && !showDocumentUploadStepper && !showChatInterface"
-      [agents]="agents"
       [serviceId]="serviceId"
       (serviceIdChange)="onSelectedServiceIdChange($event)"
       [conversations]="conversations"

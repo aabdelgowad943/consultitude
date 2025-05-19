@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Login } from '../../models/login';
-import { Register } from '../../models/register';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
+
 enum RegistrationStep {
   EmailEntry,
   UserProfile,
@@ -17,18 +23,16 @@ enum RegistrationStep {
 
 @Component({
   selector: 'app-register',
-  imports: [NavbarComponent, CommonModule, FormsModule, RouterModule],
+  imports: [NavbarComponent, CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
-export class RegisterComponent {
-  // Form fields
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
-  verificationCode: string = '';
-  name: string = '';
-  currentRole: string = '';
+export class RegisterComponent implements OnInit {
+  // Form groups for different steps
+  emailForm!: FormGroup;
+  profileForm!: FormGroup;
+  passwordForm!: FormGroup;
+  verificationForm!: FormGroup;
 
   // Step management
   currentStep: RegistrationStep = RegistrationStep.EmailEntry;
@@ -36,138 +40,198 @@ export class RegisterComponent {
 
   // Error messages
   registrationError: string = '';
-  emailError: string = '';
-  nameError: string = '';
-  roleError: string = '';
-  passwordError: string = '';
-  confirmPasswordError: string = '';
   verificationCodeError: string = '';
 
-  constructor(private authService: AuthService) {}
+  // User data for completion
+  userName: string = '';
 
-  // Step 1: Email validation
-  checkEmail() {
-    if (!this.email) {
-      this.emailError = 'Email is required';
+  constructor(private authService: AuthService, private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.initializeForms();
+  }
+
+  // Initialize all form groups with validators
+  initializeForms(): void {
+    // Email form with pattern validation
+    this.emailForm = this.fb.group({
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern(
+            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+          ),
+        ],
+      ],
+    });
+
+    // Profile form with name length validation
+    this.profileForm = this.fb.group({
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern('^[a-zA-Z ]+$'),
+        ],
+      ],
+      currentRole: ['', [Validators.required, Validators.maxLength(50)]],
+    });
+
+    // Password form with custom validator for matching passwords
+    this.passwordForm = this.fb.group(
+      {
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            // Password pattern: at least one uppercase, one lowercase, one number and one special character
+            Validators.pattern(
+              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
+            ),
+          ],
+        ],
+        confirmPassword: ['', [Validators.required]],
+      },
+      { validators: this.passwordMatchValidator }
+    );
+
+    // Verification form with pattern for numeric code
+    this.verificationForm = this.fb.group({
+      verificationCode: ['', [Validators.required]],
+    });
+  }
+
+  // Custom validator for password matching
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (
+      password &&
+      confirmPassword &&
+      password.value !== confirmPassword.value
+    ) {
+      confirmPassword.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+
+    return null;
+  }
+
+  // Step 1: Email validation and check if exists
+  checkEmail(): void {
+    if (this.emailForm.invalid) {
+      this.emailForm.markAllAsTouched();
       return;
     }
-    if (!this.email.includes('@')) {
-      this.emailError = 'Please enter a valid email';
-      return;
-    }
 
-    this.authService.isEmailExist(this.email).subscribe({
-      next: (res: any) => {
-        this.emailError = 'Email already exists';
+    const email = this.emailForm.get('email')?.value;
+
+    this.authService.isEmailExist(email).subscribe({
+      next: () => {
+        // Email exists - show error
+        this.emailForm.get('email')?.setErrors({ emailExists: true });
       },
       error: () => {
-        this.emailError = '';
+        // Email doesn't exist - proceed to next step
         this.currentStep = RegistrationStep.UserProfile;
       },
     });
   }
 
   // Step 2: Profile validation
-  validateProfile() {
-    if (!this.name) {
-      this.nameError = 'Name is required';
+  validateProfile(): void {
+    if (this.profileForm.invalid) {
+      this.profileForm.markAllAsTouched();
       return;
     }
-    if (!this.currentRole) {
-      this.roleError = 'Current role is required';
-      return;
-    }
-    this.nameError = '';
-    this.roleError = '';
+
+    this.userName = this.profileForm.get('name')?.value;
     this.currentStep = RegistrationStep.PasswordSetup;
   }
 
-  // Step 3: Password validation
-  validatePassword(): boolean {
-    let isValid = true;
-
-    // Reset previous errors
-    this.passwordError = '';
-    this.confirmPasswordError = '';
-
-    if (!this.password) {
-      this.passwordError = 'Password is required';
-      isValid = false;
-    } else if (this.password.length < 8) {
-      this.passwordError = 'Password must be at least 8 characters';
-      isValid = false;
+  // Step 3: Move to verification step after creating account
+  submitRegistration(): void {
+    if (this.passwordForm.invalid) {
+      this.passwordForm.markAllAsTouched();
+      return;
     }
 
-    if (!this.confirmPassword) {
-      this.confirmPasswordError = 'Please confirm your password';
-      isValid = false;
-    } else if (this.password !== this.confirmPassword) {
-      this.confirmPasswordError = 'Passwords do not match';
-      isValid = false;
-    }
+    const registerData = {
+      firstName: this.profileForm.get('name')?.value,
+      lastName: '',
+      profileUrl:
+        'https://consultittude.s3.eu-north-1.amazonaws.com/a62b161c-7f95-4f83-aa6c-715e455852a9-307ce493-b254-4b2d-8ba4-d12c080d6651.jpg',
+      title: this.profileForm.get('currentRole')?.value,
+      email: this.emailForm.get('email')?.value,
+      password: this.passwordForm.get('password')?.value,
+    };
 
-    return isValid;
-  }
-
-  // Step 4: Final submission
-  verifyAndSubmit() {
-    if (this.currentStep === RegistrationStep.CodeVerification) {
-      this.authService
-        .verifyEmail({
-          email: this.email,
-          otp: this.verificationCode,
-        })
-        .subscribe({
-          next: (res) => {
-            this.currentStep = RegistrationStep.Completion;
-          },
-          error: (err) => {
-            this.verificationCodeError = 'Invalid verification code';
-          },
-        });
-    } else {
-      // Validate password fields before proceeding
-      const isPasswordValid = this.validatePassword();
-      if (!isPasswordValid) {
-        return; // Stop if validation fails
-      }
-      this.registrationError = '';
-      const registerData = {
-        firstName: this.name,
-        lastName: '',
-        profileUrl: 'placeholder.com',
-        title: this.currentRole,
-        email: this.email,
-        password: this.password,
-      };
-      this.authService.register(registerData).subscribe({
-        next: (res) => {
-          this.currentStep = RegistrationStep.CodeVerification;
-        },
-        error: (err: HttpErrorResponse) => {
-          this.registrationError =
-            err.error.message ||
-            'Registration failed. Please check your details.';
-        },
-      });
-    }
-  }
-
-  isEmailExist() {
-    this.authService.isEmailExist(this.email).subscribe({
-      next: (res: any) => {
-        // console.log(res.message);
+    this.authService.register(registerData).subscribe({
+      next: () => {
+        this.currentStep = RegistrationStep.CodeVerification;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.registrationError =
+          err.error.message ||
+          'Registration failed. Please check your details.';
       },
     });
   }
 
-  goBack() {
+  // Step 4: Verify email with OTP
+  verifyEmail(): void {
+    if (this.verificationForm.invalid) {
+      this.verificationForm.markAllAsTouched();
+      return;
+    }
+
+    this.authService
+      .verifyEmail({
+        email: this.emailForm.get('email')?.value,
+        otp: this.verificationForm.get('verificationCode')?.value,
+      })
+      .subscribe({
+        next: () => {
+          this.currentStep = RegistrationStep.Completion;
+        },
+        error: () => {
+          this.verificationCodeError = 'Invalid verification code';
+        },
+      });
+  }
+
+  // Go back one step
+  goBack(): void {
     if (this.currentStep > RegistrationStep.EmailEntry) {
       this.currentStep--;
-      // Reset relevant errors
       this.registrationError = '';
-      this.passwordError = '';
-      this.confirmPasswordError = '';
+    }
+  }
+
+  // Resend verification code
+  resendCode(): void {
+    // Implement resend functionality here
+    // This would typically call an API endpoint to resend the code
+  }
+
+  // Helper methods for template
+  get currentFormGroup(): FormGroup {
+    switch (this.currentStep) {
+      case RegistrationStep.EmailEntry:
+        return this.emailForm;
+      case RegistrationStep.UserProfile:
+        return this.profileForm;
+      case RegistrationStep.PasswordSetup:
+        return this.passwordForm;
+      case RegistrationStep.CodeVerification:
+        return this.verificationForm;
+      default:
+        return this.emailForm;
     }
   }
 }
