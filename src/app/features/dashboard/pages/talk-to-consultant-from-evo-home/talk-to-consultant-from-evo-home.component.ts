@@ -43,10 +43,11 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
       this.consultantAgentId = chatData.consultantAgentId || '';
       this.userQuestion = chatData.userQuestion || '';
       this.selectedConsultant = chatData.selectedConsultant || null;
-
+      this.imageUrl = chatData.imageUrl || '';
       console.log(this.consultantAgentId);
       console.log(this.userQuestion);
       console.log(this.selectedConsultant);
+      console.log(this.imageUrl);
 
       // If there's user input from the service, process it immediately
       if (this.userQuestion) {

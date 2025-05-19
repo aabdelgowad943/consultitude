@@ -1,0 +1,179 @@
+<!-- header-section-for-evo.component.html -->
+<!-- ++++++++++++++++++++++++++ Header chat ++++++++++++++++++++++++++++++++++++++++++++++ -->
+<div
+  class="mb-5 ipad:ml-2 pb-4 w-full rounded-[20px] relative overflow-hidden"
+  style="
+    background-image: url('images/landing/Heared.png');
+    background-size: cover;
+  "
+>
+  <!-- <img
+    src="images/landing/Visual Container.png"
+    class="absolute right-0 top-0"
+    alt=""
+  /> -->
+
+  <div class="w-full text-center">
+    <h1 class="pt-10 text-white text-[36px]">Hello {{ name }} ! 👋</h1>
+    <p class="text-[24px] text-white font-sans font-[300]">Let's get started</p>
+
+    <p class="text-[14px] text-white font-sans pt-6 font-[300]">
+      Need expert support fast? <br />
+      Talk to an AI Consultant trained across multiple domains
+    </p>
+  </div>
+
+  <!----------------------------------- text area ----------------------------------------->
+  <div
+    class="border border-[#E9EAEB] bg-[#F9FAFB33]/20 rounded-[24px] pt-6 mt-6 mx-5"
+  >
+    <!-- File attachment display (when selected) -->
+    <div
+      *ngIf="selectedFile"
+      class="mx-5 mb-3 rounded-[12px] border border-[#E9EAEB] bg-[#F9FAFB33]/20 p-4"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="pi pi-file text-white"></i>
+          <div>
+            <p class="text-sm font-sans text-white truncate">
+              {{ selectedFile.name }}
+            </p>
+            <p class="text-xs text-white font-sans">
+              {{ (selectedFile.size / 1024).toFixed(0) }} KB -
+              <span *ngIf="isUploading">{{ uploadProgress }}% uploaded</span>
+              <span *ngIf="!isUploading && selectedFile">100% Uploaded</span>
+            </p>
+          </div>
+        </div>
+
+        <div
+          *ngIf="isUploading"
+          class="w-6 h-6 rounded-full border-2 border-[#E9EAEB] border-t-[#792EBA] animate-spin"
+        ></div>
+        <button
+          *ngIf="!isUploading && selectedFile"
+          class="text-white bg-transparent p-2 rounded-xl w-8 h-8 flex-shrink-0 flex justify-center items-center hover:bg-[#ffffff33] transition-colors"
+          (click)="removeFile()"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <textarea
+      [(ngModel)]="userInput"
+      placeholder="What would you like to ask today?"
+      class="flex-grow border-none resize-none bg-transparent pl-7 focus:outline-none focus:ring-0 focus:border-transparent focus:shadow-none placeholder:text-gray-300 text-white placeholder:font-sans font-sans font-[400] text-[14px] leading-tight rounded-md pt-2 pb-4 w-full mb-2"
+      rows="1"
+    ></textarea>
+    <div
+      class="flex flex-col thousand:flex-row gap-2 justify-between px-5 py-4 items-center"
+    >
+      <!-- ----------------------------------- fetching agents --------------------------------------- -->
+
+      <div class="grid gap-2 grid-cols-1 thousand:grid-cols-2 big:grid-cols-4">
+        <div
+          *ngFor="let agent of agents"
+          (click)="selectAgent(agent, $event)"
+          [attr.data-agent-id]="agent.id"
+          class="agent-item rounded-full bg-gradient-to-tr w-[181px] from-[#ffff]/20 to-[#fff0] border cursor-pointer font-sans text-white px-5 py-3 shadow-md relative group border-r-[#FFCCF2] border-l-[#FFCCF2] border-t-[#FFCCF2] border-b-[#FFCCF2]"
+        >
+          <div class="flex items-center gap-3">
+            <img
+              [src]="getIconPath(agent.iconName)"
+              [alt]="agent.iconName + ' icon'"
+              class="w-6 h-6 object-contain text-white"
+            />
+            <span class="font-medium line-clamp-1 font-sans">{{
+              agent.name
+            }}</span>
+          </div>
+
+          <!-- Tooltip - Revised to stay within container -->
+          <div
+            class="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200 bottom-full left-3/4 transform -translate-x-1/2 mb-2 pointer-events-none"
+            style="z-index: 10"
+          >
+            <div
+              class="bg-gradient-to-tr from-[#291738] to-[#7016bf] text-white px-4 py-2 rounded-md shadow-lg border border-[#FFCCF2]"
+              style="
+                max-width: 360px;
+                width: 340px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              "
+            >
+              <span class="font-medium block">{{ agent.name }}</span>
+            </div>
+          </div>
+        </div>
+        <div
+          (click)="openAiConsultantDialog()"
+          class="rounded-full w-[181px] bg-gradient-to-tr from-[#ffff]/20 to-[#fff0] border border-r-[#FFCCF2] cursor-pointer border-l-[#FFCCF2] border-t-[#FFCCF2] border-b-[#FFCCF2] font-sans text-white px-5 py-3 shadow-md"
+        >
+          <button class="flex items-center gap-3">
+            <img src="images/landing/Option Icon4.svg" class="w-4 h-4" alt="" />
+            <span class="text-[14px] font-sans">More agents</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------- send message button and attachment -------------------- -->
+      <div class="flex items-center gap-2">
+        <button
+          (click)="fileInput.click()"
+          [disabled]="selectedFile || isUploading"
+          class="text-[#667085] mx-2 bg-[#F2F4F7] rounded-full w-[32px] h-[32px] flex items-center justify-center hover:bg-[#E9EAEB] transition-colors"
+          [ngClass]="{ 'opacity-50': selectedFile || isUploading }"
+        >
+          <img src="images/new/attachment-2.svg" alt="" />
+        </button>
+        <button
+          [disabled]="
+            (!selectedConsultant && !selectedAgentId) || userInput.trim() === ''
+          "
+          (click)="sendMessage()"
+          [class.opacity-50]="
+            (!selectedConsultant && !selectedAgentId) || userInput.trim() === ''
+          "
+          class="bg-[#9241DC] text-white rounded-full w-10 h-10 flex items-center justify-center"
+        >
+          <i class="pi pi-arrow-up"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Hidden file input -->
+    <input
+      type="file"
+      #fileInput
+      (change)="onFileSelected($event)"
+      style="display: none"
+      accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain"
+    />
+  </div>
+</div>
+
+<!-- Error message -->
+<div
+  *ngIf="errorMessage"
+  [@errorAnimation]
+  class="error-message bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg shadow-md my-2 mx-4 flex items-center"
+>
+  <svg
+    class="w-5 h-5 mr-2"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+    ></path>
+  </svg>
+  <span>{{ errorMessage }}</span>
+</div>

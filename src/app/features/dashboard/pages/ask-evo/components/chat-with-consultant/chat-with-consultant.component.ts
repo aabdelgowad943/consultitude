@@ -165,9 +165,12 @@ export class ChatWithConsultantComponent implements OnInit {
 
   // ---------------------------------------Open Dialog--------------------------------------------------------
   openConsultantSelector() {
+    const isMobile = window.innerWidth < 768;
+    const dialogWidth = isMobile ? '370px' : '702px';
+
     const ref = this.dialogService.open(SelectConsultantForChatComponent, {
       header: 'Select a Consultant',
-      width: '50%',
+      width: dialogWidth,
       contentStyle: { 'max-height': '80vh', overflow: 'auto' },
       baseZIndex: 10000,
       data: {

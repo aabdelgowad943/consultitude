@@ -6,6 +6,7 @@ export interface ChatData {
   consultantAgentId?: any;
   userQuestion?: string;
   selectedConsultant?: Consultant | any;
+  imageUrl?: string;
 }
 
 @Injectable({
