@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -8,7 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-verify-otp',
-  imports: [NavbarComponent, FormsModule, CommonModule],
+  imports: [NavbarComponent, FormsModule, CommonModule, RouterModule],
   templateUrl: './verify-otp.component.html',
   styleUrl: './verify-otp.component.scss',
 })

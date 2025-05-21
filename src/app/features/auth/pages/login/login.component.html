@@ -1,6 +1,6 @@
 <div class="w-full max-w-[1920px] mx-auto relative">
-  <app-navbar></app-navbar>
-  <section class="bg-white mt-20">
+  <!-- <app-navbar></app-navbar> -->
+  <section class="bg-white">
     <div class="grid grid-cols-1 thousand:grid-cols-2 gap-6">
       <div
         class="flex flex-col thousand:items-center h-screen thousand:mt-32 2xl:mt-20 justify-center px-4 thousand:order-1 order-2"
@@ -11,8 +11,9 @@
           <!-- Title -->
           <div class="w-full flex justify-center thousand:mb-10">
             <img
+              routerLink="/index"
               src="/images/logo-pink SVG.svg"
-              class="thousand:w-60 w-[237.5px]"
+              class="thousand:w-60 w-[237.5px] cursor-pointer"
               alt="logo"
             />
           </div>
@@ -181,7 +182,7 @@
       <div class="flex thousand:order-2 order-1">
         <img
           class="object-cover w-full h-[100px] thousand:h-full"
-          src="/images/Section.png"
+          src="/images/landing/login-side.svg"
           alt="Login Image"
         />
       </div>
