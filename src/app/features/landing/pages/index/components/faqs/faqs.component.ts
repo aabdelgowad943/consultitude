@@ -10,33 +10,54 @@ import { Component } from '@angular/core';
 export class FaqsComponent {
   faqData = [
     {
-      question: 'What does “Talk to an AI Consultant” mean?',
-      answer: `This feature allows you to interact with specialized AI agents pre-trained on different consulting logic, frameworks, and domains. Use it to get feedback, brainstorm, or refine your work—instantly.
+      question: 'What is Consultitude?',
+      answer: `Consultitude is an AI-powered platform built for the consulting world. It helps consultants, consulting firms, and clients create, validate, and enhance consulting-grade work — faster, more affordably, and with high-quality standards you can trust.
 `,
     },
     {
       question:
-        'How does Consultitude ensure the quality of AI-generated content?',
-      answer: `We use pretrained models specifically fine-tuned on consulting deliverables and frameworks, ensuring outputs are structured, relevant, and aligned with industry standards.
-`,
+        ' How is Consultitude different from ChatGPT or other AI tools?',
+      answer: `Consultitude goes beyond general AI content creation. It delivers consulting-grade outputs through structured thinking, domain-specific expertise, and professional polish. Whether you re brainstorming strategies, validating reports, or building executive-ready deliverables, Consultitude is designed for depth, quality, and real-world consulting use cases — not just generic answers.`,
     },
     {
-      question: 'Can I upload confidential materials?',
+      question: 'Who can use Consultitude?',
       answer: `
-Yes. We take data security seriously. All uploaded documents are encrypted, and access is restricted to your user session.
+    <ul class="list-disc pl-5 space-y-1">
+    <li>Independent consultants aiming to deliver faster, higher-quality work.</li>
+    <li>Consulting firms looking to scale their services while maintaining quality.</li>
+    <li>Clients seeking faster access to consulting insights and validation at a reasonable cost.</li>
+    <li>If you work in or with consulting, Consultitude is designed for you.</li>
+</ul>
+
       `,
     },
     {
-      question: 'Do I need to install anything to use Consultitude?',
-      answer: `No installation is required. Consultitude is entirely cloud-based and accessible through your browser on desktop, tablet, or mobile.`,
+      question: 'Is the work really "consulting-grade"?',
+      answer: `Yes. Consultitude combines domain-specific AI expertise, structured multi-perspective feedback, and quality moderation. Every output is designed to meet the high standards of professional consulting — clear logic, sharp thinking, and executive-level presentation.`,
     },
     {
-      question: 'What formats are supported when uploading deliverables?',
-      answer: `You can upload PowerPoint decks, PDFs, Word docs, and other common formats. The AI parses the content to offer insights, summaries, or structure new outputs from it.`,
+      question: 'What kind of work can I create or improve with Consultitude?',
+      answer: `
+    <ul class="list-disc pl-5 space-y-1">
+      <li>Validate reports, decks, and strategic documents</li>
+      <li>Build structured slide presentations</li>
+      <li>Brainstorm and refine strategies and business ideas</li>
+      <li>Access consulting-grade templates and frameworks</li>
+      <li>Get multi-perspective feedback on proposals, business cases, and more</li>
+    </ul>
+  `,
     },
     {
-      question: 'Can I export the generated content to my existing tools?',
-      answer: `Yes. Presentations, insights, and templates created on Consultitude can be downloaded or exported to formats compatible with PowerPoint, Google Slides, and PDF.`,
+      question: 'Can I upload my own documents for support?',
+      answer: `Absolutely. Consultitude lets you upload your documents to get tailored feedback, enhancements, and consulting-grade outputs.Whether you're validating an idea, building a deck, or preparing a report, your uploads are fully integrated into the experience.`,
+    },
+    {
+      question: 'Is Consultitude a replacement for human consultants?',
+      answer: `Consultitude is a powerful extension of your consulting capabilities — not a complete replacement.It accelerates validation, enhances deliverables, and expands access to expert thinking. For highly complex or sensitive projects, human consultants may still be involved, but even they can use Consultitude to deliver faster, better results.`,
+    },
+    {
+      question: 'How much does Consultitude cost?',
+      answer: `Flexible pricing options will be available at launch, tailored for individual consultants, firms, and organizations.Our goal is to make consulting-grade support accessible at a fraction of traditional consulting costs.`,
     },
   ];
 

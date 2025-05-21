@@ -7,4 +7,11 @@ import { RouterModule } from '@angular/router';
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
-export class CardComponent {}
+export class CardComponent {
+  scrollToSection() {
+    const element = document.getElementById('waiting-list');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}

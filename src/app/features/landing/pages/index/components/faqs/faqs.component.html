@@ -56,10 +56,10 @@
         </h2>
         <div [hidden]="!isOpen(i)">
           <div class="py-2">
-            <p
+            <div
               [innerHTML]="faq.answer"
-              class="text-[#FFFFFF99]/60 font-sans text-[16px]"
-            ></p>
+              class="text-[#FFFFFF99]/60 font-sans text-[16px] [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1"
+            ></div>
           </div>
         </div>
       </div>

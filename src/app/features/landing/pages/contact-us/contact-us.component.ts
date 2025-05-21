@@ -87,22 +87,23 @@ export class ContactUsComponent implements OnInit, OnChanges, OnDestroy {
 
     this.contactForm = this.fb.group({
       // For name fields, we probably want to allow spaces (like "John Doe")
-      firstName: ['', [Validators.required, notOnlyWhitespace]],
-      lastName: ['', [Validators.required, notOnlyWhitespace]],
+      name: ['', [Validators.required, notOnlyWhitespace]],
+      // lastName: ['', [Validators.required, notOnlyWhitespace]],
       // Email shouldn't contain spaces
       email: ['', [Validators.required, Validators.email, noWhitespace]],
       // Phone might have spaces for formatting
-      phone: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^\\+?[0-9]+[0-9 ]*$'),
-          notOnlyWhitespace,
-        ],
-      ],
+      // phone: [
+      //   '',
+      //   [
+      //     Validators.required,
+      //     Validators.pattern('^\\+?[0-9]+[0-9 ]*$'),
+      //     notOnlyWhitespace,
+      //   ],
+      // ],
       // Message can contain spaces but shouldn't be empty
       message: ['', [Validators.required, notOnlyWhitespace]],
       agree: [false, Validators.requiredTrue],
+      helpOption: ['', Validators.required], // Add helpOption with required validator
     });
   }
 
@@ -121,10 +122,10 @@ export class ContactUsComponent implements OnInit, OnChanges, OnDestroy {
 
             // Update form values after getting user data
             this.contactForm.patchValue({
-              firstName: this.firstName,
-              lastName: this.lastName,
+              name: this.firstName + this.lastName,
+              // lastName: this.lastName,
               email: this.email,
-              phone: this.phone,
+              // phone: this.phone,
             });
           }
         },

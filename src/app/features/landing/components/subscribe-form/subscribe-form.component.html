@@ -13,7 +13,7 @@
       <div class="block ipad:hidden">
         <div
           *ngIf="showEmailError"
-          class="text-red-500 text-sm ps-2 text-left pt-1"
+          class="text-red-500 text-sm ps-2 font-sans text-left pt-1"
         >
           <p *ngIf="subscribeForm.get('email')?.errors?.['required']">
             Email is required
@@ -48,13 +48,13 @@
         />
       </svg>
 
-      Get Started
+      Join Waiting List
     </button>
   </div>
   <div class="hidden ipad:block">
     <div
       *ngIf="showEmailError"
-      class="text-red-500 text-sm ps-2 text-left pt-1"
+      class="text-red-500 text-sm ps-2 font-sans text-left pt-1"
     >
       <p *ngIf="subscribeForm.get('email')?.errors?.['required']">
         Email is required

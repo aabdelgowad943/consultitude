@@ -28,4 +28,11 @@ export class FooterComponent {
     // add underline
     window.scrollTo(0, 0);
   }
+
+  scrollToSection() {
+    const element = document.getElementById('waiting-list');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
