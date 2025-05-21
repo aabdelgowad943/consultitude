@@ -1,7 +1,5 @@
 <app-navbar></app-navbar>
-<section
-  class="w-full text-left pt-16 pb-10 bg-gray-100 max-w-[1920px] mx-auto relative px-5 md:px-0"
->
+<section class="w-full text-left pt-16 pb-10 bg-gray-100 relative px-5 md:px-0">
   <div class="py-2 px-0 mx-auto max-w-screen-xl pt-10 sm:py-16 lg:px-6">
     <div class="text-center flex justify-center mb-4 items-center w-full">
       <p
@@ -42,7 +40,10 @@
         </h2>
         <div [hidden]="!isOpen(i)">
           <div class="py-2">
-            <p [innerHTML]="faq.answer" class="text-[#0F132499]/60 text-sm"></p>
+            <div
+              [innerHTML]="faq.answer"
+              class="text-[#0F132499] text-sm font-sans text-[16px] [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1"
+            ></div>
           </div>
         </div>
       </div>
@@ -69,13 +70,13 @@
   >
     <div class="flex flex-col space-y-6">
       <h1
-        class="text-[36px] text-center w-full text-white ipad:font-[500] big:font-[600]"
+        class="text-[36px] text-center font-sans w-full text-white ipad:font-[500] big:font-[600]"
       >
         Need <br class="md:hidden" />
         additional <br class="md:hidden" />
         help?
       </h1>
-      <p class="text-[#E9D7FE] w-full text-center my-7">
+      <p class="text-[#E9D7FE] w-full text-center my-7 font-sans">
         Contact us <br class="md:hidden" />
         <a
           href="mailto:
@@ -90,15 +91,15 @@
       <div class="flex items-center justify-center gap-4">
         <button
           routerLink="/faqs"
-          class="rounded-md py-2 px-5 text-[#414651] text-center bg-white hover:bg-gray-200 transition-colors"
+          class="rounded-md py-2 px-5 font-sans text-[#414651] text-center bg-white hover:bg-gray-200 transition-colors"
         >
           Learn more
         </button>
         <button
-          routerLink="/contact-us"
-          class="rounded-md py-2 px-5 text-white text-center bg-[#7F56D9] hover:bg-[#7c4fde] transition-colors"
+          routerLink="/index"
+          class="rounded-md py-2 px-5 font-sans text-white text-center bg-[#7F56D9] hover:bg-[#7c4fde] transition-colors"
         >
-          Get started
+          Join Waiting List
         </button>
       </div>
     </div>

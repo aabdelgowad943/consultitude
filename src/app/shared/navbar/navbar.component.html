@@ -1,11 +1,13 @@
 <!-- <div class="w-full max-w-[1920px] relative mx-auto"> -->
-<div class="w-full max-w-[1920px] flex items-center relative z-50 mx-auto">
+<div class="w-full flex items-center relative z-50 mx-auto">
   <header
     class="flex justify-between bg-[black] absolute w-full top-0 right-0 items-center big:px-[80px] thousand:px-[40px] ipad:px-[20px] md:py-[16px] py-5 md:mb-0 px-5 text-white"
   >
     <!-- [class.bg-transparent]="!shouldApplyRedBg" -->
     <!-- [class.bg-[#0C111D]]="shouldApplyRedBg" -->
-    <div class="flex items-center w-full justify-between gap-10">
+    <div
+      class="flex items-center w-full justify-between gap-10 max-w-[1920px] mx-auto"
+    >
       <div class="md:hidden block">
         <div class="flex lg:flex-1">
           <a
@@ -55,20 +57,19 @@
         > -->
       </nav>
       <div class="flex items-center lg:order-2">
-        <!-- Dropdown menu -->
-        <button
+        <a
           type="button"
           class="flex mx-3 text-sm items-center gap-3 rounded-full md:mr-0"
           id="user-menu-button"
-          (click)="toggleDropdown($event)"
         >
-          <span class="sr-only">Open user menu</span>
-          <img
+          <!-- (click)="toggleDropdown($event)" -->
+          <!-- <img
             src="/images/profile-user.png"
             class="w-10 md:mt-2 h-10"
             alt=""
-          />
-        </button>
+          /> -->
+          <span class="w-10 h-10 md:mt-2"></span>
+        </a>
         <!-- Dropdown user menu -->
         <div
           class="z-50 my-4 w-80 text-base shadow-xl rounded-2xl absolute top-14 right-2 overflow-hidden"
@@ -218,11 +219,12 @@
       </div>
 
       <!-- <a [routerLink]="'/knowledge'">Knowledge Lounge</a> -->
-      <a [routerLink]="'/about-us'">About us</a>
-      <a [routerLink]="'/solutions'">Solutions</a>
-      <a [routerLink]="'/how-it-works'">How it works</a>
-      <a [routerLink]="'/pricing'">Pricing</a>
-      <a [routerLink]="'/contact-us'">Contact us</a>
+      <a [routerLink]="'/about-us'" class="font-sans">About us</a>
+      <!-- <a [routerLink]="'/solutions'">Solutions</a> -->
+      <!-- <a [routerLink]="'/how-it-works'">How it works</a> -->
+      <!-- <a [routerLink]="'/pricing'">Pricing</a> -->
+      <a [routerLink]="'/faqs'" class="font-sans">FAQs</a>
+      <a [routerLink]="'/contact-us'" class="font-sans">Contact us</a>
       <!-- <a [routerLink]="'/become-expert'">Become an expert</a> -->
     </nav>
   </header>

@@ -1,4 +1,4 @@
-<div class="max-w-[1920px] mx-auto">
+<div class="">
   <app-navbar></app-navbar>
   <div
     class="w-full relative md:py-32 2xl:pb-0 py-32 px-4 md:px-0 pb-10 overflow-hidden"
@@ -37,30 +37,30 @@
         <!-- First and Last Name -->
         <div class="flex space-x-4 mb-4">
           <div class="flex-1">
-            <label for="first-name" class="block text-sm text-gray-300"
-              >First name <span class="text-red-600"> * </span></label
+            <label for="name" class="block text-sm text-white font-sans"
+              >Name<span class="text-red-600"> * </span></label
             >
             <input
-              formControlName="firstName"
+              formControlName="name"
               type="text"
-              id="first-name"
-              placeholder="Write your first name"
-              class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
+              id="name"
+              placeholder="Enter your name"
+              class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-[#FFFFFF75]/40 font-sans focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
             />
             <div
               *ngIf="
-                contactForm.get('firstName')?.touched &&
-                contactForm.get('firstName')?.errors
+                contactForm.get('name')?.touched &&
+                contactForm.get('name')?.errors
               "
-              class="text-red-500 text-sm mt-1"
+              class="text-red-500 font-sans text-sm mt-1"
             >
-              <span *ngIf="contactForm.get('firstName')?.errors?.['required']"
-                >First name is required</span
+              <span *ngIf="contactForm.get('name')?.errors?.['required']"
+                >Name is required</span
               >
             </div>
           </div>
-          <div class="flex-1">
-            <label for="last-name" class="block text-sm text-gray-300"
+          <!-- <div class="flex-1">
+            <label for="last-name" class="block text-sm text-white font-sans"
               >Last name <span class="text-red-600"> * </span>
             </label>
             <input
@@ -75,18 +75,151 @@
                 contactForm.get('lastName')?.touched &&
                 contactForm.get('lastName')?.errors
               "
-              class="text-red-500 text-sm mt-1"
+              class="text-red-500 font-sans text-sm mt-1"
             >
               <span *ngIf="contactForm.get('lastName')?.errors?.['required']"
                 >Last name is required</span
               >
             </div>
+          </div> -->
+        </div>
+
+        <!-- How can we help you today? -->
+        <div class="flex space-x-4 mb-4">
+          <div class="flex-1">
+            <label
+              for="helpOption"
+              class="block text-sm text-white font-sans mb-2"
+            >
+              How can we help you today?<span class="text-red-600"> * </span>
+            </label>
+
+            <!-- Radio buttons -->
+            <div class="space-y-6 mt-4">
+              <div class="flex items-center">
+                <input
+                  formControlName="helpOption"
+                  type="radio"
+                  id="knowledge-lounge"
+                  value="I have a question about the knowledge lounge"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="knowledge-lounge"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  I have a question about the knowledge lounge
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  formControlName="helpOption"
+                  type="radio"
+                  id="rapid-response"
+                  value="I need help with rapid response"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="rapid-response"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  I need help with rapid response
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  formControlName="helpOption"
+                  type="radio"
+                  id="ai-consultant"
+                  value="I'd like to talk to AI consultant"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="ai-consultant"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  I'd like to talk to AI consultant
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  formControlName="helpOption"
+                  type="radio"
+                  id="build-presentation"
+                  value="I want to build a presentation"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="build-presentation"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  I want to build a presentation
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  formControlName="helpOption"
+                  type="radio"
+                  id="other"
+                  value="Other"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="other"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  Other
+                </label>
+              </div>
+            </div>
+
+            <!-- Error message for required field -->
+            <div
+              *ngIf="
+                contactForm.get('helpOption')?.touched &&
+                contactForm.get('helpOption')?.errors
+              "
+              class="text-red-500 font-sans text-sm mt-1"
+            >
+              <span *ngIf="contactForm.get('helpOption')?.errors?.['required']">
+                Please select an option
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="mt-4">
+          <label for="message" class="block text-sm text-white font-sans"
+            >Your message <span class="text-red-600"> * </span></label
+          >
+          <textarea
+            formControlName="message"
+            id="message"
+            placeholder="Let us know how Consultitude can empower your success."
+            rows="4"
+            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-[#FFFFFF75]/40 font-sans focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
+          ></textarea>
+          <div
+            *ngIf="
+              contactForm.get('message')?.touched &&
+              contactForm.get('message')?.errors
+            "
+            class="text-red-500 font-sans text-sm mt-1"
+          >
+            <span *ngIf="contactForm.get('message')?.errors?.['required']"
+              >Message is required</span
+            >
           </div>
         </div>
 
         <!-- Email -->
-        <div class="mb-4">
-          <label for="email" class="block text-sm text-gray-300"
+        <div class="my-4">
+          <label for="email" class="block text-sm text-white font-sans"
             >E-mail <span class="text-red-600"> * </span></label
           >
           <input
@@ -94,14 +227,14 @@
             type="email"
             id="email"
             placeholder="Enter your e-mail"
-            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
+            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-[#FFFFFF75]/40 font-sans focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
           />
           <div
             *ngIf="
               contactForm.get('email')?.touched &&
               contactForm.get('email')?.errors
             "
-            class="text-red-500 text-sm mt-1"
+            class="text-red-500 font-sans text-sm mt-1"
           >
             <span *ngIf="contactForm.get('email')?.errors?.['required']"
               >Email is required</span
@@ -113,8 +246,8 @@
         </div>
 
         <!-- Phone Number -->
-        <div class="mb-4">
-          <label for="phone" class="block text-sm text-gray-300"
+        <!-- <div class="mb-4">
+          <label for="phone" class="block text-sm text-white font-sans"
             >Phone number <span class="text-red-600"> * </span></label
           >
           <div class="relative">
@@ -131,7 +264,7 @@
               contactForm.get('phone')?.touched &&
               contactForm.get('phone')?.errors
             "
-            class="text-red-500 text-sm mt-1"
+            class="text-red-500 font-sans text-sm mt-1"
           >
             <span *ngIf="contactForm.get('phone')?.errors?.['required']"
               >Phone number is required</span
@@ -140,35 +273,10 @@
               >Please insert numbers only</span
             >
           </div>
-        </div>
-
-        <!-- Message -->
-        <div class="mb-4">
-          <label for="message" class="block text-sm text-gray-300"
-            >Your message <span class="text-red-600"> * </span></label
-          >
-          <textarea
-            formControlName="message"
-            id="message"
-            placeholder="Let us know how Consultitude can empower your success."
-            rows="4"
-            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
-          ></textarea>
-          <div
-            *ngIf="
-              contactForm.get('message')?.touched &&
-              contactForm.get('message')?.errors
-            "
-            class="text-red-500 text-sm mt-1"
-          >
-            <span *ngIf="contactForm.get('message')?.errors?.['required']"
-              >Message is required</span
-            >
-          </div>
-        </div>
+        </div> -->
 
         <!-- Terms and Conditions -->
-        <div class="flex items-start mb-6">
+        <div class="flex items-start mb-6 mt-4">
           <input
             formControlName="agree"
             type="checkbox"
@@ -176,17 +284,19 @@
             class="w-4 h-4 mt-1 text-purple-600 checked:bg-purple-600 bg-gray-200 rounded focus:ring-2 focus:ring-purple-500"
           />
 
-          <label for="terms" class="ml-2 text-sm text-gray-300">
+          <label for="terms" class="ml-2 text-sm text-[#FFFFFF] font-sans">
             By submitting this form, you confirm that you have read and agree to
+            Consultitude
             <a
               routerLink="/terms-and-conditions"
-              class="text-purple-400 hover:underline"
-              >Consultitude Terms of Service</a
+              class="text-[#9241DC] hover:underline"
+            >
+              Terms of Service</a
             >
             and
             <a
               routerLink="/privacy-and-policy"
-              class="text-purple-400 hover:underline"
+              class="text-[#9241DC] hover:underline"
               >Privacy Statement</a
             >.
             <span class="text-red-600"> * </span>
@@ -198,7 +308,7 @@
           <button
             type="submit"
             [disabled]="contactForm.invalid || !contactForm.get('agree')?.value"
-            class="w-full py-3 bg-[#9241DC] text-white transition-colors rounded-xl hover:bg-[#9241DC]/50 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full py-3 bg-[#9241DC] text-white transition-colors font-sans rounded-xl hover:bg-[#9241DC]/50 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Send message
           </button>
@@ -206,7 +316,7 @@
 
         <div class="mt-2">
           @if (errorMessage) {
-          <div class="text-red-500">{{ errorMessage }}</div>
+          <div class="text-red-500 font-sans">{{ errorMessage }}</div>
           }@else if (successMessage) {
           <div class="text-green-500">{{ successMessage }}</div>
           }
@@ -215,5 +325,6 @@
     </div>
   </div>
 
+  <!-- <img src="images/landing/Content.png" class="w-full" alt="" /> -->
   <app-footer></app-footer>
 </div>
