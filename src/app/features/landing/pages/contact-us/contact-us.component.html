@@ -88,7 +88,7 @@
         <div class="flex space-x-4 mb-4">
           <div class="flex-1">
             <label
-              for="helpOption"
+              for="question"
               class="block text-sm text-white font-sans mb-2"
             >
               How can we help you today?<span class="text-red-600"> * </span>
@@ -98,7 +98,7 @@
             <div class="space-y-6 mt-4">
               <div class="flex items-center">
                 <input
-                  formControlName="helpOption"
+                  formControlName="question"
                   type="radio"
                   id="knowledge-lounge"
                   value="I have a question about the knowledge lounge"
@@ -114,7 +114,7 @@
 
               <div class="flex items-center">
                 <input
-                  formControlName="helpOption"
+                  formControlName="question"
                   type="radio"
                   id="rapid-response"
                   value="I need help with rapid response"
@@ -130,7 +130,7 @@
 
               <div class="flex items-center">
                 <input
-                  formControlName="helpOption"
+                  formControlName="question"
                   type="radio"
                   id="ai-consultant"
                   value="I'd like to talk to AI consultant"
@@ -146,7 +146,7 @@
 
               <div class="flex items-center">
                 <input
-                  formControlName="helpOption"
+                  formControlName="question"
                   type="radio"
                   id="build-presentation"
                   value="I want to build a presentation"
@@ -162,7 +162,7 @@
 
               <div class="flex items-center">
                 <input
-                  formControlName="helpOption"
+                  formControlName="question"
                   type="radio"
                   id="other"
                   value="Other"
@@ -180,12 +180,12 @@
             <!-- Error message for required field -->
             <div
               *ngIf="
-                contactForm.get('helpOption')?.touched &&
-                contactForm.get('helpOption')?.errors
+                contactForm.get('question')?.touched &&
+                contactForm.get('question')?.errors
               "
               class="text-red-500 font-sans text-sm mt-1"
             >
-              <span *ngIf="contactForm.get('helpOption')?.errors?.['required']">
+              <span *ngIf="contactForm.get('question')?.errors?.['required']">
                 Please select an option
               </span>
             </div>

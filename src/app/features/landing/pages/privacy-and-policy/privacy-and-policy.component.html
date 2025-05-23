@@ -5,7 +5,7 @@
     class="max-w-3xl mx-auto p-6 text-center flex flex-col justify-center items-center text-gray-800"
   >
     <p
-      class="text-sm black text-center bg-[#ECDFFB] py-1 px-2 rounded-3xl text-[#5314A3] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] w-fit"
+      class="text-sm black text-center bg-[#ECDFFB] py-1 px-2 rounded-3xl text-[#5314A3] ipad:font-sans bigger:font-sans big:text-[16] bigger:text-[17px] w-fit"
     >
       {{ title }}
     </p>
@@ -14,13 +14,13 @@
     >
       We cara about your privacy
     </h1>
-    <p class="text-center text-gray-600 mb-8">
+    <p class="text-center text-[#535862] font-sans">
       Your privacy is important to us at Untitled. We respect your privacy
       regarding any <br />
       information we may collect from you across our website.
     </p>
 
-    <p class="text-left text-gray-600 mt-10 mb-8">
+    <p class="text-left text-[#535862] font-sans mt-16 mb-8">
       Mi tincidunt elit, id quisque ligula ac diam, amet. Vel etiam suspendisse
       morbi eleifend faucibus eget vestibulum felis. Dictum quis montes, sit
       sit. Tellus aliquam enim urna, etiam. Mauris posuere vulputate arcu amet,
@@ -33,13 +33,13 @@
 
     <div *ngFor="let section of sections" class="mb-8">
       <h2
-        class="text-[28px] text-left ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#181D27] mb-3"
+        class="text-[28px] text-left ipad:font-sans bigger:font-sans big:text-[16] bigger:text-[17px] text-[#181D27] mb-3"
       >
         {{ section.title }}
       </h2>
       <div
         *ngFor="let paragraph of section.content"
-        class="text-left text-[#535862]"
+        class="text-left text-[#535862] text-[18px] font-sans"
       >
         <p>{{ paragraph }}</p>
       </div>
@@ -51,10 +51,10 @@
     class="big:max-w-6xl max-w-2xl relative overflow-hidden flex justify-center items-center bg-gradient-to-l from-[#261536]/100 to-[#54148C]/100 rounded-md h-96 md:h-72 mx-auto pb-5"
   >
     <div class="flex flex-col space-y-6">
-      <h1 class="text-[36px] text-white ipad:font-[500] big:font-[600]">
+      <h1 class="text-[30px] text-white ipad:font-sans big:font-sans">
         Need additional help?
       </h1>
-      <p class="text-[#E9D7FE] my-7">
+      <p class="text-[#E9D7FE] my-7 font-sans">
         Contact us
         <a class="cursor-pointer hover:text-gray-400 transition-colors">
           at

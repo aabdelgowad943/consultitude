@@ -32,7 +32,8 @@ export class FaqsComponent {
     {
       question: 'Who can use Consultitude?',
       answer: `
-    <ul class="list-disc pl-5 space-y-1">
+      <p>Consultitude if build for:</p>
+    <ul class="list-disc pl-5 mt-2 space-y-1">
     <li>Independent consultants aiming to deliver faster, higher-quality work.</li>
     <li>Consulting firms looking to scale their services while maintaining quality.</li>
     <li>Clients seeking faster access to consulting insights and validation at a reasonable cost.</li>
@@ -48,7 +49,10 @@ export class FaqsComponent {
     {
       question: 'What kind of work can I create or improve with Consultitude?',
       answer: `
-    <ul class="list-disc pl-5 space-y-1">
+            <p>Consultitude helps you:</p>
+
+
+    <ul class="list-disc mt-2 pl-5 space-y-1">
       <li>Validate reports, decks, and strategic documents</li>
       <li>Build structured slide presentations</li>
       <li>Brainstorm and refine strategies and business ideas</li>

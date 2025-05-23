@@ -1,5 +1,3 @@
-// header-section-for-evo.component.ts
-
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -9,7 +7,7 @@ import {
   OnInit,
   Output,
   ViewChild,
-  Renderer2, // Import Renderer2 for DOM manipulation
+  Renderer2,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Consultant } from '../../../../models/consultant';
@@ -35,29 +33,11 @@ export class HeaderSectionForEvoComponent implements OnInit {
   selectedConsultant: Consultant | null = null;
   @Input() iconName: string = '';
 
+  private _internalSelectedAgentId: any = null;
+  private _internalSelectedConsultant: Consultant | null = null;
+
   // Track the element reference to the currently active agent element
   private activeAgentElement: HTMLElement | null = null;
-
-  // CSS class names for active and inactive states
-  private readonly ACTIVE_AGENT_CLASS = 'active-agent';
-  private readonly ACTIVE_BORDER_CLASS = 'active-agent-border';
-  private readonly ACTIVE_BG_CLASS = 'active-agent-bg';
-
-  // Mapping of icon names to asset paths
-  private iconMap: { [key: string]: string } = {
-    file: 'images/new/Icon-1.svg',
-    document: 'images/new/Icon-2.svg',
-    chart: 'images/new/Icon-3.svg',
-    user: 'images/new/Icon-4.svg',
-  };
-
-  // Available icon paths for randomization
-  private availableIcons: string[] = [
-    'images/landing/Option Icon.svg',
-    'images/landing/Option Icon2.svg',
-    'images/landing/Option Icon.svg',
-    'images/landing/Option Icon2.svg',
-  ];
 
   // Add a cache for random icons to prevent regeneration
   private randomIconCache: { [key: string]: string } = {};
@@ -82,13 +62,16 @@ export class HeaderSectionForEvoComponent implements OnInit {
   // Add property to store the uploaded file URL
   uploadedFileUrl: string = '';
 
+  // Maximum number of agents to display (excluding "More agents" button)
+  private readonly MAX_DISPLAYED_AGENTS = 3;
+
   constructor(
     private agentService: AgentsService,
     private dialogService: DialogService,
     private passDataForChatService: PassDataForChatService,
     private router: Router,
     private profileService: ProfileServiceService,
-    private renderer: Renderer2 // Inject Renderer2 for DOM manipulation
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -106,35 +89,6 @@ export class HeaderSectionForEvoComponent implements OnInit {
 
     // Add custom CSS classes to the document if they don't exist
     this.addStylesIfNeeded();
-  }
-
-  // Method to add custom classes to document if they don't exist
-  private addStylesIfNeeded(): void {
-    const styleId = 'agent-selection-styles';
-
-    // Check if styles already exist
-    if (!document.getElementById(styleId)) {
-      const styleEl = this.renderer.createElement('style');
-      this.renderer.setAttribute(styleEl, 'id', styleId);
-
-      // Define our custom styles
-      const css = `
-        .active-agent-border {
-          border-color: #FFCCF2 !important;
-        }
-
-        .active-agent-bg {
-          background-image: linear-gradient(to top right, #291738, #7016bf) !important;
-        }
-
-        .agent-item {
-          transition: all 0.2s ease-in-out;
-        }
-      `;
-
-      this.renderer.appendChild(styleEl, this.renderer.createText(css));
-      this.renderer.appendChild(document.head, styleEl);
-    }
   }
 
   getAllAgents(params: any = {}) {
@@ -158,18 +112,6 @@ export class HeaderSectionForEvoComponent implements OnInit {
     });
   }
 
-  preAssignAgentIcons() {
-    // This ensures we generate random icons only once during initialization
-    const iconName = this.iconName;
-    const normalizedName = iconName?.toLowerCase() || '';
-    if (!this.iconMap[normalizedName]) {
-      const randomIndex = Math.floor(
-        Math.random() * this.availableIcons.length
-      );
-      this.randomIconCache[normalizedName] = this.availableIcons[randomIndex];
-    }
-  }
-
   openAiConsultantDialog() {
     const isMobile = window.innerWidth < 768;
     const dialogWidth = isMobile ? '370px' : '702px';
@@ -189,13 +131,17 @@ export class HeaderSectionForEvoComponent implements OnInit {
         // Update the selected consultant
         this.selectedConsultant = newConsultant;
 
+        // console.log('selected consultant', this.selectedConsultant);
+
         // Update the selectedAgentId to match the consultant's agentId
         if (newConsultant) {
-          // Save previous agent ID
-          const previousAgentId = this.selectedAgentId;
-
           // Set new agent ID
           this.selectedAgentId = newConsultant.agentId;
+
+          // console.log('agent id from dialog', this.selectedAgentId);
+
+          // Add the selected agent to the displayed agents array if not already present
+          this.addAgentToDisplayedList(newConsultant);
 
           // Update UI to reflect changes
           this.syncSelectedAgentWithUI();
@@ -205,6 +151,41 @@ export class HeaderSectionForEvoComponent implements OnInit {
         }
       }
     });
+  }
+
+  // Method to add selected agent to the displayed agents list
+  private addAgentToDisplayedList(consultant: Consultant): void {
+    // Check if the agent is already in the displayed list
+    const existingAgent = this.agents.find(
+      (agent) => agent.id === consultant.agentId
+    );
+
+    if (!existingAgent) {
+      // Create an agent object that matches the structure of agents from the API
+      const newAgent = {
+        id: consultant.agentId,
+        name: consultant.type || consultant.description, // Use type as name, fallback to description
+        iconName: this.getRandomIconName(), // Assign a random icon
+        persona: consultant.description,
+        owner: consultant.creator?.name || 'Unknown',
+        usage: consultant.likes || 0,
+        profileId: consultant.profileId || '',
+        // Add any other properties that your agent structure requires
+      };
+
+      // If we have reached the maximum number of displayed agents, remove the oldest one
+      if (this.agents.length >= this.MAX_DISPLAYED_AGENTS) {
+        // Remove the first agent (oldest) to make room for the new one
+        this.agents.shift();
+      }
+
+      // Add the new agent to the end of the array
+      this.agents.push(newAgent);
+      // console.log('agent after pushed', this.agents);
+
+      // Reassign icons to ensure consistency
+      this.preAssignAgentIcons();
+    }
   }
 
   // Clear active styling from the DOM
@@ -222,24 +203,6 @@ export class HeaderSectionForEvoComponent implements OnInit {
       this.renderer.removeClass(this.activeAgentElement, this.ACTIVE_BG_CLASS);
       this.activeAgentElement = null;
     }
-
-    // Clear the data model
-    this.selectedAgentId = null;
-    this.selectedConsultant = null;
-  }
-
-  // Apply active styling to element
-  private applyActiveStyles(element: HTMLElement): void {
-    // First clear any existing active styles
-    this.clearAgentSelection();
-
-    // Apply new styles
-    this.renderer.addClass(element, this.ACTIVE_AGENT_CLASS);
-    this.renderer.addClass(element, this.ACTIVE_BORDER_CLASS);
-    this.renderer.addClass(element, this.ACTIVE_BG_CLASS);
-
-    // Store the element reference
-    this.activeAgentElement = element;
   }
 
   // Synchronize the active agent in the UI based on selectedAgentId
@@ -272,18 +235,24 @@ export class HeaderSectionForEvoComponent implements OnInit {
     // Get the element that was clicked
     const clickedElement = event.currentTarget as HTMLElement;
 
+    console.log('agent', agent);
+
     // If clicking the same agent, deselect it
-    if (this.selectedAgentId === agent.id) {
+    if (this._internalSelectedAgentId === agent.id) {
       this.clearAgentSelection();
     } else {
-      // Update the model
-      this.selectedAgentId = agent.id;
-
-      // Set the selected consultant based on the agent
-      this.selectedConsultant = {
+      // Update the internal model first
+      this._internalSelectedAgentId = agent.id;
+      this._internalSelectedConsultant = {
         agentId: agent.id,
         name: agent.name,
+        type: agent.name,
+        description: agent.persona || agent.name,
       } as any;
+
+      // Then update the public properties
+      this.selectedAgentId = this._internalSelectedAgentId;
+      this.selectedConsultant = this._internalSelectedConsultant;
 
       // Update the UI
       this.applyActiveStyles(clickedElement);
@@ -291,26 +260,28 @@ export class HeaderSectionForEvoComponent implements OnInit {
   }
 
   sendMessage() {
-    if (
-      (this.selectedConsultant || this.selectedAgentId) &&
-      this.userInput.trim() !== ''
-    ) {
-      const consultantToUse = this.selectedConsultant || {
-        agentId: this.selectedAgentId,
-      };
+    const consultantToUse =
+      this.selectedConsultant || this._internalSelectedConsultant;
+    const agentIdToUse = this.selectedAgentId || this._internalSelectedAgentId;
 
+    if ((consultantToUse || agentIdToUse) && this.userInput.trim() !== '') {
+      const finalConsultant = consultantToUse || {
+        agentId: agentIdToUse,
+      };
       // Store data in the service before navigating
       this.passDataForChatService.setChatData({
-        consultantAgentId: consultantToUse.agentId,
+        consultantAgentId: finalConsultant.agentId,
         userQuestion: this.userInput.trim(),
-        selectedConsultant: consultantToUse,
+        selectedConsultant: finalConsultant,
         imageUrl: this.uploadedFileUrl,
+        selectedFile: this.selectedFile!,
       });
 
       this.router.navigate(['dashboard', 'talk-to-agent']);
     }
   }
 
+  // ++++++++++++++++++++++++++++++++ UPLOAD FILE SECTION +++++++++++++++++++++++++++++++++++++++++++++
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -408,6 +379,66 @@ export class HeaderSectionForEvoComponent implements OnInit {
     }
     this.fileRemove.emit();
   }
+  // ++++++++++++++++++++++++++++++++ UPLOAD FILE SECTION +++++++++++++++++++++++++++++++++++++++++++++
+
+  // ++++++++++++++++++++++++++++++++ ICON AND STYLE SECTION +++++++++++++++++++++++++++++++++++++++++++++
+  // CSS class names for active and inactive states
+  private readonly ACTIVE_AGENT_CLASS = 'active-agent';
+  private readonly ACTIVE_BORDER_CLASS = 'active-agent-border';
+  private readonly ACTIVE_BG_CLASS = 'active-agent-bg';
+
+  // Mapping of icon names to asset paths
+  private iconMap: { [key: string]: string } = {
+    file: 'images/new/Icon-1.svg',
+    document: 'images/new/Icon-2.svg',
+    chart: 'images/new/Icon-3.svg',
+    user: 'images/new/Icon-4.svg',
+  };
+
+  // Available icon paths for randomization
+  private availableIcons: string[] = [
+    'images/landing/Option Icon.svg',
+    'images/landing/Option Icon2.svg',
+    'images/landing/Option Icon.svg',
+    'images/landing/Option Icon2.svg',
+  ];
+
+  // Method to add custom classes to document if they don't exist
+  private addStylesIfNeeded(): void {
+    const styleId = 'agent-selection-styles';
+    // Check if styles already exist
+    if (!document.getElementById(styleId)) {
+      const styleEl = this.renderer.createElement('style');
+      this.renderer.setAttribute(styleEl, 'id', styleId);
+      // Define our custom styles
+      const css = `
+        .active-agent-border {
+          border-color: #FFCCF2 !important;
+        }
+        .active-agent-bg {
+          background-image: linear-gradient(to top right, #291738, #7016bf) !important;
+        }
+        .agent-item {
+          transition: all 0.2s ease-in-out;
+        }
+      `;
+
+      this.renderer.appendChild(styleEl, this.renderer.createText(css));
+      this.renderer.appendChild(document.head, styleEl);
+    }
+  }
+
+  preAssignAgentIcons() {
+    // This ensures we generate random icons only once during initialization
+    const iconName = this.iconName;
+    const normalizedName = iconName?.toLowerCase() || '';
+    if (!this.iconMap[normalizedName]) {
+      const randomIndex = Math.floor(
+        Math.random() * this.availableIcons.length
+      );
+      this.randomIconCache[normalizedName] = this.availableIcons[randomIndex];
+    }
+  }
 
   getIconPath(iconName: string): string {
     // Convert to lowercase for case-insensitive matching
@@ -442,4 +473,27 @@ export class HeaderSectionForEvoComponent implements OnInit {
     }
     return 'images/new/Frame.svg';
   }
+
+  // Helper method to get a random icon name for new agents
+  private getRandomIconName(): string {
+    const iconNames = ['file', 'document', 'chart', 'user'];
+    const randomIndex = Math.floor(Math.random() * iconNames.length);
+    return iconNames[randomIndex];
+  }
+
+  // Apply active styling to element
+  private applyActiveStyles(element: HTMLElement): void {
+    // First clear any existing active styles
+    this.clearAgentSelection();
+
+    // Apply new styles
+    this.renderer.addClass(element, this.ACTIVE_AGENT_CLASS);
+    this.renderer.addClass(element, this.ACTIVE_BORDER_CLASS);
+    this.renderer.addClass(element, this.ACTIVE_BG_CLASS);
+
+    // Store the element reference
+    this.activeAgentElement = element;
+  }
+
+  // ++++++++++++++++++++++++++++++++ ICON AND STYLE SECTION +++++++++++++++++++++++++++++++++++++++++++++
 }

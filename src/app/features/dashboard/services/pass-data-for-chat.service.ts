@@ -7,6 +7,7 @@ export interface ChatData {
   userQuestion?: string;
   selectedConsultant?: Consultant | any;
   imageUrl?: string;
+  selectedFile?: File;
 }
 
 @Injectable({
@@ -27,6 +28,20 @@ export class PassDataForChatService {
    */
   setChatData(data: ChatData): void {
     this.chatDataSubject.next(data);
+    // console.log('dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', data);
+    // localStorage.setItem('contName', data.selectedConsultant.name);
+    // localStorage.setItem('contID', data.selectedConsultant.agentId);
+
+    // if (data.imageUrl != '') {
+    //   localStorage.setItem('fileUrl', data.imageUrl!);
+    // }
+    // if (data.selectedFile?.name != '') {
+    //   localStorage.setItem('fileName', `${data.selectedFile?.name}`);
+    // }
+    // if (`${data.selectedFile?.size}` != '') {
+    //   localStorage.setItem('fileSize', `${data.selectedFile?.size}`);
+    // }
+    // localStorage.setItem('fileSize', data.selectedFile!.size.toString());
   }
 
   /**
