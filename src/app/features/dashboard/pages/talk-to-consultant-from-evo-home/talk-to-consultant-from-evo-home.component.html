@@ -12,6 +12,9 @@
           <app-chat-to-con-started
             [messages]="messages"
             [selectedFile]="selectedFile"
+            [selectedFileFromHome]="selectedFileFromHome"
+            [selectedAgent]="selectedConsultant"
+            [fileUrl]="fileUrl"
             [isUploading]="isUploading"
             [uploadProgress]="uploadProgress"
             (sendMessage)="onMessageSent($event)"

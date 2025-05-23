@@ -46,6 +46,12 @@ export class SubscribeFormComponent implements OnInit {
     if (this.subscribeForm.invalid) {
       // Show errors if form is invalid
       this.showEmailError = true;
+      setTimeout(() => {
+        this.showEmailError = false;
+      }, 3000);
+      if (this.subscribeForm.value === '') {
+        this.showEmailError = false;
+      }
       return;
     }
 

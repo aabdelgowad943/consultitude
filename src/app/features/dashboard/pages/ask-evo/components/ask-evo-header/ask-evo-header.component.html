@@ -10,10 +10,11 @@
       class="flex xss:flex-col ipad:flex-col thousand:flex-col big:flex-row gap-4 mb-10"
     >
       <!-- three cards -->
+      <!-- big:max-w-[300px] -->
       <div
         *ngFor="let service of services"
         (click)="handleServiceClick(service)"
-        class="ipad:max-w-full big:max-w-[300px] relative max-h-[157px] border border-[#F2F4F7] w-full rounded-[20px] cursor-pointer shadow-sm hover:shadow-md transition-all p-5 overflow-hidden"
+        class="ipad:max-w-full relative max-h-[157px] border border-[#F2F4F7] w-full rounded-[20px] cursor-pointer shadow-sm hover:shadow-md transition-all p-5 overflow-hidden"
       >
         <div class="absolute top-0 right-0 z-0">
           <img

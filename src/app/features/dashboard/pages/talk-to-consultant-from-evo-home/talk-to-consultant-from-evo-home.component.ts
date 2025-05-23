@@ -25,8 +25,10 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
   isUploading = false;
   uploadProgress = 0;
   errorMessage: string | null = null;
-  imageUrl: string = '';
+  fileUrl: string = '';
   documentUrl: string = '';
+
+  selectedFileFromHome: File | null = null;
 
   // New properties to store data from the service
   consultantAgentId: string = '';
@@ -43,11 +45,16 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
       this.consultantAgentId = chatData.consultantAgentId || '';
       this.userQuestion = chatData.userQuestion || '';
       this.selectedConsultant = chatData.selectedConsultant || null;
-      this.imageUrl = chatData.imageUrl || '';
+      this.fileUrl = chatData.imageUrl || '';
+      this.selectedFileFromHome = chatData.selectedFile!;
+
+      console.log('----------------data passsssssed--------------------');
       console.log(this.consultantAgentId);
       console.log(this.userQuestion);
       console.log(this.selectedConsultant);
-      console.log(this.imageUrl);
+      console.log(this.fileUrl);
+      console.log('2', this.selectedFileFromHome);
+      console.log('----------------data passsssssed--------------------');
 
       // If there's user input from the service, process it immediately
       if (this.userQuestion) {
@@ -145,7 +152,7 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
   }
 
   onFileUploadComplete(imageUrl: string) {
-    this.imageUrl = imageUrl;
+    this.fileUrl = imageUrl;
     this.documentUrl = imageUrl; // Store the document URL when upload is complete
   }
 

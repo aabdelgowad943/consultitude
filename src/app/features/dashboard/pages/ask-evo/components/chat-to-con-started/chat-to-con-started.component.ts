@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ProfileServiceService } from '../../../../services/profile-service.service';
 import { finalize } from 'rxjs';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-to-con-started',
@@ -46,6 +47,9 @@ export class ChatToConStartedComponent {
   }> = [];
 
   @Input() selectedFile: File | null = null;
+  @Input() selectedFileFromHome: File | null = null;
+  @Input() selectedAgent: any;
+  @Input() fileUrl!: string | '';
   @Input() isUploading = false;
   @Input() uploadProgress = 0;
   @Input() errorMessage: string | null = null;
@@ -59,14 +63,19 @@ export class ChatToConStartedComponent {
   @Output() fileSelected = new EventEmitter<File>();
   @Output() uploadComplete = new EventEmitter<string>();
   @Output() uploadError = new EventEmitter<string>();
-  @Output() exitChat = new EventEmitter<void>();
+  // @Output() exitChat = new EventEmitter<void>();
   @Output() fileRemove = new EventEmitter<void>();
 
   private errorTimeout: any; // To store the timeout reference
 
-  constructor(private profileService: ProfileServiceService) {
-    // console.log(localStorage.getItem('serviceId'));
+  // contName: string = '';
+  constructor(
+    private profileService: ProfileServiceService,
+    private router: Router
+  ) {
+    // this.contName = localStorage.getItem('contName')!;
     localStorage.removeItem('serviceId');
+    // console.log(localStorage.getItem('serviceId'));
   }
 
   onSendMessage() {
@@ -183,6 +192,7 @@ export class ChatToConStartedComponent {
 
   removeFile() {
     this.selectedFile = null;
+    this.selectedFileFromHome = null;
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
     }
@@ -201,5 +211,14 @@ export class ChatToConStartedComponent {
       event.preventDefault();
       this.onSendMessage();
     }
+  }
+
+  exitChat() {
+    // localStorage.removeItem('contName');
+    // localStorage.removeItem('fileUrl');
+    // localStorage.removeItem('contID');
+    // localStorage.removeItem('fileName');
+    // localStorage.removeItem('fileSize');
+    this.router.navigate(['dashboard/ask-evo']);
   }
 }

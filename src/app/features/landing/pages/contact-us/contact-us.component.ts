@@ -103,7 +103,7 @@ export class ContactUsComponent implements OnInit, OnChanges, OnDestroy {
       // Message can contain spaces but shouldn't be empty
       message: ['', [Validators.required, notOnlyWhitespace]],
       agree: [false, Validators.requiredTrue],
-      helpOption: ['', Validators.required], // Add helpOption with required validator
+      question: ['', Validators.required], // Add question with required validator
     });
   }
 
@@ -148,13 +148,15 @@ export class ContactUsComponent implements OnInit, OnChanges, OnDestroy {
 
     this.isSubmitting = true;
     const formValue = this.contactForm.value;
+    console.log(formValue);
 
     const subscription = this.contactService
       .createContactUs({
-        name: `${formValue.firstName} ${formValue.lastName}`,
+        name: `${formValue.name}`,
         email: formValue.email,
         phone: formValue.phone,
         message: formValue.message,
+        question: formValue.question,
       })
       .subscribe({
         next: (res: any) => {

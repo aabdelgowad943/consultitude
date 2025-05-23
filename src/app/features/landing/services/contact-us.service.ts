@@ -8,6 +8,7 @@ export interface Contact {
   email: string;
   phone: string;
   message: string;
+  question: string;
 }
 @Injectable({
   providedIn: 'root',
