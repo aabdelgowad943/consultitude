@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="w-full text-center pt-32 pb-10 bg-gray-100 px-5 md:px-0">
+<div class="w-full text-center pt-32 pb-10 bg-[#F9FAFB] px-5 md:px-0">
   <!-- data from TS -->
   <div
     class="max-w-3xl mx-auto p-6 text-center flex flex-col justify-center items-center text-gray-800"
@@ -9,10 +9,8 @@
     >
       {{ title }}
     </p>
-    <h1
-      class="md:text-[52px] text-[44px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-center mt-4 mb-6"
-    >
-      We cara about your privacy
+    <h1 class="md:text-[52px] text-[44px] font-sans text-center mt-4 mb-6">
+      We care about your privacy
     </h1>
     <p class="text-center text-[#535862] font-sans">
       Your privacy is important to us at Untitled. We respect your privacy
@@ -33,7 +31,7 @@
 
     <div *ngFor="let section of sections" class="mb-8">
       <h2
-        class="text-[28px] text-left ipad:font-sans bigger:font-sans big:text-[16] bigger:text-[17px] text-[#181D27] mb-3"
+        class="text-[28px] text-left ipad:font-sans bigger:font-sans big:text-[18px] bigger:text-[18px] text-[#181D27] mb-3"
       >
         {{ section.title }}
       </h2>
