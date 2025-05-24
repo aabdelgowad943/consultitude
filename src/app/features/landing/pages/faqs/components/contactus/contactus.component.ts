@@ -38,12 +38,14 @@ export class ContactusComponent {
   }
 
   initForm() {
+    const notOnlyWhitespace = Validators.pattern(/^(?!\s*$).+/);
+
     this.requestForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      name: ['', Validators.required],
+      name: ['', [Validators.required, notOnlyWhitespace]],
       documentFormatId: ['', Validators.required],
       areaOfFocusId: ['', Validators.required],
-      description: ['', Validators.required],
+      description: ['', [Validators.required, notOnlyWhitespace]],
       language: ['English', Validators.required], // default value can be changed as needed
     });
   }
