@@ -75,6 +75,7 @@
         <!-- Step 4: Consultant Suggestions -->
         <div *ngIf="currentStep === 4">
           <app-consulting-suggestion
+            [responseDepthValue]="responseDepthValue"
             [suggestedAgents]="suggestedAgentsData"
             [selectionMap]="consultantSelectionMap"
             [selectedConsultants]="selectedConsultants"

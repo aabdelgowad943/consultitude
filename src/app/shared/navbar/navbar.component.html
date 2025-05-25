@@ -59,11 +59,11 @@
       <div class="flex items-center lg:order-2">
         <a
           type="button"
-          class="flex mx-3 text-sm items-center gap-3 rounded-full md:mr-0"
+          class="flex mx-3 text-sm cursor-pointer items-center gap-3 rounded-full md:mr-0"
           id="user-menu-button"
         >
-          <!-- (click)="toggleDropdown($event)" -->
           <!-- <img
+            (click)="toggleDropdown($event)"
             src="/images/profile-user.png"
             class="w-10 md:mt-2 h-10"
             alt=""
@@ -99,12 +99,13 @@
                 />
               </div>
               <div class="overflow-hidden">
-                <span class="block text-base text-[#d2d1d2] mb-0.5">{{
+                <span class="block text-base text-[#d2d1d2] mb-0.5 font-sans">{{
                   name
                 }}</span>
-                <span class="block text-sm text-white truncate max-w-[180px]">{{
-                  email
-                }}</span>
+                <span
+                  class="block text-sm text-white truncate max-w-[180px] font-sans"
+                  >{{ email }}</span
+                >
               </div>
             </div>
           </div>
