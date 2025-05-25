@@ -100,7 +100,9 @@ export class AskEvoComponent {
 
   suggestedAgentsData: any[] = []; // Add this property
 
-  constructor(private evoService: EvoServicesService) {}
+  constructor(private evoService: EvoServicesService) {
+    console.log('seleeeeeected on constructor', this.selectedConsultants);
+  }
 
   onShowDocumentUploadStepper(show: boolean) {
     this.showDocumentUploadStepper = show;
@@ -184,7 +186,8 @@ export class AskEvoComponent {
       .suggestAgents({
         ask: this.userQuestion,
         documents: [this.documentUrl],
-        // responseDepth: this.responseDepthValue, // Use the enum value instead of string
+        responseDepth: this.responseDepthValue, // Use the enum value instead of string
+        // agents_count: 1
       })
       .pipe(
         // Add RxJS operators to handle the flow
@@ -310,7 +313,7 @@ export class AskEvoComponent {
     // Add response depth to chat data
     const enhancedChatData = {
       ...chatData,
-      responseDepth: this.responseDepthValue, // Use the enum value
+      // responseDepth: this.responseDepthValue, // Use the enum value
     };
 
     this.evoService.startChat(enhancedChatData).subscribe({

@@ -32,11 +32,12 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
   @Output() selectedConsultantsChange = new EventEmitter<Consultant[]>();
   @Input() selectionMap: Map<string, boolean> = new Map();
   @Input() selectedConsultants: Consultant[] = [];
+  @Input() responseDepthValue: any;
 
   // New array to store all selected consultants regardless of their source
   theSelectedAgentsFromSuggestedOrOtherOrBoth: Consultant[] = [];
 
-  readonly maxSelectedConsultants = 3;
+  maxSelectedConsultants: number = 0;
 
   suggestedConsultants: Consultant[] = [];
 
@@ -66,12 +67,13 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
   constructor(private agentService: AgentsService) {}
 
   ngOnInit() {
+    this.maxSelectedConsultants = this.responseDepthValue;
+
     this.initialized = true;
     // Initialize the combined array with any existing selected consultants
     this.theSelectedAgentsFromSuggestedOrOtherOrBoth = [
       ...this.selectedConsultants,
     ];
-
     // Force the call to be deferred to ensure all inputs are initialized
     this.initializeSuggestedConsultants();
     this.fetchConsultants();
@@ -79,6 +81,11 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
     // If we already have selected consultants (when returning from another view),
     // ensure they are all properly displayed in the suggested section
     if (this.selectedConsultants && this.selectedConsultants.length > 0) {
+      // console.log(
+      //   'selected between two condition',
+      //   this.theSelectedAgentsFromSuggestedOrOtherOrBoth.length
+      // );
+
       this.redistributeConsultants();
     }
   }
@@ -94,6 +101,9 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
       this.theSelectedAgentsFromSuggestedOrOtherOrBoth =
         this.selectedConsultants.map((consultant) => ({ ...consultant }));
     }
+    this.maxSelectedConsultants = this.responseDepthValue;
+
+    console.log(this.maxSelectedConsultants);
   }
 
   private redistributeConsultants() {
@@ -494,14 +504,47 @@ export class ConsultingSuggestionComponent implements OnInit, OnChanges {
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+
       this.fetchConsultants();
     }
   }
 
   // Navigation methods
   goToPreviousStep() {
-    // Make sure our combined array is up-to-date before navigating back
-    this.updateSelectedConsultantsList();
+    // Clear all selected consultants from the combined array
+    this.theSelectedAgentsFromSuggestedOrOtherOrBoth = [];
+
+    // Clear all suggested consultants and reset to empty slots
+    this.suggestedConsultants = [];
+    for (let i = 0; i < this.maxSelectedConsultants; i++) {
+      this.suggestedConsultants.push({
+        id: i + 1,
+        type: 'Consultant',
+        description: '',
+        creator: {
+          name: 'Consultitude',
+          avatar: 'images/new/circle.svg',
+        },
+        likes: 1,
+        icon: this.getIconForIndex(i),
+        selected: false,
+        profileId: '',
+        agentId: '',
+      });
+    }
+
+    // Clear all selections in the filtered agents (Other Consultants section)
+    this.filteredAgents.forEach((agent) => {
+      agent.selected = false;
+    });
+
+    // Clear the selection map
+    this.selectionMap.clear();
+
+    // Emit empty array to parent component
+    this.selectedConsultantsChange.emit([]);
+
+    // Navigate to previous step
     this.previous.emit();
   }
 

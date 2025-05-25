@@ -26,7 +26,7 @@ import { finalize } from 'rxjs';
   styleUrl: './header-section-for-evo.component.scss',
 })
 export class HeaderSectionForEvoComponent implements OnInit {
-  name: string = '';
+  name: any;
   @Input() userInput: string = '';
   @Input() agents: any[] = [];
   selectedAgentId: any;
@@ -78,8 +78,8 @@ export class HeaderSectionForEvoComponent implements OnInit {
     setTimeout(() => {
       this.name =
         localStorage.getItem('firstName') +
-        ' ' +
-        localStorage.getItem('lastName');
+          ' ' +
+          localStorage.getItem('lastName') || localStorage.getItem('name');
     }, 400);
 
     if (this.agents.length > 0) {

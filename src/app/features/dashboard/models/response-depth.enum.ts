@@ -1,9 +1,9 @@
 // Add this to a shared models folder (e.g., src/app/models/response-depth.enum.ts)
 
 export enum ResponseDepth {
-  Basic = 1,
-  Advanced = 2,
-  Expert = 3,
+  Basic = 2,
+  Advanced = 3,
+  Expert = 5,
 }
 
 // Helper function to convert string ID to enum value

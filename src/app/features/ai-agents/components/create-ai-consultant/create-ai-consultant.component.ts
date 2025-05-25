@@ -66,14 +66,17 @@ export class CreateAiConsultantComponent {
   regionalFocusSelected: string[] = [];
   consultingSkillsSelected: string[] = [];
 
-  profileId: string = localStorage.getItem('profileId') || '';
+  profileId: string = '';
 
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
     private profileService: ProfileServiceService,
     private agentService: AgentsService
-  ) {}
+  ) {
+    this.profileId = localStorage.getItem('profileId') || '';
+    console.log(this.profileId);
+  }
 
   ngOnInit(): void {
     this.getAllDomains();
@@ -98,7 +101,7 @@ export class CreateAiConsultantComponent {
           Validators.pattern(/^(?!\s*$).+/), // Prevents only spaces
         ],
       ],
-      profileId: [this.profileId],
+      profileId: [localStorage.getItem('profileId')],
     });
   }
 
@@ -114,7 +117,10 @@ export class CreateAiConsultantComponent {
       this.markFormGroupTouched(this.consultantForm);
       return;
     }
-    const consultantData = this.consultantForm.value;
+    const consultantData = {
+      ...this.consultantForm.value,
+      profileId: this.profileId,
+    };
     this.agentService.createAgent(consultantData).subscribe({
       next: (res: any) => {
         this.formSubmitted = false; // Reset after successful submission
