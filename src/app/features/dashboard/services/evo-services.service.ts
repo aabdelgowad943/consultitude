@@ -90,6 +90,6 @@ export class EvoServicesService {
   }
 
   makeConversation(conversation: any): Observable<any> {
-    return this.apiService.post('/chats/conversation', conversation);
+    return this.apiService.post('/chats/direct_conversation', conversation);
   }
 }

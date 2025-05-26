@@ -130,19 +130,19 @@ export class ChatWithConsultantComponent implements OnInit {
     }
 
     const requestBody = {
-      title: text,
-      agents: [this.selectedConsultant?.agentId], // Use single consultant
-      documents: [attachments?.[0]?.url ?? ''],
+      // title: text,
+      agent_id: this.selectedConsultant?.agentId, // Use single consultant
+      docs: [attachments?.[0]?.url ?? null],
       ask: text,
-      serviceId: localStorage.getItem('serviceId'),
-      conversationId: 'conversationId22222222',
-      ownerId: localStorage.getItem('profileId') || '',
+      // serviceId: localStorage.getItem('serviceId'),
+      // conversationId: 'conversationId22222222',
+      // ownerId: localStorage.getItem('profileId') || '',
     };
     // console.log('request body is==========', requestBody);
 
     this.evoService.makeConversation(requestBody).subscribe({
       next: (res: any) => {
-        // console.log('res is =====', res);
+        console.log('res is =====', res);
       },
     });
   }
