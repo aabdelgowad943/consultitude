@@ -12,24 +12,11 @@
     <h1 class="md:text-[52px] text-[44px] font-sans text-center mt-4 mb-6">
       We care about your privacy
     </h1>
-    <p class="text-center text-[#535862] font-sans">
-      Your privacy is important to us at Untitled. We respect your privacy
-      regarding any <br />
-      information we may collect from you across our website.
-    </p>
-
-    <p class="text-left text-[#535862] font-sans mt-16 mb-8">
-      Mi tincidunt elit, id quisque ligula ac diam, amet. Vel etiam suspendisse
-      morbi eleifend faucibus eget vestibulum felis. Dictum quis montes, sit
-      sit. Tellus aliquam enim urna, etiam. Mauris posuere vulputate arcu amet,
-      vitae nisi, tellus tincidunt. At feugiat sapien varius id. Eget quis mi
-      enim, leo lacinia pharetra, semper. Eget in volutpat mollis at volutpat
-      lectus velit, sed auctor. Porttitor fames arcu quis fusce augue enim. Quis
-      at habitant diam at. Suscipit tristique risus, at donec. In turpis vel et
-      quam imperdiet. Ipsum molestie aliquet sodales id est ac volutpat.
-    </p>
-
-    <div *ngFor="let section of sections" class="mb-8">
+    <p
+      class="text-center text-[#535862] font-sans mb-8 text-[18px]"
+      [innerHTML]="introText"
+    ></p>
+    <div *ngFor="let section of sections" class="mb-8 w-full">
       <h2
         class="text-[28px] text-left ipad:font-sans bigger:font-sans big:text-[18px] bigger:text-[18px] text-[#181D27] mb-3"
       >
@@ -39,7 +26,10 @@
         *ngFor="let paragraph of section.content"
         class="text-left text-[#535862] text-[18px] font-sans"
       >
-        <p>{{ paragraph }}</p>
+        <div
+          [innerHTML]="paragraph"
+          class="[&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1"
+        ></div>
       </div>
     </div>
   </div>

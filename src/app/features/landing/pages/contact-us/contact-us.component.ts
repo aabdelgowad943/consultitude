@@ -160,15 +160,17 @@ export class ContactUsComponent implements OnInit, OnChanges, OnDestroy {
       })
       .subscribe({
         next: (res: any) => {
+          // this.successMessage =
+          //   res.message || 'Your message has been sent successfully!';
           this.successMessage =
-            res.message || 'Your message has been sent successfully!';
+            'Your message has been sent successfully. We will get back to you as soon as possible';
           this.errorMessage = '';
           this.resetForm();
 
           // clear the success message after 3 sec
           setTimeout(() => {
             this.successMessage = '';
-          }, 3000);
+          }, 5000);
         },
         error: (err: HttpErrorResponse) => {
           this.errorMessage =
