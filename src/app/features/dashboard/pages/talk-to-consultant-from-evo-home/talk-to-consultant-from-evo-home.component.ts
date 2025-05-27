@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PassDataForChatService } from '../../services/pass-data-for-chat.service';
 import { Consultant } from '../../models/consultant';
+import { EvoServicesService } from '../../services/evo-services.service';
 
 @Component({
   selector: 'app-talk-to-consultant-from-evo-home',
@@ -35,7 +36,11 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
   userQuestion: string = '';
   selectedConsultant: Consultant | null = null;
 
-  constructor(private passDataForChatService: PassDataForChatService) {}
+  constructor(
+    private passDataForChatService: PassDataForChatService,
+
+    private evoService: EvoServicesService
+  ) {}
 
   ngOnInit() {
     // Get data from the service

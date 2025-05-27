@@ -18,6 +18,7 @@ import { PassDataForChatService } from '../../../../services/pass-data-for-chat.
 import { Router } from '@angular/router';
 import { ProfileServiceService } from '../../../../services/profile-service.service';
 import { finalize } from 'rxjs';
+import { EvoServicesService } from '../../../../services/evo-services.service';
 
 @Component({
   selector: 'app-header-section-for-evo',
@@ -71,7 +72,8 @@ export class HeaderSectionForEvoComponent implements OnInit {
     private passDataForChatService: PassDataForChatService,
     private router: Router,
     private profileService: ProfileServiceService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private evoService: EvoServicesService
   ) {}
 
   ngOnInit(): void {
@@ -276,6 +278,24 @@ export class HeaderSectionForEvoComponent implements OnInit {
         imageUrl: this.uploadedFileUrl,
         selectedFile: this.selectedFile!,
       });
+
+      this.evoService
+        .makeConversation({
+          agent_id: finalConsultant.agentId,
+          ask: this.userInput.trim(),
+          docs: [this.uploadedFileUrl || null],
+          owner_id: localStorage.getItem('profileId') || '',
+        })
+        .subscribe({
+          next: (response) => {
+            // Handle successful response if needed
+            console.log('Conversation created successfully:', response);
+          },
+          error: (error) => {
+            // Handle error response if needed
+            console.error('Error creating conversation:', error);
+          },
+        });
 
       this.router.navigate(['dashboard', 'talk-to-agent']);
     }

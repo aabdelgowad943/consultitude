@@ -39,18 +39,27 @@
       class="border border-[#F0F2F5] shadow-md w-full rounded-2xl p-5 mb-10 max-w-[744px]"
     >
       <div *ngFor="let message of chatMessages" class="message mb-5">
-        <!-- EVO Messages -->
-        <div *ngIf="message.sender === 'evo'" class="flex items-start">
-          <img
-            src="images/new/circle.svg"
-            class="w-[24px] h-[24px] mr-5"
-            alt=""
-          />
-          <div class="message-content w-[80%]">
+        <!-- Consultant Messages (now handles any non-EVO professional) -->
+        <div
+          *ngIf="
+            message.sender !== 'evo' &&
+            message.sender !== 'EVO (Moderator)' &&
+            message.sender !== 'EVO (Research)' &&
+            message.sender !== 'system'
+          "
+          class="flex items-start"
+        >
+          <div class="w-6 h-6 overflow-hidden rounded-full bg-[#F6FAFF]">
+            <img src="images/Frame.svg" class="w-full h-full block" alt="" />
+          </div>
+          <div class="message-content w-[80%] ml-4">
             <div
               class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
             >
-              Evo
+              {{ message.sender }}
+              <span *ngIf="message.consultantInfo?.description">
+                ({{ message.consultantInfo.description }})
+              </span>
             </div>
             <div class="whitespace-pre-line text-[#344054] text-sm">
               <div [innerHTML]="message.displayHtml"></div>
@@ -62,19 +71,25 @@
           </div>
         </div>
 
-        <!-- Consultant Messages -->
-        <div *ngIf="message.sender === 'consultant'" class="flex items-start">
-          <div class="w-6 h-6 overflow-hidden rounded-full bg-[#F6FAFF]">
-            <img src="images/Frame.svg" class="w-full h-full block" alt="" />
-          </div>
-          <div class="message-content w-[80%] ml-4">
+        <!-- EVO Messages (handles all EVO variants) -->
+        <div
+          *ngIf="
+            message.sender === 'evo' ||
+            message.sender === 'EVO (Moderator)' ||
+            message.sender === 'EVO (Research)'
+          "
+          class="flex items-start"
+        >
+          <img
+            src="images/new/circle.svg"
+            class="w-[24px] h-[24px] mr-5"
+            alt=""
+          />
+          <div class="message-content w-[80%]">
             <div
               class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
             >
-              Consultant {{ message.consultantInfo?.name || "Unknown" }}
-              <span *ngIf="message.consultantInfo?.description">
-                ({{ message.consultantInfo.description }})
-              </span>
+              {{ message.sender }}
             </div>
             <div class="whitespace-pre-line text-[#344054] text-sm">
               <div [innerHTML]="message.displayHtml"></div>
