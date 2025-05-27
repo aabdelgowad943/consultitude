@@ -65,6 +65,11 @@ const routes: Routes = [
     path: 'about-us',
     component: AboutUsComponent,
   },
+  {
+    path: '',
+    redirectTo: 'index',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
