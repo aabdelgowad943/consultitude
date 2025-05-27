@@ -2550,3 +2550,10 @@ validation error in auth will be input and output from the input fileds ........
   You should hear from us shortly via email.. talk soon! .........
 
 - terms, privacy ==> change content to the real content ..........
+
+<!--  -->
+
+1-2
+3-5
+6-8
+remove credit
