@@ -11,26 +11,26 @@ import { NonAuthGuard } from '../../guard/non-auth.guard';
 
 const routes: Routes = [
   {
-    path: 'login',
+    path: 'login-------wdsadjkhhjads',
     component: LoginComponent,
     canActivate: [NonAuthGuard],
   },
   {
-    path: 'register',
+    path: 'registerdsahdjksadhjksa',
     component: RegisterComponent,
     canActivate: [NonAuthGuard],
   },
   {
-    path: 'rest-password',
+    path: 'rest-passworddjksahdkjsah',
     component: ResetPasswordComponent,
   },
   {
-    path: 'reset-password',
+    path: 'reset-passwordsadkjsadjhsakj',
     component: VerifyOtpComponent,
   },
-  { path: 'linkedin/callback', component: LinkedinCallbackComponent },
+  { path: 'linkedin/callbackdsajkdhsa', component: LinkedinCallbackComponent },
   {
-    path: 'active-email',
+    path: 'active-emaildkhsakdjsa',
     component: ActiveEmailComponent,
   },
 ];
