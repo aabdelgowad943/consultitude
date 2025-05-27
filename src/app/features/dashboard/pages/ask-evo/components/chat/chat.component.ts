@@ -130,6 +130,8 @@ export class ChatComponent implements OnInit, OnChanges {
     if (changes['chatResponse'] && changes['chatResponse'].currentValue) {
       // console.log('chatResponse changed:', this.chatResponse);
       if (this.chatResponse) {
+        console.log('Processing new chat response:', this.chatResponse);
+
         // Process new chat response
         this.isLoadingNextMessage = false;
         this.processChatResponse(this.chatResponse);
