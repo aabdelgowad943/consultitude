@@ -2,10 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProductCardComponent } from '../../../../components/product-card/product-card.component';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { MainContentLoaderComponent } from '../../../../../../shared/loaders/main-content-loader/main-content-loader.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ProductCardComponent, FormsModule],
+  imports: [
+    CommonModule,
+    ProductCardComponent,
+    FormsModule,
+    RouterModule,
+    MainContentLoaderComponent,
+  ],
   selector: 'app-mai-content',
   templateUrl: './mai-content.component.html',
   styleUrl: './mai-content.component.scss',
@@ -22,6 +30,7 @@ export class MaiContentComponent {
   @Output() tagClick = new EventEmitter<string>();
 
   isSortMenuOpen = false;
+  currentSortOption: string = ''; // Add this line to track current sort
 
   sortOptions: { label: string; value: string }[] = [
     { label: 'Price: Low to High', value: 'priceAsc' },
@@ -30,16 +39,31 @@ export class MaiContentComponent {
     { label: 'Featured', value: 'featuredFirst' },
   ];
 
+  constructor(private router: Router) {}
+
   toggleSortMenu() {
     this.isSortMenuOpen = !this.isSortMenuOpen;
   }
 
   selectSortOption(option: string) {
     this.isSortMenuOpen = false;
+    this.currentSortOption = option; // Update current sort option
     this.sortChange.emit(option);
   }
 
   openSidebare() {
     this.openSidebar.emit();
+  }
+
+  navigateToRequestDocument() {
+    this.router.navigate(['/index'], { fragment: 'request-document' });
+
+    // Add manual scroll after a small delay
+    setTimeout(() => {
+      const element = document.getElementById('request-document');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 }

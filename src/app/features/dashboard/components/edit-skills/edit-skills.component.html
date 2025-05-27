@@ -3,13 +3,15 @@
   [visible]="display"
   (onHide)="closeDialog()"
   [modal]="true"
-  [style]="{ width: '600px' }"
+  styleClass="md:w-[480px] xss:w-[380px] xs:w-[340px] bg-white text-black"
   [closable]="false"
   header="Edit Skills"
 >
   <!-- ========== INDUSTRY FOCUS ========== -->
   <div class="mb-3">
-    <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+    <label
+      class="block text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2.5 text-[#14151A]"
+    >
       Industry Focus
     </label>
     <p-multiSelect
@@ -19,27 +21,29 @@
       optionValue="areaOfFocusId"
       appendTo="body"
       placeholder="Choose Industry Focus"
-      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl py-[2px] mt-1"
+      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] rounded-xl bg-white py-[2px] mt-1"
     ></p-multiSelect>
   </div>
   <!-- Display selected Industry Focus as chips -->
   <div
     *ngIf="industryFocusSelected.length > 0"
-    class="w-full flex flex-wrap items-center gap-3 mb-4"
+    class="w-full flex flex-wrap items-center gap-3 mb-4 bg-white text-black"
   >
     <p-chip
       *ngFor="let id of industryFocusSelected"
       [label]="getIndustryName(id)"
       [removable]="true"
-      removeIcon="pi pi-times"
-      styleClass="border border-[#EAECF0] bg-white rounded-full font-body text-[#0F132499]/60 text-[14px] py-[4px] px-2.5"
+      removeIcon="pi pi-times text-[#0F132499]/60 text-xs mt-1"
+      styleClass="border border-[#EAECF0] bg-white flex items-center rounded-full font-body text-[#0F132499]/60 text-[14px] py-[4px] px-2.5"
       (onRemove)="handleRemoveIndustry(id)"
     ></p-chip>
   </div>
 
   <!-- ========== DOMAIN FOCUS ========== -->
   <div class="mb-3">
-    <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+    <label
+      class="block text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2.5 text-[#14151A]"
+    >
       Domain Focus
     </label>
     <p-multiSelect
@@ -49,7 +53,7 @@
       optionValue="domainId"
       appendTo="body"
       placeholder="Choose Domain Focus"
-      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl py-[2px] mt-1"
+      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] rounded-xl bg-white py-[2px] mt-1"
     ></p-multiSelect>
   </div>
   <!-- Display selected Domain Focus as chips -->
@@ -61,15 +65,17 @@
       *ngFor="let id of domainFocusSelected"
       [label]="getDomainName(id)"
       [removable]="true"
-      removeIcon="pi pi-times"
-      styleClass="border border-[#EAECF0] bg-white rounded-full font-body text-[#0F132499]/60 text-[14px] py-[4px] px-2.5"
+      removeIcon="pi pi-times text-[#0F132499]/60 text-xs mt-1"
+      styleClass="border border-[#EAECF0] bg-white flex items-center rounded-full font-body text-[#0F132499]/60 text-[14px] py-[4px] px-2.5"
       (onRemove)="handleRemoveDomain(id)"
     ></p-chip>
   </div>
 
   <!-- ========== REGIONAL FOCUS ========== -->
   <div class="mb-3">
-    <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+    <label
+      class="block text-[16px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2.5 text-[#14151A]"
+    >
       Regional Focus
     </label>
     <p-multiSelect
@@ -79,7 +85,8 @@
       optionValue="regionId"
       appendTo="body"
       placeholder="Choose Regional Focus"
-      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl py-[2px] mt-1"
+      removeIcon="pi pi-times text-[#0F132499]/60 text-xs mt-1"
+      styleClass="border border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[#0F132499]/60 text-[16px] py-[4px] px-2.5"
     ></p-multiSelect>
   </div>
   <!-- Display selected Regional Focus as chips -->
@@ -91,15 +98,15 @@
       *ngFor="let id of regionalFocusSelected"
       [label]="getRegionalName(id)"
       [removable]="true"
-      removeIcon="pi pi-times"
-      styleClass="border border-[#EAECF0] bg-white rounded-full font-body text-[#0F132499]/60 text-[14px] py-[4px] px-2.5"
+      removeIcon="pi pi-times text-[#0F132499]/60 text-xs mt-1"
+      styleClass="border border-[#EAECF0] bg-white flex items-center rounded-full font-body text-[#0F132499]/60 text-[14px] py-[4px] px-2.5"
       (onRemove)="handleRemoveRegion(id)"
     ></p-chip>
   </div>
 
   <!-- ========== Consulting FOCUS ========== -->
-  <div class="mb-3">
-    <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
+  <!-- <div class="mb-3">
+    <label class="block text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   mb-2.5 text-[#14151A]">
       Consulting Skills
     </label>
     <p-multiSelect
@@ -109,11 +116,11 @@
       optionValue="consultingId"
       appendTo="body"
       placeholder="Choose Consulting skills"
-      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl py-[2px] mt-1"
+      class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   rounded-xl py-[2px] mt-1"
     ></p-multiSelect>
-  </div>
+  </div> -->
   <!-- Display selected Regional Focus as chips -->
-  <div
+  <!-- <div
     *ngIf="consultingSkillsSelected.length > 0"
     class="w-full flex flex-wrap items-center gap-3 mb-4"
   >
@@ -125,7 +132,7 @@
       styleClass="border border-[#EAECF0] bg-white rounded-full font-body text-[#0F132499]/60 text-[14px] py-[4px] px-2.5"
       (onRemove)="handleRemoveConsulting(id)"
     ></p-chip>
-  </div>
+  </div> -->
 
   <!-- ========== FOOTER BUTTONS ========== -->
   <div class="flex justify-end space-x-2 mt-6">

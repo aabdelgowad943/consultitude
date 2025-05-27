@@ -11,12 +11,20 @@ import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { HttpHeaders } from '@angular/common/http';
 import { ChangePasswordSettings } from '../models/change-password';
+import { Router } from '@angular/router';
+
+interface DecodedToken {
+  id: string;
+  iat: number;
+  exp: number;
+  [key: string]: any; // For any other claims in your token
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   login(login: Login): Observable<Login> {
     return this.apiService.post('/auth/login', login);
@@ -46,7 +54,7 @@ export class AuthService {
     });
   }
 
-  getTokenData(): string {
+  getTokenData(): any {
     const token = localStorage.getItem('token');
     if (!token) {
       return '';
@@ -76,5 +84,58 @@ export class AuthService {
     changePassword: ChangePasswordSettings
   ): Observable<ChangePasswordSettings> {
     return this.apiService.post('/auth/change-password', changePassword);
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  // note for solve linked in issue
+  // ---check if no token ==> leave it
+  // ---check put it in interceptor
+
+  isTokenExpired(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return true; // No token means not authenticated
+    }
+
+    try {
+      const decoded: DecodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000; // Convert to seconds
+      // console.log(decoded.exp);
+      // console.log(currentTime);
+      // if (decoded.exp > currentTime) {
+      //   console.log('decode');
+      // } else {
+      //   console.log('current time');
+      // }
+
+      // If the expiration time is less than current time, token is expired
+      return decoded.exp < currentTime;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return true; // If there's an error decoding, consider token invalid
+    }
+  }
+
+  // Method to check and logout if token expired
+  checkTokenAndLogout(): void {
+    if (this.isTokenExpired()) {
+      this.logout();
+    }
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('profileId');
+    localStorage.removeItem('email');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
+    localStorage.removeItem('profileUrl');
+    localStorage.removeItem('name');
+    localStorage.removeItem('serviceId');
+    this.router.navigate(['/auth/login']);
   }
 }

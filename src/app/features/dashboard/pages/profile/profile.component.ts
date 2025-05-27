@@ -21,56 +21,126 @@ import { Profile } from '../../models/profile';
 })
 export class ProfileComponent implements OnInit {
   userId: string = localStorage.getItem('userId')!;
-  profile: any = {};
+  loading = true;
+  profile: any = {
+    skills: {
+      industryFocus: [],
+      domainFocus: [],
+      regionalFocus: [],
+    },
+  };
   topSkills: string[] = [];
   topSkillsList: string[] = [];
+  profileUrl: string = '';
 
   ngOnInit(): void {
-    this.getProfileDataByUserId();
+    if (this.userId) {
+      // Fetch user profile data
+      this.getProfileDataByUserId();
+    } else {
+      // Handle case where userId is not available
+      this.loading = false;
+    }
   }
+
   constructor(private authService: AuthService) {}
+
   getProfileDataByUserId() {
+    this.loading = true; // Ensure loading state is set before API call
+
     this.authService.getUserDataByUserId(this.userId).subscribe({
       next: (res: any) => {
-        console.log(res.data.topSkills);
+        this.loading = false;
 
-        //   [
-        //     {
-        //         "topSkill": {
-        //             "id": "dd667875-ca82-4e45-8bf5-1a34ede7fa64",
-        //             "translations": [
-        //                 {
-        //                     "name": "JavaScript"
-        //                 }
-        //             ]
-        //         }
-        //     },
-        //     {
-        //         "topSkill": {
-        //             "id": "e76eb4b6-a9b6-41dc-81f5-0d91f666715a",
-        //             "translations": [
-        //                 {
-        //                     "name": "Type Script"
-        //                 }
-        //             ]
-        //         }
-        //     }
-        // ]
+        if (res && res.data) {
+          this.profile = res.data || {
+            skills: { industryFocus: [], domainFocus: [], regionalFocus: [] },
+          };
+          this.topSkillsList = this.extractTopSkills(res.data.topSkills || []);
+          this.skillsData = this.profile.skills || {
+            industryFocus: [],
+            domainFocus: [],
+            regionalFocus: [],
+          };
+          this.name = res.data.firstName || '';
+          this.title = res.data.title || '';
+          this.about = res.data.about || '';
+          this.email = res.data.user?.email || '';
+          this.profileUrl = res.data.profileUrl || '';
 
-        this.profile = res.data;
-        this.topSkillsList = this.extractTopSkills(res.data.topSkills || []);
-        this.skillsData = this.profile.skills;
-        this.name = res.data.firstName;
-        this.title = res.data.title;
-        this.about = res.data.about;
-        this.email = res.data.user?.email;
+          // Initialize profile data for editing
+          this.initializeProfileData();
+        } else {
+          // console.warn('No profile data received from API');
+          this.handleEmptyProfile();
+        }
+      },
+      error: (err: any) => {
+        // console.error('Error fetching profile data:', err);
+        this.loading = false;
+        this.handleEmptyProfile();
       },
     });
   }
 
+  private handleEmptyProfile() {
+    // Set default empty values when profile data is not available
+    this.profile = {
+      skills: {
+        industryFocus: [],
+        domainFocus: [],
+        regionalFocus: [],
+      },
+    };
+    this.topSkillsList = [];
+    this.skillsData = { industryFocus: [], domainFocus: [], regionalFocus: [] };
+    this.name = '';
+    this.title = '';
+    this.about = '';
+    this.email = '';
+    this.profileUrl = '';
+
+    // Initialize empty profile data for editing
+    this.initializeProfileData();
+  }
+
+  private initializeProfileData() {
+    this.profileData = {
+      firstName: this.name || '',
+      middleName: '',
+      lastName: '',
+      phone: '',
+      about: this.about || '',
+      title: this.title || '',
+      profileUrl: this.profileUrl || '',
+      thumbnail: '',
+      skills: {
+        industryFocus: this.profile?.skills?.industryFocus || [],
+        domainFocus: this.profile?.skills?.domainFocus || [],
+        regionalFocus: this.profile?.skills?.regionalFocus || [],
+      },
+      email: this.email || '',
+      password: '',
+    };
+  }
+
   private extractTopSkills(topSkills: any[]): string[] {
+    if (!topSkills || !Array.isArray(topSkills)) {
+      return [];
+    }
+
     return topSkills
-      .map((item) => item.topSkill?.translations?.[0]?.name || '')
+      .map((item) => {
+        if (
+          item &&
+          item.topSkill &&
+          item.topSkill.translations &&
+          item.topSkill.translations.length > 0
+        ) {
+          return item.topSkill.translations[0].name || '';
+        }
+        return '';
+      })
       .filter((name) => name !== '');
   }
 
@@ -105,19 +175,19 @@ export class ProfileComponent implements OnInit {
   selectedSkills: string[] = [];
 
   openEditDialog() {
-    // Map local state to UserProfile structure
+    // Ensure profileData is properly initialized before opening dialog
     this.profileData = {
       ...this.profileData,
-      firstName: this.profileData.firstName,
-      lastName: this.profileData.lastName,
-      title: this.profileData.title,
+      firstName: this.name || '',
+      lastName: '', // Get from profile if available
+      title: this.title || '',
+      about: this.about || '',
       skills: {
-        industryFocus: this.selectedSkills.map((skillId) => ({
-          areaOfFocusId: skillId,
-        })),
-        domainFocus: [],
-        regionalFocus: [],
+        industryFocus: this.profile?.skills?.industryFocus || [],
+        domainFocus: this.profile?.skills?.domainFocus || [],
+        regionalFocus: this.profile?.skills?.regionalFocus || [],
       },
+      email: this.email || '',
     };
     this.displayEditDialog = true;
   }
@@ -125,56 +195,132 @@ export class ProfileComponent implements OnInit {
   onSaveProfileChanges(updatedProfile: Profile) {
     // Update local state from UserProfile
     this.profileData = { ...updatedProfile };
-    this.selectedSkills = updatedProfile.skills!.industryFocus.map(
-      (f) => f.areaOfFocusId
-    );
 
-    // Preserve company/nationality if needed
-    // console.log('Updated profile:', updatedProfile);
+    // Update selectedSkills if needed
+    if (updatedProfile.skills && updatedProfile.skills.industryFocus) {
+      this.selectedSkills = updatedProfile.skills.industryFocus.map(
+        (f) => f.areaOfFocusId
+      );
+    }
+
+    // Refresh profile data after save
+    this.getProfileDataByUserId();
   }
-
-  // ===============================================edit identify======================================================
 
   // ===============================================edit about======================================================
   displayEditAbout: boolean = false;
-  aboutText: string = 'Your current about text...';
+  aboutText: string = '';
 
   openEditAbout() {
-    this.aboutText = this.about;
+    this.aboutText = this.about || '';
     this.displayEditAbout = true;
   }
 
   updateAbout(updatedText: string) {
     this.aboutText = updatedText;
+    this.about = updatedText;
     this.displayEditAbout = false;
+    // Refresh profile data
+    this.getProfileDataByUserId();
   }
   // ===============================================edit about======================================================
 
   // ===============================================edit skills======================================================
   displayEditSkills: boolean = false;
-  skillsData: any;
+  skillsData: any = { industryFocus: [], domainFocus: [], regionalFocus: [] };
 
   openEditSkills() {
+    // Ensure skillsData is properly initialized
+    this.skillsData = this.profile?.skills || {
+      industryFocus: [],
+      domainFocus: [],
+      regionalFocus: [],
+    };
     this.displayEditSkills = true;
   }
 
   // ===============================================edit skills======================================================
 
   // ===============================================edit profile image===============================================
+
   currentImage: string | null = null;
   displayEditImage = false;
   openEditImage() {
-    // Optionally set currentImage to some existing base64 if you have it
+    this.currentImage = this.profileUrl || null;
     this.displayEditImage = true;
   }
 
-  onSaveImage(newImage: string | null) {
-    // This is where you get the cropped image from the child
+  onSaveImage(newImage: string) {
     if (newImage) {
+      // Update all references to the image URL
       this.currentImage = newImage;
-      // Possibly send it to the server or do something else
+      this.profileUrl = newImage;
+      this.profile = {
+        ...this.profile,
+        profileUrl: newImage,
+      };
+
+      // Force change detection by using NgZone
+      this.displayEditImage = false;
+      // Update the full profile data
+      this.getProfileDataByUserId();
     }
   }
 
   // ===============================================edit profile image===============================================
+
+  // ===============================================collapsing skills===============================================
+  showAllIndustrySkills = false;
+  showAllDomainSkills = false;
+  showAllRegionalSkills = false;
+  showAllConsultingSkills = false;
+
+  toggleShowMoreIndustry(): void {
+    this.showAllIndustrySkills = !this.showAllIndustrySkills;
+  }
+
+  toggleShowMoreDomain(): void {
+    this.showAllDomainSkills = !this.showAllDomainSkills;
+  }
+
+  toggleShowMoreRegional(): void {
+    this.showAllRegionalSkills = !this.showAllRegionalSkills;
+  }
+
+  getDomainSkillsToShow(): any[] {
+    if (
+      !this.profile?.skills?.domainFocus ||
+      !Array.isArray(this.profile.skills.domainFocus)
+    ) {
+      return [];
+    }
+    return this.showAllDomainSkills
+      ? this.profile.skills.domainFocus
+      : this.profile.skills.domainFocus.slice(0, 4);
+  }
+
+  getRegionalSkillsToShow(): any[] {
+    if (
+      !this.profile?.skills?.regionalFocus ||
+      !Array.isArray(this.profile.skills.regionalFocus)
+    ) {
+      return [];
+    }
+    return this.showAllRegionalSkills
+      ? this.profile.skills.regionalFocus
+      : this.profile.skills.regionalFocus.slice(0, 4);
+  }
+
+  getIndustrySkillsToShow(): any[] {
+    if (
+      !this.profile?.skills?.industryFocus ||
+      !Array.isArray(this.profile.skills.industryFocus)
+    ) {
+      return [];
+    }
+    return this.showAllIndustrySkills
+      ? this.profile.skills.industryFocus
+      : this.profile.skills.industryFocus.slice(0, 4);
+  }
+  // ===============================================collapsing skills===============================================
 }

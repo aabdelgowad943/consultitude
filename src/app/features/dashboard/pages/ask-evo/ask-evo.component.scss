@@ -1,0 +1,65 @@
+/* Add this to your global styles.scss */
+::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* You can also create a specific class for components that should hide scrollbars */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  overflow-y: auto;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* If you only want to apply this to PrimeNG dialogs */
+.p-dialog-content {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.p-dialog-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.empty-state-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-state-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 16px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.icon-container {
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.message {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #e5e7eb;
+  margin-top: 16px;
+}

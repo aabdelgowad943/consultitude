@@ -1,11 +1,11 @@
 <div class="bg-[#F9FAFB] w-full">
-  <div class="max-w-[1600px] mx-auto">
+  <div class="max-w-[1920px] mx-auto">
     <app-hero-lounge-secion></app-hero-lounge-secion>
     <div
       class="grid grid-cols-1 gap-6 lg:gap-10 md:grid-cols-12 py-10 px-4 sm:px-6 md:px-10 lg:px-20"
     >
       <!-- Sidebar -->
-      <div class="md:col-span-3 col-span-12">
+      <div class="thousand:col-span-3 col-span-12">
         <app-sidebar
           [filters]="filters"
           [sections]="sections"
@@ -19,7 +19,7 @@
       </div>
 
       <!-- Main Content -->
-      <div class="col-span-12 md:col-span-9 md:w-full 2xl:w-[959px]">
+      <div class="col-span-12 thousand:col-span-9 md:w-full 2xl:w-[959px]">
         <app-mai-content
           [filteredTemplates]="filteredTemplates"
           [dataLoaded]="dataLoaded"
@@ -32,7 +32,7 @@
         >
         </app-mai-content>
 
-        <div class="flex justify-center py-2">
+        <div *ngIf="templates.length !== 0" class="flex justify-center py-2">
           <p-paginator
             [first]="first"
             [rows]="rows"
@@ -53,7 +53,7 @@
 >
   <div class="bg-white w-[90%] max-h-[90%] rounded-lg p-6 overflow-y-auto">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg font-bold">Filter Templates</h3>
+      <h3 class="text-lg ipad:font-[500] big:font-[600]">Filter Templates</h3>
       <button
         class="text-gray-500 hover:text-gray-700"
         (click)="closeSidebar()"
@@ -64,17 +64,20 @@
 
     <!-- Search Bar -->
     <div class="mb-4">
-      <label class="block mb-3 font-bold text-sm">Search Templates</label>
+      <label
+        class="block mb-3 ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-sm"
+        >Search Templates</label
+      >
       <input
         type="text"
-        class="w-full p-2 text-sm border border-gray-300 bg-white rounded-xl"
+        class="w-full p-2 text-sm border text-[#14151A] border-gray-300 bg-white rounded-xl"
         [(ngModel)]="searchText"
         (ngModelChange)="onSearchChange($event)"
         placeholder="Search..."
       />
     </div>
 
-    <!-- Filters Section -->
+    <!-- Filters Section in the Mobile Modal -->
     <div class="sidebar">
       <div
         *ngFor="let section of sections"
@@ -84,21 +87,53 @@
           class="flex items-center justify-between cursor-pointer p-2 hover:bg-gray-100"
           (click)="toggleSection(section)"
         >
-          <h3 class="font-bold text-gray-700 text-sm">{{ section.name }}</h3>
+          <h3
+            class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-700 text-sm"
+          >
+            {{ section.name }}
+          </h3>
         </div>
         <div *ngIf="section.isOpen" class="ml-4">
-          <div *ngFor="let item of filters[section.key]" class="mt-2">
-            <label class="flex items-center">
+          <!-- Special handling for price range -->
+          <div *ngIf="section.key === 'price'" class="ml-1 px-1 py-3">
+            <!-- Range Input Container -->
+            <div class="relative pt-6">
               <input
-                class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
-                type="checkbox"
-                [(ngModel)]="item.checked"
+                type="range"
+                min="0"
+                max="1000"
+                [(ngModel)]="filters.price[0]"
                 (ngModelChange)="onFilterChange()"
+                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-slider"
               />
-              <span class="ml-2 text-[#171717] font-sans text-[13px]">{{
-                item.name
-              }}</span>
-            </label>
+
+              <!-- Value Display -->
+              <div class="flex justify-between items-center mt-4">
+                <span class="text-sm text-gray-500">$0</span>
+                <div
+                  class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
+                >
+                  {{ filters.price[0] }}
+                </div>
+                <span class="text-sm text-gray-500">$1000</span>
+              </div>
+            </div>
+          </div>
+          <!-- Regular checkbox filters for other sections -->
+          <div *ngIf="section.key !== 'price'">
+            <div *ngFor="let item of filters[section.key]" class="mt-2">
+              <label class="flex items-center">
+                <input
+                  class="rounded-[4px] w-4 h-4 border-[#8F8F8F]"
+                  type="checkbox"
+                  [(ngModel)]="item.checked"
+                  (ngModelChange)="onFilterChange()"
+                />
+                <span class="ml-2 text-[#171717] text-[13px]">{{
+                  item.name
+                }}</span>
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -106,7 +141,7 @@
 
     <!-- Apply Button -->
     <button
-      class="mt-6 w-full px-4 py-2 bg-[#7F56D9] text-white rounded-lg font-semibold"
+      class="mt-6 w-full px-4 py-2 bg-[#7F56D9] text-white rounded-lg ipad:font-[500] big:font-[600]"
       (click)="closeSidebar()"
     >
       Apply Filters

@@ -109,18 +109,25 @@
 
 import { Component, OnInit } from '@angular/core';
 import { DocumentsService } from '../../services/documents.service';
-import { DocumentsResponse, Order } from '../../models/documents';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
+import { DocumentLoaderComponent } from '../../../../shared/loaders/document-loader/document-loader.component';
 
 @Component({
   selector: 'app-documents',
-  imports: [CommonModule, PaginatorModule, RouterModule],
+  imports: [
+    CommonModule,
+    PaginatorModule,
+    RouterModule,
+    DocumentLoaderComponent,
+  ],
   templateUrl: './documents.component.html',
   styleUrl: './documents.component.scss',
 })
 export class DocumentsComponent implements OnInit {
+  loading = true;
+
   images = [
     '/images/Pic1.svg',
     '/images/Pic2.svg',
@@ -157,6 +164,8 @@ export class DocumentsComponent implements OnInit {
   }
 
   loadDocuments() {
+    this.loading = true;
+
     this.documentService
       .getAllDocumentsByUserId(
         this.userId,
@@ -166,8 +175,9 @@ export class DocumentsComponent implements OnInit {
       )
       .subscribe({
         next: (res: any) => {
-          console.log('Received data:', res);
+          // console.log('Received data:', res);
 
+          this.loading = false;
           // Update total records from API metadata
           if (res.meta) {
             this.totalRecords = res.meta.totalItems;
@@ -177,6 +187,7 @@ export class DocumentsComponent implements OnInit {
             this.documents = res.data;
           } else {
             this.documents = [];
+            this.loading = false;
           }
         },
         error: (err) => {
@@ -206,6 +217,7 @@ export class DocumentsComponent implements OnInit {
     // event.page is zero-based
     this.currentPage = event.page + 1;
     this.loadDocuments();
+    window.scrollTo(0, 0);
   }
 
   viewTemplateDetails() {

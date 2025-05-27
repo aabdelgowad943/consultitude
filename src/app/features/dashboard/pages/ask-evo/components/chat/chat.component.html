@@ -1,0 +1,162 @@
+<div
+  class="chat-container px-2 big:px-[200px] w-full h-screen overflow-y-auto flex flex-col pt-24"
+>
+  <!-- Chat Messages -->
+  <div class="chat-messages flex-grow p-2">
+    <!-- Initial Summary -->
+    <div *ngIf="summarySection" class="message mb-10">
+      <div class="flex items-start">
+        <img
+          src="images/new/circle.svg"
+          class="w-[24px] h-[24px] mr-5"
+          alt=""
+        />
+
+        <div class="message-content max-w-3xl text-[#344054] text-[14px]">
+          <div class="whitespace-pre-line ipad:font-[500] big:font-[500]">
+            <p>Here's my summary before we move forward:</p>
+            <ul class="list-disc pl-5 mt-2">
+              <li>
+                You're asking for: {{ userQuestion || "[User's ask summary]" }}
+              </li>
+              <li>
+                I've reviewed:
+                {{ selectedFile?.name || "[Document name/type]" }}
+              </li>
+              <li>Suggested Consultants: {{ consultantTypes }}</li>
+            </ul>
+          </div>
+          <div class="text-xs text-gray-500 mt-1">
+            {{ summaryTimestamp | date : "h:mm a" }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversation Section -->
+    <div
+      *ngIf="conversationStarted"
+      class="border border-[#F0F2F5] shadow-md w-full rounded-2xl p-5 mb-10 max-w-[744px]"
+    >
+      <div *ngFor="let message of chatMessages" class="message mb-5">
+        <!-- EVO Messages -->
+        <div *ngIf="message.sender === 'evo'" class="flex items-start">
+          <img
+            src="images/new/circle.svg"
+            class="w-[24px] h-[24px] mr-5"
+            alt=""
+          />
+          <div class="message-content w-[80%]">
+            <div
+              class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
+            >
+              Evo
+            </div>
+            <div class="whitespace-pre-line text-[#344054] text-sm">
+              <div [innerHTML]="message.displayHtml"></div>
+              <span *ngIf="message.isTyping" class="typing-cursor"></span>
+            </div>
+            <div class="text-xs text-[#344054] mt-1">
+              {{ message.timestamp | date : "h:mm a" }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Consultant Messages -->
+        <div *ngIf="message.sender === 'consultant'" class="flex items-start">
+          <div class="w-6 h-6 overflow-hidden rounded-full bg-[#F6FAFF]">
+            <img src="images/Frame.svg" class="w-full h-full block" alt="" />
+          </div>
+          <div class="message-content w-[80%] ml-4">
+            <div
+              class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
+            >
+              Consultant {{ message.consultantInfo?.name || "Unknown" }}
+              <span *ngIf="message.consultantInfo?.description">
+                ({{ message.consultantInfo.description }})
+              </span>
+            </div>
+            <div class="whitespace-pre-line text-[#344054] text-sm">
+              <div [innerHTML]="message.displayHtml"></div>
+              <span *ngIf="message.isTyping" class="typing-cursor"></span>
+            </div>
+            <div class="text-xs text-[#344054] mt-1">
+              {{ message.timestamp | date : "h:mm a" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message Loading Indicator -->
+    <div *ngIf="isLoadingNextMessage" class="flex items-start mt-4 mb-6 ml-10">
+      <div class="loading-indicator flex space-x-2">
+        <div class="typing-dot"></div>
+        <div class="typing-dot animation-delay-200"></div>
+        <div class="typing-dot animation-delay-400"></div>
+      </div>
+    </div>
+
+    <!-- Final Report Section with Typing Effect -->
+    <div *ngIf="showFinalReport" class="message mb-6">
+      <div class="flex items-start">
+        <img
+          src="images/new/circle.svg"
+          class="w-[24px] h-[24px] mr-5"
+          alt=""
+        />
+        <div class="message-content max-w-3xl">
+          <div
+            class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
+          >
+            Evo
+          </div>
+          <div class="whitespace-pre-line text-[#101828] text-sm">
+            <p>Here's the final report based on our conversation:</p>
+            <div [innerHTML]="finalReportHtml"></div>
+            <span *ngIf="finalReportIsTyping" class="typing-cursor"></span>
+          </div>
+          <div class="text-xs text-gray-500 mt-1">
+            {{ reportTimestamp | date : "h:mm a" }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="!conversationStarted"
+      class="flex items-center space-x-2 ml-10 mt-2"
+    >
+      <div class="typing-dot"></div>
+      <div class="typing-dot animation-delay-200"></div>
+      <div class="typing-dot animation-delay-400"></div>
+    </div>
+  </div>
+
+  <!-- Footer buttons -->
+  <div
+    *ngIf="showFinalReport && !finalReportIsTyping"
+    class="border-t p-4 flex justify-center space-x-4"
+  >
+    <div
+      class="flex flex-col ipad:flex-col thousand:flex-col big:flex-row items-center gap-2 mb-4 w-full"
+      [@fadeUpStagger]="suggestions.length"
+    >
+      <button
+        *ngFor="let suggestion of suggestions"
+        class="px-4 py-3 border border-[#EAECF0] text-sm rounded-full w-fit flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="suggestion.soon"
+        (click)="suggestion.action ? suggestion.action() : null"
+      >
+        <i [class]="suggestion.icon" class="w-4 h-4 text-[#F04438]"></i>
+        <span>{{ suggestion.text }}</span>
+        <p
+          *ngIf="suggestion.soon"
+          class="bg-[#ECDFFB] text-[#5314A3] rounded-[99px] text-[12px] flex justify-center items-center w-[80px] p-[2px]"
+        >
+          {{ suggestion.soon }}
+        </p>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,20 +1,20 @@
 <div
-  *ngIf="template; else noTemplate"
+  *ngIf="template; else noTemplateTemplate"
   class="bg-[#F9FAFB] mx-auto py-[64px] px-4 md:ps-10 lg:ps-20"
 >
-  <div class="max-w-[1600px] mx-auto">
+  <div class="max-w-[1920px] mx-auto">
     <!-- Header Section -->
     <div
       class="grid grid-cols-1 md:grid-cols-12 md:gap-10 items-start justify-between"
     >
       <!-- Left side -->
       <div
-        class="col-span-12 md:pr-2 2xl:pr-6 border-r border-[#e0e2e6] md:col-span-4 w-full"
+        class="col-span-12 md:pr-2 2xl:pr-6 border-r border-[#e0e2e6] thousand:col-span-4 big:col-span-4 w-full"
       >
         <div class="">
           <a
             routerLink="/knowledge"
-            class="flex items-center gap-2 text-[#0F132499] text-[14px] font-bold mb-[32px]"
+            class="flex items-center gap-2 text-[#0F132499] text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-[32px]"
           >
             <i class="pi pi-arrow-left"></i> {{ backButtonText }}
           </a>
@@ -25,7 +25,7 @@
               >
                 <div class="flex-1">
                   <h1
-                    class="text-2xl md:text-4xl w-full md:w-[70%] font-bold mb-4"
+                    class="text-2xl md:text-4xl w-full md:w-[70%] ipad:font-[500] bigger:font-[500] mb-4 text-[#101828]"
                   >
                     {{ template.name }}
                   </h1>
@@ -44,7 +44,9 @@
                 </li>
               </ul>
               <!-- Buttons Section -->
-              <div class="flex w-full items-center mt-5 justify-center gap-4">
+              <div
+                class="flex w-full thousand:flex-col big:flex-row items-center mt-5 justify-center gap-4"
+              >
                 <button
                   *ngFor="let btn of buttons"
                   [class]="btn.classes"
@@ -61,7 +63,7 @@
                 *ngFor="let detail of details"
                 class="flex justify-between border-b p-2 items-center"
               >
-                <span class="text-[#475467] text-[16px] font-[400]">{{
+                <span class="text-[#475467] text-[16px] leading-6">{{
                   detail.label
                 }}</span>
                 <span class="text-[#101828]">
@@ -74,9 +76,9 @@
       </div>
 
       <!-- Right side -->
-      <div class="col-span-12 md:col-span-8 mt-10 md:mt-0">
+      <div class="col-span-12 thousand:col-span-8 mt-10 md:mt-0">
         <div
-          class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white h-[200px] md:h-[400px] py-8 px-5"
+          class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white md:max-w-[756px] h-[200px] md:h-[395px] py-8 px-5"
           [style.background-image]="'url(' + (template.images[0] || '') + ')'"
         >
           <div class="absolute inset-0 bg-[#0D1F40]/60 rounded-lg"></div>
@@ -89,7 +91,9 @@
           <div
             class="absolute z-10 flex flex-col bottom-10 justify-end items-start h-24 md:h-48"
           >
-            <h1 class="text-2xl md:text-4xl font-bold mb-2 w-full md:w-[40%]">
+            <h1
+              class="text-2xl md:text-4xl ipad:font-[500] bigger:font-[500] mb-2 w-full md:w-[40%]"
+            >
               {{ template.name }}
             </h1>
             <p class="text-base md:text-lg text-gray-300">
@@ -110,12 +114,13 @@
             [responsiveOptions]="responsiveOptions"
             [showIndicators]="true"
             [showNavigators]="false"
+            [responsiveOptions]="responsiveOptions"
             [indicatorStyle]="indicatorStyle"
             [indicatorStyleClass]="indicatorStyleClass"
           >
             <ng-template let-image pTemplate="item">
               <div
-                class="border my-2 rounded-md overflow-hidden mx-1 h-[97px] border-[#0000001A]/10"
+                class="border rounded-md overflow-hidden mx-1 h-[97px] border-[#0000001A]/10"
               >
                 <img
                   [src]="image!"
@@ -128,7 +133,9 @@
         </div>
 
         <div class="pt-10">
-          <h2 class="text-xl md:text-2xl font-[500] mb-4">
+          <h2
+            class="text-xl md:text-2xl ipad:font-[500] bigger:font-[500] mb-4 text-[#101828]"
+          >
             {{ overviewTitle }}
           </h2>
           <p
@@ -140,13 +147,15 @@
           <!-- Tags Section -->
 
           <h1
-            class="text-[24px] font-[500] leading-[28.8px] text-[#101828] mb-6"
+            class="text-[24px] ipad:font-[500] bigger:font-[500] leading-[28.8px] text-[#101828] mb-6"
           >
             Tags
           </h1>
           <div class="mt-6">
             <div *ngFor="let tagGroup of tags" class="mb-4">
-              <h4 class="font-[500] text-[14px] md:text-[16px] text-black">
+              <h4
+                class="ipad:font-[500] bigger:font-[500] text-[14px] md:text-[16px] text-black"
+              >
                 {{ tagGroup.title }}
               </h4>
               <div class="flex flex-wrap gap-2 mt-2">
@@ -165,7 +174,7 @@
   </div>
 
   <!-- Related Templates -->
-  <aside aria-label="Related articles" class="py-8 lg:py-[140px] antialiased">
+  <aside aria-label="Related articles" class="py-20 lg:py-[140px] antialiased">
     <div class="px-4 mx-auto max-w-screen-xl">
       <div
         class="full mb-10 flex justify-between items-end flex-col md:flex-row"
@@ -175,9 +184,9 @@
             Done by Expert Consultants
           </p>
           <h2
-            class="md:text-[44px] text-[36px] w-full font-bold text-[#101828]"
+            class="md:text-[44px] text-[36px] w-full ipad:font-[500] bigger:font-[500] text-[#101828]"
           >
-            Similar Document
+            Similar Documents
           </h2>
         </div>
         <button
@@ -188,34 +197,105 @@
           View all <i class="pi pi-arrow-right"></i>
         </button>
       </div>
-      <!-- Update related articles section -->
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+      <!-- Updated related articles section to match product card design -->
+      <div class="flex flex-col ipad:flex-row gap-6 ipad:overflow-x-auto py-4">
         <div
           *ngFor="let product of relatedArticles"
-          class="relative border border-[#d1d0d0] rounded-xl shadow-md bg-white hover:shadow-lg transition-shadow"
+          class="min-w-[300px] md:w-[467px] relative border border-[#d1d0d0] rounded-2xl bg-white flex-shrink-0"
         >
-          <!-- Update all instances of 'article' to 'product' -->
-          <img [src]="product.image || defaultImageUrl" ... />
-          <h3>{{ product.title }}</h3>
-          <p>{{ product.description }}</p>
-          <span>${{ product.price }}</span>
-          <span>{{ product.downloads }} Downloads</span>
-          <!-- Update routerLink -->
-          <button
-            [routerLink]="['/knowledge/view-template-details', product.id]"
-            ...
-          >
-            View
-          </button>
+          <!-- Image Section -->
+          <div class="relative rounded-2xl 2xl:h-[240px]">
+            <img
+              [src]="product.image || defaultImageUrl"
+              alt="{{ product.name }}"
+              class="w-full h-[240px] object-cover rounded-t-2xl"
+            />
+            <div
+              class="flex absolute z-10 top-4 px-4 justify-between items-start w-full"
+            >
+              <img class="w-20" src="/images/Logo.svg" />
+              <h1
+                *ngIf="product.featured"
+                class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] flex items-center justify-center w-[74px] h-[28px] text-[#AE590A] bg-[#FDEAD8] rounded-lg py-1 px-1.5"
+              >
+                Featured
+              </h1>
+            </div>
+            <div
+              class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-10 text-white rounded-t-2xl"
+            >
+              <h3 class="text-3xl mb-1 w-[50%] ipad:font-[500] big:font-[600]">
+                {{ product.name }}
+              </h3>
+              <p class="text-[12px]">
+                {{ product.description }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="p-4 2xl:h-[161px]">
+            <!-- Price -->
+            <div class="flex items-center justify-between mb-4">
+              <!-- Title -->
+              <h3
+                class="text-[#171717] flex flex-col text-[24px] ipad:font-[500] big:font-[600]"
+              >
+                {{ product.name }}
+              </h3>
+              <span
+                class="text-[#101828] text-2xl ipad:font-[500] big:font-[600]"
+              >
+                ${{ product.price }}
+              </span>
+            </div>
+
+            <!-- Tags & Downloads -->
+            <div class="flex justify-between items-center w-full mb-4">
+              <div class="flex gap-1 items-center w-full">
+                <h1
+                  *ngFor="let domain of product.domains?.slice(0, 2)"
+                  class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
+                >
+                  {{ domain }}
+                </h1>
+                <h1
+                  *ngFor="let areaOfFocus of product.areaOfFocus?.slice(0, 2)"
+                  class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
+                >
+                  {{ areaOfFocus }}
+                </h1>
+              </div>
+              <!-- Downloads -->
+              <div class="text-[#667085] flex text-sm gap-1 items-center">
+                {{ product.downloads }} <span> Downloads </span>
+              </div>
+            </div>
+
+            <!-- View Button -->
+            <button
+              (click)="viewDetail(product.id)"
+              class="w-full flex text-[14px] items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-[#ffffffd1] font-medium rounded-xl border border-[#6E2FA5] transition-colors"
+            >
+              <i class="pi pi-eye"></i>
+              View
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty state when no related products -->
+        <div
+          *ngIf="relatedArticles.length === 0"
+          class="min-w-full text-center py-10"
+        >
+          <p class="text-[#667085] text-lg">No similar documents found.</p>
         </div>
       </div>
     </div>
   </aside>
 </div>
-<ng-template #noTemplate>
-  <div class="text-center p-12 text-gray-600">
-    <div class="animate-pulse">
-      <p>Loading template...</p>
-    </div>
-  </div>
+
+<ng-template #noTemplateTemplate>
+  <app-view-template-loader></app-view-template-loader>
 </ng-template>

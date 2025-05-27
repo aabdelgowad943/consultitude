@@ -1,0 +1,179 @@
+/* إعداد عام للصور */
+.animate-scroll > * img,
+.animate-scroll2 > * img {
+  width: 100%;
+  height: 100%;
+  max-height: 846px;
+  object-fit: contain; /* يضمن ظهور الصورة كاملة بدون قص */
+  object-position: center;
+}
+
+/* تعديل أحجام العناصر الأساسية */
+.animate-scroll > * {
+  flex: 0 0 auto; /* يمنع تغيير حجم العناصر */
+  width: 366.24px;
+  height: 206.01px;
+  margin: 0 10px; /* مسافة بين العناصر */
+}
+
+.animate-scroll2 > * {
+  flex: 0 0 auto;
+  width: 366.24px;
+  height: 206.01px;
+  margin: 0 10px;
+}
+
+/* تعديل عرض الحاوية بناء على عدد العناصر */
+.animate-scroll {
+  width: calc(3 * 366.24px + 20px); /* 3 عناصر + هوامش */
+  animation: scroll 20s linear infinite;
+}
+
+.animate-scroll2 {
+  width: calc(3 * 366.24px + 20px);
+  animation: scroll2 20s linear infinite;
+}
+
+/* الكيب فريمز المعدلة */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - 20px));
+  }
+}
+
+@keyframes scroll2 {
+  0% {
+    transform: translateX(calc(-100% - 20px));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* نسخة الموبايل */
+@media (max-width: 640px) {
+  .animate-scroll > *,
+  .animate-scroll2 > * {
+    width: 280px;
+    height: 157.5px; /* نفس النسبة 16:9 */
+  }
+
+  .animate-scroll,
+  .animate-scroll2 {
+    width: calc(2 * 280px + 10px); /* عنصرين في الموبايل */
+    animation-duration: 25s;
+  }
+
+  @keyframes scroll {
+    100% {
+      transform: translateX(calc(-100% - 10px));
+    }
+  }
+}
+
+/* إضافة ستايل جديد للصور */
+.full-size-image {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 846px !important;
+
+  object-fit: fill !important;
+  display: block;
+}
+
+/* تعديل أبعاد الكارد */
+.card {
+  width: 366.24px !important;
+  height: 206.01px !important;
+  margin: 0 10px;
+  flex-shrink: 0;
+}
+
+/* إزالة القيود القديمة */
+.w-72,
+.sm\:w-96,
+.h-64,
+.sm\:h-96 {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* التأكد من تطبيق الأبعاد على الموبايل */
+@media (max-width: 640px) {
+  .card {
+    width: 280px !important;
+    height: 157.5px !important;
+  }
+}
+
+//
+
+// =------------------------------------------------------------------------
+
+.scroller {
+  max-width: 1600px;
+}
+
+.scroller__inner {
+  padding-block: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.scroller[data-animated="true"] {
+  overflow: hidden;
+  // -webkit-mask: linear-gradient(90deg);
+  // mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+
+.scroller[data-animated="true"] .scroller__inner {
+  width: max-content;
+  flex-wrap: nowrap;
+  animation: scroll var(--_animation-duration, 40s)
+    var(--_animation-direction, forwards) linear infinite;
+}
+
+.scroller[data-direction="right"] {
+  --_animation-direction: reverse;
+}
+
+.scroller[data-direction="left"] {
+  --_animation-direction: forwards;
+}
+
+.scroller[data-speed="fast"] {
+  --_animation-duration: 20s;
+}
+
+.scroller[data-speed="slow"] {
+  --_animation-duration: 60s;
+}
+
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
+}
+
+// ------------------------------------------------------------------
+.tag-list {
+  margin: 0;
+  padding-inline: 0;
+  list-style: none;
+}
+
+.tag-list li {
+  padding: 1rem;
+  background: var(--clr-primary-400);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem -0.25rem var(--clr-primary-900);
+}
+
+/* for testing purposed to ensure the animation lined up correctly */
+.test {
+  background: red !important;
+}

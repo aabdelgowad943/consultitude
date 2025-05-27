@@ -1,7 +1,9 @@
-<div class="py-10 px-4 md:px-[120px] md:py-[64px] h-screen mb-20 bg-gray-100">
+<div
+  class="py-10 px-4 md:px-[120px] md:py-[64px] h-full mb-20 bg-[#F2F4F7] border border-[#E9EAEC]"
+>
   <div class="w-full">
     <button
-      class="flex text-[24px] gap-3 leading-[28px] font-[500] items-center text-[#101828] hover:text-gray-800"
+      class="flex text-[24px] gap-3 leading-[28px] ipad:font-[500] bigger:font-[500] items-center text-[#101828] hover:text-gray-800"
       (click)="goBack()"
     >
       <i class="pi pi-arrow-left"></i>
@@ -19,7 +21,7 @@
           >
           <div class="w-full">
             <p
-              class="text-[24px] gap-3 mt-1 leading-[28px] font-[500] text-[#101828]"
+              class="text-[24px] gap-3 mt-1 leading-[28px] ipad:font-[500] bigger:font-[500] text-[#101828]"
             >
               Contact Information
             </p>
@@ -27,7 +29,9 @@
               *ngIf="userId"
               class="flex items-center justify-between w-full"
             >
-              <p class="text-sm text-[#14151A] font-[500]">{{ email }}</p>
+              <p class="text-sm text-[#14151A] ipad:font-[500]">
+                {{ email }}
+              </p>
             </div>
           </div>
         </div>
@@ -39,7 +43,9 @@
             class="w-9 h-9 flex items-center justify-center bg-[#F2F4F7] text-[#667085] border border-[#EAECF0] rounded-full"
             >2</span
           >
-          <p class="text-[24px] mt-1 leading-[28px] font-[500] text-[#101828]">
+          <p
+            class="text-[24px] mt-1 leading-[28px] ipad:font-[500] bigger:font-[500] text-[#101828]"
+          >
             Promo code
           </p>
         </div>
@@ -49,7 +55,8 @@
             name="promoCode"
             placeholder="Promo code"
             [(ngModel)]="promoCode"
-            class="w-full border border-[#DEE0E3] rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            (input)="onPromoCodeInput()"
+            class="w-full border border-[#DEE0E3] rounded-xl px-4 py-2 text-[#14151A] focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
           <button
             type="button"
@@ -79,42 +86,58 @@
           class="w-9 h-9 flex items-center justify-center bg-[#F2F4F7] text-[#667085] border border-[#EAECF0] rounded-full mr-3"
           >3</span
         >
-        <p class="text-[24px] gap-3 leading-[28px] font-[500] text-[#101828]">
+        <p
+          class="text-[24px] gap-3 leading-[28px] ipad:font-[500] bigger:font-[500] text-[#101828]"
+        >
           Payment
         </p>
       </div>
       <div *ngIf="userId" class="mt-4">
         <form id="payment-form" (ngSubmit)="handleSubmit($event)">
           <div id="payment-element"></div>
-          <div class="mt-4">
+          <div class="mt-4 space-y-4">
             <div class="flex justify-between">
-              <span>Subtotal:</span>
-              <span>{{ subTotalAmount | currency }}</span>
+              <span class="text-[#101828]">Subtotal</span>
+              <span class="text-[#101828]">{{
+                subTotalAmount | currency
+              }}</span>
             </div>
             <div class="flex justify-between">
-              <span>Discount:</span>
-              <span>{{ discountValue | currency }}</span>
+              <span class="text-[#101828]">Discount</span>
+              <span class="text-[#101828]">{{ discountValue | currency }}</span>
             </div>
-            <div class="flex justify-between font-bold">
-              <span>Total:</span>
-              <span>{{ totalAmount | currency }}</span>
+            <div class="flex justify-between">
+              <span class="text-[#101828]">Total</span>
+              <span class="text-[#101828]">{{ totalAmount | currency }}</span>
             </div>
           </div>
           <button
             id="submit"
-            class="bg-[#9241DC] text-white w-full h-[40px] py-2.5 px-3 flex items-center justify-center rounded-xl hover:bg-purple-700 mt-4"
+            class="bg-[#9241DC] text-[#ffffffe3] w-full h-[40px] py-2.5 px-3 flex items-center justify-center rounded-xl hover:bg-purple-700 mt-4"
             [disabled]="loading"
           >
             <span *ngIf="loading">Processing...</span>
-            <span *ngIf="!loading">Pay</span>
+            <span *ngIf="!loading">Pay ${{ totalAmount }}</span>
           </button>
+          <div class="w-full text-center my-4">
+            <span class="text-[#475467] my-4 text-[12px] w-full text-center"
+              >By continuing, you agree to Consultitude’s
+              <a href="/terms-and-conditions" class="underline"
+                >Terms of Service</a
+              >
+              and
+              <a href="/privacy-and-policy" class="underline"
+                >Privacy Policy.</a
+              >
+            </span>
+          </div>
           <p
             *ngIf="errorPayment"
             class="w-full bg-red-100 mt-2 text-red-500 p-2 rounded-md"
           >
             {{ errorPayment }}
           </p>
-          <p id="payment-error" role="alert"></p>
+          <!-- <p id="payment-error" role="alert"></p> -->
         </form>
       </div>
     </div>
@@ -129,27 +152,12 @@
 >
   <div class="bg-white rounded-xl p-10 md:w-[480px] mx-4">
     <!-- Confetti Icon -->
-    <div class="flex items-center justify-center mb-4">
-      🎉
-      <!-- <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="32"
-        height="32"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#FF9900"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polygon
-          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-        ></polygon>
-      </svg> -->
-    </div>
+    <div class="flex items-center justify-center mb-4">🎉</div>
 
     <!-- Main Message -->
-    <h2 class="text-2xl font-[500] text-center text-[#14151A] mb-5">
+    <h2
+      class="text-2xl ipad:font-[500] bigger:font-[500] text-center text-[#14151A] mb-5"
+    >
       Your presentation is one tap a way
     </h2>
 
@@ -159,9 +167,8 @@
       their way to your inbox.
     </p>
 
-    <!-- (click)="closeSuccessPopup()" -->
     <button
-      routerLink="/dashboard/documents"
+      (click)="successPopupAction()"
       class="bg-[#9241DC] text-white md:w-[400px] w-[281px] h-10 px-3 py-2.5 rounded-xl hover:bg-purple-700 transition duration-200"
     >
       My downloads

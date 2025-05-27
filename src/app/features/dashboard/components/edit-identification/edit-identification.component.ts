@@ -12,6 +12,12 @@ import { Profile } from '../../models/profile';
 import { AuthService } from '../../../auth/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-edit-identification',
@@ -25,6 +31,7 @@ import { ToastModule } from 'primeng/toast';
     ChipModule,
     SelectModule,
     ToastModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './edit-identification.component.html',
   styleUrl: './edit-identification.component.scss',
@@ -34,19 +41,11 @@ export class EditIdentificationComponent implements OnInit {
   @Input() display: boolean = false;
   @Output() displayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @Input() profileData!: Profile; // Use the UserProfile interface
+  @Input() profileData!: Profile;
   @Output() saveChangesEvent: EventEmitter<Profile> = new EventEmitter();
 
-  firstName: string = '';
-  middleName: string = '';
-  lastName: string = '';
-  phone: string = '';
-  about: string = '';
-  title: string = '';
-  email: string = '';
-  selectedSkills: string[] = [];
-  country: string = '';
-  nationality: string = '';
+  identificationForm!: FormGroup;
+  formSubmitted: boolean = false; // Add this flag to track form submission
 
   skills: any[] = [];
   fullSkillsData: any[] = [];
@@ -75,11 +74,34 @@ export class EditIdentificationComponent implements OnInit {
   constructor(
     private profileService: ProfileServiceService,
     private authService: AuthService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private fb: FormBuilder
+  ) {
+    this.initForm();
+  }
+
   ngOnInit(): void {
     this.getUserDataByUserId();
     this.getAllSkills();
+  }
+
+  private initForm() {
+    const noWhitespace = Validators.pattern(/\S.*/);
+
+    this.identificationForm = this.fb.group({
+      firstName: [
+        '',
+        [Validators.required, Validators.minLength(2), noWhitespace],
+      ],
+      lastName: [
+        '',
+        [Validators.required, Validators.minLength(2), noWhitespace],
+      ],
+      title: ['', [Validators.required, Validators.minLength(2), noWhitespace]],
+      country: ['', [Validators.required, noWhitespace]],
+      nationality: ['', [Validators.required]],
+      selectedSkills: [[], [Validators.required, Validators.minLength(1)]],
+    });
   }
 
   getAllSkills() {
@@ -90,7 +112,7 @@ export class EditIdentificationComponent implements OnInit {
           label: skill.translations[0].name,
           value: skill.translations[0].name,
         }));
-        console.log(this.skills);
+        // console.log(this.skills);
       },
       complete: () => {},
     });
@@ -106,38 +128,49 @@ export class EditIdentificationComponent implements OnInit {
           this.profileId = res.data.id;
           this.userData = res.data;
 
-          this.firstName = this.userData.firstName;
-          this.title = this.userData.title;
-          this.lastName = this.userData.lastName;
-          this.country = this.userData.country;
-          this.nationality = this.userData.nationality;
-
           // Transform topSkills into the format needed for multiselect
+          let selectedSkills: string[] = [];
           if (this.userData.topSkills && this.userData.topSkills.length > 0) {
-            this.selectedSkills = this.userData.topSkills.map(
+            selectedSkills = this.userData.topSkills.map(
               (skill: any) => skill.topSkill.translations[0].name
             );
           }
 
-          console.log(this.userData);
+          // Update the form with user data
+          this.identificationForm.patchValue({
+            firstName: this.userData.firstName,
+            lastName: this.userData.lastName,
+            title: this.userData.title,
+            country: this.userData.country,
+            nationality: this.userData.nationality,
+            selectedSkills: selectedSkills,
+          });
+
+          // console.log(this.userData);
         },
         complete: () => {},
       });
   }
 
   handleRemoveSkill(skillToRemove: string) {
-    this.selectedSkills = this.selectedSkills.filter(
-      (skill) => skill !== skillToRemove
+    const currentSkills =
+      this.identificationForm.get('selectedSkills')?.value || [];
+    const updatedSkills = currentSkills.filter(
+      (skill: string) => skill !== skillToRemove
     );
+    this.identificationForm.patchValue({ selectedSkills: updatedSkills });
   }
 
   closeDialog() {
     this.display = false;
+    this.formSubmitted = false; // Reset submission state when closing
     this.displayChange.emit(this.display);
   }
 
   getSkillIds(): { topSkillId: string }[] {
-    return this.selectedSkills.map((skillName) => {
+    const selectedSkills =
+      this.identificationForm.get('selectedSkills')?.value || [];
+    return selectedSkills.map((skillName: string) => {
       const skill = this.fullSkillsData.find(
         (s) => s.translations[0].name === skillName
       );
@@ -146,34 +179,49 @@ export class EditIdentificationComponent implements OnInit {
   }
 
   saveChanges() {
+    this.formSubmitted = true; // Set the flag to true when save is clicked
+
+    if (this.identificationForm.invalid) {
+      Object.keys(this.identificationForm.controls).forEach((key) => {
+        const control = this.identificationForm.get(key);
+        if (control?.invalid) {
+          control.markAsTouched();
+        }
+      });
+
+      return;
+    }
+
+    const formValue = this.identificationForm.value;
     const updatedProfile: Profile = {
-      firstName: this.firstName,
-      title: this.title,
-      lastName: this.lastName,
-      middleName: this.userData.middleName,
-      phone: this.userData.phone,
-      about: this.userData.about,
-      country: this.country,
-      nationality: this.nationality,
+      firstName: formValue.firstName,
+      title: formValue.title,
+      lastName: formValue.lastName,
+      country: formValue.country,
+      nationality: formValue.nationality,
       topSkills: this.getSkillIds(),
     };
+
     this.profileService
       .editIdentification(this.profileId, updatedProfile)
       .subscribe({
         next: (res: any) => {
+          this.formSubmitted = false; // Reset after successful submission
           this.saveChangesEvent.emit(res);
           this.closeDialog();
           this.messageService.add({
             severity: 'success',
             summary: 'Profile updated',
-            detail: 'Your profile has been updated successfully.',
+            contentStyleClass: 'text-white bg-green-900 ',
+            closeIcon: 'pi dark:pi-check text-white',
           });
         },
         error: (err) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to update profile',
+            contentStyleClass: 'text-white bg-red-900 ',
+            closeIcon: 'pi pi-times dark:text-white',
           });
         },
       });

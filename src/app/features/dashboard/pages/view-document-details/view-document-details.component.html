@@ -2,21 +2,37 @@
   <app-navbar></app-navbar>
 </div>
 
-<!-- *ngIf="template; else noTemplate" -->
-<div class="bg-[#F9FAFB] mx-auto py-[64px] px-4 md:ps-10 lg:ps-20">
-  <div class="max-w-[1600px] mx-auto">
+<app-view-doc-loader *ngIf="isLoading"></app-view-doc-loader>
+
+<div *ngIf="error" class="flex justify-center items-center min-h-[60vh]">
+  <div class="text-center p-12 text-red-600">
+    <p>{{ error }}</p>
+    <button
+      routerLink="/documents"
+      class="ipad:mt-4 px-4 py-2 bg-[#7F56D9] text-white rounded-md hover:bg-[#a24af5]"
+    >
+      Back to document Lounge
+    </button>
+  </div>
+</div>
+
+<div
+  *ngIf="template && !isLoading && !error"
+  class="bg-[#F9FAFB] mx-auto py-[64px] px-4 md:ps-10 lg:ps-20"
+>
+  <div class="max-w-[1920px] mx-auto">
     <!-- Header Section -->
     <div
       class="grid grid-cols-1 md:grid-cols-12 md:gap-10 items-start justify-between"
     >
       <!-- Left side -->
       <div
-        class="col-span-12 md:pr-2 2xl:pr-6 border-r border-[#e0e2e6] md:col-span-4 w-full"
+        class="col-span-12 md:pr-2 2xl:pr-6 border-r border-[#e0e2e6] thousand:col-span-4 big:col-span-4 w-full"
       >
-        <div class="">
+        <div>
           <a
-            routerLink="/knowledge"
-            class="flex items-center gap-2 text-[#0F132499] text-[14px] font-bold mb-[32px]"
+            routerLink="/dashboard/documents"
+            class="flex items-center gap-2 text-[#0F132499] text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-[32px]"
           >
             <i class="pi pi-arrow-left"></i> {{ backButtonText }}
           </a>
@@ -27,16 +43,19 @@
               >
                 <div class="flex-1">
                   <h1
-                    class="text-2xl md:text-4xl w-full md:w-[70%] font-bold mb-4"
+                    class="text-2xl md:text-4xl w-full md:w-[70%] ipad:font-[500] bigger:font-[500] mb-4 text-[#101828]"
                   >
                     {{ template.name }}
                   </h1>
                   <p class="text-base md:text-lg text-[#344054] text-[16px]">
-                    {{ template.description }}
+                    {{ template.description || "No description available" }}
                   </p>
                 </div>
               </div>
-              <ul class="space-y-3 mt-4 md:mt-[33px]">
+              <ul
+                *ngIf="template.features && template.features.length > 0"
+                class="space-y-3 mt-4 md:mt-[33px]"
+              >
                 <li
                   *ngFor="let feature of template.features"
                   class="flex items-center gap-3"
@@ -57,7 +76,7 @@
               </div>
             </div>
 
-            <!-- Pricing & Details -->
+            <!-- Document Details -->
             <div *ngIf="template?.documents?.length">
               <div
                 *ngFor="let detail of details"
@@ -67,7 +86,7 @@
                   detail.label
                 }}</span>
                 <span class="text-[#101828]">
-                  {{ getNestedProperty(template, detail.property) || "" }}
+                  {{ getNestedProperty(template, detail.property) || "N/A" }}
                 </span>
               </div>
             </div>
@@ -76,9 +95,9 @@
       </div>
 
       <!-- Right side -->
-      <div class="col-span-12 md:col-span-8 mt-10 md:mt-0">
+      <div class="col-span-12 thousand:col-span-8 mt-10 md:mt-0">
         <div
-          class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white h-[200px] md:h-[400px] py-8 px-5"
+          class="bg-cover bg-center bg-no-repeat relative rounded-lg text-white md:max-w-[756px] h-[200px] md:h-[395px] py-8 px-5"
           [style.background-image]="'url(' + (template.images[0] || '') + ')'"
         >
           <div class="absolute inset-0 bg-[#0D1F40]/60 rounded-lg"></div>
@@ -91,7 +110,9 @@
           <div
             class="absolute z-10 flex flex-col bottom-10 justify-end items-start h-24 md:h-48"
           >
-            <h1 class="text-2xl md:text-4xl font-bold mb-2 w-full md:w-[40%]">
+            <h1
+              class="text-2xl md:text-4xl ipad:font-[500] bigger:font-[500] mb-2 w-full md:w-[40%]"
+            >
               {{ template.name }}
             </h1>
             <p class="text-base md:text-lg text-gray-300">
@@ -112,12 +133,13 @@
             [responsiveOptions]="responsiveOptions"
             [showIndicators]="true"
             [showNavigators]="false"
+            [responsiveOptions]="responsiveOptions"
             [indicatorStyle]="indicatorStyle"
             [indicatorStyleClass]="indicatorStyleClass"
           >
             <ng-template let-image pTemplate="item">
               <div
-                class="border my-2 rounded-md overflow-hidden mx-1 h-[97px] border-[#0000001A]/10"
+                class="border rounded-md overflow-hidden mx-1 h-[97px] border-[#0000001A]/10"
               >
                 <img
                   [src]="image!"
@@ -130,7 +152,9 @@
         </div>
 
         <div class="pt-10">
-          <h2 class="text-xl md:text-2xl font-[500] mb-4">
+          <h2
+            class="text-xl md:text-2xl ipad:font-[500] bigger:font-[500] mb-4 text-[#14151A]"
+          >
             {{ overviewTitle }}
           </h2>
           <p
@@ -142,13 +166,15 @@
           <!-- Tags Section -->
 
           <h1
-            class="text-[24px] font-[500] leading-[28.8px] text-[#101828] mb-6"
+            class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] leading-[28.8px] text-[#101828] mb-6"
           >
             Tags
           </h1>
           <div class="mt-6">
             <div *ngFor="let tagGroup of tags" class="mb-4">
-              <h4 class="font-[500] text-[14px] md:text-[16px] text-black">
+              <h4
+                class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px] md:text-[16px] text-black"
+              >
                 {{ tagGroup.title }}
               </h4>
               <div class="flex flex-wrap gap-2 mt-2">
@@ -165,56 +191,4 @@
       </div>
     </div>
   </div>
-
-  <!-- Related Templates -->
-  <!-- <aside aria-label="Related articles" class="py-8 lg:py-[140px] antialiased">
-    <div class="px-4 mx-auto max-w-screen-xl">
-      <div
-        class="full mb-10 flex justify-between items-end flex-col md:flex-row"
-      >
-        <div class="flex items-start justify-start w-full flex-col">
-          <p class="text-[16px] font-[400] text-[#344054] mb-4">
-            Done by Expert Consultants
-          </p>
-          <h2
-            class="md:text-[44px] text-[36px] w-full font-bold text-[#101828]"
-          >
-            Similar Document
-          </h2>
-        </div>
-        <button
-          type="button"
-          routerLink="/knowledge"
-          class="flex items-center text-[16px] font-[600] leading-[24px] justify-center gap-2 w-[132px] flex-shrink-0 px-3 py-2 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-200"
-        >
-          View all <i class="pi pi-arrow-right"></i>
-        </button>
-      </div>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          *ngFor="let product of relatedArticles"
-          class="relative border border-[#d1d0d0] rounded-xl shadow-md bg-white hover:shadow-lg transition-shadow"
-        >
-          <img [src]="product.image || defaultImageUrl" ... />
-          <h3>{{ product.title }}</h3>
-          <p>{{ product.description }}</p>
-          <span>${{ product.price }}</span>
-          <span>{{ product.downloads }} Downloads</span>
-          <button
-            [routerLink]="['/knowledge/view-template-details', product.id]"
-            ...
-          >
-            View
-          </button>
-        </div>
-      </div>
-    </div>
-  </aside> -->
 </div>
-<!-- <ng-template #noTemplate>
-  <div class="text-center p-12 text-gray-600">
-    <div class="animate-pulse">
-      <p>Loading template...</p>
-    </div>
-  </div>
-</ng-template> -->

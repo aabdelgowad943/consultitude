@@ -38,12 +38,13 @@ export class ContactUsComponent {
   }
 
   initForm() {
+    const noWhitespace = Validators.pattern(/\S.*/);
     this.requestForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email, noWhitespace]],
+      name: ['', [Validators.required, noWhitespace]],
       documentFormatId: ['', Validators.required],
       areaOfFocusId: ['', Validators.required],
-      description: [''],
+      description: ['', [Validators.required, noWhitespace]],
       language: ['English', Validators.required], // default value can be changed as needed
     });
   }
@@ -52,7 +53,7 @@ export class ContactUsComponent {
     this.productService.getAllAreaFocus().subscribe({
       next: (data) => {
         this.areaOfFocusList = data;
-        console.log(data);
+        // console.log(data);
       },
     });
   }
@@ -77,11 +78,16 @@ export class ContactUsComponent {
     this.subscribeService.requestDocument(requestDocumentPayload).subscribe({
       next: (res: any) => {
         this.successMessage = 'Request submitted successfully';
+        // remove the message after 2 seconds
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
         this.errorMessage = '';
         this.requestForm.reset();
       },
       error: (err: HttpErrorResponse) => {
         this.errorMessage = 'Error submitting';
+
         this.successMessage = '';
       },
     });

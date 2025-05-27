@@ -10,19 +10,22 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { ChangePasswordSettings } from '../../../auth/models/change-password';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SettingsLoaderComponent } from '../../../../shared/loaders/settings-loader/settings-loader.component';
 
 @Component({
   selector: 'app-settings',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, SettingsLoaderComponent],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
 })
 export class SettingsComponent {
+  isLoading = false;
   settingsForm!: FormGroup;
   isSubmitting = false;
   errorMessage = '';
   successMessage = '';
   userEmail: string = '';
+  formSubmitted = false; // Add flag to track form submission
 
   constructor(
     private fb: FormBuilder,
@@ -36,12 +39,17 @@ export class SettingsComponent {
   }
 
   getUserData() {
+    this.isLoading = true;
     this.authService
       .getUserDataByUserId(localStorage.getItem('userId')!)
       .subscribe({
         next: (res: any) => {
           this.userEmail = res.data.user.email;
           this.settingsForm.get('email')?.setValue(this.userEmail);
+          this.isLoading = false;
+        },
+        error: (err: any) => {
+          this.isLoading = false;
         },
       });
   }
@@ -99,6 +107,7 @@ export class SettingsComponent {
   onSubmit(): void {
     this.errorMessage = '';
     this.successMessage = '';
+    this.formSubmitted = true; // Set flag to true when form is submitted
 
     // Stop if form is invalid
     if (this.settingsForm.invalid) {
@@ -119,7 +128,7 @@ export class SettingsComponent {
       next: () => {
         this.successMessage = 'Password changed successfully!';
         this.isSubmitting = false;
-        // this.showLogoutPopup = true;
+        this.showLogoutPopup = true;
       },
       error: (err) => {
         this.errorMessage =
@@ -129,16 +138,20 @@ export class SettingsComponent {
     });
   }
 
+  // Reset the form and form submission state
+  resetForm(): void {
+    this.formSubmitted = false;
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.settingsForm.get('oldPassword')?.setValue('');
+    this.settingsForm.get('newPassword')?.setValue('');
+    this.settingsForm.get('repeatNewPassword')?.setValue('');
+  }
+
   showLogoutPopup = false; // Flag for displaying logout popup
 
   onLogout(): void {
-    // Clear the token and user id from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-
-    // Optionally, you can navigate the user to the login page or home page after logout
-    this.router.navigate(['/auth/login']);
-    // Navigate to the login page
+    this.authService.logout();
   }
 
   // Close the popup (optional, if you want to allow dismissing the modal)

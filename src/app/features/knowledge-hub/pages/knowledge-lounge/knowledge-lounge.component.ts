@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MaiContentComponent } from './components/mai-content/mai-content.component';
 import { HeroLoungeSecionComponent } from './components/hero-lounge-secion/hero-lounge-secion.component';
-import { Product, ProductStatus } from '../../models/products';
+import { ProductStatus } from '../../models/products';
 import { Language } from '../../models/language.enum';
 import { PaginatorModule } from 'primeng/paginator';
+import { SliderModule } from 'primeng/slider';
 
 @Component({
   selector: 'app-knowledge-lounge',
@@ -18,6 +19,7 @@ import { PaginatorModule } from 'primeng/paginator';
     MaiContentComponent,
     HeroLoungeSecionComponent,
     PaginatorModule,
+    SliderModule,
   ],
   templateUrl: './knowledge-lounge.component.html',
   styleUrls: ['./knowledge-lounge.component.scss'],
@@ -50,7 +52,7 @@ export class KnowledgeLoungeComponent implements OnInit {
     { name: 'Area of Focus', key: 'areasOfFocus', isOpen: false },
     { name: 'Document Format', key: 'documentTypes', isOpen: false },
     // { name: 'Features', key: 'features', isOpen: false },
-    { name: 'Price', key: 'price', isOpen: false },
+    { name: 'Price ($) ', key: 'price', isOpen: false },
     // { name: 'Language', key: 'language', isOpen: false },
   ];
 
@@ -81,17 +83,20 @@ export class KnowledgeLoungeComponent implements OnInit {
   onSearchChange(searchText: string) {
     this.searchText = searchText;
     this.currentPage = 1;
+    this.first = 0; // Reset the first record index
     this.loadProducts();
   }
 
   onFilterChange() {
     this.currentPage = 1;
+    this.first = 0; // Reset the first record index
     this.loadProducts();
   }
 
-  onSortChange(sortOption: string) {
+  onSortChange(sortOption: any) {
     this.sortBy = sortOption;
     this.currentPage = 1;
+    this.first = 0; // Reset the first record index
     this.loadProducts();
   }
 
@@ -205,15 +210,6 @@ export class KnowledgeLoungeComponent implements OnInit {
     });
   }
 
-  // private loadFeatures() {
-  //   this.templateService.getAllFeatures().subscribe({
-  //     next: (data) => {
-  //       this.featuresList = data;
-  //       this.initializeFilters();
-  //     },
-  //   });
-  // }
-
   // Initialize filters only once after the lists load.
   private initializeFilters() {
     this.filters = {
@@ -272,9 +268,13 @@ export class KnowledgeLoungeComponent implements OnInit {
   clearAllFilters() {
     for (const section of this.sections) {
       const sectionItems = this.filters[section.key];
-      sectionItems.forEach(
-        (item: { checked: boolean }) => (item.checked = false)
-      );
+      sectionItems.forEach((item: any) => {
+        if (typeof item === 'object' && item !== null) {
+          item.checked = false;
+        } else {
+          // console.warn('Unexpected item type', item);
+        }
+      });
     }
     this.onFilterChange();
   }
@@ -315,6 +315,7 @@ export class KnowledgeLoungeComponent implements OnInit {
         type: this.getTagType(tagId),
       });
       this.currentPage = 1;
+      this.first = 0; // Reset the first record index
       this.loadProducts();
     }
   }
@@ -333,8 +334,16 @@ export class KnowledgeLoungeComponent implements OnInit {
   onPageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
-    // event.page is zero-based so we add 1 to match our 1-indexed currentPage
     this.currentPage = event.page + 1;
     this.loadProducts();
+    // scroll to top
+    window.scrollTo(0, 0);
+  }
+
+  validatePriceRange() {
+    // Make sure min doesn't exceed max
+    if (this.filters.price[0] > this.filters.price[1]) {
+      this.filters.price[0] = this.filters.price[1];
+    }
   }
 }

@@ -1,20 +1,25 @@
-<div class="w-full max-w-[1600px] h-full mx-auto">
+<div
+  class="w-full max-w-[1920px] h-full ipad:h-screen mx-auto overflow-y-auto pt-16 ipad:pt-24"
+>
   <div class="w-full my-6 flex px-2 md:px-6 justify-between items-center">
     <h1
-      class="md:text-[32px] text-[24px] font-[500] leading-[38.5px] text-[#14151A]"
+      class="md:text-[32px] text-[24px] ipad:font-[500] bigger:font-[500] leading-[38.5px] text-[#14151A]"
     >
       My Documents
     </h1>
-    <button
+    <!-- <button
+      routerLink="/knowledge/lounge"
       class="w-[128px] h-10 flex items-center justify-center rounded-[12px] px-3 py-2.5 text-[14px] bg-[#9241DC] text-white"
     >
       Knowledge Hub
-    </button>
+    </button> -->
   </div>
+
+  <app-document-loader *ngIf="loading"></app-document-loader>
 
   <!-- Documents Grid -->
   <div
-    class="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 2xl:grid-cols-3 md:px-6 2xl:px-6 px-0 gap-6"
+    class="grid grid-cols-1 thousand:grid-cols-2 lg:grid-cols-3 md:px-6 2xl:px-6 px-2 gap-6"
   >
     <div
       *ngFor="let doc of documents"
@@ -30,7 +35,7 @@
         <div
           class="absolute inset-0 flex flex-col justify-end p-4 bg-black bg-opacity-10 text-white rounded-t-2xl"
         >
-          <h3 class="text-3xl mb-1 w-[50%] font-[700]">
+          <h3 class="text-3xl mb-1 w-[50%] ipad:font-[500] big:font-[600]">
             {{ doc.orderDetails[0].product.translations[0].name }}
           </h3>
         </div>
@@ -39,7 +44,9 @@
       <!-- Card Body -->
       <div class="p-4 2xl:h-[161px]">
         <!-- Title -->
-        <h3 class="text-[#171717] flex flex-col text-[24px] font-bold">
+        <h3
+          class="text-[#171717] flex flex-col text-[24px] ipad:font-[500] big:font-[600]"
+        >
           {{ doc.orderDetails[0].product.translations[0].name }}
         </h3>
 
@@ -47,7 +54,7 @@
         <div class="flex gap-1 items-center w-full my-4">
           <!-- عنصر الدومين -->
           <h1
-            class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+            class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
           >
             {{
               doc.orderDetails[0].product.domains[0]?.domain.translations[0]
@@ -56,7 +63,7 @@
           </h1>
           <!-- عنصر الأريا فوكس -->
           <h1
-            class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+            class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
           >
             {{
               doc.orderDetails[0].product.areaOfFocus[0]?.AreaOfFocus
@@ -65,7 +72,7 @@
           </h1>
           <!-- عنصر الدوكيومنتس -->
           <h1
-            class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] font-semibold px-3 py-1 rounded-lg"
+            class="bg-[#E9EAEC] cursor-pointer text-[#0F132499]/60 text-[12px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] px-3 py-1 rounded-lg"
           >
             {{ doc.orderDetails[0].product.documents[0]?.documentFormat.name }}
           </h1>
@@ -74,7 +81,7 @@
         <!-- View Button -->
         <button
           (click)="viewTemplateDetails()"
-          class="w-full flex text-[14px] font-sans items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-[#FFFFFF] font-medium rounded-xl border border-[#6E2FA5] transition-colors"
+          class="w-full flex text-[14px] items-center justify-center gap-2 py-2 px-4 bg-[#9241DC] hover:bg-[#a24af5] text-[#FFFFFF] font-medium rounded-xl border border-[#6E2FA5] transition-colors"
         >
           <i class="pi pi-eye"></i>
           View
@@ -91,19 +98,19 @@
       <img src="/images/no items.svg" class="mx-auto" alt="" />
       <div class="space-y-2">
         <h3
-          class="md:text-[32px] text-[20px] font-[500] md:leading-[38.4px] text-[#111827]"
+          class="md:text-[32px] text-[20px] ipad:font-[500] bigger:font-[500] md:leading-[38.4px] text-[#111827]"
         >
           You did not download any documents yet!
         </h3>
       </div>
-      <div class="flex flex-col items-center sm:flex-row gap-4 justify-center">
+      <!-- <div class="flex flex-col items-center sm:flex-row gap-4 justify-center">
         <button
           routerLink="/knowledge/lounge"
-          class="px-4 py-2 text-[16px] md:w-[181px] w-[209px] h-[44px] font-sans bg-[#7F56D9] hover:bg-[#a24af5] text-white rounded-lg font-semibold transition-colors"
+          class="px-4 py-2 text-[16px] md:w-[181px] w-[209px] h-[44px] bg-[#7F56D9] hover:bg-[#a24af5] text-white rounded-lg ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] transition-colors"
         >
           Browse now!
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 

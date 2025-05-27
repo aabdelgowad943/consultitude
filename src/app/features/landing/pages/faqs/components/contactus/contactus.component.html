@@ -1,33 +1,74 @@
-<div class="px-5">
+<div class="big:px-5 max-w-[1920px] mx-auto relative">
   <div class="w-full relative mt-24 overflow-hidden rounded-xl">
     <!-- grid container -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-center p-5 md:p-10">
+    <div
+      class="grid grid-cols-1 big:grid-cols-2 gap-5 items-center p-5 big:p-10"
+    >
       <!--  left side -->
-      <div>
-        <h2 class="text-2xl md:text-4xl text-black w-full font-semibold">
-          Can't find a document? <br />
-          Tell us what to build next..
+      <div
+        class="ipad:text-center thousand:text-center big:text-left thousand:w-full"
+      >
+        <h2
+          class="text-2xl md:text-4xl text-black w-full font-sans ipad:font-[500] big:font-[600]"
+        >
+          Can't find a document you <br />
+          want us to build next!
         </h2>
-        <p class="text-sm mt-5 md:w-[350px] text-black">
-          We’re constantly adding new, comprehensive consulting templates and
-          would love your input on where to focus next.
+        <p class="text-[16px] font-sans mt-5 big:w-[450px] text-[#344054]">
+          Explore pre-built templates and playbooks designed to save <br />
+          you time and streamline your workflow.
         </p>
       </div>
 
       <!--  right side -->
-      <div class="md:p-8 p-3 rounded-lg border border-[#DEE0E3]">
-        <form>
+      <div class="big:p-8 p-3 rounded-lg bg-white border border-[#DEE0E3]">
+        <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+          <div class="mb-4">
+            <label for="email" class="block text-black">E-mail</label>
+            <input
+              formControlName="email"
+              type="email"
+              id="email"
+              placeholder="Enter your e-mail"
+              class="w-full mt-2 p-3 rounded-[12px] border border-[#DEE0E3] bg-[#F9FAFB] text-[#14151A] placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            <div
+              *ngIf="
+                requestForm.get('email')?.touched &&
+                requestForm.get('email')?.invalid
+              "
+              class="text-red-500 font-sans text-sm"
+            >
+              <div *ngIf="requestForm.get('email')?.errors?.['required']">
+                Email is required.
+              </div>
+              <div *ngIf="requestForm.get('email')?.errors?.['email']">
+                Please enter a valid email.
+              </div>
+            </div>
+          </div>
+
           <!-- Document Name -->
           <div class="flex-1 mb-4">
             <label for="document-name" class="block font-medium text-black"
-              >Document name</label
+              >Document Name</label
             >
             <input
+              formControlName="name"
               type="text"
               id="document-name"
               placeholder="Write a name"
-              class="w-full mt-2 p-3 rounded-2xl border border-[#DEE0E3] bg-[#F9FAFB] text-black placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 p-3 rounded-[12px] border border-[#DEE0E3] bg-[#F9FAFB] text-[#14151A] placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
+            <div
+              *ngIf="
+                requestForm.get('name')?.touched &&
+                requestForm.get('name')?.invalid
+              "
+              class="text-red-500 font-sans text-sm"
+            >
+              Document name is required.
+            </div>
           </div>
 
           <!-- Document type -->
@@ -37,15 +78,30 @@
             >
 
             <select
+              formControlName="documentFormatId"
               id="document-area"
-              class="w-full mt-2 p-3 rounded-2xl border border-[#DEE0E3] text-black"
+              class="w-full mt-2 p-3 rounded-[12px] border border-[#DEE0E3] text-black"
             >
-              <option disabled selected>Choose a type</option>
-              <option value="US">Type 1</option>
-              <option value="CA">Type 2</option>
-              <option value="FR">Type 3</option>
-              <option value="DE">Type 4</option>
+              <option value="" class="font-sans" disabled selected>
+                Choose type
+              </option>
+
+              <option
+                *ngFor="let document of documentsList"
+                [value]="document.id"
+              >
+                {{ document.name }}
+              </option>
             </select>
+            <div
+              *ngIf="
+                requestForm.get('documentFormatId')?.touched &&
+                requestForm.get('documentFormatId')?.invalid
+              "
+              class="text-red-500 font-sans text-sm"
+            >
+              Document type is required.
+            </div>
           </div>
 
           <!-- Document type -->
@@ -54,15 +110,31 @@
               >Document Area of focus</label
             >
             <select
+              formControlName="areaOfFocusId"
               id="document-area"
-              class="w-full mt-2 p-3 rounded-2xl border border-[#DEE0E3] bg-[#F9FAFB] text-black placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 p-3 rounded-[12px] border border-[#DEE0E3] bg-[#F9FAFB] text-black placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option disabled selected>Choose a type</option>
-              <option value="US">Type 1</option>
-              <option value="CA">Type 2</option>
-              <option value="FR">Type 3</option>
-              <option value="DE">Type 4</option>
+              <option value="" class="font-sans" disabled selected>
+                Choose type
+              </option>
+
+              <option
+                class="bg-[#221139e1] text-white"
+                *ngFor="let area of areaOfFocusList"
+                [value]="area.id"
+              >
+                {{ area.name }}
+              </option>
             </select>
+            <div
+              *ngIf="
+                requestForm.get('areaOfFocusId')?.touched &&
+                requestForm.get('areaOfFocusId')?.invalid
+              "
+              class="text-red-500 font-sans text-sm"
+            >
+              Document area of focus is required.
+            </div>
           </div>
 
           <!-- Message -->
@@ -71,11 +143,21 @@
               >Describe the document content</label
             >
             <textarea
+              formControlName="description"
               id="message"
               placeholder="Describe the document content..."
               rows="4"
-              class="w-full mt-2 p-3 rounded-2xl border border-[#DEE0E3] bg-[#F9FAFB] text-black placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 p-3 rounded-[12px] border border-[#DEE0E3] bg-[#F9FAFB] text-black placeholder-[#0D112666] focus:outline-none focus:ring-2 focus:ring-purple-500"
             ></textarea>
+            <div
+              *ngIf="
+                requestForm.get('description')?.touched &&
+                requestForm.get('description')?.invalid
+              "
+              class="text-red-500 font-sans text-sm"
+            >
+              Description is required.
+            </div>
           </div>
 
           <div class="mb-4">
@@ -85,30 +167,30 @@
             <div class="flex items-center gap-5">
               <div class="flex items-center">
                 <input
+                  formControlName="language"
                   id="default-radio-1"
                   type="radio"
-                  value=""
-                  name="default-radio"
+                  value="Arabic"
                   class="w-4 h-4 text-[#924FE8] checked:bg-[#924FE8] bg-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
                 />
                 <label
                   for="default-radio-1"
-                  class="ms-2 text-sm font-medium text-black dark:text-gray-300"
+                  class="ms-2 text-sm font-medium text-black"
                   >Arabic</label
                 >
               </div>
               <div class="flex items-center">
                 <input
+                  formControlName="language"
                   checked
+                  value="English"
                   id="default-radio-2"
                   type="radio"
-                  value=""
-                  name="default-radio"
                   class="w-4 h-4 text-[#924FE8] checked:bg-[#924FE8] bg-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
                 />
                 <label
                   for="default-radio-2"
-                  class="ms-2 text-sm font-medium text-black dark:text-gray-300"
+                  class="ms-2 text-sm font-medium text-black"
                   >English</label
                 >
               </div>
@@ -123,6 +205,17 @@
             >
               Submit
             </button>
+          </div>
+          <div *ngIf="successMessage">
+            <p class="mt-2 w-full bg-green-50 text-green-500 p-2 rounded-md">
+              {{ successMessage }}
+            </p>
+          </div>
+
+          <div *ngIf="errorMessage">
+            <p class="mt-2 w-full bg-red-100 text-red-500 p-2 rounded-md">
+              {{ errorMessage }}
+            </p>
           </div>
         </form>
       </div>

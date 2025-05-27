@@ -4,6 +4,7 @@ import { KnowledgeHubComponent } from './knowledge-hub.component';
 import { KnowledgeLoungeComponent } from './pages/knowledge-lounge/knowledge-lounge.component';
 import { ViewTemplateDetailsComponent } from './pages/view-template-details/view-template-details.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { AuthGuard } from '../../guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       {
         path: 'checkout/:id',
         component: CheckoutComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: '',

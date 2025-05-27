@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<section class="w-full text-left pt-16 pb-10 bg-gray-100 px-5 md:px-0">
+<section class="w-full text-left pt-16 pb-10 bg-gray-100 relative px-5 md:px-0">
   <div class="py-2 px-0 mx-auto max-w-screen-xl pt-10 sm:py-16 lg:px-6">
     <div class="text-center flex justify-center mb-4 items-center w-full">
       <p
@@ -9,12 +9,12 @@
       </p>
     </div>
     <h2
-      class="mb-6 lg:mb-8 text-3xl lg:text-[52px] font-semibold text-center text-[#101828] tracking-relaxed"
+      class="mb-6 lg:mb-8 text-3xl lg:text-[52px] ipad:font-[500] bigger:font-[500] text-center text-[#101828] tracking-relaxed"
     >
       Frequently Asked Questions
     </h2>
 
-    <h2 class="mb-6 lg:mb-8 font-sans text-[17px] text-center text-[#344054e7]">
+    <h2 class="mb-6 lg:mb-8 text-[17px] text-center text-[#344054e7]">
       Find answers to your questions about Consultitide’s templates, features,
       pricing, and <br />
       support.
@@ -32,14 +32,18 @@
             (click)="toggleAccordion(i)"
           >
             <span>{{ faq.question }}</span>
-            <span class="text-4xl font-bold text-[#0F132499]/60">{{
-              isOpen(i) ? "-" : "+"
-            }}</span>
+            <span
+              class="text-4xl ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#0F132499]/60"
+              >{{ isOpen(i) ? "-" : "+" }}</span
+            >
           </button>
         </h2>
         <div [hidden]="!isOpen(i)">
           <div class="py-2">
-            <p [innerHTML]="faq.answer" class="text-[#0F132499]/60 text-sm"></p>
+            <div
+              [innerHTML]="faq.answer"
+              class="text-[#0F132499] text-sm font-sans text-[16px] [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1"
+            ></div>
           </div>
         </div>
       </div>
@@ -49,7 +53,8 @@
       <p>
         Need additional help? Contact us at
         <a
-          href="hello@consultitude.com"
+          href="mailto:
+          hello@consultitude.com"
           class="underline text-[#792EBA]"
           target="_blank"
           >support&#64;consultitude.com</a
@@ -61,32 +66,40 @@
 
   <!-- card -->
   <div
-    class="max-w-6xl relative overflow-hidden flex justify-center items-center bg-gradient-to-l from-[#261536]/100 to-[#54148C]/100 rounded-md h-96 md:h-72 mx-auto pb-5"
+    class="big:max-w-6xl ipad:max-w-2xl relative overflow-hidden flex justify-center items-center bg-gradient-to-l from-[#261536]/100 to-[#54148C]/100 rounded-md h-96 md:h-72 mx-auto pb-5"
   >
     <div class="flex flex-col space-y-6">
-      <h1 class="text-[36px] text-center w-full text-white font-semibold">
+      <h1
+        class="text-[36px] text-center font-sans w-full text-white ipad:font-[500] big:font-[600]"
+      >
         Need <br class="md:hidden" />
         additional <br class="md:hidden" />
         help?
       </h1>
       <p class="text-[#E9D7FE] w-full text-center my-7 font-sans">
         Contact us <br class="md:hidden" />
-        <a class="cursor-pointer hover:text-gray-400 transition-colors">
-          at <span class="underline"> support&#64;consultitide.com</span>
+        <a
+          href="mailto:
+          hello@consultitude.com"
+          class="cursor-pointer hover:text-gray-400 transition-colors"
+        >
+          at <span class="underline"> hello&#64;consultitide.com</span>
           <br class="md:hidden" />
         </a>
         anytime.
       </p>
       <div class="flex items-center justify-center gap-4">
         <button
-          class="rounded-md py-2 px-5 text-[#414651] text-center bg-white hover:bg-gray-200 transition-colors"
+          routerLink="/faqs"
+          class="rounded-md py-2 px-5 font-sans text-[#414651] text-center bg-white hover:bg-gray-200 transition-colors"
         >
           Learn more
         </button>
         <button
-          class="rounded-md py-2 px-5 text-white text-center bg-[#7F56D9] hover:bg-[#7c4fde] transition-colors"
+          routerLink="/index"
+          class="rounded-md py-2 px-5 font-sans text-white text-center bg-[#7F56D9] hover:bg-[#7c4fde] transition-colors"
         >
-          Get started
+          Join Waiting List
         </button>
       </div>
     </div>
@@ -96,7 +109,7 @@
   </div>
 
   <!-- contact us -->
-  <app-contactus></app-contactus>
+  <!-- <app-contactus></app-contactus> -->
 </section>
 
 <app-footer></app-footer>

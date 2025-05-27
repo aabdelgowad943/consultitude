@@ -1,14 +1,19 @@
-<!-- <div class="w-full max-w-[1600px] relative mx-auto"> -->
-<div class="w-full max-w-[1600px] flex items-center relative mx-auto">
+<!-- <div class="w-full max-w-[1920px] relative mx-auto"> -->
+<div class="w-full flex items-center relative z-50 mx-auto">
   <header
-    class="flex justify-between absolute w-full top-0 right-0 items-center md:px-[80px] md:py-[16px] py-5 md:mb-0 px-5 text-white"
-    [class.bg-transparent]="!shouldApplyRedBg"
-    [class.bg-[#0C111D]]="shouldApplyRedBg"
+    class="flex justify-between bg-[black] absolute w-full top-0 right-0 items-center big:px-[80px] thousand:px-[40px] ipad:px-[20px] md:py-[16px] py-5 md:mb-0 px-5 text-white"
   >
-    <div class="flex items-center w-full justify-between gap-10">
+    <!-- [class.bg-transparent]="!shouldApplyRedBg" -->
+    <!-- [class.bg-[#0C111D]]="shouldApplyRedBg" -->
+    <div
+      class="flex items-center w-full justify-between gap-10 max-w-[1920px] mx-auto"
+    >
       <div class="md:hidden block">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a
+            routerLink="/index"
+            class="-m-1.5 p-1.5 text-xl ipad:font-[500] big:font-[600]"
+          >
             <span class="sr-only">Logo</span>
 
             <img src="/images/new_logo.svg" alt="Logo" />
@@ -17,40 +22,169 @@
       </div>
       <nav class="space-x-4 hidden md:flex items-center gap-2">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a
+            routerLink="/index"
+            class="-m-1.5 p-1.5 text-xl ipad:font-[500] big:font-[600]"
+          >
             <span class="sr-only">Logo</span>
 
             <img src="/images/new_logo.svg" alt="Logo" />
           </a>
         </div>
 
-        <a routerLink="/knowledge" class="font-sans">Knowledge Lounge</a>
-        <a [routerLink]="'/about-us'" class="font-sans">About us</a>
-        <a [routerLink]="'/faqs'" class="font-sans">FAQs</a>
-        <a [routerLink]="'/contact-us'" class="font-sans">Contact us</a>
-        <a [routerLink]="'/become-expert'" class="font-sans"
-          >Become An Expert</a
+        <!-- <a
+          routerLink="/knowledge"
+          class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[14px]"
+          >Knowledge Lounge</a
+        > -->
+        <a
+          [routerLink]="'/about-us'"
+          class="big:text-[16] font-sans bigger:text-[17px] text-[16px]"
+          >About us</a
         >
+        <a
+          [routerLink]="'/faqs'"
+          class="big:text-[16] font-sans bigger:text-[17px] text-[16px]"
+          >FAQs</a
+        >
+        <a
+          [routerLink]="'/contact-us'"
+          class="big:text-[16] font-sans bigger:text-[17px] text-[16px]"
+          >Contact us</a
+        >
+        <!-- <a [routerLink]="'/become-expert'" class=""
+          >Become An Expert</a
+        > -->
       </nav>
-      <!-- Login Button -->
-      <button
-        *ngIf="!isLoggedIn"
-        routerLink="/auth/login"
-        [disabled]="isHomePath"
-        class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
-      >
-        <span class="material-icons">Login</span>
-      </button>
+      <div class="flex items-center lg:order-2">
+        <a
+          type="button"
+          class="flex mx-3 text-sm cursor-pointer items-center gap-3 rounded-full md:mr-0"
+          id="user-menu-button"
+        >
+          <!-- <img
+            (click)="toggleDropdown($event)"
+            src="/images/profile-user.png"
+            class="w-10 md:mt-2 h-10"
+            alt=""
+          /> -->
+          <span class="w-10 h-10 md:mt-2"></span>
+        </a>
+        <!-- Dropdown user menu -->
+        <div
+          class="z-50 my-4 w-80 text-base shadow-xl rounded-2xl absolute top-14 right-2 overflow-hidden"
+          id="dropdown"
+          [class.hidden]="!isDropdownOpen"
+        >
+          <!-- User Profile Section with Gradient Background -->
+          <div
+            *ngIf="userId"
+            routerLink="/dashboard/profile"
+            class="px-5 py-3 flex justify-between cursor-pointer items-center relative overflow-hidden"
+            style="background: linear-gradient(to left, #380d5e, #60358e)"
+          >
+            <div
+              class="absolute inset-0 opacity-10"
+              style="background-image: url('')"
+            ></div>
 
-      <!-- Show Logout button if logged in -->
-      <button
-        *ngIf="isLoggedIn"
-        (click)="logout()"
-        [disabled]="isHomePath"
-        class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
-      >
-        <span class="material-icons">Logout</span>
-      </button>
+            <div class="flex items-center gap-4 relative z-10">
+              <div
+                class="w-[45px] h-[45px] rounded-full overflow-hidden flex-shrink-0 p-0.5 ring-2 ring-white/30"
+              >
+                <img
+                  class="w-full h-full object-cover rounded-full"
+                  src="{{ profileImage }}"
+                  alt="User avatar"
+                />
+              </div>
+              <div class="overflow-hidden">
+                <span class="block text-base text-[#d2d1d2] mb-0.5 font-sans">{{
+                  name
+                }}</span>
+                <span
+                  class="block text-sm text-white truncate max-w-[180px] font-sans"
+                  >{{ email }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Menu Options with Subtle Hover Effects -->
+          <div class="py-2 bg-white">
+            <a
+              *ngIf="userId"
+              routerLink="/dashboard/ask-evo"
+              class="flex items-center gap-5 px-5 py-2 text-sm text-black hover:bg-gray-100 transition-colors duration-200 group"
+            >
+              <i class="pi pi-user" style="font-size: 1.5rem; color: gray"></i>
+              <span class="font-medium text-lg transition-colors duration-200"
+                >My Profile</span
+              >
+            </a>
+
+            <div
+              *ngIf="userId"
+              class="mx-5 my-1.5 border-t border-gray-100"
+            ></div>
+
+            <a
+              *ngIf="userId"
+              (click)="logout()"
+              class="flex items-center px-5 py-2 gap-5 text-black text-sm hover:bg-gray-100 transition-colors duration-200 group cursor-pointer"
+            >
+              <i
+                class="pi pi-sign-out"
+                style="font-size: 1.5rem; color: gray"
+              ></i>
+
+              <span
+                class="font-medium text-lg text-black transition-colors duration-200"
+                >Logout</span
+              >
+            </a>
+
+            <a
+              *ngIf="!userId"
+              routerLink="/auth/login"
+              class="flex items-center px-5 py-2 text-sm hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
+            >
+              <div
+                class="w-5 h-5 rounded-full flex items-center justify-center mr-3 transition-colors duration-200"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-[1.5rem] w-[1.5rem] text-gray-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span
+                class="font-medium text-lg text-black transition-colors duration-200"
+                >Login</span
+              >
+            </a>
+          </div>
+
+          <!-- Footer with Decorative Element -->
+          <!-- <div
+            class="py-1 px-5 border-t border-gray-100 flex items-center justify-between bg-gray-50"
+          >
+            <span class="text-xs text-gray-500">© Conultitude</span>
+            <div class="flex space-x-1.5">
+              <div class="w-2 h-2 rounded-full bg-indigo-400"></div>
+              <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+              <div class="w-2 h-2 rounded-full bg-pink-400"></div>
+            </div>
+          </div> -->
+        </div>
+      </div>
     </div>
     <button
       class="px-4 py-2 bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors md:hidden"
@@ -59,7 +193,7 @@
       <span class="material-icons"><i class="pi pi-align-justify"></i></span>
     </button>
     <nav
-      class="fixed top-0 py-10 px-5 left-0 w-full z-50 h-fit bg-black flex flex-col items-start justify-start space-y-4 md:hidden transition-transform duration-300"
+      class="fixed top-0 py-10 px-5 left-0 w-full z-50 h-fit bg-[#11061A] flex flex-col items-start justify-start space-y-4 md:hidden transition-transform duration-300"
       [ngClass]="{
         'transform -translate-y-full': !menuVisible,
         'transform translate-y-0': menuVisible
@@ -67,7 +201,10 @@
     >
       <div class="mb-5 flex w-full justify-between items-center">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a
+            href="/index"
+            class="-m-1.5 p-1.5 text-xl ipad:font-[500] big:font-[600]"
+          >
             <span class="sr-only">Logo</span>
 
             <img src="/images/white_logo_for_nav.svg" alt="Logo" />
@@ -82,28 +219,14 @@
         </button>
       </div>
 
-      <a [routerLink]="'/knowledge'">Knowledge Lounge</a>
-      <a [routerLink]="'/solutions'">Solutions</a>
-      <a [routerLink]="'/how-it-works'">How it works</a>
-      <a [routerLink]="'/pricing'">Pricing</a>
-      <a [routerLink]="'/contact-us'">Contact us</a>
-      <a [routerLink]="'/become-expert'">Become an expert</a>
-      <button
-        *ngIf="!isLoggedIn"
-        [disabled]="isHomePath"
-        routerLink="/auth/login"
-        class="px-4 py-2 w-full bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
-      >
-        Login
-      </button>
-      <button
-        *ngIf="isLoggedIn"
-        [disabled]="isHomePath"
-        (click)="logout()"
-        class="px-4 py-2 w-full bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"
-      >
-        Logout
-      </button>
+      <!-- <a [routerLink]="'/knowledge'">Knowledge Lounge</a> -->
+      <a [routerLink]="'/about-us'" class="font-sans">About us</a>
+      <!-- <a [routerLink]="'/solutions'">Solutions</a> -->
+      <!-- <a [routerLink]="'/how-it-works'">How it works</a> -->
+      <!-- <a [routerLink]="'/pricing'">Pricing</a> -->
+      <a [routerLink]="'/faqs'" class="font-sans">FAQs</a>
+      <a [routerLink]="'/contact-us'" class="font-sans">Contact us</a>
+      <!-- <a [routerLink]="'/become-expert'">Become an expert</a> -->
     </nav>
   </header>
 </div>

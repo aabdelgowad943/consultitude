@@ -1,6 +1,6 @@
-<!-- <div class="w-full max-w-[1600px] relative mx-auto"> -->
+<!-- <div class="w-full max-w-[1920px] relative mx-auto"> -->
 <div
-  class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50"
+  class="bg-white border-b border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-50"
 >
   <header
     class="flex justify-between absolute w-full top-0 right-0 items-center md:px-[80px] md:py-[16px] py-5 md:mb-0 px-5 text-black"
@@ -10,7 +10,10 @@
     <div class="flex items-center w-full justify-between gap-10">
       <div class="md:hidden block">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a
+            href="/"
+            class="-m-1.5 p-1.5 text-xl ipad:font-[500] big:font-[600]"
+          >
             <span class="sr-only">Logo</span>
 
             <img src="/images/new_logo.svg" alt="Logo" />
@@ -19,49 +22,49 @@
       </div>
       <nav class="space-x-4 hidden md:flex items-center gap-2">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a
+            href="/"
+            class="-m-1.5 p-1.5 text-xl ipad:font-[500] big:font-[600]"
+          >
             <span class="sr-only">Logo</span>
 
             <img src="/images/new_logo.svg" alt="Logo" />
           </a>
         </div>
 
-        <a
-          [class.disabled]="isHomePath"
-          routerLink="/knowledge"
-          class="font-sans"
+        <a [class.disabled]="isHomePath" routerLink="/knowledge" class=""
           >Knowledge Lounge</a
         >
         <a
           [class.disabled]="isHomePath"
           [routerLink]="isHomePath ? null : '/about-us'"
-          class="font-sans"
+          class=""
           >About us</a
         >
         <a
           [class.disabled]="isHomePath"
           [routerLink]="isHomePath ? null : '/faqs'"
-          class="font-sans"
+          class=""
           >FAQs</a
         >
         <a
           [class.disabled]="isHomePath"
           [routerLink]="isHomePath ? null : '/contact-us'"
-          class="font-sans"
+          class=""
           >Contact us</a
         >
-        <a
+        <!-- <a
           [class.disabled]="isHomePath"
           [routerLink]="isHomePath ? null : '/become-expert'"
-          class="font-sans"
+          class=""
           >Become An Expert</a
-        >
+        > -->
       </nav>
       <!-- Login Button -->
       <button
         routerLink="/auth/login"
         [disabled]="isHomePath"
-        class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] font-sans hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
+        class="px-4 py-3 bg-[#FFFFFF40]/25 w-[82px] h-[48px] hidden rounded-xl md:flex items-center justify-center hover:bg-gray-700 transition-colors"
       >
         <span class="material-icons">Login</span>
       </button>
@@ -81,7 +84,10 @@
     >
       <div class="mb-5 flex w-full justify-between items-center">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5 text-xl font-semibold">
+          <a
+            href="/"
+            class="-m-1.5 p-1.5 text-xl ipad:font-[500] big:font-[600]"
+          >
             <span class="sr-only">Logo</span>
 
             <img src="/images/white_logo_for_nav.svg" alt="Logo" />
@@ -121,11 +127,11 @@
         [routerLink]="isHomePath ? null : '/contact-us'"
         >Contact us</a
       >
-      <a
+      <!-- <a
         [class.disabled]="isHomePath"
         [routerLink]="isHomePath ? null : '/become-expert'"
         >Become an expert</a
-      >
+      > -->
       <button
         [disabled]="isHomePath"
         class="px-4 py-2 w-full bg-[#FFFFFF40]/25 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-colors"

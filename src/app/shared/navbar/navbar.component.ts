@@ -1,6 +1,13 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  HostListener,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,14 +15,46 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   menuVisible: boolean = false;
+  userId: string = localStorage.getItem('userId')!;
+  name: string = '';
+  email: string = '';
+  profileImage: string = '';
+  isDropdownOpen: boolean = false;
 
-  toggleMenu() {
-    this.menuVisible = !this.menuVisible;
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: Event) {
+    const dropdown = document.getElementById('dropdown');
+    const menuButton = document.getElementById('user-menu-button');
+
+    if (
+      this.isDropdownOpen &&
+      dropdown &&
+      menuButton &&
+      !dropdown.contains(event.target as Node) &&
+      !menuButton.contains(event.target as Node)
+    ) {
+      this.isDropdownOpen = false;
+    }
   }
 
-  constructor(private router: Router) {}
+  ngOnInit(): void {
+    // initFlowbite();
+    this.getProfileDataByUserId();
+  }
+
+  constructor(private router: Router, private authService: AuthService) {}
+
+  getProfileDataByUserId() {
+    this.authService.getUserDataByUserId(this.userId).subscribe({
+      next: (res: any) => {
+        this.name = res.data.firstName;
+        this.email = res.data.user?.email;
+        this.profileImage = res.data.profileUrl;
+      },
+    });
+  }
 
   // Getter to determine if red background should be applied
   get shouldApplyRedBg(): boolean {
@@ -45,12 +84,16 @@ export class NavbarComponent {
     return false;
   }
 
-  logout() {
-    // Clear the token and user id from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
+  toggleMenu() {
+    this.menuVisible = !this.menuVisible;
+  }
 
-    // Optionally, you can navigate the user to the login page or home page after logout
-    this.router.navigate(['/auth/login']);
+  toggleDropdown(event: Event) {
+    event.stopPropagation();
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

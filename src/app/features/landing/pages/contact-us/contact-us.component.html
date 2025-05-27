@@ -1,135 +1,424 @@
-<app-navbar></app-navbar>
-<div
-  class="w-full relative md:py-32 2xl:pb-0 py-32 px-4 md:px-0 pb-10 overflow-hidden"
->
-  <!-- background images -->
+<div class="">
+  <app-navbar></app-navbar>
   <div
-    class="absolute inset-0 bg-cover 2xl:h-screen bg-center bg-black -z-10"
-    style="background-image: url('/images/Group 25.png')"
-  ></div>
-
-  <div class="absolute md:block right-0 hidden z-0 top-40">
-    <img src="/images/Group 37.svg" alt="background icon" />
-  </div>
-
-  <!-- title and subtitle -->
-
-  <div class="text-center w-full flex flex-col items-center mb-5">
-    <h2
-      class="md:text-[52px] text-[40px] leading-[48px] md:leading-[62px] font-bold text-white"
-    >
-      Let’s Shape the Future of Your <br />
-      Business Together!
-    </h2>
-    <p class="text-[#E9D8FC] mt-6 font-sans text-[18px]">
-      Our consulting services prioritize adaptive strategies, ensuring your
-      solutions resonate <br />
-      with your audience from the start.
-    </p>
-  </div>
-
-  <!-- form -->
-  <div
-    class="max-w-xl md:mt-20 mx-auto relative z-50 border border-[#A25DDF66] bg-gradient-to-br from-[#552482] to-[#873DE64D]/20 p-8 rounded-xl shadow-lg"
+    class="w-full relative md:py-32 2xl:pb-0 py-32 px-4 md:px-0 pb-10 overflow-hidden"
   >
-    <form>
-      <!-- First and Last Name -->
-      <div class="flex space-x-4 mb-4">
-        <div class="flex-1">
-          <label for="first-name" class="block text-sm font-sans text-gray-300"
-            >First name</label
+    <!-- background images -->
+    <div
+      class="absolute inset-0 bg-cover block bg-center bg-black -z-10"
+      style="background-image: url('/images/Group 25.png')"
+    ></div>
+
+    <div class="absolute hidden big:block right-0 z-0 top-40">
+      <img src="/images/Group 37.svg" alt="background icon" />
+    </div>
+
+    <!-- title and subtitle -->
+
+    <div class="text-center w-full flex flex-col items-center mb-5">
+      <h2
+        class="md:text-[52px] text-[40px] leading-[48px] md:leading-[62px] ipad:font-[500] bigger:font-[500] text-white"
+      >
+        Let’s Shape the Future of <br />
+        Consulting Together!
+      </h2>
+      <p class="text-[#E9D8FC] mt-6 text-[18px] font-sans">
+        Our consulting services prioritize adaptive strategies, ensuring your
+        solutions resonate <br />
+        with your audience from the start.
+      </p>
+    </div>
+
+    <!-- form -->
+    <div
+      class="max-w-xl md:mt-20 mx-auto relative z-50 border mb-20 border-[#A25DDF66] bg-gradient-to-br from-[#552482] to-[#873DE64D]/20 p-8 rounded-xl shadow-lg"
+    >
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <!-- First and Last Name -->
+        <div class="flex space-x-4 mb-4">
+          <div class="flex-1">
+            <label for="name" class="block text-sm text-white font-sans"
+              >Name<span class="text-red-600"> * </span></label
+            >
+            <input
+              formControlName="name"
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-[#FFFFFF75]/40 font-sans focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
+            />
+            <div
+              *ngIf="
+                contactForm.get('name')?.touched &&
+                contactForm.get('name')?.errors
+              "
+              class="text-red-500 font-sans text-sm mt-1"
+            >
+              <span *ngIf="contactForm.get('name')?.errors?.['required']"
+                >Name is required</span
+              >
+            </div>
+          </div>
+          <!-- <div class="flex-1">
+            <label for="last-name" class="block text-sm text-white font-sans"
+              >Last name <span class="text-red-600"> * </span>
+            </label>
+            <input
+              formControlName="lastName"
+              type="text"
+              id="last-name"
+              placeholder="Write your last name"
+              class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
+            />
+            <div
+              *ngIf="
+                contactForm.get('lastName')?.touched &&
+                contactForm.get('lastName')?.errors
+              "
+              class="text-red-500 font-sans text-sm mt-1"
+            >
+              <span *ngIf="contactForm.get('lastName')?.errors?.['required']"
+                >Last name is required</span
+              >
+            </div>
+          </div> -->
+        </div>
+
+        <!-- How can we help you today? -->
+        <div class="flex space-x-4 mb-4">
+          <div class="flex-1">
+            <label
+              for="question"
+              class="block text-sm text-white font-sans mb-2"
+            >
+              How can we help you today?<span class="text-red-600"> * </span>
+            </label>
+
+            <!-- Radio buttons -->
+            <div class="space-y-6 mt-4">
+              <div class="flex items-center">
+                <input
+                  formControlName="question"
+                  type="radio"
+                  id="knowledge-lounge"
+                  value="Service offered"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="knowledge-lounge"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  Service offered
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  formControlName="question"
+                  type="radio"
+                  id="rapid-response"
+                  value="Payments & Subscription"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="rapid-response"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  Payments & Subscription
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  formControlName="question"
+                  type="radio"
+                  id="ai-consultant"
+                  value="Business Partnership & Investment Opportunities"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="ai-consultant"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  Business Partnership & Investment Opportunities
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  formControlName="question"
+                  type="radio"
+                  id="build-presentation"
+                  value="Technical Issue"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="build-presentation"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  Technical Issue
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  formControlName="question"
+                  type="radio"
+                  id="other"
+                  value="Other"
+                  class="w-4 h-4 text-purple-600 checked:bg-[#924FE8] bg-gray-200 rounded-full focus:ring-2 focus:ring-[#924FE8]"
+                />
+                <label
+                  for="other"
+                  class="ml-2 text-sm text-[#FFFFFF] font-sans"
+                >
+                  Other
+                </label>
+              </div>
+            </div>
+
+            <!-- Error message for required field -->
+            <div
+              *ngIf="
+                contactForm.get('question')?.touched &&
+                contactForm.get('question')?.errors
+              "
+              class="text-red-500 font-sans text-sm mt-1"
+            >
+              <span *ngIf="contactForm.get('question')?.errors?.['required']">
+                Please select an option
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="mt-4">
+          <label for="message" class="block text-sm text-white font-sans"
+            >Your message <span class="text-red-600"> * </span></label
+          >
+          <textarea
+            formControlName="message"
+            id="message"
+            placeholder="Let us know how Consultitude can empower your success."
+            rows="4"
+            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-[#FFFFFF75]/40 font-sans focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
+          ></textarea>
+          <div
+            *ngIf="
+              contactForm.get('message')?.touched &&
+              contactForm.get('message')?.errors
+            "
+            class="text-red-500 font-sans text-sm mt-1"
+          >
+            <span *ngIf="contactForm.get('message')?.errors?.['required']"
+              >Message is required</span
+            >
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="my-4">
+          <label for="email" class="block text-sm text-white font-sans"
+            >E-mail <span class="text-red-600"> * </span></label
           >
           <input
-            type="text"
-            id="first-name"
-            placeholder="Write your first name"
-            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
+            formControlName="email"
+            type="email"
+            id="email"
+            placeholder="Enter your e-mail"
+            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-[#FFFFFF75]/40 font-sans focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
           />
-        </div>
-        <div class="flex-1">
-          <label for="last-name" class="block text-sm font-sans text-gray-300"
-            >Last name</label
+          <div
+            *ngIf="
+              contactForm.get('email')?.touched &&
+              contactForm.get('email')?.errors
+            "
+            class="text-red-500 font-sans text-sm mt-1"
           >
-          <input
-            type="text"
-            id="last-name"
-            placeholder="Write your last name"
-            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
-          />
+            <span *ngIf="contactForm.get('email')?.errors?.['required']"
+              >Email is required</span
+            >
+            <span *ngIf="contactForm.get('email')?.errors?.['email']"
+              >Please enter a valid email</span
+            >
+          </div>
         </div>
-      </div>
 
-      <!-- Email -->
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-sans text-gray-300"
-          >E-mail</label
-        >
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your e-mail"
-          class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
-        />
-      </div>
-
-      <!-- Phone Number -->
-      <div class="mb-4">
-        <label for="phone" class="block text-sm font-sans text-gray-300"
-          >Phone number</label
-        >
-        <div class="relative">
-          <input
-            type="tel"
-            id="phone"
-            placeholder="+966 749302040"
-            class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
-          />
-        </div>
-      </div>
-
-      <!-- Message -->
-      <div class="mb-4">
-        <label for="message" class="block text-sm font-sans text-gray-300"
-          >Your message</label
-        >
-        <textarea
-          id="message"
-          placeholder="Let us know how Consultitude can empower your success."
-          rows="4"
-          class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none text-[14px] font-sans focus:ring-2 focus:ring-purple-500"
-        ></textarea>
-      </div>
-
-      <!-- Terms and Conditions -->
-      <div class="flex items-center mb-6">
-        <input
-          type="checkbox"
-          id="terms"
-          class="w-4 h-4 text-purple-600 checked:bg-purple-600 bg-gray-200 rounded focus:ring-2 focus:ring-purple-500"
-        />
-        <label for="terms" class="ml-2 text-sm text-gray-300">
-          By submitting this form, you confirm that you have read and agree to
-          <a href="#" class="text-purple-400 hover:underline"
-            >Consultitude Terms of Service</a
+        <!-- Phone Number -->
+        <!-- <div class="mb-4">
+          <label for="phone" class="block text-sm text-white font-sans"
+            >Phone number <span class="text-red-600"> * </span></label
           >
-          and
-          <a href="#" class="text-purple-400 hover:underline"
-            >Privacy Statement</a
-          >.
-        </label>
-      </div>
+          <div class="relative">
+            <input
+              formControlName="phone"
+              type="tel"
+              id="phone"
+              placeholder="00201010850653"
+              class="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#873DE64D] text-white placeholder-gray-400 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          <div
+            *ngIf="
+              contactForm.get('phone')?.touched &&
+              contactForm.get('phone')?.errors
+            "
+            class="text-red-500 font-sans text-sm mt-1"
+          >
+            <span *ngIf="contactForm.get('phone')?.errors?.['required']"
+              >Phone number is required</span
+            >
+            <span *ngIf="contactForm.get('phone')?.errors?.['pattern']"
+              >Please insert numbers only</span
+            >
+          </div>
+        </div> -->
 
-      <!-- Submit Button -->
-      <div>
-        <button
-          type="submit"
-          class="w-full py-3 bg-[#9241DC] text-white transition-colors font-sans rounded-xl hover:bg-[#9241DC]/50 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500"
-        >
-          Send message
-        </button>
-      </div>
-    </form>
+        <!-- Terms and Conditions -->
+        <div class="flex items-start mb-6 mt-4">
+          <input
+            formControlName="agree"
+            type="checkbox"
+            id="terms"
+            class="w-4 h-4 mt-1 text-purple-600 checked:bg-purple-600 bg-gray-200 rounded focus:ring-2 focus:ring-purple-500"
+          />
+
+          <label for="terms" class="ml-2 text-sm text-[#FFFFFF] font-sans">
+            By submitting this form, you confirm that you have read and agree to
+            Consultitude
+            <a
+              routerLink="/terms-and-conditions"
+              class="text-[#9241DC] hover:underline"
+            >
+              Terms of Service</a
+            >
+            and
+            <a
+              routerLink="/privacy-and-policy"
+              class="text-[#9241DC] hover:underline"
+              >Privacy Statement</a
+            >.
+            <span class="text-red-600"> * </span>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <button
+            [disabled]="contactForm.invalid || !contactForm.get('agree')?.value"
+            type="submit"
+            class="w-full py-3 bg-[#9241DC] text-white transition-colors font-sans rounded-xl hover:bg-[#9241DC]/50 focus:outline-none text-[14px] focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Send message
+          </button>
+        </div>
+
+        <div class="my-4">
+          @if (errorMessage) {
+          <!-- Enhanced Error Message -->
+          <div
+            class="flex items-center p-4 mb-4 bg-red-50 border border-red-200 rounded-xl shadow-lg transform transition-all duration-500 ease-in-out animate-bounce"
+          >
+            <div class="flex-shrink-0">
+              <svg
+                class="w-6 h-6 text-red-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-red-800 font-semibold text-sm font-sans">
+                {{ errorMessage }}
+              </p>
+            </div>
+          </div>
+          } @else if (successMessage) {
+          <!-- Beautiful Success Message -->
+          <div
+            class="relative overflow-hidden bg-gradient-to-r from-[#9241DC] via-[#9241DC] to-[#a15be2] rounded-2xl shadow-2xl transform transition-all duration-700 ease-out animate-pulse"
+          >
+            <!-- Animated Background Pattern -->
+            <div
+              class="absolute inset-0 bg-white opacity-10 transform -skew-y-6 scale-150"
+            ></div>
+
+            <!-- Main Content -->
+            <div class="relative p-6 text-center">
+              <!-- Success Icon with Animation -->
+              <div
+                class="mx-auto w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-lg transform transition-transform duration-500 hover:scale-110"
+              >
+                <svg
+                  class="w-8 h-8 text-green-500 animate-bounce"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="3"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+
+              <!-- Success Title -->
+              <h3 class="text-white text-xl font-sans mb-2 tracking-wide">
+                🎉 Message Sent Successfully!
+              </h3>
+
+              <!-- Success Description -->
+              <p class="text-green-100 text-sm font-sans leading-relaxed">
+                Your message has been sent successfully. We will get back to you
+                as soon as possible
+              </p>
+
+              <!-- Additional Info -->
+
+              <!-- Decorative Elements -->
+              <div
+                class="absolute top-2 right-2 w-4 h-4 bg-white bg-opacity-30 rounded-full animate-ping"
+              ></div>
+              <div
+                class="absolute bottom-2 left-2 w-3 h-3 bg-white bg-opacity-20 rounded-full animate-pulse"
+              ></div>
+            </div>
+          </div>
+          }
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
-<app-footer></app-footer>
+  <div
+    class="relative bg-gradient-to-tr from-[#261536] to-[#54148C] w-full h-[172px] overflow-hidden"
+  >
+    <img
+      src="images/landing/pattern.svg"
+      class="w-full absolute top-[-419px]"
+      alt=""
+    />
+    <div class="w-full h-full relative z-20 flex justify-center items-center">
+      <p class="text-[18px] text-[#D0D5DD] text-center font-sans">
+        For support, email us at
+        <a
+          href="mailto:
+          hello@consultitude.com"
+          class="text-[#D8BAF8]"
+          >support&#64;consultitude.com</a
+        >
+        or use our contact form above. <br />
+        We’re here to ensure your experience is smooth and successful!
+      </p>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

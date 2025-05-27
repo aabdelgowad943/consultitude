@@ -1,0 +1,112 @@
+<div
+  class="chat-container px-10 big:px-[200px] w-full h-screen overflow-y-auto flex flex-col pt-24"
+>
+  <!-- Chat Messages -->
+  <div class="chat-messages flex-grow p-4">
+    <!-- Initial Summary -->
+    <div *ngIf="chatDetails" class="message mb-10">
+      <div class="flex items-start">
+        <img
+          src="images/new/circle.svg"
+          class="w-[24px] h-[24px] mr-5"
+          alt=""
+        />
+
+        <div class="message-content max-w-3xl text-[#344054] text-[14px]">
+          <div class="whitespace-pre-line ipad:font-[500] big:font-[500]">
+            <p>Here's my summary before we move forward:</p>
+            <ul class="list-disc pl-5 mt-2">
+              <li>
+                You're asking for:
+                {{ chatDetails.ask || "[User's ask summary]" }}
+              </li>
+              <li>
+                I've reviewed:
+                {{ chatDetails.title || "[Document name/type]" }}
+              </li>
+            </ul>
+            <p class="mt-2">Does this match what you need?</p>
+          </div>
+          <div class="text-xs text-gray-500 mt-1">
+            {{ chatDetails.updatedAt | customDate }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversation Messages -->
+    <div
+      *ngIf="chatDetails && chatDetails.messages"
+      class="border border-[#F0F2F5] shadow-md w-full rounded-2xl p-5 mb-10 max-w-[744px]"
+    >
+      <div *ngFor="let message of chatDetails.messages" class="message mb-5">
+        <!-- EVO Messages -->
+        <div *ngIf="message.agent === 'EVO'" class="flex items-start">
+          <img
+            src="images/new/circle.svg"
+            class="w-[24px] h-[24px] mr-5"
+            alt=""
+          />
+          <div class="message-content w-[80%]">
+            <div
+              class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
+            >
+              Evo
+            </div>
+            <div class="whitespace-pre-line text-[#344054] text-sm">
+              <div [innerHTML]="message.content"></div>
+            </div>
+            <div class="text-xs text-[#344054] mt-1">
+              {{ message.timestamp }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Consultant Messages -->
+        <div *ngIf="message.agent !== 'EVO'" class="flex items-start">
+          <div class="w-6 h-6 overflow-hidden rounded-full bg-[#F6FAFF]">
+            <img src="images/Frame.svg" class="w-full h-full block" alt="" />
+          </div>
+          <div class="message-content w-[80%] ml-4">
+            <div
+              class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
+            >
+              Consultant {{ message.agent }}
+            </div>
+            <div class="whitespace-pre-line text-[#344054] text-sm">
+              <div [innerHTML]="message.content"></div>
+            </div>
+            <div class="text-xs text-[#344054] mt-1">
+              {{ message.timestamp }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Report Section -->
+    <div *ngIf="chatDetails?.final_report" class="message mb-6">
+      <div class="flex items-start">
+        <img
+          src="images/new/circle.svg"
+          class="w-[24px] h-[24px] mr-5"
+          alt=""
+        />
+        <div class="message-content max-w-3xl">
+          <div
+            class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#19213D]"
+          >
+            Evo
+          </div>
+          <div class="whitespace-pre-line text-[#101828] text-sm">
+            <p>Here's the final report based on our conversation:</p>
+            <div [innerHTML]="chatDetails!.final_report"></div>
+          </div>
+          <div class="text-xs text-gray-500 mt-1">
+            {{ chatDetails!.updatedAt | customDate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

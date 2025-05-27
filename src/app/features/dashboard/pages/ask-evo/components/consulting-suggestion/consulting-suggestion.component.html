@@ -1,0 +1,359 @@
+<div class="w-full h-screen mt-10 pt-24">
+  <div class="mb-6 px-2 big:px-10">
+    <!-- Consultant cards - Top row -->
+    <div class="flex items-center gap-5">
+      <img src="images/new/circle.svg" alt="" />
+      <h1
+        class="text-2xl ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2"
+      >
+        I've reviewed your document!
+      </h1>
+    </div>
+    <div class="mb-6 ms-2 big:ms-12">
+      <div class="flex justify-between gap-3 w-full">
+        <p class="text-[#667085] text-[14px] mb-6 max-w-[578px]">
+          Here are the AI consultants I suggest deploying. You can go ahead and
+          confirm them, or feel free to customize and choose others if you'd
+          like.
+        </p>
+        <div
+          class="w-[54px] h-[33px] rounded-full border text-[14px] border-[#F2F4F7] bg-[#F9FAFB] text-[#0F132499]/60 flex justify-center items-center"
+        >
+          {{ selectedConsultantsCount }}/{{ maxSelectedConsultants }}
+        </div>
+      </div>
+
+      <!-- Suggested Consultants Section -->
+      <div
+        class="grid grid-cols-1 ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3 mb-6"
+      >
+        <!-- For each suggested consultant, either show the consultant or show an empty slot -->
+        <ng-container
+          *ngFor="let consultant of suggestedConsultants; let i = index"
+        >
+          <!-- If consultant is selected, show the normal consultant card -->
+          <!-- big:max-w-[329.33331298828125px] -->
+          <div
+            *ngIf="consultant.selected"
+            class="border-[#9241DC] border-2 rounded-[20px] p-4 flex flex-col max-w-full w-full big:max-h-[141px] transition-all duration-200 cursor-pointer"
+            (click)="toggleSuggestedSelection(consultant)"
+          >
+            <div class="mb-4 flex items-start gap-5">
+              <div
+                class="bg-[#9241DC] p-2 w-[36px] h-[36px] rounded-xl flex justify-center items-center"
+              >
+                <i class="pi {{ consultant.icon }} text-white"></i>
+              </div>
+
+              <div>
+                <h3
+                  class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-black text-[16px] line-clamp-2"
+                >
+                  {{ consultant.type }}
+                </h3>
+                <p class="text-sm text-[#667085] mb-4 line-clamp-1">
+                  {{ consultant.description }}
+                </p>
+                <div class="flex gap-5 items-center mt-auto">
+                  <div class="flex items-center">
+                    <ng-container *ngIf="consultant.creator.avatar">
+                      <img
+                        [src]="consultant.creator.avatar"
+                        class="w-6 h-6 rounded-full mr-2"
+                        [alt]="consultant.creator.name"
+                      />
+                    </ng-container>
+
+                    @if (consultant.creator.name === '') {
+
+                    <span class="text-sm text-[#667085]">Consultitude</span>
+                    } @else {
+                    <span class="text-sm text-[#667085]">{{
+                      consultant.creator.name
+                    }}</span>
+                    }
+                  </div>
+                  <div class="flex items-center gap-[9px]">
+                    <img src="images/comments.png" class="w-5 h-5" alt="" />
+                    <span class="text-sm tect-[#667085]">{{
+                      consultant.likes
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- If consultant is deselected, show an empty placeholder slot with "+" button -->
+          <div
+            *ngIf="!consultant.selected"
+            class="border border-dashed border-gray-300 rounded-[20px] p-4 flex flex-col items-center justify-center max-w-full w-full big:max-w-[329.33331298828125px] h-[141px] transition-all duration-200 cursor-pointer"
+            (click)="openConsultantSelector(i)"
+          >
+            <div class="flex flex-col items-center justify-center h-full">
+              <div
+                class="w-[36px] h-[36px] bg-gray-100 rounded-xl flex items-center justify-center mb-2"
+              >
+                <i class="pi pi-plus text-gray-400 text-sm"></i>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Filtering Tabs -->
+      <div
+        class="flex flex-col big:flex-row thousand:flex-row thousand:justify-between thousand:items-center mt-6 mb-6 gap-4"
+      >
+        <h3 class="mb-4 text-[#101828] text-[20px]">Other Consultants</h3>
+
+        <div
+          class="flex flex-col big:flex-row thousand:flex-row thousand:items-center gap-4"
+        >
+          <!-- Filter Dropdown -->
+          <div class="relative">
+            <!-- Filter Button -->
+            <button
+              (click)="toggleFilterDropdown()"
+              class="filter-dropdown-button w-10 h-10 flex items-center justify-center bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none"
+            >
+              <!-- <i class="pi pi-filter text-gray-500"></i> -->
+              <img src="images/new/Filter-icon.svg" alt="" />
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div
+              *ngIf="showFilterDropdown"
+              class="filter-dropdown-content absolute right-0 mt-1 w-[160px] bg-white border border-gray-200 rounded-lg shadow-md z-10"
+            >
+              <div class="py-1">
+                <a
+                  (click)="filterAgents('all'); toggleFilterDropdown()"
+                  class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                >
+                  All
+                  <i
+                    *ngIf="activeFilter === 'all'"
+                    class="pi pi-check text-gray-500"
+                  ></i>
+                </a>
+                <a
+                  (click)="filterAgents('byme'); toggleFilterDropdown()"
+                  class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                >
+                  By me
+                  <i
+                    *ngIf="activeFilter === 'byme'"
+                    class="pi pi-check text-gray-500"
+                  ></i>
+                </a>
+                <a
+                  (click)="filterAgents('consultitude'); toggleFilterDropdown()"
+                  class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                >
+                  Consultitude
+                  <i
+                    *ngIf="activeFilter === 'consultitude'"
+                    class="pi pi-check text-gray-500"
+                  ></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Input -->
+          <div
+            class="ml-auto relative flex-grow max-w-full w-full thousand:max-w-[390px]"
+          >
+            <input
+              type="text"
+              placeholder="Search"
+              [(ngModel)]="searchTerm"
+              (input)="searchAgents()"
+              class="w-full max-w-[390px] h-10 pl-8 pr-4 py-2 rounded-[12px] border placeholder:text-[#0D112666]/40 text-black border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            <i
+              class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-[#0D112666]/40"
+            ></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other consultants - grid -->
+      <div *ngIf="isLoading" class="text-center text-[#667085]">
+        Loading consultants...
+      </div>
+      <div *ngIf="error" class="text-center text-red-500">{{ error }}</div>
+      <div
+        *ngIf="!isLoading && !error && filteredAgents.length === 0"
+        class="text-center py-8 text-[#667085]"
+      >
+        <div class="flex flex-col items-center justify-center">
+          <!-- <img
+            src="images/new/empty-state-icon.svg"
+            alt="No consultants found"
+            class="mb-4 w-16 h-16"
+          /> -->
+          <h3 class="text-lg font-semibold mb-2">No consultants found</h3>
+          <p class="text-sm">Try adjusting your search or filter</p>
+        </div>
+      </div>
+      <div
+        *ngIf="!isLoading && !error"
+        class="grid grid-cols-1 ipad:grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 gap-3"
+      >
+        <div
+          *ngFor="let consultant of filteredAgents"
+          class="border rounded-[20px] p-4 flex flex-col transition-all duration-200 cursor-pointer"
+          (click)="toggleOtherSelection(consultant)"
+          [ngClass]="{
+            'border-[#EAECF0]': !consultant.selected,
+            'cursor-pointer': selectedConsultantsCount < maxSelectedConsultants,
+            'cursor-not-allowed opacity-50':
+              consultant.selected ||
+              (!consultant.selected &&
+                selectedConsultantsCount >= maxSelectedConsultants)
+          }"
+        >
+          <!-- [ngClass]="{
+            'border-[#9241DC] border-2': consultant.selected,
+            'border-[#EAECF0]': !consultant.selected,
+            'cursor-pointer':
+              consultant.selected ||
+              selectedConsultantsCount < maxSelectedConsultants,
+            'cursor-not-allowed opacity-50':
+              !consultant.selected &&
+              selectedConsultantsCount >= maxSelectedConsultants
+          }"
+          (click)="toggleOtherSelection(consultant)" -->
+          <div class="flex items-start gap-5">
+            <div class="mb-4">
+              <div class="bg-purple-100 p-2 rounded-lg inline-block">
+                <i class="pi {{ consultant.icon }} text-purple-600"></i>
+              </div>
+            </div>
+            <div>
+              <h3
+                class="ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-black text-[16px] line-clamp-2"
+              >
+                {{ consultant.type }}
+              </h3>
+              <p class="text-sm text-[#667085] mb-4 line-clamp-1">
+                {{ consultant.description }}
+              </p>
+              <div class="flex gap-5 items-center mt-auto">
+                <div class="flex items-center">
+                  <ng-container *ngIf="consultant.creator.avatar">
+                    <img
+                      [src]="consultant.creator.avatar"
+                      class="w-6 h-6 rounded-full mr-2"
+                      [alt]="consultant.creator.name"
+                    />
+                  </ng-container>
+                  <ng-container
+                    *ngIf="
+                      !consultant.creator.avatar && consultant.creator.initial
+                    "
+                  >
+                    <span
+                      class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-2"
+                    >
+                      {{ consultant.creator.initial }}
+                    </span>
+                  </ng-container>
+                  <span class="text-sm">{{ consultant.creator.name }}</span>
+                </div>
+                <div class="flex items-center gap-[9px]">
+                  <img src="images/comments.png" class="w-5 h-5" alt="" />
+                  <span class="text-sm tect-[#667085]">{{
+                    consultant.likes
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- pagination -->
+      <div class="w-full justify-center items-center">
+        <div
+          class="flex justify-center w-full items-center gap-4 mt-4"
+          *ngIf="totalPages > 1"
+        >
+          <button
+            (click)="previousPage()"
+            [disabled]="currentPage === 1"
+            class="px-3 py-1 rounded-lg border"
+            [class.opacity-50]="currentPage === 1"
+          >
+            Previous
+          </button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages"
+            class="px-3 py-1 rounded-lg border"
+            [class.opacity-50]="currentPage === totalPages"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="w-full relative"
+    style="
+      background-image: url('images/new/Background Chat.svg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    "
+  >
+    <!-- shadow background -->
+    <div class="max-w-[700px] hidden big:block w-full absolute bottom-0">
+      <img
+        src="images/new/Background Chat gradient.svg"
+        class="absolute bottom-0 -z-10"
+        alt=""
+      />
+    </div>
+    <div class="flex justify-between mt-8 p-2 ms-2 big:ms-12 big:p-4">
+      <button (click)="goToPreviousStep()">
+        <i class="pi pi-arrow-left text-[#0F132499]/60"></i>
+      </button>
+
+      <div class="flex items-center gap-4">
+        <button
+          [disabled]="!selectedConsultantsCount"
+          (click)="continueToNextStep()"
+          class="px-4 py-3 bg-[#9241DC] text-white rounded-xl hover:bg-purple-700 w-[108px] h-[48px]"
+        >
+          Continue
+        </button>
+
+        <button
+          class="flex gap-2 items-start text-[#0F132499]/60 cursor-default"
+        >
+          <img
+            src="images/new/tail-icon.svg"
+            alt="forward icon"
+            class="w-5 h-5"
+          />
+          Press Enter
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Use the new Consultant Selection Modal Component -->
+  <app-add-consultant-to-suggested
+    [visible]="showConsultantSelector"
+    [currentSlotIndex]="currentSlotIndex"
+    [selectedConsultants]="selectedConsultants"
+    [suggestedConsultants]="suggestedConsultants"
+    (close)="closeConsultantSelector()"
+    (consultantSelected)="handleConsultantSelected($event)"
+  ></app-add-consultant-to-suggested>
+</div>

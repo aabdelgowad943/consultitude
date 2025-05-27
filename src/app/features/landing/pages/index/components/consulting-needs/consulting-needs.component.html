@@ -1,4 +1,4 @@
-<div class="relative mx-auto max-w-[1600px] w-full">
+<div class="relative mx-auto max-w-[1920px] w-full">
   <img
     src="/images/footer-shadow.svg"
     alt="footer shadow"
@@ -8,7 +8,7 @@
   <div class="text-3xl mb-4 md:w-full text-center text-white">
     <div class="w-full text-center flex justify-center items-center">
       <h1
-        class="mb-4 text-3xl w-[400px] md:w-full font-semibold md:text-[52px] md:leading-[62.4px]"
+        class="mb-4 text-3xl w-[400px] md:w-full ipad:font-[500] bigger:font-[500] md:text-[52px] md:leading-[62.4px]"
       >
         Consultitude <br class="block md:hidden" />
         Templates for <br class="hidden md:block" />
@@ -17,7 +17,7 @@
       </h1>
     </div>
     <p
-      class="mb-8 text-[16px] px-1 mt-[24px] leading-6 font-sans text-[#E9D8FC] sm:px-16 xl:px-48"
+      class="mb-8 text-[16px] px-1 mt-[24px] leading-6 text-[#E9D8FC] sm:px-16 xl:px-48"
     >
       Explore pre-built templates and playbooks designed
       <br class="md:hidden block" />
@@ -29,7 +29,7 @@
 
   <!-- grid cards -->
   <div
-    class="px-5 md:px-20 grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-10 items-center"
+    class="px-5 big:px-20 grid grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 md:gap-5 gap-10 items-center"
   >
     <div
       *ngFor="let card of cards"
@@ -39,19 +39,17 @@
         <div>
           <a href="#">
             <h5
-              class="mb-2 text-[28px] leading-[33px] font-semibold text-[#F5F5F6] tracking-tight"
+              class="mb-2 text-[28px] leading-[33px] ipad:font-[500] bigger:font-[500] text-[#F5F5F6] tracking-tight"
             >
               {{ card.title }}
             </h5>
           </a>
-          <p
-            class="mb-3 font-sans text-[14px] md:w-full leading-6 text-[#CECFD2]"
-          >
+          <p class="mb-3 text-[14px] md:w-full leading-6 text-[#CECFD2]">
             {{ card.description }}
           </p>
         </div>
         <a
-          href="{{ card.href }}"
+          routerLink="/knowledge/lounge"
           class="inline-flex items-center px-1 py-2 text-sm font-medium text-center text-white"
         >
           Explore
@@ -86,8 +84,8 @@
     class="flex flex-col py-8 lg:pb-16 space-y-4 w-full items-center sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
   >
     <a
-      href="/"
-      class="flex w-fit justify-center bg-[#9241DC] hover:bg-[#9241DC]/50 transition-colors text-white items-center py-3 px-5 text-base font-sans text-center rounded-xl focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
+      routerLink="/knowledge/lounge"
+      class="flex w-fit justify-center bg-[#9241DC] hover:bg-[#9241DC]/50 transition-colors text-white items-center py-3 px-5 text-base text-center rounded-xl focus:ring-4 focus:ring-primary-300"
     >
       Explore all templates
       <svg

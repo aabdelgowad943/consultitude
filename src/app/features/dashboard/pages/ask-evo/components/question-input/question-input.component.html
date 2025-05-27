@@ -1,0 +1,84 @@
+<div
+  class="max-w-[500px] ipad:max-w-[700px] thousand:max-w-[700px] big:max-w-[700px] thousand:mt-20 mx-auto"
+>
+  <div class="max-w-[700px] hidden big:block w-full absolute bottom-0">
+    <img
+      src="images/new/Background Chat gradient.svg"
+      class="absolute bottom-0"
+      alt=""
+    />
+  </div>
+
+  <div class="flex flex-col mb-5">
+    <div class="flex items-start">
+      <div
+        class="text-2xl flex items-center gap-1 justify-center text-black font-medium"
+      >
+        2
+        <img src="images/new/→.svg" class="ml-2" alt="" />
+      </div>
+      <h1 class="ml-2 text-black text-2xl font-medium mb-2">
+        What is your ask?
+      </h1>
+    </div>
+  </div>
+
+  <div class="mb-6">
+    <div class="mb-4">
+      <!-- <input type="text" /> -->
+
+      <textarea
+        name=""
+        id=""
+        [(ngModel)]="userQuestion"
+        rows="6"
+        (ngModelChange)="onQuestionChange($event)"
+        placeholder="What do you want to ask about this document?"
+        class="w-full py-2.5 px-3 border max-h-[116px] h-full border-[#DEE0E3] rounded-xl placeholder:text-[#0D112666]/40 text-black ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] focus:outline-none focus:ring-2 focus:ring-[#792EBA] focus:border-transparent"
+        (keydown)="onQuestionInputKeypress($event)"
+      ></textarea>
+    </div>
+
+    <div
+      class="flex items-center flex-col ipad:flex-col thousand:flex-col big:flex-row gap-2 mb-4 w-full"
+      [@fadeUpStagger]="suggestions.length"
+    >
+      <button
+        *ngFor="let suggestion of suggestions"
+        (click)="applySuggestion(suggestion.text)"
+        class="px-4 py-3 border border-[#EAECF0] text-sm rounded-full w-full ipad:w-full thousand:w-full big:w-fit flex justify-center items-center gap-2"
+      >
+        <!-- <i [class]="suggestion.icon" class="w-4 h-4 text-[#F04438]"></i> -->
+        <img [src]="suggestion.icon" class="w-4 h-4" alt="" />
+        {{ suggestion.text }}
+      </button>
+    </div>
+
+    <div class="flex justify-between mt-5">
+      <button (click)="goToPreviousStep()">
+        <i class="pi pi-arrow-left text-[#0F132499]/60"></i>
+      </button>
+
+      <div class="flex items-center gap-4">
+        <button
+          class="px-4 py-3 bg-[#9241DC] text-white rounded-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed w-[108px] h-[48px]"
+          [disabled]="!userQuestion.trim()"
+          (click)="continueToNextStep()"
+        >
+          Continue
+        </button>
+
+        <button
+          class="flex gap-2 items-start text-[#0F132499]/60 cursor-default"
+        >
+          <img
+            src="images/new/tail-icon.svg"
+            alt="forward icon"
+            class="w-5 h-5"
+          />
+          Press Enter
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

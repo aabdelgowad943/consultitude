@@ -10,8 +10,8 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { IndexComponent } from './pages/index/index.component';
 import { AlreadySubscribedComponent } from './pages/already-subscribed/already-subscribed.component';
 import { FaqsComponent } from './pages/faqs/faqs.component';
-import { PageNotFoundComponent } from '../../../shared/pages/page-not-found/page-not-found.component';
-import { WaitingListComponent } from './pages/waiting-list/waiting-list.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { NewLandingPageComponent } from './pages/new-landing-page/new-landing-page.component';
 
 const routes: Routes = [
   {
@@ -22,62 +22,49 @@ const routes: Routes = [
       //   path: 'home',
       //   component: HomeComponent,
       // },
-
-      {
-        path: 'waiting-list',
-        component: WaitingListComponent,
-      },
-
       {
         path: '',
-        redirectTo: 'waiting-list',
+        redirectTo: 'index',
         pathMatch: 'full',
-      },
-
-      {
-        path: 'successfully_subscribed',
-        component: SuccessfullySubscribedComponent,
-      },
-
-      {
-        path: 'subscribed',
-        component: AlreadySubscribedComponent,
-      },
-
-      {
-        path: '**',
-        component: PageNotFoundComponent,
       },
     ],
   },
-  // {
-  //   path: 'successfully_subscribed',
-  //   component: SuccessfullySubscribedComponent,
-  // },
-  // {
-  //   path: 'terms-and-conditions',
-  //   component: TermsAndConditionComponent,
-  // },
-  // {
-  //   path: 'privacy-and-policy',
-  //   component: PrivacyAndPolicyComponent,
-  // },
-  // {
-  //   path: 'cookie-policy',
-  //   component: CookiesPolicyComponent,
-  // },
-  // {
-  //   path: 'contact-us',
-  //   component: ContactUsComponent,
-  // },
-  // {
-  //   path: 'faqs',
-  //   component: FaqsComponent,
-  // },
-  // {
-  //   path: 'index',
-  //   component: IndexComponent,
-  // },
+  {
+    path: 'successfully_subscribed',
+    component: SuccessfullySubscribedComponent,
+  },
+  {
+    path: 'terms-and-conditions',
+    component: TermsAndConditionComponent,
+  },
+  {
+    path: 'privacy-and-policy',
+    component: PrivacyAndPolicyComponent,
+  },
+  {
+    path: 'cookie-policy',
+    component: CookiesPolicyComponent,
+  },
+  {
+    path: 'contact-us',
+    component: ContactUsComponent,
+  },
+  {
+    path: 'faqs',
+    component: FaqsComponent,
+  },
+  {
+    path: 'index',
+    component: NewLandingPageComponent,
+  },
+  {
+    path: 'subscribed',
+    component: AlreadySubscribedComponent,
+  },
+  {
+    path: 'about-us',
+    component: AboutUsComponent,
+  },
 ];
 
 @NgModule({

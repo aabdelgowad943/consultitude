@@ -1,0 +1,127 @@
+<!--  skeleton loader -->
+<div class="bg-[#F9FAFB] mx-auto py-[64px] px-4 md:ps-10 lg:ps-20">
+  <div class="max-w-[1920px] mx-auto">
+    <!-- Header Section Skeleton -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-12 md:gap-10 items-start justify-between"
+    >
+      <!-- Left side skeleton -->
+      <div
+        class="col-span-12 md:pr-2 2xl:pr-6 border-r border-[#e0e2e6] md:col-span-4 w-full"
+      >
+        <div>
+          <!-- Back button skeleton -->
+          <div class="flex items-center gap-2 mb-[32px]">
+            <div class="w-5 h-5 bg-gray-200 animate-pulse rounded"></div>
+            <div class="w-32 h-4 bg-gray-200 animate-pulse rounded"></div>
+          </div>
+
+          <div class="grid md:grid-cols-1 gap-8">
+            <div>
+              <!-- Title and description skeleton -->
+              <div
+                class="flex flex-col md:flex-row border-b pb-4 justify-between items-start md:items-center gap-6"
+              >
+                <div class="flex-1">
+                  <div
+                    class="w-4/5 h-8 bg-gray-200 animate-pulse rounded mb-4"
+                  ></div>
+                  <div
+                    class="w-full h-4 bg-gray-200 animate-pulse rounded mb-2"
+                  ></div>
+                  <div
+                    class="w-3/4 h-4 bg-gray-200 animate-pulse rounded"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Features skeleton -->
+              <div class="space-y-3 mt-4 md:mt-[33px]">
+                <div
+                  class="flex items-center gap-3"
+                  *ngFor="let i of [1, 2, 3]"
+                >
+                  <div
+                    class="w-5 h-5 bg-gray-200 animate-pulse rounded-full"
+                  ></div>
+                  <div
+                    class="w-3/4 h-4 bg-gray-200 animate-pulse rounded"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Buttons Section skeleton -->
+              <div class="flex w-full items-center mt-5 justify-center gap-4">
+                <div
+                  class="w-32 h-10 bg-gray-200 animate-pulse rounded-md"
+                ></div>
+                <div
+                  class="w-32 h-10 bg-gray-200 animate-pulse rounded-md"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Document Details skeleton -->
+            <div>
+              <div
+                *ngFor="let i of [1, 2, 3, 4]"
+                class="flex justify-between border-b p-2 items-center"
+              >
+                <div class="w-24 h-4 bg-gray-200 animate-pulse rounded"></div>
+                <div class="w-32 h-4 bg-gray-200 animate-pulse rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side skeleton -->
+      <div class="col-span-12 md:col-span-8 mt-10 md:mt-0">
+        <!-- Main image skeleton -->
+        <div
+          class="bg-gray-200 animate-pulse relative rounded-lg md:max-w-[756px] h-[200px] md:h-[395px]"
+        >
+          <!-- Logo skeleton -->
+          <div
+            class="absolute left-5 top-5 w-16 h-16 bg-gray-300 animate-pulse rounded"
+          ></div>
+
+          <!-- Text overlay skeleton -->
+          <div class="absolute bottom-10 left-5 right-5">
+            <div class="w-3/5 h-6 bg-gray-300 animate-pulse rounded mb-2"></div>
+            <div class="w-4/5 h-4 bg-gray-300 animate-pulse rounded"></div>
+          </div>
+        </div>
+
+        <!-- Carousel Section skeleton -->
+        <div class="mt-6 flex space-x-2 overflow-hidden">
+          <div
+            *ngFor="let i of [1, 2, 3, 4, 5]"
+            class="w-1/5 h-[97px] bg-gray-200 animate-pulse rounded-md"
+          ></div>
+        </div>
+
+        <!-- Overview section skeleton -->
+        <div class="pt-10">
+          <div class="w-48 h-6 bg-gray-200 animate-pulse rounded mb-4"></div>
+          <div class="w-full h-4 bg-gray-200 animate-pulse rounded mb-2"></div>
+          <div class="w-full h-4 bg-gray-200 animate-pulse rounded mb-2"></div>
+          <div class="w-3/4 h-4 bg-gray-200 animate-pulse rounded mb-5"></div>
+
+          <!-- Tags Section skeleton -->
+          <div class="w-24 h-6 bg-gray-200 animate-pulse rounded mb-6"></div>
+
+          <div *ngFor="let i of [1, 2]" class="mb-4">
+            <div class="w-32 h-5 bg-gray-200 animate-pulse rounded mb-2"></div>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <div
+                *ngFor="let j of [1, 2, 3, 4]"
+                class="px-3 py-1 w-20 h-7 bg-gray-200 animate-pulse rounded-full"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

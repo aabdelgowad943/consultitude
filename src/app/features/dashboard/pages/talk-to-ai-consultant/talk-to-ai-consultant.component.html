@@ -1,0 +1,43 @@
+<div class="h-full ipad:h-screen">
+  <div
+    class="w-full max-w-[1920px] h-full ipad:h-screen overflow-y-auto mx-auto"
+  >
+    <div
+      class="w-full h-screen p-6 ipad:p-6 thousand:p-6 big:p-6 flex justify-center items-center"
+    >
+      <div class="bg-white rounded-lg w-full">
+        <!-- Initial chat component (Step 1) -->
+        <div *ngIf="currentStep === 1 && !showChatInterface">
+          <app-chat-with-consultant
+            [selectedFile]="selectedFile"
+            [isUploading]="isUploading"
+            [isDragging]="isDragging"
+            [uploadProgress]="uploadProgress"
+            [errorMessage]="errorMessage"
+            (fileSelected)="onFileSelected($event)"
+            (uploadComplete)="onFileUploadComplete($event)"
+            (uploadError)="onFileUploadError($event)"
+            (continue)="continueToNextStep()"
+            (messageSent)="onMessageSent($event)"
+          ></app-chat-with-consultant>
+        </div>
+
+        <!-- Chat started interface (appears when message is sent) -->
+        <div *ngIf="showChatInterface" class="max-h-[500px] overflow-y-auto">
+          <!-- [errorMessage]="errorMessage" -->
+          <app-chat-to-con-started
+            [messages]="messages"
+            [selectedFile]="selectedFile"
+            [isUploading]="isUploading"
+            [uploadProgress]="uploadProgress"
+            (sendMessage)="onMessageSent($event)"
+            (fileSelected)="onFileSelected($event)"
+            (uploadComplete)="onFileUploadComplete($event)"
+            (uploadError)="onFileUploadError($event)"
+            (exitChat)="exitChat()"
+          ></app-chat-to-con-started>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

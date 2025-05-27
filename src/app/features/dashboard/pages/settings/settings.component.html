@@ -1,213 +1,193 @@
-<div class="bg-white py-6 max-w-[1600px]">
-  <div class="mx-auto w-full max-w-2xl">
-    <!-- Header -->
-    <h1 class="mb-2 text-2xl font-semibold text-[#14151A]">Settings</h1>
-    <p class="mb-6 text-[#0F132499]/60 font-[400] text-[16px]">
-      Manage and update your Consultitude account info.
-    </p>
-  </div>
+<div class="bg-white pb-10 max-w-[1920px] pt-24 ipad:pt-32 px-4">
+  <app-settings-loader *ngIf="isLoading"></app-settings-loader>
 
-  <!-- Container / Form -->
-  <form
-    class="mx-auto w-full max-w-2xl rounded-xl border border-[#E9EAEC] bg-white p-8 shadow"
-    [formGroup]="settingsForm"
-    (ngSubmit)="onSubmit()"
-  >
-    <!-- Error / Success Alerts -->
-    <div
-      *ngIf="errorMessage"
-      class="mb-4 rounded-md bg-red-100 p-3 text-red-700"
-    >
-      {{ errorMessage }}
-    </div>
-    <div
-      *ngIf="successMessage"
-      class="mb-4 rounded-md bg-green-100 p-3 text-green-700"
-    >
-      {{ successMessage }}
-    </div>
-
-    <!-- General Section -->
-    <section class="mb-6">
-      <h2 class="mb-2 text-2xl font-semibold text-[#14151A]">General</h2>
+  <!-- Actual Content - Only show when not loading -->
+  <div *ngIf="!isLoading">
+    <div class="mx-auto w-full max-w-2xl">
+      <!-- Header -->
+      <h1
+        class="mb-2 text-2xl ipad:font-[500] bigger:font-[500] text-[#14151A]"
+      >
+        Settings
+      </h1>
       <p class="mb-6 text-[#0F132499]/60 font-[400] text-[16px]">
-        Update your account settings.
+        Manage and update your Consultitude account info.
       </p>
+    </div>
 
-      <!-- Email -->
-      <div class="mb-6">
-        <label
-          class="mb-2 block text-[14px] font-[500] text-[#14151A]"
-          for="email"
-          >Email</label
+    <!-- Container / Form -->
+    <form
+      class="mx-auto w-full max-w-2xl rounded-xl border border-[#E9EAEC] bg-white p-8 shadow"
+      [formGroup]="settingsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <!-- General Section -->
+      <section class="mb-6">
+        <h2
+          class="mb-2 text-2xl ipad:font-[500] bigger:font-[500] text-[#14151A]"
         >
-        <input
-          id="email"
-          type="email"
-          formControlName="email"
-          [value]="userEmail"
-          placeholder="amamdouh@mail.com"
-          class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-        <!-- Email validation errors -->
-        <div
-          class="mt-1 text-xs text-red-500"
-          *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-        >
-          <div *ngIf="email?.errors?.['required']">Email is required.</div>
-          <div *ngIf="email?.errors?.['email']">
-            Please enter a valid email address.
-          </div>
-        </div>
-        <p class="mt-2 text-sm text-[#0D112666]/40">
-          To change your email, please
-          <a href="/contact-us" class="text-indigo-500 underline">contact us</a>
+          General
+        </h2>
+        <p class="mb-6 text-[#0F132499]/60 font-[400] text-[16px]">
+          Update your account settings.
         </p>
-      </div>
-    </section>
 
-    <!-- Password Section -->
-    <section class="mb-6">
-      <h2 class="mb-2 text-[24px] font-[600] text-[#14151A]">Password</h2>
-      <p class="mb-4 text-sm font-[400] text-[#0F132499]">
-        Update your password to ensure your account remains private and secure.
-      </p>
+        <!-- Email -->
+        <div class="mb-6">
+          <label
+            class="mb-2 block text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#14151A]"
+            for="email"
+            >Email</label
+          >
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            [value]="userEmail"
+            placeholder="amamdouh@mail.com"
+            class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          />
+          <!-- Email validation errors - Only show when form is submitted -->
+          <div
+            class="mt-1 text-xs font-sans text-red-500"
+            *ngIf="formSubmitted && email?.invalid"
+          >
+            <div *ngIf="email?.errors?.['required']">Email is required.</div>
+            <div *ngIf="email?.errors?.['email']">
+              Please enter a valid email address.
+            </div>
+          </div>
+          <p class="mt-2 text-sm text-[#0D112666]/40">
+            To change your email, please
+            <a href="/contact-us" class="text-[#bb92dc] underline"
+              >contact us</a
+            >
+          </p>
+        </div>
+      </section>
 
-      <!-- Old Password -->
-      <div class="mb-6">
-        <label
-          class="mb-2 block text-[14px] font-[500] text-[#14151A]"
-          for="oldPassword"
-          >Old Password</label
-        >
-        <input
-          id="oldPassword"
-          type="password"
-          formControlName="oldPassword"
-          placeholder="Enter your old password"
-          class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-        <div
-          class="mt-1 text-xs text-red-500"
-          *ngIf="
-            oldPassword?.invalid && (oldPassword?.dirty || oldPassword?.touched)
-          "
-        >
-          <div *ngIf="oldPassword?.errors?.['required']">
-            Old Password is required.
+      <!-- Password Section -->
+      <section class="mb-6">
+        <h2 class="mb-2 text-[24px] font-[600] text-[#14151A]">Password</h2>
+        <p class="mb-4 text-sm font-[400] text-[#0F132499]">
+          Update your password to ensure your account remains private and
+          secure.
+        </p>
+
+        <!-- Old Password -->
+        <div class="mb-6">
+          <label
+            class="mb-2 block text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#14151A]"
+            for="oldPassword"
+            >Old Password</label
+          >
+          <input
+            id="oldPassword"
+            type="password"
+            formControlName="oldPassword"
+            placeholder="Enter your old password"
+            class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          />
+          <div
+            class="mt-1 font-sans text-xs text-red-500"
+            *ngIf="formSubmitted && oldPassword?.invalid"
+          >
+            <div *ngIf="oldPassword?.errors?.['required']">
+              Old Password is required.
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- New Password -->
-      <div class="mb-6">
-        <label
-          class="mb-2 block text-[14px] font-[500] text-[#14151A]"
-          for="newPassword"
-          >New Password</label
-        >
-        <input
-          id="newPassword"
-          type="password"
-          formControlName="newPassword"
-          placeholder="Enter your new password"
-          class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-        <div
-          class="mt-1 text-xs text-red-500"
-          *ngIf="
-            newPassword?.invalid && (newPassword?.dirty || newPassword?.touched)
-          "
-        >
-          <div *ngIf="newPassword?.errors?.['required']">
-            New Password is required.
-          </div>
-          <div *ngIf="newPassword?.errors?.['minlength']">
-            Password must be at least
-            {{ newPassword?.errors?.['minlength'].requiredLength }} characters.
-          </div>
-        </div>
-      </div>
-
-      <!-- Repeat New Password -->
-      <div class="mb-6">
-        <label
-          class="mb-2 block text-[14px] font-[500] text-[#14151A]"
-          for="repeatNewPassword"
-          >Repeat New Password</label
-        >
-        <input
-          id="repeatNewPassword"
-          type="password"
-          formControlName="repeatNewPassword"
-          placeholder="Repeat your new password"
-          class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-        <div
-          class="mt-1 text-xs text-red-500"
-          *ngIf="
-            repeatNewPassword?.invalid &&
-            (repeatNewPassword?.dirty || repeatNewPassword?.touched)
-          "
-        >
-          <div *ngIf="repeatNewPassword?.errors?.['required']">
-            Please confirm your new password.
-          </div>
-          <div *ngIf="repeatNewPassword?.errors?.['passwordMismatch']">
-            Passwords do not match.
+        <!-- New Password -->
+        <div class="mb-6">
+          <label
+            class="mb-2 block text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#14151A]"
+            for="newPassword"
+            >New Password</label
+          >
+          <input
+            id="newPassword"
+            type="password"
+            formControlName="newPassword"
+            placeholder="Enter your new password"
+            class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          />
+          <div
+            class="mt-1 text-xs font-sans text-red-500"
+            *ngIf="formSubmitted && newPassword?.invalid"
+          >
+            <div *ngIf="newPassword?.errors?.['required']">
+              New Password is required.
+            </div>
+            <div *ngIf="newPassword?.errors?.['minlength']">
+              Password must be at least
+              {{ newPassword?.errors?.['minlength'].requiredLength }}
+              characters.
+            </div>
           </div>
         </div>
+
+        <!-- Repeat New Password -->
+        <div class="mb-6">
+          <label
+            class="mb-2 block text-[14px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#14151A]"
+            for="repeatNewPassword"
+            >Repeat New Password</label
+          >
+          <input
+            id="repeatNewPassword"
+            type="password"
+            formControlName="repeatNewPassword"
+            placeholder="Repeat your new password"
+            class="block w-full h-10 rounded-xl border border-[#DEE0E3] text-sm text-[#14151A] shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          />
+          <div
+            class="mt-1 text-xs font-sans text-red-500"
+            *ngIf="formSubmitted && repeatNewPassword?.invalid"
+          >
+            <div *ngIf="repeatNewPassword?.errors?.['required']">
+              Please confirm your new password.
+            </div>
+            <div *ngIf="repeatNewPassword?.errors?.['passwordMismatch']">
+              Passwords do not match.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-end mb-5">
+        <button
+          type="button"
+          class="mr-3 rounded-lg border border-gray-300 bg-white px-[32px] py-2.5 text-gray-700 hover:bg-gray-50"
+          [disabled]="isSubmitting"
+          (click)="resetForm()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="rounded-lg border border-transparent bg-[#9241DC] px-[32px] py-2.5 text-white hover:bg-[#9141dce1] disabled:opacity-50"
+          [disabled]="isSubmitting"
+        >
+          <!-- Show a spinner or text when submitting -->
+          <span *ngIf="!isSubmitting">Save</span>
+          <span *ngIf="isSubmitting">Saving...</span>
+        </button>
       </div>
-    </section>
-
-    <!-- Action Buttons -->
-    <div class="flex justify-end">
-      <button
-        type="button"
-        class="mr-3 rounded-lg border border-gray-300 bg-white px-[32px] py-2.5 text-gray-700 hover:bg-gray-50"
-        [disabled]="isSubmitting"
+      <!-- Error / Success Alerts -->
+      <div
+        *ngIf="errorMessage"
+        class="my-4 rounded-md bg-red-100 p-3 text-red-700"
       >
-        Cancel
-      </button>
-      <button
-        type="submit"
-        class="rounded-lg border border-transparent bg-[#9241DC] px-[32px] py-2.5 text-white hover:bg-[#9141dce1] disabled:opacity-50"
-        [disabled]="isSubmitting || settingsForm.invalid"
+        {{ errorMessage }}
+      </div>
+      <div
+        *ngIf="successMessage"
+        class="mb-4 rounded-md bg-green-100 p-3 text-green-700"
       >
-        <!-- Show a spinner or text when submitting -->
-        <span *ngIf="!isSubmitting">Save</span>
-        <span *ngIf="isSubmitting">Saving...</span>
-      </button>
-    </div>
-  </form>
-</div>
-
-<div
-  *ngIf="showLogoutPopup"
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
->
-  <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
-    <h2 class="mb-4 text-xl font-semibold text-[#14151A]">
-      Password Changed Successfully!
-    </h2>
-    <p class="mb-6 text-sm text-[#0F132499]">
-      For security reasons, please log out and log in again.
-    </p>
-    <div class="flex justify-end">
-      <!-- <button
-        type="button"
-        class="mr-3 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 hover:bg-gray-50"
-        (click)="closePopup()"
-      >
-        Dismiss
-      </button> -->
-      <button
-        type="button"
-        class="rounded-lg border border-transparent bg-[#9241DC] px-4 py-2 text-white hover:bg-[#9141dce1]"
-        (click)="onLogout()"
-      >
-        Logout
-      </button>
-    </div>
+        {{ successMessage }}
+      </div>
+    </form>
   </div>
 </div>

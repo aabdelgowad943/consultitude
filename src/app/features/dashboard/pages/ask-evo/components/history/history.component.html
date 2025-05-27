@@ -1,0 +1,21 @@
+<div class="empty-state-container border border-[#F2F4F7] rounded-[16px]">
+  <div class="empty-state-content">
+    <div class="icon-container">
+      <svg
+        [attr.width]="iconSize"
+        [attr.height]="iconSize"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 28.0448 5.14814 31.8128 7.15477 35.0061C7.39623 35.4615 7.43342 36.0133 7.24502 36.5007L4.58299 43.297C4.32309 43.9447 4.91392 44.6266 5.57539 44.4388L13.7908 42.1126C14.1171 42.0133 14.4649 42.0342 14.7779 42.1669C17.6266 43.3344 20.7283 44 24 44Z"
+          fill="#6B7280"
+        />
+      </svg>
+    </div>
+    <h3 class="title">{{ title }}</h3>
+    <p class="message">{{ message }}</p>
+  </div>
+  <div *ngIf="showDivider" class="divider"></div>
+</div>

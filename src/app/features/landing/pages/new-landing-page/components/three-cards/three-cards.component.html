@@ -1,0 +1,58 @@
+<div class="w-full max-w-[1920px] mx-auto relative z-30">
+  <div
+    class="px-5 big:px-20 grid grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 md:gap-5 gap-10 items-center"
+  >
+    <div
+      *ngFor="let card of cards"
+      class="relative overflow-hidden w-full p-[40px] border big:h-[480px] h-[360px] text-white border-[#FFFFFF] rounded-[24px] shadowww bg-gradient-to-tr from-[#472F8C66] to-[#070322]"
+    >
+      <a>
+        <h5 class="mb-6 text-[28px] ipad:text-[28px] font-sans tracking-tight">
+          {{ card.title }}
+        </h5>
+      </a>
+      <p class="mb-3 md:w-full text-[18px] w-[250px] text-[#E9D8FC] font-sans">
+        {{ card.description }}
+      </p>
+
+      <img src="{{ card.backgroundImage }}" class="{{ card.class }}" />
+
+      <!-- animation shadow -->
+      <div class="glow"></div>
+      <div class="particles">
+        <div class="rotate">
+          <div class="angle">
+            <div class="size">
+              <div class="position">
+                <div class="pulse">
+                  <div class="particle"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="angle">
+            <div class="size">
+              <div class="position">
+                <div class="pulse">
+                  <div class="particle"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="angle">
+            <div class="size">
+              <div class="position">
+                <div class="pulse">
+                  <div class="particle"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- animation shadow -->
+    </div>
+  </div>
+</div>

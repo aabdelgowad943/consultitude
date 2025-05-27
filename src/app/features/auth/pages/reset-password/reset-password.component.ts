@@ -3,11 +3,12 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../../../shared/navbar/navbar.component';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-reset-password',
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterModule],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss',
 })
@@ -52,9 +53,13 @@ export class ResetPasswordComponent {
         this.showPopup = true;
         this.isSubmitting = false;
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         this.isSubmitting = false;
-        this.errorMessage = 'Failed to send reset email. Please try again.';
+        // console.log('e', err.error);
+        // console.log('ee', err.error.errors);
+        // console.log('eee', );
+
+        this.errorMessage = err.error.errors[0].message;
       },
     });
   }
@@ -66,7 +71,8 @@ export class ResetPasswordComponent {
 
   closePopup() {
     this.showPopup = false;
-    // this.router.navigate(['/auth/reset-password'], {
+    this.router.navigate(['/auth/login']);
+    // , {
     //   queryParams: { otp: 123, email: this.email },
     // });
   }

@@ -4,115 +4,172 @@
   (onHide)="closeDialog()"
   [modal]="true"
   [closable]="false"
-  styleClass="md:w-[480px] w-[380px]"
+  styleClass="md:w-[480px] xss:w-[380px] xs:w-[340px] bg-white text-black"
   header="Edit the Identification"
 >
-  <div>
-    <!-- First Name -->
+  <div class="text-black">
+    <form [formGroup]="identificationForm">
+      <!-- First Name and Last Name -->
+      <div class="w-full flex items-start gap-4">
+        <div class="mb-6">
+          <label
+            class="block text-[16px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2.5 text-[#14151A]"
+          >
+            First Name <span class="text-red-600">*</span>
+          </label>
+          <input
+            type="text"
+            formControlName="firstName"
+            placeholder="Ex: John"
+            class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-[#14151A] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] rounded-xl px-3 py-2.5 mt-1"
+          />
+          <div
+            *ngIf="
+              formSubmitted && identificationForm.get('firstName')?.invalid
+            "
+            class="text-red-500 text-xs mt-1"
+          >
+            First name is required
+          </div>
+        </div>
 
-    <div class="w-full flex items-center gap-4">
+        <!-- Last Name -->
+        <div class="mb-6">
+          <label
+            class="block text-[16px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2.5 text-[#14151A]"
+          >
+            Last Name <span class="text-red-600">*</span>
+          </label>
+          <input
+            type="text"
+            formControlName="lastName"
+            placeholder="Ex: Doe"
+            class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-[#14151A] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] rounded-xl px-3 py-2.5 mt-1"
+          />
+          <div
+            *ngIf="formSubmitted && identificationForm.get('lastName')?.invalid"
+            class="text-red-500 text-xs mt-1"
+          >
+            Last name is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Job Title -->
       <div class="mb-6">
-        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
-          First Name
+        <label
+          class="block text-[16px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2.5 text-[#14151A]"
+        >
+          Job Title <span class="text-red-600">*</span>
         </label>
         <input
           type="text"
-          [(ngModel)]="firstName"
-          placeholder="Ex: John"
-          class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
+          formControlName="title"
+          placeholder="Dev"
+          class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-[#14151A] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] rounded-xl px-3 py-2.5 mt-1"
         />
+        <div
+          *ngIf="formSubmitted && identificationForm.get('title')?.invalid"
+          class="text-red-500 text-xs mt-1"
+        >
+          Job title is required
+        </div>
       </div>
 
-      <!-- Last Name -->
+      <!-- Company Name -->
       <div class="mb-6">
-        <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
-          Last Name
+        <label
+          class="block text-[16px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2.5 text-[#14151A]"
+        >
+          Company Name <span class="text-red-600">*</span>
         </label>
         <input
+          formControlName="country"
           type="text"
-          [(ngModel)]="lastName"
-          placeholder="Ex: Doe"
-          class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
+          placeholder="Ex: London"
+          class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-[#14151A] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] rounded-xl px-3 py-2.5 mt-1"
         />
+        <div
+          *ngIf="formSubmitted && identificationForm.get('country')?.invalid"
+          class="text-red-500 text-xs mt-1"
+        >
+          Company name is required
+        </div>
       </div>
-    </div>
 
-    <!-- Job Title -->
-    <div class="mb-6">
-      <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
-        Job Title
-      </label>
-      <input
-        type="text"
-        [(ngModel)]="title"
-        placeholder="Dev"
-        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
-      />
-    </div>
+      <div class="flex-1 mb-4">
+        <label
+          class="block text-[16px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2 text-[#14151A]"
+        >
+          Nationality <span class="text-red-600">*</span>
+        </label>
+        <select
+          formControlName="nationality"
+          class="w-full mt-2 p-2.5 rounded-xl border border-[#DEE0E3] text-[#14151A]"
+        >
+          <option value="" disabled>Select nationality</option>
+          <option
+            class="bg-white text-[#14151A]"
+            *ngFor="let document of nationalities"
+            [value]="document.value"
+          >
+            {{ document.label }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            formSubmitted && identificationForm.get('nationality')?.invalid
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          Nationality is required
+        </div>
+      </div>
 
-    <!-- Company Name -->
-    <div class="mb-6">
-      <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
-        Company Name
-      </label>
-      <input
-        [(ngModel)]="country"
-        type="text"
-        placeholder="Ex: London"
-        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl px-3 py-2.5 mt-1"
-      />
-    </div>
-    <!-- [(ngModel)]="companyName" -->
+      <!-- Top Skills -->
+      <div class="mb-3">
+        <label
+          class="block text-[16px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] mb-2.5 text-[#14151A]"
+        >
+          Skills <span class="text-red-600">*</span>
+        </label>
+        <p-multiSelect
+          [options]="skills"
+          formControlName="selectedSkills"
+          optionLabel="label"
+          optionValue="value"
+          appendTo="body"
+          placeholder="Choose Top Skills"
+          removeIcon="pi pi-times text-xs mt-1"
+          styleClass="border border-[#EAECF0] bg-white flex items-center rounded-xl font-body text-[16px] py-[4px] px-2.5 custom-multiselect"
+        ></p-multiSelect>
+        <div
+          *ngIf="
+            formSubmitted && identificationForm.get('selectedSkills')?.invalid
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          At least one skill is required
+        </div>
+      </div>
 
-    <!-- Nationality -->
-    <div class="mb-6">
-      <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
-        Nationality
-      </label>
-      <p-dropdown
-        [(ngModel)]="nationality"
-        [options]="nationalities"
-        optionLabel="label"
-        optionValue="value"
-        placeholder="Select a nationality"
-        appendTo="body"
-        [panelStyle]="{ width: '100%' }"
-        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl mt-1"
-      ></p-dropdown>
-    </div>
-
-    <!-- Top Skills -->
-    <div class="mb-3">
-      <label class="block text-[14px] font-[500] mb-2.5 text-[#14151A]">
-        Skills
-      </label>
-      <p-multiSelect
-        [options]="skills"
-        [(ngModel)]="selectedSkills"
-        optionLabel="label"
-        optionValue="value"
-        appendTo="body"
-        placeholder="Choose Top Skills"
-        class="w-full border border-[#DEE0E3] placeholder:text-[#0D112666]/40 text-black font-bold rounded-xl py-[2px] mt-1"
-      ></p-multiSelect>
-    </div>
-
-    <!-- Render selected skills as chips -->
-    <div
-      *ngIf="selectedSkills.length > 0"
-      class="w-full flex flex-wrap items-center gap-3"
-    >
-      <p-chip
-        *ngFor="let skill of selectedSkills"
-        [label]="skill"
-        [removable]="true"
-        removeIcon="pi pi-times"
-        styleClass="border border-[#EAECF0] bg-white rounded-full font-body
-                  text-[#0F132499]/60 text-[14px] py-[4px] px-2.5
-                  justify-between items-center"
-        (onRemove)="handleRemoveSkill(skill)"
-      ></p-chip>
-    </div>
+      <!-- Render selected skills as chips -->
+      <div
+        *ngIf="identificationForm.get('selectedSkills')?.value?.length > 0"
+        class="w-full flex flex-wrap items-center gap-3"
+      >
+        <p-chip
+          *ngFor="let skill of identificationForm.get('selectedSkills')?.value"
+          [label]="skill"
+          [removable]="true"
+          removeIcon="pi pi-times"
+          styleClass="border border-[#EAECF0] bg-white rounded-full font-body
+                    text-[#0F132499]/60 text-[16px] py-[4px] px-2.5
+                    justify-between items-center"
+          (onRemove)="handleRemoveSkill(skill)"
+        ></p-chip>
+      </div>
+    </form>
 
     <!-- Buttons -->
     <div class="flex justify-end space-x-2 mt-6">

@@ -10,28 +10,57 @@ import { Component } from '@angular/core';
 export class FaqsComponent {
   faqData = [
     {
-      question: 'Why should I use Consultitude templates?',
-      answer: `You can purchase them directly through our website on the Templates & Playbooks page.`,
+      question: 'What is Consultitude?',
+      answer: `Consultitude is an AI-powered platform built for the consulting world. It helps consultants, consulting firms, and clients create, validate, and enhance consulting-grade work — faster, more affordably, and with high-quality standards you can trust.
+`,
     },
     {
-      question: 'Where can I purchase Consultitude templates and playbooks?',
-      answer: `You can purchase them directly through our website on the Templates & Playbooks page.`,
+      question:
+        ' How is Consultitude different from ChatGPT or other AI tools?',
+      answer: `Consultitude goes beyond general AI content creation. It delivers consulting-grade outputs through structured thinking, domain-specific expertise, and professional polish. Whether you re brainstorming strategies, validating reports, or building executive-ready deliverables, Consultitude is designed for depth, quality, and real-world consulting use cases — not just generic answers.`,
     },
     {
-      question: 'What updates are included with Consultitude templates?',
-      answer: `The main difference is that the core components from Consultitude are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Consultitude relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
+      question: 'Who can use Consultitude?',
+      answer: `
+      <p>Consultitude if build for:</p>
+    <ul class="list-disc pl-5 space-y-1 mt-2">
+    <li>Independent consultants aiming to deliver faster, higher-quality work.</li>
+    <li>Consulting firms looking to scale their services while maintaining quality.</li>
+    <li>Clients seeking faster access to consulting insights and validation at a reasonable cost.</li>
+    <li>If you work in or with consulting, Consultitude is designed for you.</li>
+</ul>
+
+      `,
     },
     {
-      question: 'How do I customize the templates for my brand?',
-      answer: `The main difference is that the core components from Consultitude are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Consultitude relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
+      question: 'Is the work really "consulting-grade"?',
+      answer: `Yes. Consultitude combines domain-specific AI expertise, structured multi-perspective feedback, and quality moderation. Every output is designed to meet the high standards of professional consulting — clear logic, sharp thinking, and executive-level presentation.`,
     },
     {
-      question: 'Can I use Consultitude templates for commercial projects?',
-      answer: `The main difference is that the core components from Consultitude are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Consultitude relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.`,
+      question: 'What kind of work can I create or improve with Consultitude?',
+      answer: `
+      <p>Consultitude helps you:</p>
+
+    <ul class="list-disc pl-5 mt-2 space-y-1">
+      <li>Validate reports, decks, and strategic documents</li>
+      <li>Build structured slide presentations</li>
+      <li>Brainstorm and refine strategies and business ideas</li>
+      <li>Access consulting-grade templates and frameworks</li>
+      <li>Get multi-perspective feedback on proposals, business cases, and more</li>
+    </ul>
+  `,
     },
     {
-      question: 'How often are your templates updated?',
-      answer: `Consultitude supports modern browsers including Chrome, Firefox, Safari, and Edge. For older versions of Internet Explorer, limited support may apply depending on the components used.`,
+      question: 'Can I upload my own documents for support?',
+      answer: `Absolutely. Consultitude lets you upload your documents to get tailored feedback, enhancements, and consulting-grade outputs.Whether you're validating an idea, building a deck, or preparing a report, your uploads are fully integrated into the experience.`,
+    },
+    {
+      question: 'Is Consultitude a replacement for human consultants?',
+      answer: `Consultitude is a powerful extension of your consulting capabilities — not a complete replacement.It accelerates validation, enhances deliverables, and expands access to expert thinking. For highly complex or sensitive projects, human consultants may still be involved, but even they can use Consultitude to deliver faster, better results.`,
+    },
+    {
+      question: 'How much does Consultitude cost?',
+      answer: `Flexible pricing options will be available at launch, tailored for individual consultants, firms, and organizations.Our goal is to make consulting-grade support accessible at a fraction of traditional consulting costs.`,
     },
   ];
 

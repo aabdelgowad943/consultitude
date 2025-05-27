@@ -1,0 +1,287 @@
+/* إعداد عام للصور */
+.animate-scroll > * img,
+.animate-scroll2 > * img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* يضمن ظهور الصورة كاملة بدون قص */
+  object-position: center;
+}
+
+/* تعديل أحجام العناصر الأساسية */
+.animate-scroll > * {
+  flex: 0 0 auto; /* يمنع تغيير حجم العناصر */
+  width: 366.24px;
+  height: 206.01px;
+  margin: 0 10px; /* مسافة بين العناصر */
+}
+
+.animate-scroll2 > * {
+  flex: 0 0 auto;
+  width: 366.24px;
+  height: 206.01px;
+  margin: 0 10px;
+}
+
+/* تعديل عرض الحاوية بناء على عدد العناصر */
+.animate-scroll {
+  width: calc(3 * 366.24px + 20px); /* 3 عناصر + هوامش */
+  animation: scroll 20s linear infinite;
+}
+
+.animate-scroll2 {
+  width: calc(3 * 366.24px + 20px);
+  animation: scroll2 20s linear infinite;
+}
+
+/* الكيب فريمز المعدلة */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - 20px));
+  }
+}
+
+@keyframes scroll2 {
+  0% {
+    transform: translateX(calc(-100% - 20px));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* نسخة الموبايل */
+@media (max-width: 640px) {
+  .animate-scroll > *,
+  .animate-scroll2 > * {
+    width: 280px;
+    height: 157.5px; /* نفس النسبة 16:9 */
+  }
+
+  .animate-scroll,
+  .animate-scroll2 {
+    width: calc(2 * 280px + 10px); /* عنصرين في الموبايل */
+    animation-duration: 25s;
+  }
+
+  @keyframes scroll {
+    100% {
+      transform: translateX(calc(-100% - 10px));
+    }
+  }
+}
+
+/* إضافة ستايل جديد للصور */
+.full-size-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
+  display: block;
+}
+
+/* تعديل أبعاد الكارد */
+.card {
+  width: 366.24px !important;
+  height: 206.01px !important;
+  margin: 0 10px;
+  flex-shrink: 0;
+}
+
+/* إزالة القيود القديمة */
+.w-72,
+.sm\:w-96,
+.h-64,
+.sm\:h-96 {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* التأكد من تطبيق الأبعاد على الموبايل */
+@media (max-width: 640px) {
+  .card {
+    width: 280px !important;
+    height: 157.5px !important;
+  }
+}
+
+//
+
+// =------------------------------------------------------------------------
+
+.scroller {
+  max-width: 1600px;
+}
+
+.scroller__inner {
+  padding-block: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.scroller[data-animated="true"] {
+  overflow: hidden;
+}
+
+.scroller[data-animated="true"] .scroller__inner {
+  width: max-content;
+  flex-wrap: nowrap;
+  animation: scroll var(--_animation-duration, 40s)
+    var(--_animation-direction, forwards) linear infinite;
+}
+
+.scroller[data-direction="right"] {
+  --_animation-direction: reverse;
+}
+
+.scroller[data-direction="left"] {
+  --_animation-direction: forwards;
+}
+
+.scroller[data-speed="fast"] {
+  --_animation-duration: 20s;
+}
+
+.scroller[data-speed="slow"] {
+  --_animation-duration: 60s;
+}
+
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
+}
+
+// ------------------------------------------------------------------
+.tag-list {
+  margin: 0;
+  padding-inline: 0;
+  list-style: none;
+}
+
+.tag-list li {
+  padding: 1rem;
+  box-shadow: 0 0.5rem 1rem -0.25rem var(--clr-primary-900);
+}
+
+/* for testing purposed to ensure the animation lined up correctly */
+.test {
+  background: red !important;
+}
+
+/* Enhanced scrolling styles */
+.tag-list-container {
+  position: relative;
+  width: 100%;
+  padding: 0 12px;
+}
+
+.tag-list {
+  display: flex;
+  gap: 16px;
+  padding: 8px 4px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.tag-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrolling controls */
+.scroll-controls {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scroll-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.scroll-button:hover {
+  background-color: #f9fafb;
+  transform: scale(1.05);
+}
+
+.scroll-button:active {
+  transform: scale(0.95);
+}
+
+.scroll-left {
+  left: 0;
+  margin-left: -8px;
+}
+
+.scroll-right {
+  right: 0;
+  margin-right: -8px;
+}
+
+/* Enhanced card styles */
+.card {
+  min-width: 240px;
+  border-radius: 16px;
+  background-color: #f9fafb;
+  padding: 16px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Scroll progress indicator */
+.scroll-progress {
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.progress-dot {
+  width: 16px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #e5e7eb;
+}
+
+.progress-dot.active {
+  background-color: #6b7280;
+  width: 24px;
+}
+
+.active-tab {
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 1px solid #dee0e3;
+}

@@ -1,45 +1,45 @@
-<div class="w-full max-w-[1600px] mx-auto relative z-30">
+<div class="w-full max-w-[1920px] mx-auto relative z-30">
   <!-- title and subtitle -->
   <div class="text-3xl mb-10 md:w-full text-center text-white">
     <div class="w-full text-center flex justify-center items-center">
       <h1
-        class="mb-6 text-[40px] md:w-full font-semibold md:text-[52px] leading-tight"
+        class="mb-6 text-[40px] md:w-full ipad:font-[500] bigger:font-[500] big:text-[52px] leading-tight"
       >
         Consultitude <br class="block md:hidden" />
-        Templates for <br />
-        Every Consulting Need
+        AI for Every <br />
+        Consulting Need
       </h1>
     </div>
     <p
-      class="text-[16px] leading-6 font-sans px-2 text-[#E9D8FC] sm:px-16 xl:px-48"
+      class="text-sm ipad:text-[16px] leading-6 px-2 text-[#E9D8FC] sm:px-16 xl:px-48 font-sans"
     >
-      Explore pre-built templates and playbooks designed
-      <br class="md:hidden block" />
-      to save you <br class="hidden md:block" />
-      time and streamline your workflow.
+      From Consulting firms delivering strategy to clients evaluating it
+      <br />
+      Consultitude enhances every stage of the consulting cycle.
     </p>
   </div>
 
   <div
-    class="px-5 md:px-20 grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-10 items-center"
+    class="px-5 big:px-20 grid grid-cols-1 thousand:grid-cols-2 big:grid-cols-3 md:gap-5 gap-10 items-center"
   >
     <div
       *ngFor="let card of cards"
-      class="relative overflow-hidden w-full p-[40px] border md:h-[480px] h-[400px] text-white border-[#A25DDF66]/40 rounded-xl shadow bg-gradient-to-tr from-[#54148C] to-[#261536]"
+      class="relative overflow-hidden w-full p-[40px] border big:h-[480px] h-[360px] text-white border-[#A25DDF66]/40 rounded-xl shadow bg-gradient-to-tr from-[#54148C] to-[#261536]"
     >
       <a href="#">
-        <h5 class="mb-2 text-[28px] tracking-tight">
+        <h5 class="mb-6 text-[24px] ipad:text-[28px] tracking-tight">
           {{ card.title }}
         </h5>
       </a>
-      <p class="mb-3 font-sans md:w-full text-[18px] w-[250px] text-[#E9D8FC]">
+      <p class="mb-3 md:w-full text-[18px] w-[250px] text-[#C5B0D8] font-sans">
         {{ card.description }}
       </p>
       <a
-        href="{{ card.href }}"
-        class="inline-flex items-center px-1 py-2 text-sm font-sans text-center text-white rounded-lg"
+        href="https://consultitude.com/waiting-list"
+        target="_blank"
+        class="inline-flex items-center px-1 py-2 text-sm text-center text-white rounded-lg"
       >
-        Register Now
+        Join Waiting List
         <svg
           class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
           aria-hidden="true"

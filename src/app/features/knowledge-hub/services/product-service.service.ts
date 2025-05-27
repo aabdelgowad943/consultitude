@@ -140,4 +140,11 @@ export class ProductServiceService {
     //     )
     //   );
   }
+
+  getSimilarProductByProdId(productId: string): Observable<any[]> {
+    const headers = new HttpHeaders().set('Accept-Language', 'EN'); // Set Accept-Language header
+    return this.apiService.get<any[]>(`/products/similar/${productId}`, {
+      headers: headers,
+    });
+  }
 }

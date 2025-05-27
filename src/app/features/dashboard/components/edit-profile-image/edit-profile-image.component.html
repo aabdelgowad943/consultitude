@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <p-dialog
   [(visible)]="display"
   (onHide)="onCancel()"
@@ -20,6 +21,9 @@
       [roundCropper]="true"
       format="png"
       (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded()"
+      (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"
       style="max-width: 100%; height: auto; border-radius: 20px"
     ></image-cropper>
   </div>
@@ -27,52 +31,11 @@
   <div class="my-4">
     <input
       type="file"
-      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
       accept="image/*"
       (change)="onFileChange($event)"
     />
   </div>
-
-  <!-- <div class="w-full card my-4 flex justify-center">
-    <p-fileupload
-      mode="basic"
-      name="demo[]"
-      chooseIcon="pi pi-upload"
-      url="https://www.primefaces.org/cdn/api/upload.php"
-      accept="image/*"
-      maxFileSize="1000000"
-      chan
-      (onUpload)="onFileChange($event)"
-      [auto]="true"
-      chooseLabel="Browse"
-    />
-  </div> -->
-
-  <!-- Zoom Slider -->
-  <!-- <div class="my-4 flex items-center space-x-2">
-    <p-slider
-      [(ngModel)]="zoomValue"
-      [min]="0"
-      [max]="100"
-      (onChange)="onZoomChange()"
-      styleClass="width: 100%"
-    ></p-slider>
-  </div> -->
-
-  <!-- Preview (optional) -->
-  <!-- <div class="mb-4 flex justify-center">
-    <div
-      class="rounded-full overflow-hidden"
-      style="width: 120px; height: 120px; background: #f1f1f1"
-    >
-      <img
-        *ngIf="croppedImage"
-        [src]="croppedImage"
-        alt="Cropped Preview"
-        class="object-cover w-full h-full"
-      />
-    </div>
-  </div> -->
 
   <!-- Footer Buttons -->
   <div class="flex justify-end space-x-2 mt-6">
@@ -84,7 +47,8 @@
     ></button>
     <button
       pButton
-      label="Save"
+      [label]="loading ? 'Saving...' : 'Save'"
+      [disabled]="loading"
       class="bg-[#9241DC] border border-[#7F56D9] rounded-[8px] py-2.5 px-[24px] text-white font-[600] text-[16px]"
       (click)="onSave()"
     ></button>

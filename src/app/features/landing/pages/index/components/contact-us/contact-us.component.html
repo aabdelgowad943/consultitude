@@ -1,4 +1,4 @@
-<div class="md:px-20 max-w-[1600px] mx-auto px-5">
+<div class="big:px-20 max-w-[1920px] mx-auto px-5">
   <div
     class="w-full relative bg-gradient-to-l overflow-hidden from-[#9361c8] to-[#380D5E] rounded-[20px]"
   >
@@ -13,18 +13,18 @@
 
     <!-- grid container -->
     <div
-      class="grid grid-cols-1 md:grid-cols-2 gap-[3.5rem] items-center md:p-10 p-[16px]"
+      class="grid grid-cols-1 big:grid-cols-2 gap-[3.5rem] items-center md:p-10 p-[16px]"
     >
       <!--  left side -->
       <div class="w-full">
         <h2
-          class="text-[28px] md:text-[52px] md:leading-[62px] leading-[38px] text-white w-full font-semibold"
+          class="text-[28px] md:text-[52px] md:leading-[62px] leading-[38px] text-white w-full ipad:font-[500] big:font-[600]"
         >
           Can't find a document? <br />
           Tell us what to build <br class="block md:hidden" />
           next..
         </h2>
-        <p class="text-sm mt-5 font-sans text-[#E9D8FC]">
+        <p class="text-sm mt-5 text-[#E9D8FC]">
           We’re constantly adding new, comprehensive consulting
           <br class="md:block hidden" />
           templates and would love your input <br class="block md:hidden" />
@@ -39,22 +39,20 @@
         <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
           <!-- E-mail Field -->
           <div class="mb-4">
-            <label for="email" class="block text-sm font-sans text-white"
-              >E-mail</label
-            >
+            <label for="email" class="block text-sm text-white">E-mail</label>
             <input
               formControlName="email"
               type="email"
               id="email"
               placeholder="Enter your e-mail"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#b2b1b1] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             <div
               *ngIf="
                 requestForm.get('email')?.touched &&
                 requestForm.get('email')?.invalid
               "
-              class="text-red-500 text-sm"
+              class="text-red-500 font-sans text-sm"
             >
               <div *ngIf="requestForm.get('email')?.errors?.['required']">
                 Email is required.
@@ -67,7 +65,7 @@
 
           <!-- Document Name Field -->
           <div class="mb-4">
-            <label for="name" class="block text-sm font-sans text-white"
+            <label for="name" class="block text-sm text-white"
               >Document Name</label
             >
             <input
@@ -75,14 +73,14 @@
               type="text"
               id="name"
               placeholder="Write a name"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#b2b1b1] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             <div
               *ngIf="
                 requestForm.get('name')?.touched &&
                 requestForm.get('name')?.invalid
               "
-              class="text-red-500 text-sm"
+              class="text-red-500 font-sans text-sm"
             >
               Document name is required.
             </div>
@@ -90,16 +88,18 @@
 
           <!-- Document Type (Format) Field -->
           <div class="mb-4">
-            <label
-              for="documentFormatId"
-              class="block text-sm font-sans text-white"
+            <label for="documentFormatId" class="block text-sm text-white"
               >Document Type</label
             >
             <select
               formControlName="documentFormatId"
               id="documentFormatId"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#b2b1b1] focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
+              <option value="" disabled hidden selected>
+                Choose a document type
+              </option>
+
               <option
                 class="bg-[#221139e1] text-white"
                 *ngFor="let document of documentsList"
@@ -113,7 +113,7 @@
                 requestForm.get('documentFormatId')?.touched &&
                 requestForm.get('documentFormatId')?.invalid
               "
-              class="text-red-500 text-sm"
+              class="text-red-500 font-sans text-sm"
             >
               Document type is required.
             </div>
@@ -121,16 +121,18 @@
 
           <!-- Document Area of Focus Field -->
           <div class="mb-4">
-            <label
-              for="areaOfFocusId"
-              class="block text-sm font-sans text-white"
+            <label for="areaOfFocusId" class="block text-sm text-white"
               >Document Area of focus</label
             >
             <select
               formControlName="areaOfFocusId"
               id="areaOfFocusId"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#FFFFFF75] focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] border border-[#FFFFFF2E] rounded-xl bg-[#873DE64D] text-[#b2b1b1] focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
+              <option value="" disabled hidden selected>
+                Choose an area of focus
+              </option>
+
               <option
                 class="bg-[#221139e1] text-white"
                 *ngFor="let area of areaOfFocusList"
@@ -144,7 +146,7 @@
                 requestForm.get('areaOfFocusId')?.touched &&
                 requestForm.get('areaOfFocusId')?.invalid
               "
-              class="text-red-500 text-sm"
+              class="text-red-500 font-sans text-sm"
             >
               Document area of focus is required.
             </div>
@@ -152,7 +154,7 @@
 
           <!-- Description Field -->
           <div class="mb-4">
-            <label for="description" class="block text-sm font-sans text-white"
+            <label for="description" class="block text-sm text-white"
               >Describe the document content</label
             >
             <textarea
@@ -160,14 +162,14 @@
               id="description"
               placeholder="Describe the document content..."
               rows="4"
-              class="w-full mt-2 py-2.5 px-3 text-[14px] font-sans rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#FFFFFF75] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full mt-2 py-2.5 px-3 text-[14px] rounded-xl border border-[#FFFFFF2E] bg-[#873DE64D] text-[#b2b1b1] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             ></textarea>
             <div
               *ngIf="
                 requestForm.get('description')?.touched &&
                 requestForm.get('description')?.invalid
               "
-              class="text-red-500 text-sm"
+              class="text-red-500 font-sans text-sm"
             >
               Description is required.
             </div>
@@ -175,9 +177,7 @@
 
           <!-- Language Field (Radio Buttons) -->
           <div class="mb-4">
-            <label class="block text-sm mb-2 font-sans text-white"
-              >Language</label
-            >
+            <label class="block text-sm mb-2 text-white">Language</label>
             <div class="flex items-center gap-5">
               <label class="flex items-center">
                 <input
@@ -186,7 +186,7 @@
                   value="Arabic"
                   class="w-4 h-4 text-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
                 />
-                <span class="ms-2 text-sm font-sans text-white">Arabic</span>
+                <span class="ms-2 text-sm text-white">Arabic</span>
               </label>
               <label class="flex items-center">
                 <input
@@ -195,7 +195,7 @@
                   value="English"
                   class="w-4 h-4 text-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
                 />
-                <span class="ms-2 text-sm font-sans text-white">English</span>
+                <span class="ms-2 text-sm text-white">English</span>
               </label>
               <label class="flex items-center">
                 <input
@@ -204,7 +204,7 @@
                   value="Other"
                   class="w-4 h-4 text-[#924FE8] border-[#924FE8] focus:ring-[#924FE8]"
                 />
-                <span class="ms-2 text-sm font-sans text-white">Other</span>
+                <span class="ms-2 text-sm text-white">Other</span>
               </label>
             </div>
             <div
@@ -212,7 +212,7 @@
                 requestForm.get('language')?.touched &&
                 requestForm.get('language')?.invalid
               "
-              class="text-red-500 text-sm"
+              class="text-red-500 font-sans text-sm"
             >
               Please select a language.
             </div>

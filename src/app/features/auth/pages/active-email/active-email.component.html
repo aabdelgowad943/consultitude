@@ -1,0 +1,181 @@
+<div class="w-full max-w-[1920px] mx-auto relative">
+  <!-- <app-navbar></app-navbar> -->
+  <section class="bg-white">
+    <div class="grid grid-cols-1 thousand:grid-cols-2 gap-6">
+      <!-- Left side: Form content -->
+      <div
+        class="flex thousand:items-center h-screen justify-center px-4 thousand:order-1 order-2"
+      >
+        <div
+          class="w-full space-y-6 mt-[48px] thousand:mt-0 thousand:max-w-[480px]"
+        >
+          <!-- Title -->
+          <div class="w-full flex justify-center thousand:mb-10">
+            <img
+              routerLink="/index"
+              src="/images/pink-logo.png"
+              class="thousand:w-60 w-[237.5px] cursor-pointer"
+              alt="logo"
+            />
+          </div>
+
+          <!-- Step 4: Code Verification -->
+          <div>
+            <h2
+              class="thousand:text-[32px] text-[28px] text-black thousand:mb-3 ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-center"
+            >
+              Verify your email
+            </h2>
+            <p
+              class="text-[#475467] text-[16px] thousand:w-[480px] font-[400] text-center thousand:mb-10"
+            >
+              We’ve sent a temporary login code to your registered email.<br />
+              Please check and enter it to proceed.
+            </p>
+
+            <div
+              class="w-full flex flex-col thousand:w-[480px] mt-10 thousand:mt-0 justify-center text-left items-center"
+            >
+              <div *ngIf="!isSuccess" class="w-full space-y-4">
+                <div>
+                  <label
+                    for="verificationCode"
+                    class="block text-sm mb-2 font-medium text-[#14151A]"
+                    >Enter login code</label
+                  >
+                  <input
+                    type="text"
+                    id="verificationCode"
+                    [(ngModel)]="verificationCode"
+                    placeholder="••••••"
+                    class="w-full h-[40px] py-2.5 px-3 border border-[#DEE0E3] rounded-xl text-[#14151A]"
+                  />
+                  <div
+                    *ngIf="verificationCodeError"
+                    class="text-red-500 bg-red-100 mt-2 py-1 px-3 mb-2 thousand:w-[480px] w-[329px] rounded-md text-left text-sm"
+                  >
+                    {{ verificationCodeError }}
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="isSuccess" class="text-center w-full">
+                <div class="mb-6">
+                  <svg
+                    class="mx-auto h-12 w-12 text-green-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    ></path>
+                  </svg>
+                </div>
+                <h3
+                  class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-black mb-4"
+                >
+                  Email Verified!
+                </h3>
+                <p class="text-[#475467] text-[16px] font-[400] mb-6">
+                  {{ successMessage }}
+                </p>
+                <a
+                  routerLink="/auth/login"
+                  class="bg-[#9241DC] text-white px-6 py-3 rounded-xl inline-block hover:bg-[#7d37bd] transition-colors"
+                >
+                  Go to Login
+                </a>
+              </div>
+
+              <div *ngIf="!isSuccess">
+                <div
+                  class="flex justify-between thousand:w-[480px] gap-5 items-center mt-5"
+                >
+                  <button
+                    type="button"
+                    (click)="goBack()"
+                    class="bg-white border h-[48px] flex items-center justify-center border-[#DEE0E3] text-black px-4 py-2 rounded-xl"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    (click)="verifyAndSubmit()"
+                    [disabled]="isLoading"
+                    class="bg-[#9241DC] thousand:w-full w-[235px] h-[48px] text-white px-4 py-2 rounded-xl"
+                  >
+                    {{ isLoading ? "Verifying..." : "Complete Registration" }}
+                  </button>
+                </div>
+                <div class="w-full text-center mt-4">
+                  <span class="text-xs font-[400] text-[#475467]">
+                    By continuing, you agree to Consultitude’s
+                    <a class="underline" routerLink="/terms-and-conditions"
+                      >Terms of Service</a
+                    >
+                    and
+                    <a class="underline" routerLink="/privacy-and-policy"
+                      >Privacy Policy.</a
+                    >
+                  </span>
+                </div>
+
+                <div class="w-full text-center mt-2">
+                  <p class="text-[14px] font-[400] text-[#475467]">
+                    Code expired?
+                    <button
+                      (click)="resendCode()"
+                      class="text-[#6941C6] underline"
+                    >
+                      Resend code
+                    </button>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5: Completion -->
+          <!-- <div
+            class="text-center"
+          >
+            <h3 class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px]   text-black mb-4">
+              Hello, {{ name }}!
+            </h3>
+            <p class="text-[#475467] text-[16px] thousand:w-[480px] font-[400]">
+              Your registration is complete.
+            </p>
+          </div>
+
+          <div
+            class="w-full text-center mt-10"
+          >
+            <p class="text-[14px] font-[400] text-[#475467]">
+              Already have an account?
+              <a href="/auth/login" class="text-[#6941C6]">Login</a>
+            </p>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- Right side: Image -->
+      <div class="flex thousand:order-2 order-1">
+        <img
+          class="object-cover w-full h-[100px] thousand:h-full"
+          src="/images/Section.png"
+          alt="Login Image"
+        />
+      </div>
+    </div>
+  </section>
+
+  <h1
+    class="max-w-[1920px] absolute bottom-10 text-[#475467] text-[14px] left-10"
+  >
+    © Consultitude Inc. 2024
+  </h1>
+</div>

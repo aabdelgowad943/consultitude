@@ -1,29 +1,137 @@
-<div class="w-full max-w-[1600px] h-full mx-auto">
+<div
+  class="w-full max-w-[1920px] h-full ipad:h-screen mx-auto py-16 ipad:py-24"
+>
   <!-- ------------------title-------------------------- -->
   <div class="w-full my-6 flex px-2 md:px-6 justify-between items-center">
     <h1
-      class="md:text-[32px] text-[24px] font-[500] leading-[38.5px] text-[#14151A]"
+      class="md:text-[32px] text-[24px] ipad:font-[500] bigger:font-[500] leading-[38.5px] text-[#14151A]"
     >
       My Profile
     </h1>
   </div>
 
+  <!-- Skeleton Loader for Profile -->
   <div
-    *ngIf="userId"
-    class="grid grid-cols-1 gap-10 md:grid-cols-12 px-2 md:px-6"
+    *ngIf="loading"
+    class="grid grid-cols-1 gap-10 md:grid-cols-12 px-0 md:px-6"
+  >
+    <!-- Left side skeleton - Profile Card -->
+    <div
+      class="md:col-span-5 col-span-7 bg-white h-[392px] w-full rounded-[20px] border border-[#EAECF0] overflow-hidden"
+    >
+      <!-- Gradient header skeleton -->
+      <div
+        class="relative bg-gradient-to-r h-[198px] from-[#A46EDE] to-[#380D5E]"
+      >
+        <!-- Profile picture skeleton -->
+        <div
+          class="absolute left-1/2 z-10 transform -translate-x-1/2 -bottom-14 w-[120px] h-[120px] rounded-full bg-gray-200 animate-pulse"
+        ></div>
+
+        <!-- Edit button skeleton -->
+        <div class="absolute right-5 top-5">
+          <div
+            class="w-[36px] h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0] animate-pulse"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Profile info skeleton -->
+      <div class="p-6 mt-10 text-center">
+        <!-- Name skeleton -->
+        <div
+          class="h-8 bg-gray-200 rounded-md w-3/4 mx-auto mb-2 animate-pulse"
+        ></div>
+        <!-- Title skeleton -->
+        <div
+          class="h-4 bg-gray-200 rounded-md w-1/2 mx-auto mb-4 animate-pulse"
+        ></div>
+
+        <!-- Skills skeleton -->
+        <div class="mt-4 flex flex-wrap justify-center gap-2">
+          <div class="h-6 bg-gray-200 rounded-lg w-16 animate-pulse"></div>
+          <div class="h-6 bg-gray-200 rounded-lg w-20 animate-pulse"></div>
+          <div class="h-6 bg-gray-200 rounded-lg w-14 animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side skeleton - About and Skills -->
+    <div class="col-span-7 rounded-[12px] space-y-6">
+      <!-- About Section Skeleton -->
+      <div class="bg-white px-4 py-5 rounded-xl border border-[#EAECF0]">
+        <div class="flex justify-between items-center mb-4">
+          <div class="h-8 bg-gray-200 rounded-md w-24 animate-pulse"></div>
+          <div
+            class="w-[36px] h-[36px] rounded-lg bg-gray-200 animate-pulse"
+          ></div>
+        </div>
+        <!-- About text skeleton -->
+        <div class="space-y-2">
+          <div class="h-4 bg-gray-200 rounded-md w-full animate-pulse"></div>
+          <div class="h-4 bg-gray-200 rounded-md w-3/4 animate-pulse"></div>
+          <div class="h-4 bg-gray-200 rounded-md w-5/6 animate-pulse"></div>
+        </div>
+      </div>
+
+      <!-- Skills Section Skeleton -->
+      <div class="bg-white px-4 py-5 rounded-xl border border-[#EAECF0]">
+        <div class="flex justify-between items-center mb-4">
+          <div class="h-8 bg-gray-200 rounded-md w-24 animate-pulse"></div>
+          <div
+            class="w-[36px] h-[36px] rounded-lg bg-gray-200 animate-pulse"
+          ></div>
+        </div>
+
+        <!-- Industry Focus Skeleton -->
+        <div class="mt-4 space-y-2">
+          <div class="h-6 bg-gray-200 rounded-md w-32 animate-pulse"></div>
+          <div class="flex flex-wrap gap-2 mt-2">
+            <div class="h-8 bg-gray-200 rounded-full w-24 animate-pulse"></div>
+            <div class="h-8 bg-gray-200 rounded-full w-32 animate-pulse"></div>
+            <div class="h-8 bg-gray-200 rounded-full w-28 animate-pulse"></div>
+          </div>
+        </div>
+
+        <!-- Domain Focus Skeleton -->
+        <div class="mt-4 space-y-2">
+          <div class="h-6 bg-gray-200 rounded-md w-32 animate-pulse"></div>
+          <div class="flex flex-wrap gap-2 mt-2">
+            <div class="h-8 bg-gray-200 rounded-full w-20 animate-pulse"></div>
+            <div class="h-8 bg-gray-200 rounded-full w-28 animate-pulse"></div>
+            <div class="h-8 bg-gray-200 rounded-full w-24 animate-pulse"></div>
+          </div>
+        </div>
+
+        <!-- Regional Focus Skeleton -->
+        <div class="mt-4 space-y-2">
+          <div class="h-6 bg-gray-200 rounded-md w-32 animate-pulse"></div>
+          <div class="flex flex-wrap gap-2 mt-2">
+            <div class="h-8 bg-gray-200 rounded-full w-24 animate-pulse"></div>
+            <div class="h-8 bg-gray-200 rounded-full w-20 animate-pulse"></div>
+            <div class="h-8 bg-gray-200 rounded-full w-32 animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Original Content - only show when not loading -->
+  <div
+    *ngIf="!loading && userId"
+    class="grid grid-cols-1 gap-10 md:grid-cols-12 px-3 md:px-6"
   >
     <!-- --------------------------------------------left side----------------------------------- -->
     <div
-      class="md:col-span-5 col-span-7 bg-white h-[392px] w-full rounded-[20px] border border-[#EAECF0] overflow-hidden"
+      class="thousand:col-span-5 ipad:col-span-12 col-span-7 bg-white h-[392px] w-full rounded-[20px] border border-[#EAECF0] overflow-hidden"
     >
       <div
         class="relative bg-gradient-to-r h-[198px] from-[#A46EDE] to-[#380D5E]"
       >
         <img
           (click)="openEditImage()"
-          class="absolute left-1/2 z-10 transform -translate-x-1/2 -bottom-14 w-[120px] h-[120px] rounded-full"
-          src="https://images.pexels.com/photos/30783684/pexels-photo-30783684/free-photo-of-moody-portrait-of-a-man-by-the-window.png?auto=compress&cs=tinysrgb&w=600"
-          alt="Profile Picture"
+          class="absolute left-1/2 z-10 transform -translate-x-1/2 -bottom-14 w-[120px] h-[120px] rounded-full object-cover border-2 border-white"
+          [src]="profileUrl ? profileUrl : 'images/profile.png'"
         />
 
         <div class="absolute right-5 top-5">
@@ -31,14 +139,17 @@
             (click)="openEditDialog()"
             class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
           >
-            <i class="pi pi-pencil"></i>
+            <img src="images/new/edit-fill.svg" alt="" />
           </div>
         </div>
       </div>
       <div class="p-6 mt-10 text-center">
-        <h2 class="text-[24px] font-[500] text-gray-900">{{ name }}</h2>
+        <h2
+          class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-gray-900"
+        >
+          {{ name }}
+        </h2>
         <p class="text-[#667085] text-sm">{{ title }}</p>
-        <!-- top skills -->
         <div class="mt-4 space-x-2">
           <span
             *ngFor="let skill of topSkillsList"
@@ -51,112 +162,193 @@
     </div>
 
     <!-- ------------------------------------------------right side--------------------------------------------- -->
-    <div class="col-span-7 rounded-[12px]">
+    <div class="thousand:col-span-7 ipad:col-span-12 col-span-7 rounded-[12px]">
       <div class="space-y-6">
         <!-- About Section -->
-        <div class="bg-white p-6 rounded-xl border border-[#EAECF0]">
+        <div class="bg-white px-4 py-5 rounded-xl border border-[#EAECF0]">
           <div class="flex justify-between items-center">
-            <h2 class="text-[24px] font-[500] text-[#14151A]">About</h2>
+            <h2
+              class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#14151A]"
+            >
+              About
+            </h2>
             <div
               (click)="openEditAbout()"
               class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
             >
-              <i class="pi pi-pencil"></i>
+              <img src="images/new/edit-fill.svg" alt="" />
             </div>
           </div>
-          <p class="mt-2 text-[#475467] font-[400] text-[16px] max-w-[552px]">
+          <p
+            *ngIf="about.length > 0"
+            class="mt-2 text-[#475467] font-[400] text-[16px] max-w-[560px] break-words"
+          >
             {{ about }}
+          </p>
+          <p
+            *ngIf="about.length === 0"
+            class="text-sm ms-4 text-gray-500 font-sans"
+          >
+            No about information available!
           </p>
         </div>
 
         <!-- Skills Section -->
-        <div class="bg-white p-6 rounded-xl border border-[#EAECF0]">
+        <div class="bg-white px-4 py-5 rounded-xl border border-[#EAECF0]">
           <div class="flex justify-between items-center">
-            <h2 class="text-[24px] font-[500] text-[#14151A]">Skills</h2>
+            <h2
+              class="text-[24px] ipad:font-[500] bigger:font-[500] big:text-[16] bigger:text-[17px] text-[#14151A]"
+            >
+              Skills
+            </h2>
             <div
               (click)="openEditSkills()"
               class="w-[36px] cursor-pointer flex items-center justify-center h-[36px] rounded-lg p-2 bg-[#F9FAFB] border border-[#EAECF0]"
             >
-              <i class="pi pi-pencil"></i>
+              <img src="images/new/edit-fill.svg" alt="" />
             </div>
           </div>
-
           <!-- Skill Categories -->
           <div class="mt-4 space-y-4">
             <!-- Industry Focus -->
-            <div *ngIf="profile?.skills">
-              <div>
-                <h3 class="text-[16px] font-medium text-[#101828]">
-                  Industry Focus
-                </h3>
-                <div class="mt-2 flex flex-wrap gap-2">
-                  <ng-container
-                    *ngFor="let skill of profile.skills.industryFocus"
+            <div>
+              <h3 class="text-[16px] font-medium text-[#101828]">
+                Industry Focus
+              </h3>
+              <div
+                *ngIf="profile?.skills?.industryFocus?.length"
+                class="mt-2 flex flex-wrap gap-2"
+              >
+                <ng-container
+                  *ngFor="let skill of getIndustrySkillsToShow(); let i = index"
+                >
+                  <span
+                    class="px-3 py-1 text-sm leading-5 font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
                   >
-                    <span
-                      class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                    >
-                      {{
-                        skill.areaOfFocus.translations[0].name ??
-                          skill.areaOfFocus.id
-                      }}
-                    </span>
-                  </ng-container>
-                </div>
+                    {{
+                      skill.areaOfFocus.translations[0].name ??
+                        skill.areaOfFocus.id
+                    }}
+                  </span>
+                </ng-container>
+                <span
+                  *ngIf="
+                    !showAllIndustrySkills &&
+                    profile.skills.industryFocus.length > 4
+                  "
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreIndustry()"
+                >
+                  +{{ profile.skills.industryFocus.length - 4 }}
+                </span>
+                <span
+                  *ngIf="
+                    showAllIndustrySkills &&
+                    profile.skills.industryFocus.length > 4
+                  "
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreIndustry()"
+                >
+                  Show less
+                </span>
+              </div>
+              <div *ngIf="!profile?.skills?.industryFocus?.length" class="mt-2">
+                <span class="text-sm text-gray-500 ms-4 font-sans"
+                  >No industry focus skills to show!</span
+                >
               </div>
             </div>
 
             <!-- Domain Focus -->
-            <div *ngIf="profile?.skills">
+            <div>
               <h3 class="text-[16px] font-medium text-[#101828]">
                 Domain Focus
               </h3>
-              <div class="mt-2 flex flex-wrap gap-2">
-                <ng-container *ngFor="let skill of profile.skills.domainFocus!">
+              <div
+                *ngIf="profile?.skills?.domainFocus?.length"
+                class="mt-2 flex flex-wrap gap-2"
+              >
+                <ng-container
+                  *ngFor="let skill of getDomainSkillsToShow(); let i = index"
+                >
                   <span
-                    class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
+                    class="px-3 py-1 text-sm font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
                   >
                     {{ skill.domain.translations[0].name ?? skill.domain.id }}
                   </span>
                 </ng-container>
+                <span
+                  *ngIf="
+                    !showAllDomainSkills &&
+                    profile.skills.domainFocus.length > 4
+                  "
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreDomain()"
+                >
+                  +{{ profile.skills.domainFocus.length - 4 }}
+                </span>
+                <span
+                  *ngIf="
+                    showAllDomainSkills && profile.skills.domainFocus.length > 4
+                  "
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreDomain()"
+                >
+                  Show less
+                </span>
+              </div>
+              <div *ngIf="!profile?.skills?.domainFocus?.length" class="mt-2">
+                <span class="text-sm text-gray-500 ms-4 font-sans"
+                  >No domain focus skills to show!</span
+                >
               </div>
             </div>
 
             <!-- Regional Focus -->
-            <div *ngIf="profile?.skills">
+            <div>
               <h3 class="text-[16px] font-medium text-[#101828]">
                 Regional Focus
               </h3>
-              <div class="mt-2 flex flex-wrap gap-2">
+              <div
+                *ngIf="profile?.skills?.regionalFocus?.length"
+                class="mt-2 flex flex-wrap gap-2"
+              >
                 <ng-container
-                  *ngFor="let skill of profile.skills.regionalFocus"
+                  *ngFor="let skill of getRegionalSkillsToShow(); let i = index"
                 >
                   <span
-                    class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
+                    class="px-3 py-1 text-sm font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
                   >
                     {{ skill.region.translations[0].name ?? skill.region.id }}
                   </span>
                 </ng-container>
+                <span
+                  *ngIf="
+                    !showAllRegionalSkills &&
+                    profile.skills.regionalFocus.length > 4
+                  "
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreRegional()"
+                >
+                  +{{ profile.skills.regionalFocus.length - 4 }}
+                </span>
+                <span
+                  *ngIf="
+                    showAllRegionalSkills &&
+                    profile.skills.regionalFocus.length > 4
+                  "
+                  class="px-3 py-1 text-sm leading-5 font-medium bg-gray-100 text-gray-600 rounded-full cursor-pointer"
+                  (click)="toggleShowMoreRegional()"
+                >
+                  Show less
+                </span>
+              </div>
+              <div *ngIf="!profile?.skills?.regionalFocus?.length" class="mt-2">
+                <span class="text-sm text-gray-500 ms-4 font-sans"
+                  >No regional focus skills to show!</span
+                >
               </div>
             </div>
-
-            <!-- Consulting Skills -->
-            <!-- <div *ngIf="profile?.skills">
-              <h3 class="text-[16px] font-medium text-[#101828]">
-                Consulting Skills
-              </h3>
-              <div class="mt-2 flex flex-wrap gap-2">
-                <ng-container
-                  *ngFor="let skill of profile.skills.consultingSkills"
-                >
-                  <span
-                    class="px-3 py-1 text-xs font-medium bg-white border border-[#EAECF0] text-[#0F132499]/60 rounded-full"
-                  >
-                    {{ skill.name ?? "consulting" }}
-                  </span>
-                </ng-container>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -188,9 +380,10 @@
   (displayChange)="getProfileDataByUserId()"
 ></app-edit-skills>
 
+<!-- [initialImage]="currentImage" -->
 <app-edit-profile-image
   [(display)]="displayEditImage"
-  [initialImage]="currentImage"
   (saveImageEvent)="onSaveImage($event)"
+  (displayChange)="getProfileDataByUserId()"
 >
 </app-edit-profile-image>
