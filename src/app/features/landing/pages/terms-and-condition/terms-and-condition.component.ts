@@ -41,7 +41,7 @@ export class TermsAndConditionComponent {
     {
       title: 'Permitted Use',
       content: [
-        `<p>Consultitude if build for:</p>
+        `<p>You agree to use the Services only for lawful and authorized purposes. You may not:</p>
           <ul class="list-disc pl-5 mt-2 space-y-1">
     <li>Use the Services to violate any applicable law, regulation, or third-party right</li>
     <li>Submit content that infringes the intellectual property or privacy rights of others</li>

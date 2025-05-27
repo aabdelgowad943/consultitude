@@ -54,8 +54,6 @@ export class PrivacyAndPolicyComponent {
       <li>Usage metrics and interaction logs</li>
      <li> Cookies and similar technologies (see Section 3)</li>
 </ul>
-    <li>Resell, sublicense, or misrepresent your association with Consultitude</li>
-    <li>Attempt to probe, scan, or breach platform security</li>
         `,
       ],
     },
