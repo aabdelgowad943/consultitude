@@ -32,7 +32,7 @@ declare module 'jspdf' {
 }
 
 interface ChatMessage {
-  sender: 'user' | 'evo' | 'consultant' | 'system';
+  sender: string; // Changed from union type to string to allow any sender
   consultantInfo?: any;
   text: string;
   timestamp: Date;
@@ -130,8 +130,6 @@ export class ChatComponent implements OnInit, OnChanges {
     if (changes['chatResponse'] && changes['chatResponse'].currentValue) {
       // console.log('chatResponse changed:', this.chatResponse);
       if (this.chatResponse) {
-        console.log('Processing new chat response:', this.chatResponse);
-
         // Process new chat response
         this.isLoadingNextMessage = false;
         this.processChatResponse(this.chatResponse);
@@ -148,8 +146,6 @@ export class ChatComponent implements OnInit, OnChanges {
       this.finalReportContent = response.content;
       this.reportTimestamp = new Date();
 
-      // Add a special handler to the queue that will start the final report animation
-      // only after all previous messages are complete
       this.addToMessageQueue(
         {
           sender: 'system',
@@ -167,18 +163,14 @@ export class ChatComponent implements OnInit, OnChanges {
       // Show loading indicator for the next message
       this.isLoadingNextMessage = true;
 
-      // Process regular message
-      const sender =
-        response.agent.toLowerCase() === 'evo' ? 'evo' : 'consultant';
-
-      // Create the message object
+      // Create the message object with the actual agent name
       const newMessage: ChatMessage = {
-        sender: sender,
+        sender: response.agent, // Use the full agent name from response
         text: response.content,
         timestamp: new Date(),
         consultantInfo:
-          sender === 'consultant'
-            ? this.getConsultantInfo(response.agent)
+          response.agent.includes('Consultant') || response.agent.includes('Dr')
+            ? { name: response.agent, description: response.agent }
             : null,
       };
 
@@ -189,7 +181,6 @@ export class ChatComponent implements OnInit, OnChanges {
       });
     }
   }
-
   // Add a message to the queue and process it if not already processing
   addToMessageQueue(message: ChatMessage, callback?: () => void) {
     this.messageQueue.push({ message, callback });
@@ -248,6 +239,15 @@ export class ChatComponent implements OnInit, OnChanges {
       ? { name: consultant, description: consultant }
       : { name: agentId, description: 'Unknown Consultant' };
   }
+
+  //   getConsultantInfo(agentId: string): any {
+  //   return {
+  //     name: agentId,
+  //     description: agentId.includes('Consultant') || agentId.includes('Dr') ?
+  //                  agentId :
+  //                  'Unknown Consultant'
+  //   };
+  // }
 
   addMessageWithTypingEffect(message: ChatMessage, callback: () => void) {
     // Check if this is a special marker for the final report

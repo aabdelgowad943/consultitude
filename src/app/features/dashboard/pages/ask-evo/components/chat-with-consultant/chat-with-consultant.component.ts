@@ -134,6 +134,7 @@ export class ChatWithConsultantComponent implements OnInit {
       agent_id: this.selectedConsultant?.agentId, // Use single consultant
       docs: [attachments?.[0]?.url ?? null],
       ask: text,
+      owner_id: localStorage.getItem('profileId') || '',
       // serviceId: localStorage.getItem('serviceId'),
       // conversationId: 'conversationId22222222',
       // ownerId: localStorage.getItem('profileId') || '',
