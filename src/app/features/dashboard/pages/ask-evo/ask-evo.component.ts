@@ -17,7 +17,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { SummaryDetailsComponent } from './components/summary-details/summary-details.component';
 import { ResponseDepthComponent } from './components/response-depth/response-depth.component';
 import { EvoServicesService } from '../../services/evo-services.service';
-import { finalize } from 'rxjs';
+import { finalize, Subject } from 'rxjs';
 import { Chat, ChatTest } from '../../models/chat';
 import { Consultant } from '../../models/consultant';
 import {
@@ -59,6 +59,12 @@ export interface Agent {
   providers: [DialogService, DynamicDialogRef],
 })
 export class AskEvoComponent {
+  chatResponseSubject = new Subject<any>();
+
+  sendChatResponse(chatResponse: any) {
+    this.chatResponseSubject.next(chatResponse);
+  }
+
   responseDepthId: string = 'basic'; // String representation for UI
   responseDepthValue: ResponseDepth = ResponseDepth.Basic;
 
@@ -308,6 +314,8 @@ export class AskEvoComponent {
     return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
   }
 
+  // array to hold chat messages
+  chatMessages: any[] = [];
   // =================================================
   onStartChat(chatData: any) {
     // Add response depth to chat data
@@ -319,6 +327,18 @@ export class AskEvoComponent {
     this.evoService.startChat(enhancedChatData).subscribe({
       next: (response: any) => {
         this.chatResponse = response;
+
+        this.sendChatResponse(response);
+
+        console.log('Chat response:-----------------+++++++', response);
+
+        // Add the response to chat messages
+        this.chatMessages.push({
+          agent: response.agent,
+          content: response.content,
+          message_type: response.message_type,
+          timestamp: new Date().toISOString(),
+        });
 
         // Then switch the view
         this.showDocumentUploadStepper = false;

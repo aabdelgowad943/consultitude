@@ -284,12 +284,13 @@ export class HeaderSectionForEvoComponent implements OnInit {
           agent_id: finalConsultant.agentId,
           ask: this.userInput.trim(),
           docs: [this.uploadedFileUrl || null],
-          owner_id: localStorage.getItem('profileId') || '',
+          owner_id: localStorage.getItem('userId') || '',
         })
         .subscribe({
           next: (response) => {
             // Handle successful response if needed
             console.log('Conversation created successfully:', response);
+            // data: {"id": "b8e20349-8069-4259-b2d6-9e35cbfa7db0"}
           },
           error: (error) => {
             // Handle error response if needed

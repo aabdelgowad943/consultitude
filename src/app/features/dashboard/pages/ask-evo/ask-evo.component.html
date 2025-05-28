@@ -104,6 +104,14 @@
       </div>
     </div>
 
+    <!-- chat response  -->
+
+    <!-- <div *ngFor="let item of chatMessages">
+      <h1>{{ item.agent }}</h1>
+      <h1>{{ item.message_type }}</h1>
+      <h1>{{ item.content }}</h1>
+    </div> -->
+
     <!----------------------------------------Chat Interface-------------------------------------------- -->
     <app-chat
       *ngIf="!isLoading && showChatInterface"
@@ -113,7 +121,8 @@
       [selectedConsultants]="selectedConsultants"
       [serviceId]="serviceId"
       [responseDepthId]="responseDepthId"
-      [chatResponse]="chatResponse"
-    ></app-chat>
+      [chatResponse$]="chatResponseSubject.asObservable()"
+    >
+    </app-chat>
   </div>
 </div>
