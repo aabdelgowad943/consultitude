@@ -56,7 +56,7 @@ export class MaiContentComponent {
   }
 
   navigateToRequestDocument() {
-    this.router.navigate(['/index'], { fragment: 'request-document' });
+    this.router.navigate(['/'], { fragment: 'request-document' });
 
     // Add manual scroll after a small delay
     setTimeout(() => {

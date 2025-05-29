@@ -15,7 +15,7 @@ import { NewLandingPageComponent } from './pages/new-landing-page/new-landing-pa
 
 const routes: Routes = [
   {
-    path: 'index',
+    path: '',
     component: NewLandingPageComponent,
   },
   {
@@ -50,11 +50,11 @@ const routes: Routes = [
     path: 'about-us',
     component: AboutUsComponent,
   },
-  {
-    path: '',
-    redirectTo: 'index',
-    pathMatch: 'full',
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'index',
+  //   pathMatch: 'full',
+  // },
 ];
 
 @NgModule({
