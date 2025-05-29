@@ -4,6 +4,7 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +21,7 @@ import {
 } from '@angular/animations';
 import autoTable from 'jspdf-autotable';
 import { PdfService } from '../../../../../../shared/services/pdf.service';
+import { Observable, Subscription } from 'rxjs';
 
 // Extend the jsPDF type to include autoTable
 declare module 'jspdf' {
@@ -84,7 +86,7 @@ interface QueuedMessage {
     ]),
   ],
 })
-export class ChatComponent implements OnInit, OnChanges {
+export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedFile: File | null = null;
   @Input() userQuestion: string = '';
   @Input() selectedConsultants: any = [];
@@ -92,6 +94,9 @@ export class ChatComponent implements OnInit, OnChanges {
   @Input() serviceId: string = '';
   @Input() chatResponse: any = null;
   @Input() responseDepthId: string = 'advanced'; // Add this input
+
+  @Input() chatResponse$!: Observable<any>;
+  private subscription!: Subscription;
 
   summarySection: boolean = true;
   conversationStarted: boolean = false;
@@ -112,29 +117,54 @@ export class ChatComponent implements OnInit, OnChanges {
   private isProcessingQueue: boolean = false;
 
   get consultantTypes(): string {
+    // console.log('selectedConsultants:', this.selectedConsultants);
+
     return this.selectedConsultants.map((item: any) => item.type).join(', ');
   }
 
   isTyping: boolean = false;
   remainingTypingPeriod: number = 0; // Time left for typing effect
-  typingSpeed: number = 10;
+  typingSpeed: number = 1;
 
   constructor(
     private sanitizer: DomSanitizer,
     private pdfService: PdfService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscription = this.chatResponse$.subscribe((chatResponse) => {
+      if (chatResponse) {
+        console.log(
+          'chatResponse receiveddddddddddddddddddddddddddddd:',
+          chatResponse
+        );
+        this.isLoadingNextMessage = false;
+        this.processChatResponse(chatResponse);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['chatResponse'] && changes['chatResponse'].currentValue) {
-      // console.log('chatResponse changed:', this.chatResponse);
-      if (this.chatResponse) {
-        // Process new chat response
-        this.isLoadingNextMessage = false;
-        this.processChatResponse(this.chatResponse);
-      }
-    }
+    // if (changes['chatResponse'] && changes['chatResponse'].currentValue) {
+    //   console.log('chatResponse changed:', this.chatResponse);
+    //   if (this.chatResponse) {
+    //     // Process new chat response
+    //     this.isLoadingNextMessage = false;
+    //     this.processChatResponse(this.chatResponse);
+    //   }
+    // }
+  }
+
+  handleNewChatResponse(chatResponse: any) {
+    console.log('chatResponse received:', chatResponse);
+    this.isLoadingNextMessage = false;
+    this.processChatResponse(chatResponse);
   }
 
   processChatResponse(response: ChatResponse) {
@@ -174,8 +204,12 @@ export class ChatComponent implements OnInit, OnChanges {
             : null,
       };
 
+      // console.log('new message', newMessage);
+
       // Add to queue instead of immediately displaying
       this.addToMessageQueue(newMessage, () => {
+        // console.log('add to message queue', newMessage);
+
         // Keep loading indicator visible after message is fully typed
         this.isLoadingNextMessage = true;
       });
@@ -184,6 +218,8 @@ export class ChatComponent implements OnInit, OnChanges {
   // Add a message to the queue and process it if not already processing
   addToMessageQueue(message: ChatMessage, callback?: () => void) {
     this.messageQueue.push({ message, callback });
+
+    // console.log('after push', this.messageQueue);
 
     // Start processing the queue if not already doing so
     if (!this.isProcessingQueue) {
@@ -204,6 +240,8 @@ export class ChatComponent implements OnInit, OnChanges {
     if (nextItem) {
       // Add the message to chat messages with typing effect
       this.addMessageWithTypingEffect(nextItem.message, () => {
+        // console.log('next message with typing effect', nextItem.message);
+
         // Run callback if provided
         if (nextItem.callback) {
           nextItem.callback();
@@ -229,6 +267,8 @@ export class ChatComponent implements OnInit, OnChanges {
       } else {
         clearInterval(typingInterval);
         this.finalReportIsTyping = false;
+        this.isTyping = false;
+        this.isLoadingNextMessage = false;
       }
     }, this.typingSpeed);
   }

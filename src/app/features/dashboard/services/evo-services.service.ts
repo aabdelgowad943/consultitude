@@ -92,4 +92,14 @@ export class EvoServicesService {
   makeConversation(conversation: any): Observable<any> {
     return this.apiService.post('/chats/direct_conversation', conversation);
   }
+
+  inConversation(message: string, conversationId: string): Observable<any> {
+    return this.apiService.post(
+      `/direct_conversation/${conversationId}/${message}`,
+      {
+        message: message,
+        conversationId: conversationId,
+      }
+    );
+  }
 }

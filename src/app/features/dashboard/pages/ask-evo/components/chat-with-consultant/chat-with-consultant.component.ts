@@ -132,9 +132,9 @@ export class ChatWithConsultantComponent implements OnInit {
     const requestBody = {
       // title: text,
       agent_id: this.selectedConsultant?.agentId, // Use single consultant
-      docs: [attachments?.[0]?.url ?? null],
+      docs: [attachments?.[0]?.url || []], // Use the first attachment URL if available
       ask: text,
-      owner_id: localStorage.getItem('profileId') || '',
+      owner_id: localStorage.getItem('userId') || '',
       // serviceId: localStorage.getItem('serviceId'),
       // conversationId: 'conversationId22222222',
       // ownerId: localStorage.getItem('profileId') || '',
@@ -143,7 +143,7 @@ export class ChatWithConsultantComponent implements OnInit {
 
     this.evoService.makeConversation(requestBody).subscribe({
       next: (res: any) => {
-        console.log('res is =====', res);
+        console.log('Conversation created successfully: not from home', res);
       },
     });
   }
