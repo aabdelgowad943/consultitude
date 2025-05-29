@@ -15,19 +15,8 @@ import { NewLandingPageComponent } from './pages/new-landing-page/new-landing-pa
 
 const routes: Routes = [
   {
-    path: '',
-    component: LandingComponent,
-    children: [
-      // {
-      //   path: 'home',
-      //   component: HomeComponent,
-      // },
-      // {
-      //   path: '',
-      //   redirectTo: 'index',
-      //   pathMatch: 'full',
-      // },
-    ],
+    path: 'index',
+    component: NewLandingPageComponent,
   },
   {
     path: 'successfully_subscribed',
@@ -52,10 +41,6 @@ const routes: Routes = [
   {
     path: 'faqs',
     component: FaqsComponent,
-  },
-  {
-    path: 'index',
-    component: NewLandingPageComponent,
   },
   {
     path: 'subscribed',
