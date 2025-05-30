@@ -12,6 +12,8 @@ import { ProfileServiceService } from '../../../../services/profile-service.serv
 import { finalize } from 'rxjs';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Router } from '@angular/router';
+import { EvoServicesService } from '../../../../services/evo-services.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-chat-to-con-started',
@@ -40,7 +42,7 @@ export class ChatToConStartedComponent {
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   @Input() messages: Array<{
-    sender: 'user' | 'consultant';
+    sender: string;
     text: string;
     timestamp: Date;
     attachments?: Array<{ name: string; url: string; size: number }>;
@@ -53,7 +55,7 @@ export class ChatToConStartedComponent {
   @Input() isUploading = false;
   @Input() uploadProgress = 0;
   @Input() errorMessage: string | null = null;
-
+  conversationId: string = localStorage.getItem('conversationId') || '';
   userInput: string = '';
 
   @Output() sendMessage = new EventEmitter<{
@@ -68,10 +70,13 @@ export class ChatToConStartedComponent {
 
   private errorTimeout: any; // To store the timeout reference
 
+  @Output() sendMessageToParent = new EventEmitter<any>();
+
   // contName: string = '';
   constructor(
     private profileService: ProfileServiceService,
-    private router: Router
+    private router: Router,
+    private evoService: EvoServicesService
   ) {
     // this.contName = localStorage.getItem('contName')!;
     localStorage.removeItem('serviceId');
@@ -88,17 +93,46 @@ export class ChatToConStartedComponent {
     if (this.selectedFile) {
       attachments = [
         {
-          name: this.selectedFile.name,
+          name: this.selectedFile.name || 'Unknown File',
           url: '',
           size: this.selectedFile.size,
         },
       ];
+      console.log('Selected file:', this.selectedFile);
+      console.log('attachments:', attachments);
     }
 
     this.sendMessage.emit({
       text: this.userInput,
       attachments,
     });
+
+    this.evoService
+      .inConversation(this.userInput, this.conversationId, [this.fileUrl || ''])
+      .subscribe({
+        next: (res: any) => {
+          console.log('Response from inConversation:', res);
+          if (res) {
+            this.messages.push({
+              sender: res.agent,
+              text: res.content,
+              timestamp: new Date(),
+            });
+            // send the message to parent component
+            this.sendMessageToParent.emit({
+              sender: res.agent,
+              text: res.content,
+              timestamp: new Date(),
+            });
+          }
+
+          // this array hold fully messages between user and consultant
+          console.log('Messages after inConversation:', this.messages);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log('Error in inConversation:', error.error);
+        },
+      });
 
     this.userInput = '';
   }

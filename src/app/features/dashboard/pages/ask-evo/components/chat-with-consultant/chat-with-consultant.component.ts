@@ -110,7 +110,7 @@ export class ChatWithConsultantComponent implements OnInit {
     if (this.selectedFile) {
       attachments = [
         {
-          name: this.selectedFile.name,
+          name: this.selectedFile.name || '',
           url: this.fileUrl || '', // Use the stored URL from upload response
           size: this.selectedFile.size,
         },

@@ -14,21 +14,21 @@ import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { NewLandingPageComponent } from './pages/new-landing-page/new-landing-page.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   component: LandingComponent,
-  //   children: [
-  //     // {
-  //     //   path: 'home',
-  //     //   component: HomeComponent,
-  //     // },
-  //     {
-  //       path: '',
-  //       redirectTo: 'index',
-  //       pathMatch: 'full',
-  //     },
-  //   ],
-  // },
+  {
+    path: '',
+    component: LandingComponent,
+    children: [
+      // {
+      //   path: 'home',
+      //   component: HomeComponent,
+      // },
+      {
+        path: '',
+        redirectTo: 'index',
+        pathMatch: 'full',
+      },
+    ],
+  },
   {
     path: 'successfully_subscribed',
     component: SuccessfullySubscribedComponent,
@@ -54,7 +54,7 @@ const routes: Routes = [
     component: FaqsComponent,
   },
   {
-    path: '',
+    path: 'index',
     component: NewLandingPageComponent,
   },
   {

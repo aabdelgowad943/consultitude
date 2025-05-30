@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PassDataForChatService } from '../../services/pass-data-for-chat.service';
 import { Consultant } from '../../models/consultant';
-import { EvoServicesService } from '../../services/evo-services.service';
 
 @Component({
   selector: 'app-talk-to-consultant-from-evo-home',
@@ -22,13 +21,13 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
     timestamp: Date;
     attachments?: Array<{ name: string; url: string; size: number }>;
   }> = [];
+
   selectedFile: File | null = null;
   isUploading = false;
   uploadProgress = 0;
   errorMessage: string | null = null;
   fileUrl: string = '';
   documentUrl: string = '';
-
   selectedFileFromHome: File | null = null;
 
   // New properties to store data from the service
@@ -36,36 +35,43 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
   userQuestion: string = '';
   selectedConsultant: Consultant | null = null;
 
-  constructor(
-    private passDataForChatService: PassDataForChatService,
+  conversationId: string = '';
 
-    private evoService: EvoServicesService
-  ) {}
+  constructor(private passDataForChatService: PassDataForChatService) {}
 
   ngOnInit() {
-    // Get data from the service
-    const chatData = this.passDataForChatService.getCurrentChatData();
+    // Subscribe to chat data updates
+    this.passDataForChatService.chatData$.subscribe((chatData) => {
+      console.log('Updated chat data:', chatData);
 
-    if (chatData) {
-      this.consultantAgentId = chatData.consultantAgentId || '';
-      this.userQuestion = chatData.userQuestion || '';
-      this.selectedConsultant = chatData.selectedConsultant || null;
-      this.fileUrl = chatData.imageUrl || '';
-      this.selectedFileFromHome = chatData.selectedFile!;
+      if (chatData) {
+        this.consultantAgentId = chatData.consultantAgentId || '';
+        this.userQuestion = chatData.userQuestion || '';
+        this.selectedConsultant = chatData.selectedConsultant || null;
+        this.fileUrl = chatData.imageUrl || '';
+        this.selectedFileFromHome = chatData.selectedFile!;
+        this.conversationId = chatData.conversationId || '';
 
-      console.log('----------------data passsssssed--------------------');
-      console.log(this.consultantAgentId);
-      console.log(this.userQuestion);
-      console.log(this.selectedConsultant);
-      console.log(this.fileUrl);
-      console.log('2', this.selectedFileFromHome);
-      console.log('----------------data passsssssed--------------------');
-
-      // If there's user input from the service, process it immediately
-      if (this.userQuestion) {
-        this.processInitialUserQuestion();
+        // Process initial question only if we have both question and conversationId
+        if (this.userQuestion && this.conversationId) {
+          this.processInitialUserQuestion();
+        }
       }
-    }
+    });
+  }
+
+  receivedMessages: any;
+
+  receiveDataFromChild(data: any) {
+    this.receivedMessages = data;
+    console.log('Received from child:', data);
+
+    // Add the actual consultant response to the messages array
+    this.messages.push({
+      sender: 'consultant',
+      text: data.text,
+      timestamp: new Date(data.timestamp),
+    });
   }
 
   // Process the initial user question that came from the service
@@ -80,11 +86,6 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
 
       // Show chat interface
       this.showChatInterface = true;
-
-      // Simulate consultant response after a short delay
-      setTimeout(() => {
-        this.simulateConsultantResponse(this.userQuestion);
-      }, 1000);
     }
   }
 
@@ -99,56 +100,6 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
       text: messageData.text,
       timestamp: new Date(),
       attachments: messageData.attachments,
-    });
-
-    // Show chat interface
-    this.showChatInterface = true;
-
-    // Simulate consultant response after a short delay
-    setTimeout(() => {
-      this.simulateConsultantResponse(messageData.text);
-    }, 1000);
-  }
-
-  // Simulate consultant response
-  simulateConsultantResponse(userMessage: string) {
-    // Simple response logic based on user message
-    let response = '';
-
-    if (
-      userMessage.toLowerCase().includes('create') &&
-      userMessage.toLowerCase().includes('document')
-    ) {
-      response =
-        "Absolutely! I'm here to guide you through creating a structured, strategic proposal. Let's start with the basics:\n\n1. Document Goal: What is the main purpose of this document? (e.g., benchmarking, project proposal, marketing plan)\n2. Audience: Who will be reading or reviewing it? (e.g., executive team, potential investors, internal teams)";
-    } else if (
-      userMessage.toLowerCase().includes('idea') ||
-      userMessage.toLowerCase().includes('inspire')
-    ) {
-      response =
-        "I'd be happy to inspire you with some creative ideas! To provide the most relevant suggestions, could you tell me a bit more about your business area or the specific challenge you're looking to address?";
-    } else if (
-      userMessage.toLowerCase().includes('strategy') ||
-      userMessage.toLowerCase().includes('develop')
-    ) {
-      response =
-        "Developing a strong strategy is crucial for success. To help you create an effective strategic plan, I'll need to understand:\n\n1. What are your key business objectives for this initiative?\n2. Who is your target audience?\n3. What resources do you have available?\n\nCould you provide some details?";
-    } else if (
-      userMessage.toLowerCase().includes('initiative') ||
-      userMessage.toLowerCase().includes('shape')
-    ) {
-      response =
-        "I'd love to help you shape your initiative. To get started, could you share:\n\n1. What is the primary goal of this initiative?\n2. Who are the key stakeholders involved?\n3. What timeline are you working with?\n\nThis information will help me provide tailored guidance.";
-    } else {
-      response =
-        "Thank you for your message. To help you more effectively, could you provide some additional context about your business goals or specific challenges you're facing?";
-    }
-
-    // Add consultant response to chat
-    this.messages.push({
-      sender: 'consultant',
-      text: response,
-      timestamp: new Date(),
     });
   }
 
