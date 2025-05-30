@@ -183,7 +183,7 @@ export class EvoServicesService {
   inConversation(
     message: string,
     conversationId: string,
-    docs?: [string]
+    docs?: string[]
   ): Observable<any> {
     let previousTextLength = 0; // Track how much text we've processed
     let buffer = ''; // Buffer for incomplete messages

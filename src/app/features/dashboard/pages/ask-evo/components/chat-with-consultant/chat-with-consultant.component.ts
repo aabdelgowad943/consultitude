@@ -52,7 +52,7 @@ export class ChatWithConsultantComponent implements OnInit {
   @Input() isDragging = false;
   @Input() uploadProgress = 0;
   @Input() errorMessage: string | null = null;
-  @Input() fileUrl: string | null = null;
+  @Input() fileUrl: any;
 
   private errorTimeout: any; // To store the timeout reference
 

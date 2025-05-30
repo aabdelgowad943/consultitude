@@ -17,7 +17,7 @@ import { SelectConsultantForChatComponent } from '../select-consultant-for-chat/
 import { PassDataForChatService } from '../../../../services/pass-data-for-chat.service';
 import { Router } from '@angular/router';
 import { ProfileServiceService } from '../../../../services/profile-service.service';
-import { finalize, tap } from 'rxjs';
+import { finalize, take, tap } from 'rxjs';
 import { EvoServicesService } from '../../../../services/evo-services.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -277,13 +277,16 @@ export class HeaderSectionForEvoComponent implements OnInit {
         .makeConversation({
           agent_id: finalConsultant.agentId,
           ask: this.userInput.trim(),
-          docs: [this.uploadedFileUrl || null],
+          // send empty array if no file is uploaded
+          docs: this.uploadedFileUrl ? [this.uploadedFileUrl] : [],
           owner_id: localStorage.getItem('userId') || '',
         })
+        .pipe(take(1)) // Only take the first emission
         .subscribe({
           next: (response) => {
             this.conversationId = response.id;
             console.log('Conversation ID:', this.conversationId);
+            // localStorage.setItem('conversationId', this.conversationId);
 
             // Move setChatData HERE - inside the next callback
             this.passDataForChatService.setChatData({
@@ -301,10 +304,9 @@ export class HeaderSectionForEvoComponent implements OnInit {
                 },
               ],
             });
-            localStorage.setItem('conversationId', this.conversationId);
-
-            // Navigate after setting the data
           },
+
+          // Navigate after setting the data
           error: (error: HttpErrorResponse) => {
             console.log('Error creating conversation:', error.error);
           },

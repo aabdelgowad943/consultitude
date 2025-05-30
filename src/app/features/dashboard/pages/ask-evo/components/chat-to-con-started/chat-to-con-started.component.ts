@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewChecked,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -14,6 +16,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { Router } from '@angular/router';
 import { EvoServicesService } from '../../../../services/evo-services.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PassDataForChatService } from '../../../../services/pass-data-for-chat.service';
 
 @Component({
   selector: 'app-chat-to-con-started',
@@ -38,7 +41,24 @@ import { HttpErrorResponse } from '@angular/common/http';
     ]),
   ],
 })
-export class ChatToConStartedComponent {
+export class ChatToConStartedComponent implements OnInit {
+  @ViewChild('chatContainer', { static: false })
+  private chatContainer!: ElementRef;
+  private isNearBottom = true;
+
+  onScroll(event: any): void {
+    const element = event.target;
+    this.isNearBottom =
+      element.scrollHeight - element.scrollTop <= element.clientHeight + 100;
+  }
+
+  private scrollToBottom(): void {
+    if (this.isNearBottom) {
+      this.chatContainer.nativeElement.scrollTop =
+        this.chatContainer.nativeElement.scrollHeight;
+    }
+  }
+
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   @Input() messages: Array<{
@@ -51,11 +71,11 @@ export class ChatToConStartedComponent {
   @Input() selectedFile: File | null = null;
   @Input() selectedFileFromHome: File | null = null;
   @Input() selectedAgent: any;
-  @Input() fileUrl!: string | '';
+  @Input() fileUrl: any;
   @Input() isUploading = false;
   @Input() uploadProgress = 0;
   @Input() errorMessage: string | null = null;
-  conversationId: string = localStorage.getItem('conversationId') || '';
+  conversationId: string = '';
   userInput: string = '';
 
   @Output() sendMessage = new EventEmitter<{
@@ -72,12 +92,24 @@ export class ChatToConStartedComponent {
 
   @Output() sendMessageToParent = new EventEmitter<any>();
 
+  ngOnInit(): void {
+    this.passDataForChatService.chatData$.subscribe((chatData) => {
+      console.log('Updated chat data:', chatData);
+
+      if (chatData) {
+        this.conversationId = chatData.conversationId || '';
+      }
+    });
+  }
+
   // contName: string = '';
   constructor(
     private profileService: ProfileServiceService,
     private router: Router,
-    private evoService: EvoServicesService
+    private evoService: EvoServicesService,
+    private passDataForChatService: PassDataForChatService
   ) {
+    // this.conversationId = localStorage.getItem('conversationId')!;
     // this.contName = localStorage.getItem('contName')!;
     localStorage.removeItem('serviceId');
     // console.log(localStorage.getItem('serviceId'));
@@ -108,7 +140,13 @@ export class ChatToConStartedComponent {
     });
 
     this.evoService
-      .inConversation(this.userInput, this.conversationId, [this.fileUrl || ''])
+      .inConversation(
+        this.userInput,
+        this.conversationId,
+
+        //pass the file if it exists and empty if it doesn't mote, empty array not a string array
+        this.fileUrl ? [this.fileUrl] : []
+      )
       .subscribe({
         next: (res: any) => {
           console.log('Response from inConversation:', res);
@@ -118,6 +156,7 @@ export class ChatToConStartedComponent {
               text: res.content,
               timestamp: new Date(),
             });
+
             // send the message to parent component
             this.sendMessageToParent.emit({
               sender: res.agent,
@@ -253,6 +292,7 @@ export class ChatToConStartedComponent {
     // localStorage.removeItem('contID');
     // localStorage.removeItem('fileName');
     // localStorage.removeItem('fileSize');
+    localStorage.removeItem('conversationId');
     this.router.navigate(['dashboard/ask-evo']);
   }
 }

@@ -26,7 +26,7 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
   isUploading = false;
   uploadProgress = 0;
   errorMessage: string | null = null;
-  fileUrl: string = '';
+  fileUrl: any;
   documentUrl: string = '';
   selectedFileFromHome: File | null = null;
 
@@ -107,7 +107,7 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
     this.selectedFile = file;
   }
 
-  onFileUploadComplete(imageUrl: string) {
+  onFileUploadComplete(imageUrl: any) {
     this.fileUrl = imageUrl;
     this.documentUrl = imageUrl; // Store the document URL when upload is complete
   }
@@ -134,7 +134,7 @@ export class TalkToConsultantFromEvoHomeComponent implements OnInit {
     this.messages = [];
 
     // Clear the service data
-    this.passDataForChatService.clearChatData();
+    // this.passDataForChatService.clearChatData();
   }
   currentStep = 1;
 }
