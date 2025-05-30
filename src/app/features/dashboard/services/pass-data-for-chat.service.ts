@@ -8,6 +8,13 @@ export interface ChatData {
   selectedConsultant?: Consultant | any;
   imageUrl?: string;
   selectedFile?: File;
+  conversationId?: string;
+  firstMessage?: Array<{
+    sender: string;
+    text: string;
+    timestamp: Date;
+    attachments?: Array<{ name: string; url: string; size: number }>;
+  }>;
 }
 
 @Injectable({
@@ -26,22 +33,13 @@ export class PassDataForChatService {
    * Set chat data to be shared between components
    * @param data Chat data containing consultant agent ID and user question
    */
-  setChatData(data: ChatData): void {
-    this.chatDataSubject.next(data);
-    // console.log('dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', data);
-    // localStorage.setItem('contName', data.selectedConsultant.name);
-    // localStorage.setItem('contID', data.selectedConsultant.agentId);
+  // setChatData(data: ChatData): void {
+  //   this.chatDataSubject.next(data);
+  // }
 
-    // if (data.imageUrl != '') {
-    //   localStorage.setItem('fileUrl', data.imageUrl!);
-    // }
-    // if (data.selectedFile?.name != '') {
-    //   localStorage.setItem('fileName', `${data.selectedFile?.name}`);
-    // }
-    // if (`${data.selectedFile?.size}` != '') {
-    //   localStorage.setItem('fileSize', `${data.selectedFile?.size}`);
-    // }
-    // localStorage.setItem('fileSize', data.selectedFile!.size.toString());
+  setChatData(data: any) {
+    console.log('Setting chat data with conversationId:', data.conversationId);
+    this.chatDataSubject.next(data);
   }
 
   /**
@@ -57,5 +55,15 @@ export class PassDataForChatService {
    */
   clearChatData(): void {
     this.chatDataSubject.next({});
+  }
+
+  updateConversationId(conversationId: string) {
+    const currentData = this.chatDataSubject.value;
+    if (currentData) {
+      this.chatDataSubject.next({
+        ...currentData,
+        conversationId: conversationId,
+      });
+    }
   }
 }

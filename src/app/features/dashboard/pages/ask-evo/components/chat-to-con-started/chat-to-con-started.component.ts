@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewChecked,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -12,6 +14,9 @@ import { ProfileServiceService } from '../../../../services/profile-service.serv
 import { finalize } from 'rxjs';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Router } from '@angular/router';
+import { EvoServicesService } from '../../../../services/evo-services.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { PassDataForChatService } from '../../../../services/pass-data-for-chat.service';
 
 @Component({
   selector: 'app-chat-to-con-started',
@@ -36,11 +41,28 @@ import { Router } from '@angular/router';
     ]),
   ],
 })
-export class ChatToConStartedComponent {
+export class ChatToConStartedComponent implements OnInit {
+  @ViewChild('chatContainer', { static: false })
+  private chatContainer!: ElementRef;
+  private isNearBottom = true;
+
+  onScroll(event: any): void {
+    const element = event.target;
+    this.isNearBottom =
+      element.scrollHeight - element.scrollTop <= element.clientHeight + 100;
+  }
+
+  private scrollToBottom(): void {
+    if (this.isNearBottom) {
+      this.chatContainer.nativeElement.scrollTop =
+        this.chatContainer.nativeElement.scrollHeight;
+    }
+  }
+
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   @Input() messages: Array<{
-    sender: 'user' | 'consultant';
+    sender: string;
     text: string;
     timestamp: Date;
     attachments?: Array<{ name: string; url: string; size: number }>;
@@ -49,11 +71,11 @@ export class ChatToConStartedComponent {
   @Input() selectedFile: File | null = null;
   @Input() selectedFileFromHome: File | null = null;
   @Input() selectedAgent: any;
-  @Input() fileUrl!: string | '';
+  @Input() fileUrl: any;
   @Input() isUploading = false;
   @Input() uploadProgress = 0;
   @Input() errorMessage: string | null = null;
-
+  conversationId: string = '';
   userInput: string = '';
 
   @Output() sendMessage = new EventEmitter<{
@@ -68,11 +90,26 @@ export class ChatToConStartedComponent {
 
   private errorTimeout: any; // To store the timeout reference
 
+  @Output() sendMessageToParent = new EventEmitter<any>();
+
+  ngOnInit(): void {
+    this.passDataForChatService.chatData$.subscribe((chatData) => {
+      console.log('Updated chat data:', chatData);
+
+      if (chatData) {
+        this.conversationId = chatData.conversationId || '';
+      }
+    });
+  }
+
   // contName: string = '';
   constructor(
     private profileService: ProfileServiceService,
-    private router: Router
+    private router: Router,
+    private evoService: EvoServicesService,
+    private passDataForChatService: PassDataForChatService
   ) {
+    // this.conversationId = localStorage.getItem('conversationId')!;
     // this.contName = localStorage.getItem('contName')!;
     localStorage.removeItem('serviceId');
     // console.log(localStorage.getItem('serviceId'));
@@ -88,17 +125,53 @@ export class ChatToConStartedComponent {
     if (this.selectedFile) {
       attachments = [
         {
-          name: this.selectedFile.name,
+          name: this.selectedFile.name || 'Unknown File',
           url: '',
           size: this.selectedFile.size,
         },
       ];
+      console.log('Selected file:', this.selectedFile);
+      console.log('attachments:', attachments);
     }
 
     this.sendMessage.emit({
       text: this.userInput,
       attachments,
     });
+
+    this.evoService
+      .inConversation(
+        this.userInput,
+        this.conversationId,
+
+        //pass the file if it exists and empty if it doesn't mote, empty array not a string array
+        this.fileUrl ? [this.fileUrl] : []
+      )
+      .subscribe({
+        next: (res: any) => {
+          console.log('Response from inConversation:', res);
+          if (res) {
+            this.messages.push({
+              sender: res.agent,
+              text: res.content,
+              timestamp: new Date(),
+            });
+
+            // send the message to parent component
+            this.sendMessageToParent.emit({
+              sender: res.agent,
+              text: res.content,
+              timestamp: new Date(),
+            });
+          }
+
+          // this array hold fully messages between user and consultant
+          console.log('Messages after inConversation:', this.messages);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log('Error in inConversation:', error.error);
+        },
+      });
 
     this.userInput = '';
   }
@@ -219,6 +292,7 @@ export class ChatToConStartedComponent {
     // localStorage.removeItem('contID');
     // localStorage.removeItem('fileName');
     // localStorage.removeItem('fileSize');
+    localStorage.removeItem('conversationId');
     this.router.navigate(['dashboard/ask-evo']);
   }
 }

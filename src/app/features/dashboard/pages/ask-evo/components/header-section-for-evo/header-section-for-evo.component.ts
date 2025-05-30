@@ -17,8 +17,9 @@ import { SelectConsultantForChatComponent } from '../select-consultant-for-chat/
 import { PassDataForChatService } from '../../../../services/pass-data-for-chat.service';
 import { Router } from '@angular/router';
 import { ProfileServiceService } from '../../../../services/profile-service.service';
-import { finalize } from 'rxjs';
+import { finalize, take, tap } from 'rxjs';
 import { EvoServicesService } from '../../../../services/evo-services.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-header-section-for-evo',
@@ -261,6 +262,7 @@ export class HeaderSectionForEvoComponent implements OnInit {
     }
   }
 
+  conversationId: string = '';
   sendMessage() {
     const consultantToUse =
       this.selectedConsultant || this._internalSelectedConsultant;
@@ -270,34 +272,46 @@ export class HeaderSectionForEvoComponent implements OnInit {
       const finalConsultant = consultantToUse || {
         agentId: agentIdToUse,
       };
-      // Store data in the service before navigating
-      this.passDataForChatService.setChatData({
-        consultantAgentId: finalConsultant.agentId,
-        userQuestion: this.userInput.trim(),
-        selectedConsultant: finalConsultant,
-        imageUrl: this.uploadedFileUrl,
-        selectedFile: this.selectedFile!,
-      });
 
       this.evoService
         .makeConversation({
           agent_id: finalConsultant.agentId,
           ask: this.userInput.trim(),
-          docs: [this.uploadedFileUrl || null],
+          // send empty array if no file is uploaded
+          docs: this.uploadedFileUrl ? [this.uploadedFileUrl] : [],
           owner_id: localStorage.getItem('userId') || '',
         })
+        .pipe(take(1)) // Only take the first emission
         .subscribe({
           next: (response) => {
-            // Handle successful response if needed
-            console.log('Conversation created successfully:', response);
-            // data: {"id": "b8e20349-8069-4259-b2d6-9e35cbfa7db0"}
-          },
-          error: (error) => {
-            // Handle error response if needed
-            console.error('Error creating conversation:', error);
-          },
-        });
+            this.conversationId = response.id;
+            console.log('Conversation ID:', this.conversationId);
+            // localStorage.setItem('conversationId', this.conversationId);
 
+            // Move setChatData HERE - inside the next callback
+            this.passDataForChatService.setChatData({
+              consultantAgentId: finalConsultant.agentId,
+              userQuestion: this.userInput.trim(),
+              selectedConsultant: finalConsultant,
+              imageUrl: this.uploadedFileUrl,
+              selectedFile: this.selectedFile!,
+              conversationId: this.conversationId, // This will now have the actual ID
+              firstMessage: [
+                {
+                  sender: response.agent,
+                  text: response.content,
+                  timestamp: new Date(),
+                },
+              ],
+            });
+          },
+
+          // Navigate after setting the data
+          error: (error: HttpErrorResponse) => {
+            console.log('Error creating conversation:', error.error);
+          },
+          // Remove the complete callback entirely
+        });
       this.router.navigate(['dashboard', 'talk-to-agent']);
     }
   }
